@@ -1,0 +1,37 @@
+{
+  "name": "kaboom",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@dicebear/collection": "^6.0.3",
+    "@dicebear/core": "^6.0.3",
+    "animate.css": "^4.1.1",
+    "daisyui": "^2.51.6",
+    "framer-motion": "^10.12.2",
+    "moment": "^2.29.4",
+    "peerjs": "^1.4.7",
+    "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.7.1",
+    "react-nice-avatar-vite-prod-fork": "^1.6.0",
+    "react-qrcode": "^0.3.6",
+    "react-router-dom": "^6.8.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1",
+    "vite": "^4.1.0"
+  }
+}

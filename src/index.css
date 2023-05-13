@@ -1,0 +1,374 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  @apply transition-all
+}
+
+
+html {
+  scroll-behavior: smooth;
+  -webkit-user-select: none; /* Safari */        
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+/Edge */
+user-select: none; /* Standard */
+}
+
+
+body {
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+
+.btn {
+    @apply rounded-md transition-all no-animation clickable
+    
+}
+
+.btn {
+  transform: skewX(-10deg);
+}
+.btn > * {
+  transform: skewX(10deg);
+}
+
+
+.skew {
+  transform: skewX(-10deg);
+}
+.skew > * {
+  transform: skewX(10deg);
+
+}
+
+.noskew {
+  transform: skewX(0deg);
+}
+
+.skew-reverse {
+  transform: skewX(10deg);
+}
+.skew-reverse > * {
+  transform: skewX(-10deg);
+
+}
+
+
+.clickable {
+  transition: all;
+  transition: 100ms;
+}
+
+.clickable:active:hover,
+  .clickable:active:focus {
+    transform: scale(0.95, 0.95);
+    transition: 100ms;
+}
+
+
+.text-normal {
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+
+@font-face {
+    font-family: 'Mythoz';
+    src: local('Mythoz'), url(./fonts/Mythoz.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+}
+
+.text-cowboys {
+    font-family: Mythoz, Inter, Arial, Helvetica, sans-serif;
+}
+
+
+
+.text-title {
+  font-family: Mythoz, Inter, Arial, Helvetica, sans-serif;
+}
+
+
+.input {
+  @apply border-neutral
+}
+
+
+.btn-disabled {
+  @apply bg-gray-500/50
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge add Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
+  }
+
+
+
+
+  .animate-out {
+    transform: scale(0.9, 0.9);
+  }
+  
+  .animate-in {
+    transform: scale(1, 1);
+    transition: all;
+    transition: 200ms;
+  }
+
+
+
+  ::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #e4e4e400;
+    border-radius: 100px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #7e7e7e7a;
+    border-radius: 100px;
+  }
+
+
+.screen-bg {
+  background: radial-gradient(rgba(255,255,255, 1),  rgba(107, 107, 107, 0.6));
+}
+
+.screen-bg-blue {
+  background: radial-gradient(rgb(114, 128, 167),  rgba(0, 21, 255, 0.6));
+}
+
+.screen-bg-orange {
+  background: radial-gradient(rgb(191, 168, 120),  rgba(255, 140, 0, 0.6));
+}
+
+
+.logo-gradient-neutral {
+  background: radial-gradient(#000000, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+
+
+.white-blob-gradient {
+  background: radial-gradient(rgba(255, 255, 255, 0.421), rgba(255, 255, 255, 0), #00000000);
+
+}
+
+
+
+.circular-gradient-primary {
+  background: radial-gradient(#fc021b,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+
+.circular-gradient-secondary {
+  background: radial-gradient(#0019fd,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-success {
+  background: radial-gradient(#28df20,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-accent {
+  background: radial-gradient(#4a4a4a,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-accent2 {
+  background: radial-gradient(#858585,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-sky {
+  background: radial-gradient(#539cf6,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-wine {
+  background: radial-gradient(#970202,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-lime {
+  background: radial-gradient(#90f96a,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+.circular-gradient-green {
+  background: radial-gradient(#358517,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+}
+
+
+.animate-left-to-right {
+  animation-name: left-right;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+
+.animate-right-to-left {
+  animation-name: right-left;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate
+}
+
+
+@keyframes left-right {
+  from {transform: translateX(-50vw);}
+  to {transform: translateX(50vw)}
+}
+
+@keyframes right-left {
+  from {transform: translateX(50vw);}
+  to {transform: translateX(-50vw)}
+}
+
+
+
+.d3 {
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+
+
+.card-rotated {
+  transform: rotateY( 180deg ) ;
+  transition: transform 0.5s;
+}
+
+
+.card-rotated:hover {
+  transform: rotateY( 0deg ) ;
+  transition: transform 0.5s;
+}
+
+
+
+.inner-shadow {
+  box-shadow: inset 0px 0px 15px 0 rgba(0, 0, 0, 0.2), inset -0px -0px 15px 0 rgba(255, 255, 255, 0.3);
+}
+
+
+
+
+
+
+.bold-child-error > b {
+  @apply text-error
+}
+
+.bold-child-info > b {
+  @apply text-info
+}
+
+
+img {
+  user-drag: none; 
+user-select: none;
+-moz-user-select: none;
+-webkit-user-drag: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+}
+
+
+
+
+
+
+
+
+.animate-size-pulse {
+    animation: anim-size-pulse 2s infinite; /*ANIMATION PROPERTY [animation name, time duration]*/
+
+}
+
+
+@keyframes anim-size-pulse {
+  0%   {transform: scale(100%)}
+  50%  {transform: scale(115%)}
+  100%  {transform: scale(100%)}
+}
+
+
+
+.invert-color {
+  filter: invert(1);
+  mix-blend-mode: difference;
+}
+
+
+
+
+
+
+
+.fly-through-from-left {
+  animation: fly-through-from-left 3s; /*ANIMATION PROPERTY [animation name, time duration]*/
+  animation-timing-function: linear;
+    animation-fill-mode: forwards;  
+}
+
+
+@keyframes fly-through-from-left {
+0%   {transform: translateX(-120vw)}
+20%  {transform: translateX(-10vw)}
+80%  {transform: translateX(10vw)}
+100%  {transform: translateX(120vw)}
+}
+
+
+.fly-through-from-right {
+  animation: fly-through-from-right 3s; /*ANIMATION PROPERTY [animation name, time duration]*/
+  animation-timing-function: linear;
+    animation-fill-mode: forwards;  
+
+
+}
+
+
+@keyframes fly-through-from-right {
+  0%   {transform: translateX(120vw)}
+  20%  {transform: translateX(10vw)}
+  80%  {transform: translateX(-10vw)}
+  100%  {transform: translateX(-120vw)}
+}
+
+
+
+
+.anim-out-after-3 {
+  animation: anim-out-after-3 3s; /*ANIMATION PROPERTY [animation name, time duration]*/
+    animation-fill-mode: forwards;  
+  
+}
+
+@keyframes anim-out-after-3 {
+  0%   {opacity: 100%}
+  90%   {opacity: 100%}
+  100%  {opacity: 0%; display: none;}
+  }
+
+
+
+  body,
+  html {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+  }
+
+
+
+

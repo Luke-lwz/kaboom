@@ -1,0 +1,578 @@
+[
+    {
+        "name": "AGENT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Private Reveal Power, Verbalization\r\nYou have the AGENT power: once per round, you may privately reveal your card to a player and force that player to card share with you. You must verbally say to the target player, \"I'm using my AGENT\r\npower. You must card share with me.\"\r\nNote: The AGENT power works even on characters that normally can't card share (e.g. Shy Guy and Coy Boy).\r\n\r\n+ Characters that have card share powers or restrictions recommended.\r\n\r\n+\r\n"
+    },
+    {
+        "name": "AGORAPHOBE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win as long as you never leave your initial room.\r\n\r\n+ Traveler recommended.\r\n\r\n"
+    },
+    {
+        "name": "AHAB",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "+ Works well with\r\nYou win if Moby\r\nHunter, Medic, Zombie,\r\nis in the same room as the\r\nand other cards with share powers.\r\n\r\nBomber at the end of the game and you are not.\r\n\r\n_\r\n+ Doesn't work well with 10 players or fewer.\r\n\r\nLiterary references at their finest!\r\n\r\n"
+    },
+    {
+        "name": "AMBASSADOR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Condition\r\nAs soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18\r\nplayers including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.\r\n\r\n+ 11 or more players recommended.\r\n\r\n"
+    },
+    {
+        "name": "ANARCHIST",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if your vote helped successfully usurp a leader during a majority of the rounds. For example, in a 3 round game, you must have usurped a leader 2 of the 3 rounds.\r\n\r\n+ Minion recommended.\r\n\r\n"
+    },
+    {
+        "name": "ANGEL",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting, Condition\r\nYou begin with the \"honest\" condition. Players with the \"honest\" condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally.\r\n\r\nNote: If a player with the \"honest\" condition were to acquire the \"liar\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Demon recommended.\r\n\r\n"
+    },
+    {
+        "name": "BLIND",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting, Condition\r\nYou begin with the \"blind\" condition. Players with the \"blind\" condition must do their best to never open their eyes during the game. Don't worry, it is a short game.\r\n\r\n+ Players that aren't maniacal douchebags recommended.\r\n\r\n"
+    },
+    {
+        "name": "BLUE TEAM",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You are on the Blue Team. You win If the President does not gain the\r\n\"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be\r\non the Blue Team.\r\n\r\n+ Works well for first time players.\r\n\r\n"
+    },
+    {
+        "name": "BOMB-BOT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the Bomber but the President is not.\r\n\r\n+ Makes a natural ally for Blue Team.\r\n\r\n"
+    },
+    {
+        "name": "BOMBER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\"\r\ncondition. The Red Team wins if the President gains the \"dead\" condition.\r\n\r\nNote: if the Bomber receives the \"dead\" condition before the end of the game then the Bomber does not provide the \"dead \" condition to everyone in the same room.\r\n\r\n+ Grey characters that need to know you are your natural allies.\r\n\r\n"
+    },
+    {
+        "name": "BOUNCER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Private Reveal Power, Odd Player Count, Verbalization\r\nYou have the BOUNCER power: if you are in a room that has more players than the other room, you may privately reveal your card to any player and verbally tell them, \"Get out!\" When you do, that player must immediately change rooms. The BOUNCER power does not work during the last round or between rounds.\r\n\r\n+ Great when there are an odd number of players.\r\n\r\n"
+    },
+    {
+        "name": "BUTLER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the Maid and the President at the end of the game.\r\n\r\n+ Romeo and Juliet recommended when playing with 15 or more\r\nplayers.\r\n\r\n"
+    },
+    {
+        "name": "CLONE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if the first player with whom you card share or color share wins. If you fail to share with any player by the end of the game, you lose.\r\n\r\nNote: if the first person with whom you share is the Robot, and the Robot's first share was with you…\r\nyou both lose.\r\n\r\n+ This card encourages initial card and color sharing as others lie about being the Clone.\r\n\r\n"
+    },
+    {
+        "name": "CLOWN",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting\r\nDo your best to smile at all times.\r\n\r\n+ Research suggests it is near impossible to smile and not be simultaneously happy.\r\n\r\n"
+    },
+    {
+        "name": "CONMAN",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Color Share Power\r\nYou have the CONMAN power: when a player agrees to color share with you, private reveal instead.\r\n\r\nThey must private reveal their card too.\r\n\r\n+ Players will be less willing to color share.\r\n\r\n"
+    },
+    {
+        "name": "COYBOY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Psych Condition\r\nYou begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY\r\ncolor share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a\r\nPsychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the\r\n\"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Spy and Negotiator recommended.\r\n\r\n"
+    },
+    {
+        "name": "CRIMINAL",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the CRIMINAL power: any player that card shares with you gains the \"shy\" condition.\r\n\r\nPlayers with the \"shy\" condition may not reveal any part of their card to any player.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire the \"shy\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Psychologist, Engineer, and Doctor recommended.\r\n\r\n"
+    },
+    {
+        "name": "CUPID",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Private Reveal Power, Verbalization\r\nYou have the CUPID power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You are in love with each other.\" Those 2 players gain the \"in love\"\r\ncondition. Players with the \"in love\" condition replace their original win objective with the following win objective: Be in the same room with the player with whom you are \"in love\" at the end of the game or fail to win. The CUPID power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in love\" condition were to acquire the \"in hate\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.\r\n\r\n+ Win the game for the Red Team by using your power on the President and Bomber.\r\n\r\n"
+    },
+    {
+        "name": "DEALER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the DEALER power: any player that card shares with you\r\ngains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a\r\ncontradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would\r\ncancel one another, leaving the player with neither condition.\r\n\r\n+ Criminal recommended.\r\n\r\n"
+    },
+    {
+        "name": "DECOY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if the Sniper shoots you at the end of the last round.\r\n\r\n+ Winning feels amazing as the Decoy.\r\n\r\n"
+    },
+    {
+        "name": "DEMON",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting, Condition\r\nYou begin with the \"liar\" condition. Players with the \"liar\" condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally.\r\n\r\nNote: If a player with the \"liar\" condition were to acquire the \"honest\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Angel recommended.\r\n\r\n"
+    },
+    {
+        "name": "DOCTOR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nWhen playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared.\r\n\r\nWhen playing with the Engineer, the Red Team has the following additional win condition: the Bomber must card share with the Engineer before the end of the game or the Red Team loses. At the end of the game, the Bomber will be asked if he/she card shared with the Engineer. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\n+ Characters with card share powers recommended with Engineer and Doctor.\r\n\r\n"
+    },
+    {
+        "name": "DR. BOOM",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the BOOM power: if you card share with the President, everyone in the same room as you instantly gains the \"dead\" condition and the game ends.\r\n\r\nNote: the BOOM power never works on the President's Daughter. If the President is buried, the\r\nBOOM power is never used.\r\n\r\n+ Characters with card share powers recommended.\r\n\r\n"
+    },
+    {
+        "name": "DRUNK",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Swap\r\nBefore characters cards are dealt but after they are shuffled, randomly remove a character card. This is the \"sober\" character card. Place the \"sober\" card facedown in a location easily accessible to all players (usually between the 2 rooms). Then shuffle the Drunk card into the remaining deck of character cards.\r\n\r\nAt the beginning of the last round of the game, the Drunk character should trade their Drunk card with the \"sober\" card. Assume all powers and responsibilities associated with the \"sober\" character card.\r\n\r\nYou lose if you forget or are unable to trade your card for the \"sober\" card.\r\n\r\nNote: The \"sober\" card is always cleansed when it is first retrieved, meaning it has no acquired conditions.\r\n\r\nAnother Note: If you don't retrieve the \"sober\" card at the beginning of the last round, you're still considered to be the \"sober\" character.\r\n\r\n+ This is a crowd favorite card.\r\n\r\n"
+    },
+    {
+        "name": "ENFORCER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Private Reveal Power, Verbalization\r\nYou have the ENFORCER power: once per round, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You must reveal your cards to one another.\" Those 2 players must card share with one another (not to you). You cannot use this power on yourself, but another Enforcer can use their power on you.\r\n\r\nNote: The ENFORCER power works even on characters that normally can't card share (e.g. Shy Guy).\r\n\r\n+ Recommended with 11 or more players.\r\n\r\n"
+    },
+    {
+        "name": "ENGINEER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nSee Doctor on page 7.\r\n\r\n"
+    },
+    {
+        "name": "ERIS",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power, Verbalization\r\nYou have the ERIS power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You hate each other.\" Those 2 players gain the \"in hate\" condition.\r\n\r\nPlayers with the \"in hate\" condition replace their original win objective with the following win objective: be in the opposite room of the player with whom you are \"in hate\" at the end of the game or fail to win.\r\n\r\nYou cannot use this power on yourself.\r\n\r\nNote: If a player with the \"in hate\" condition were to acquire the \"in love\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.\r\n\r\n+ Win the game for the Blue Team by using your power on the President and Bomber.\r\n\r\n"
+    },
+    {
+        "name": "GAMBLER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Pause Game 10\r\nAt the end of the last round, before all players reveal their cards, you must publicly announce which team ( Red Team, Blue Team, or neither) you think won the game. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 10. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.\r\n\r\n+ A great character for the basic game to even out teams if there are an odd number of players.\r\n\r\n"
+    },
+    {
+        "name": "HOT POTATO",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power, Card Swap, Color Share Power\r\nYou have the HOT POTATO power: any player that card shares or color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. The Hot Potato loses at the end of the game.\r\n\r\nNote: Due to the cleanse rule (see page 13), any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card.\r\n\r\n+ Recommended with the Privacy Promise rule variant and more players.\r\n\r\n"
+    },
+    {
+        "name": "INVINCIBLE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Condition\r\nYou begin with the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions without exception.\r\n\r\nNote: Players should never lie about having the \"immune\" condition.\r\n\r\n+ Characters that have card share powers recommended.\r\n\r\n"
+    },
+    {
+        "name": "INTERN",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the President at the end of the game.\r\n\r\n+ Rival, Survivor, and Victim recommended.\r\n\r\n"
+    },
+    {
+        "name": "JULIET",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as Romeo and the Bomber at the end of the game.\r\n\r\n+ Maid and Butler with 15 or more players recommended\r\n"
+    },
+    {
+        "name": "LEPRECHAUN",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power, Card Swap, Color Share Power, Condition\r\nYou begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share. You also have the LEPRECHAUN power: Any player that card shares or even color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. At the end of the game, the Leprechaun wins. A single player can only ever be the Leprechaun once per game. If a player is about to become the Leprechaun character for the second time, they must communicate that they can't receive the Leprechaun card.\r\n\r\nNote: Due to the cleanse rule (see page 13), any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card.\r\n\r\nAnother Note: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Works well with more players and with the Privacy Promise rule variant.\r\n\r\n"
+    },
+    {
+        "name": "MAID",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the Butler and the President at the end of the game.\r\n\r\n+ Romeo and Juliet recommended when playing with 15 or more players.\r\n\r\n"
+    },
+    {
+        "name": "MARTYR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Bury\r\nYou are the backup character for the Bomber. If the Bomber card is buried you must carry out all Bomber responsibilities (i.e. ending the game in the same room as the President, card sharing with the Engineer, etc.).\r\n\r\n+ If the Bomber is buried, you're a big deal. If the Bomber isn't buried, you can act like you're a big deal.\r\n\r\n"
+    },
+    {
+        "name": "MASTERMIND",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are a room's leader at the end AND you were the leader of the opposing room at some point during the game.\r\n\r\n+ Usurper and Minion recommended.\r\n\r\n"
+    },
+    {
+        "name": "MAYOR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Public Reveal Power\r\nIf your room has an even number of players, you may publicly reveal\r\nyour card when attempting to usurp a leader. Your vote to usurp counts\r\nas 2 votes instead of 1 unless the opposing Mayor also publicly reveals\r\ntheir card.\r\n\r\n+ Rooms that have an even number of players recommended.\r\n\r\n"
+    },
+    {
+        "name": "MEDIC",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the MEDIC power: any player that card shares with you has all \"conditions\" removed. This does not make yourself immune to acquiring conditions. The opposing Medic can remove your acquired conditions.\r\n\r\n+ Characters that provide and start with conditions recommended.\r\n\r\n"
+    },
+    {
+        "name": "MI6",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you card share with the Bomber and the President before the end of the game.\r\n\r\n+ Works in games with an odd number of players to even out the teams.\r\n\r\n"
+    },
+    {
+        "name": "MIME",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting\r\nDo your best to not make any noise.\r\n\r\n+ Works well with Mummy. Best when played with folks who love charades.\r\n\r\n"
+    },
+    {
+        "name": "MINION",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if a leader is never usurped in the same room as you.\r\n\r\n+ Mastermind and Usurper recommended.\r\n\r\n"
+    },
+    {
+        "name": "MISTRESS",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the President at the end of the game\r\nand the Wife is not.\r\n\r\n+ Feel the power in being the other woman.\r\n\r\n"
+    },
+    {
+        "name": "MOBY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if Ahab is in the same room as the Bomber at the end of the game and you are not.\r\n\r\n+ Attempt to win one for the whales!\r\n\r\n"
+    },
+    {
+        "name": "MUMMY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the MUMMY power: any player that card shares with you gains the \"cursed\" condition.\r\n\r\nPlayers with the \"cursed\" condition must do their best to not make any noise.\r\n\r\nNote: Because of the MUMMY power, \"cursed\" players are prevented from using any powers or abilities that requires a verbalization (e.g. Agent, Enforcer, etc.).\r\n\r\n+ Mime and Medic recommended. Best when played with folks who love charades.\r\n\r\n"
+    },
+    {
+        "name": "NEGOTIATOR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Condition\r\nYou begin with the \"savvy\" condition. Players with the \"savvy\" condition may only card share. You may not publicly, privately, or color share.\r\n\r\nNote: It is possible for \"savvy\" players to acquire conditions that prevent card sharing (e.g. the \"coy\"\r\nor \"shy\" condition). If this happens, then the \"savvy\" player can't do anything with their card.\r\n\r\n+ Characters with card share powers recommended.\r\n\r\n"
+    },
+    {
+        "name": "NUCLEAR TYRANT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Condition\r\nAt the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if the President and the Bomber did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Works well with MI6.\r\n\r\n"
+    },
+    {
+        "name": "NURSE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Bury, Card Share Power\r\nYou are the backup character for the Doctor. If the Doctor card is buried, you must carry out Doctor responsibilities (i.e. card sharing with the President).\r\n\r\n+ Feel the power of being a doctor if the Doctor card is not in play.\r\n\r\n"
+    },
+    {
+        "name": "PAPARAZZO",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Acting, Public Reveal Power\r\nDo your best to make sure there are no private conversations. Be as intrusive and nosy as possible without actually physically manipulating others. If playing with the Privacy Promise rule variant, ignore the rule as long as you publicly reveal your card to prove to others that you are permitted to be invasive.\r\n\r\n+ Privacy Promise variant recommended. Gives you an excuse to be annoying.\r\n\r\n"
+    },
+    {
+        "name": "PARANOID",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Psych Condition\r\nYou begin with the \"paranoid\" condition. Players with the \"paranoid\" condition may only card share.\r\n\r\nMoreover, they may only card share once per game.\r\n\r\nNote: If a \"paranoid\" player is forced to card share by a power (e.g. the AGENT power), this does not count as the \"paranoid\" player's only card share.\r\n\r\nAnother Note: The \"paranoid\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"paranoid\" condition were to acquire the \"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Psychologist recommended. Great with groups that share too much information.\r\n\r\n"
+    },
+    {
+        "name": "PRESIDENT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.\r\n\r\n+ Grey characters that need to know you are your natural allies.\r\n\r\n"
+    },
+    {
+        "name": "PRESIDENT'S DAUGHTER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Bury\r\nYou are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\n+ You are the heir, a huge deal if the President card is buried.\r\n\r\n"
+    },
+    {
+        "name": "PRIVATE EYE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Pause Game 05\r\nAt the end of the last round, before all players reveal their character cards, you must publicly announce the identity of the buried card. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 5. Only pause the game and make your announcement after all characters with a lower pause game number have finished their announcements.\r\n\r\n+ 10 players or less recommended.\r\n\r\n"
+    },
+    {
+        "name": "PSYCHOLOGIST",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power, Private Reveal Power\r\nWhen you privately reveal your card to a character with a psych condition (e.g. \"shy\", \"coy\", etc.), that character may then immediately card share with you. If they do, their psych condition is removed.\r\n\r\n+ Characters that provide or begin with psych conditions recommended.\r\n\r\n"
+    },
+    {
+        "name": "QUEEN",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are NOT in the same room as the President or the Bomber at the end of the game.\r\n\r\n+ Makes a natural ally for Red Team.\r\n\r\n"
+    },
+    {
+        "name": "RED TEAM",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You are on Red Team. You win if the President gains the \"dead\" condition.\r\n\r\nNote: Any character card that has the bomb icon on it is considered to be on the Red Team.\r\n\r\n+ Works well for first time players.\r\n\r\n"
+    },
+    {
+        "name": "RIVAL",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are NOT in the same room as the President at the end of the game.\r\n\r\n+ Intern, Survivor, and Victim recommended.\r\n\r\n"
+    },
+    {
+        "name": "ROBOT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if the first player with whom you card share or color share fails to achieve all of their win objectives. If you fail to share with any players by the end of the game, then you lose.\r\n\r\nNote: if the first person with whom you share is the Clone, and the Clone's first share was with you…\r\nyou both lose.\r\n\r\n+ This card dissuades initial card and color sharing.\r\n\r\n"
+    },
+    {
+        "name": "ROMEO",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as Juliet and the same room as the Bomber at the end of the game.\r\n\r\n+ Maid and Butler with 15 or more players recommended.\r\n\r\n"
+    },
+    {
+        "name": "SECURITY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Public Reveal Power, Verbalization\r\nYou have the TACKLE power: publicly reveal your card, immediately\r\npick any player in the room (besides yourself), then verbally tell them,\r\n\"You're going nowhere.\" However, your card must permanently remain\r\npublicly revealed for the rest of the game. This means that you can only\r\nuse this power once. The target of your TACKLE power can't leave as a\r\nhostage this round.\r\n\r\n+ Players will not likely need to guess the other room's hostage.\r\n\r\n_ Unfortunately, this character is slightly more powerful for the\r\nBlue Team."
+    },
+    {
+        "name": "SHY GUY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Psych Condition\r\nYou begin with the \"shy\" condition. Players with the \"shy\" condition may not reveal any part of their card to any player.\r\n\r\nNote: The \"shy\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"shy\" condition were to acquire the \"foolish\" condition, the 2\r\nconditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Works well with Psychologist and Criminal.\r\n\r\n"
+    },
+    {
+        "name": "SNIPER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Pause Game 15\r\nAt the end of the last round, before all players reveal their character cards, you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target.\r\n\r\nNote: You have a pause game number of 15. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.\r\n\r\n+ This is a tough character to be, but shooting the Target player feels amazing.\r\n\r\n"
+    },
+    {
+        "name": "SPY",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "This is a special character card that is the color of the opposite team. This means that the red Spy has an allegiance to the Red Team, but their card is blue.\r\n\r\n+ Works well with Coy Boy.\r\n\r\n"
+    },
+    {
+        "name": "SURVIVOR",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are NOT in the same room as the Bomber at the end of the game.\r\n\r\n+ Victim, Rival, and Intern recommended.\r\n\r\n"
+    },
+    {
+        "name": "TARGET",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if the Sniper does not shoot you at the end of the last round.\r\n\r\n+ Feel the tension of being hunted.\r\n\r\n"
+    },
+    {
+        "name": "THUG",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the THUG power: any player that card shares with you acquires the \"coy\" condition. Players with the \"coy\"\r\ncondition may only color share unless a character's power might force a card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire the \"coy\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\n+ Psychologist, Spy, Engineer, and Doctor recommended.\r\n\r\n"
+    },
+    {
+        "name": "TINKERER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Bury, Card Share Power\r\nYou are the backup character for the Engineer. If the Engineer card is buried you must carry out all Engineer responsibilities (i.e. card sharing with the Bomber).\r\n\r\n+ Make the Bomber more explosive if the Engineer is not in play.\r\n\r\n"
+    },
+    {
+        "name": "TRAVELER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are sent to a different room as a hostage at the end of MOST rounds. For example, in a 3 round game, you must change rooms twice to win.\r\n\r\n+ Agoraphobe recommended.\r\n\r\n"
+    },
+    {
+        "name": "TUESDAY KNIGHT",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power\r\nYou have the HUG power: if you card share with the Bomber, everyone in the same room as you, except the President, gains the \"dead\" condition and the game instantly ends.\r\n\r\nNote: the HUG power never works on the Martyr. If the Bomber is buried, the HUG power is never used.\r\n\r\n+ Characters with card share powers recommended.\r\n\r\n"
+    },
+    {
+        "name": "USURPER",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Public Reveal Power\r\nYou have the USURPER power: during any round but the last, you may publicly reveal your card and become the leader. However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. You cannot be usurped during the same round in which you used your USURPER power, not even by another Usurper. If 2 Usurpers use their power in the same room during the same round, whichever Usurper used their power first remains the leader, the other Usurper wasted their power.\r\n\r\n+ Mastermind and the Minion recommended.\r\n\r\n"
+    },
+    {
+        "name": "VICTIM",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Public Reveal Power\r\nYou win if you are in the same room as the Bomber at the end of the game.\r\n\r\n+ Survivor, Rival, and Intern recommended.\r\n\r\n"
+    },
+    {
+        "name": "WIFE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "You win if you are in the same room as the President at the end of the game and the Mistress is not.\r\n\r\n+ Stand by your vows.\r\n\r\n"
+    },
+    {
+        "name": "ZOMBIE",
+        "id": "",
+        "description": "",
+        "links": [],
+        "src": "",
+        "info": "Card Share Power, Color Share Power, Condition, Contagious\r\nYou begin with the \"zombie\" condition. The \"zombie\" condition provides a replacement win condition. Players with the \"zombie\" condition win if Team Zombie wins. Team Zombie wins if all players without the \"dead\" condition at the end of the game are on Team Zombie. Any player that card shares or color shares with a player that has the \"zombie\" condition gains the \"zombie\" condition.\r\n\r\nNote: \"zombie\" players without a Zombie character card must indicate to players with whom they card share or color share that they now also have the \"zombie\" condition. Typically this is done by saying something like, \"I'm a Zombie, and now so are you.\"\r\n+ Doctor and Engineer and Privacy Promise rule variant recommended.\r\n\r\n"
+    }
+]

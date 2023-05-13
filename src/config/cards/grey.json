@@ -1,0 +1,248 @@
+[
+    {
+        "name": "AGORAPHOBE",
+        "id": "g001",
+        "description": "NEVER LEAVE YOUR ROOM",
+        "links": [],
+        "src": "/grey/shed.png",
+        "info": "You win as long as you never leave your initial room."
+    },
+    {
+        "name": "AHAB",
+        "id": "g002",
+        "description": "STAY AWAY FROM MOBY AND THE BOMBER",
+        "links": [
+            "g017"
+        ],
+        "src": "/grey/harpoon.png",
+        "info": "You win if Moby is in the same room as the Bomber at the end of the game and you are not."
+    },
+    {
+        "name": "ANARCHIST",
+        "id": "g003",
+        "description": "USURP ROOM LEADER A MAJORITY OF ROUNDS",
+        "links": [],
+        "src": "/grey/a.png",
+        "info": "You win if your vote helped successfully usurp a leader during a majority of the rounds. For example, in a 3 round game, you must have usurped a leader 2 of the 3 rounds."
+    },
+    {
+        "name": "BOMB-BOT",
+        "id": "g004",
+        "description": "BE WITH THE BOMBER, AVOID THE PRESIDENT",
+        "links": [],
+        "src": "/grey/robot.png",
+        "info": "You win if you are in the same room as the Bomber but the President is not."
+    },
+    {
+        "name": "BUTLER",
+        "id": "g005",
+        "description": "BE WITH THE MAID AND THE PRESIDENT",
+        "links": [
+            "g012"
+        ],
+        "src": "/grey/butler.png",
+        "info": "You win if you are in the same room as the Maid and the President at the end of the game."
+    },
+    {
+        "name": "CLONE",
+        "id": "g006",
+        "description": "THE PLAYER THAT FIRST SHARES WITH YOU MUST WIN",
+        "links": [],
+        "src": "/grey/clone.png",
+        "info": "You win if the first player with whom you card share or color share wins. If you fail to share with any player by the end of the game, you lose.\r\n\r\nNote: if the first person with whom you share is the Robot, and the Robot's first share was with you…\r\nyou both lose."
+    },
+    {
+        "name": "DECOY",
+        "id": "g007",
+        "description": "GET SHOT BY THE SNIPER",
+        "links": [
+            "g024",
+            "g026"
+        ],
+        "src": "/grey/dummy.png",
+        "info": "You win if the Sniper shoots you at the end of the last round."
+    },
+    {
+        "name": "GAMBLER",
+        "id": "g008",
+        "description": "GUESS IF RED, BLUE OR NEITHER TEAM WON",
+        "links": [],
+        "src": "/grey/card.png",
+        "pausegamenr": 10,
+        "info": "At the end of the last round, before all players reveal their cards, you must publicly announce which team ( Red Team, Blue Team, or neither) you think won the game. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 10. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements."
+    },
+    {
+        "name": "HOT POTATO",
+        "id": "g009",
+        "description": "YOU LOSE, BUT SHARING >> SWAPPING",
+        "links": [],
+        "src": "/grey/grenade.png",
+        "info": "You have the HOT POTATO power: any player that card shares or color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. The Hot Potato loses at the end of the game.\r\n\r\nNote: Due to the cleanse rule, any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card."
+    },
+    {
+        "name": "INTERN",
+        "id": "g010",
+        "description": "BE WITH THE PRESIDENT",
+        "links": [],
+        "src": "/grey/legs.png",
+        "info": "You win if you are in the same room as the President at the end of the game."
+    },
+    {
+        "name": "JULIET",
+        "id": "g011",
+        "description": "BE WITH ROMEO AND THE BOMBER",
+        "links": [
+            "g023"
+        ],
+        "src": "/grey/hand.png",
+        "info": "You win if you are in the same room as Romeo and the Bomber at the end of the game."
+    },
+    {
+        "name": "MAID",
+        "id": "g012",
+        "description": "BE WITH THE BUTLER AND THE PRESIDENT",
+        "links": [
+            "g005"
+        ],
+        "src": "/grey/maid.png",
+        "info": "You win if you are in the same room as the Butler and the President at the end of the game."
+    },
+    {
+        "name": "MASTERMIND",
+        "id": "g013",
+        "description": "BE THE LEADER OF BOTH ROOMS AND AT THE END",
+        "links": [],
+        "src": "/grey/monocle.png",
+        "info": "You win if you are a room's leader at the end AND you were the leader of the opposing room at some point during the game."
+    },
+    {
+        "name": "MI6",
+        "id": "g014",
+        "description": "CARD SHARE WITH THE PRESIDENT AND THE BOMBER",
+        "links": [],
+        "src": "/grey/glass.png",
+        "info": "You win if you card share with the Bomber and the President before the end of the game."
+    },
+    {
+        "name": "MINION",
+        "id": "g015",
+        "description": "YOU LOSE IF YOUR LEADER IS USURPED",
+        "links": [],
+        "src": "/grey/derek.png",
+        "info": "You win if a leader is never usurped in the same room as you."
+    },
+    {
+        "name": "MISTRESS",
+        "id": "g016",
+        "description": "BE WITH THE PRESIDENT, AVOID THE WIFE",
+        "links": ["g029"],
+        "src": "/grey/kiss.png",
+        "info": "You win if you are in the same room as the President at the end of the game and the Wife is not."
+    },
+    {
+        "name": "MOBY",
+        "id": "g017",
+        "description": "AVOID THE BOMBER AND AHAB",
+        "links": ["g002"],
+        "src": "/grey/whale.png",
+        "info": "You win if Ahab is in the same room as the Bomber at the end of the game and you are not."
+    },
+    {
+        "name": "NUCLEAR TYRANT",
+        "id": "g018",
+        "description": "\"FOOLISH\" +  DON'T CARD SHARE WITH THE PRIMARIES",
+        "links": [],
+        "src": "/grey/nuke.png",
+        "info": "At the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if the President and the Bomber did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition."
+    },
+    {
+        "name": "PRIVATE EYE",
+        "id": "g019",
+        "description": "GUESS THE BURIED CARD",
+        "links": [],
+        "src": "/grey/mag.png",
+        "pausegamenr": 5,
+        "info": "At the end of the last round, before all players reveal their character cards, you must publicly announce the identity of the buried card. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 5. Only pause the game and make your announcement after all characters with a lower pause game number have finished their announcements."
+    },
+    {
+        "name": "QUEEN",
+        "id": "g020",
+        "description": "AVOID THE PRESIDENT AND THE BOMBER",
+        "links": [],
+        "src": "/grey/crown.png",
+        "info": "You win if you are NOT in the same room as the President or the Bomber at the end of the game."
+    },
+    {
+        "name": "RIVAL",
+        "id": "g021",
+        "description": "AVOID THE PRESIDENT",
+        "links": [],
+        "src": "/grey/suit.png",
+        "info": "You win if you are NOT in the same room as the President at the end of the game."
+    },
+    {
+        "name": "ROBOT",
+        "id": "g022",
+        "description": "THE PLAYER YOU FIRST SHARE WITH MUST LOSE",
+        "links": [],
+        "src": "/grey/android.png",
+        "info": "You win if the first player with whom you card share or color share fails to achieve all of their win objectives. If you fail to share with any players by the end of the game, then you lose.\r\n\r\nNote: if the first person with whom you share is the Clone, and the Clone's first share was with you…\r\nyou both lose."
+    },
+    {
+        "name": "ROMEO",
+        "id": "g023",
+        "description": "BE WITH JULIET AND THE BOMBER",
+        "links": ["g011"],
+        "src": "/grey/rose.png",
+        "info": "You win if you are in the same room as Juliet and the same room as the Bomber at the end of the game."
+    },
+    {
+        "name": "SNIPER",
+        "id": "g024",
+        "description": "SHOOT THE TARGET",
+        "links": ["g026", "g007"],
+        "src": "/grey/scope.png",
+        "pausegamenr": 15,
+        "info": "At the end of the last round, before all players reveal their character cards, you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target.\r\n\r\nNote: You have a pause game number of 15. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements."
+    },
+    {
+        "name": "SURVIVOR",
+        "id": "g025",
+        "description": "AVOID THE BOMBER",
+        "links": [],
+        "src": "/grey/tools.png",
+        "info": "You win if you are NOT in the same room as the Bomber at the end of the game."
+    },
+    {
+        "name": "TARGET",
+        "id": "g026",
+        "description": "DONT GET SHOT BY THE SNIPER",
+        "links": ["g024", "g007"],
+        "src": "/grey/target.png",
+        "info": "You win if the Sniper does not shoot you at the end of the last round."
+    },
+    {
+        "name": "TRAVELER",
+        "id": "g027",
+        "description": "BE SENT AS A HOSTAGE A MAJORITY OF ROUNDS",
+        "links": [],
+        "src": "/grey/bag.png",
+        "info": "You win if you are sent to a different room as a hostage at the end of MOST rounds. For example, in a 3 round game, you must change rooms twice to win."
+    },
+    {
+        "name": "VICTIM",
+        "id": "g028",
+        "description": "BE WITH THE BOMBER",
+        "links": [],
+        "src": "/grey/victim.png",
+        "info": "You win if you are in the same room as the Bomber at the end of the game."
+    },
+    {
+        "name": "WIFE",
+        "id": "g029",
+        "description": "BE WITH THE PRESIDENT, AVOID THE MISTRESS",
+        "links": ["g016"],
+        "src": "/grey/ring.png",
+        "info": "You win if you are in the same room as the President at the end of the game and the Mistress is not."
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "name": "LEPRECHAUN",
+        "id": "e001",
+        "description": "YOU WIN & YOU'RE \"FOOLISH\" & SHARING >> SWAPPING",
+        "links": [],
+        "src": "/green/cloverleaf.png",
+        "info": "You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share. You also have the LEPRECHAUN power: Any player that card shares or even color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. At the end of the game, the Leprechaun wins. A single player can only ever be the Leprechaun once per game. If a player is about to become the Leprechaun character for the second time, they must communicate that they can't receive the Leprechaun card.\r\n\r\nNote: Due to the cleanse rule, any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card.\r\n\r\nAnother Note: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\nWorks well with the Privacy Promise rule variant."
+    },
+    {
+        "name": "ZOMBIE",
+        "id": "e002", 
+        "description": "MAKE ALL SURVIVORS ZOMBIES",
+        "links": [],
+        "src": "/green/brain.png",
+        "info": "You begin with the \"zombie\" condition. The \"zombie\" condition provides a replacement win condition. Players with the \"zombie\" condition win if Team Zombie wins. Team Zombie wins if all players without the \"dead\" condition at the end of the game are on Team Zombie. Any player that card shares or color shares with a player that has the \"zombie\" condition gains the \"zombie\" condition.\r\n\r\nNote: \"zombie\" players without a Zombie character card must indicate to players with whom they card share or color share that they now also have the \"zombie\" condition. Typically this is done by saying something like, \"I'm a Zombie, and now so are you.\"\r\n\r\nWorks well with the Privacy Promise rule variant."
+    }
+]
