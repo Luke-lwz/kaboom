@@ -10,6 +10,11 @@ Hi, thank you for showing interest in this small project.
 This work is [licensed](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) under the [Creative Commons license BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).  
 
 
+# Development mode in app
+
+Click the Kaboom logo 7 times to enter development mode.
+
+
 # Installation  
   
 Made using ReactJS  

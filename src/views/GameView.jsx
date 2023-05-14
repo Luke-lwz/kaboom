@@ -696,6 +696,10 @@ function HostGame({ me, setMe, code, setScreen }) {
                 manuallyUpdateRef();
             }
 
+        },
+        "force-start-game" : () => {
+            game.current.phase = "rounds";
+            nextRound();
         }
     }
 
@@ -801,7 +805,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-function Game({ me, getPlayers = () => null, game, execute, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
+function Game({ me, getPlayers = () => null, game, execute = () => {}, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
 
     const [card, setCard] = useState(null);
 
@@ -873,7 +877,7 @@ function Game({ me, getPlayers = () => null, game, execute, setScreen, setCountd
 
         switch (game?.phase) {
             case "rooms":
-                setScreen(<GoToRoomScreen roomNr={me?.startingRoom} onReady={() => execute("am-in-room", [me.id])} />)
+                setScreen(<GoToRoomScreen roomNr={me?.startingRoom} onReady={() => execute("am-in-room", [me.id])} onForceReady={me?.id?.toUpperCase() === "HOST" ? () => execute("force-start-game") : undefined} />)
                 break;
             case "rounds":
                 if (game?.rounds?.filter(r => r.started_at)?.length === game?.rounds?.filter(r => r.ended)?.length) {
@@ -1073,7 +1077,7 @@ function AvatarMenu({ isHost, me, execute = () => { } }) {
 
 // SCREENS
 
-function GoToRoomScreen({ roomNr = 1, onReady = () => { } }) {
+function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 
     const [clicked, setClicked] = useState(false);
 
@@ -1094,6 +1098,8 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { } }) {
                 ROOM {roomNr}
             </div>
             <button className={"btn btn-wide btn-accent text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
+            {onForceReady && <button className='text-normal font-light text-sm underline mt-6' onClick={onForceReady}>Force next</button>}
+
         </>
     )
 }
