@@ -192,7 +192,7 @@ function ClientLobby({ me, setMe, code }) {
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
-                <PlaysetDisplay forceOpen selected playset={playset} showDisabledError='top' />
+                <PlaysetDisplay forceOpen selected playset={playset} />
             </div>
             <LobbyFooter />
 
@@ -220,6 +220,8 @@ function HostLobby({ me, code }) {
     const [startCondition, setStartCondition] = useState(false);
 
     const [playset, setPlayset] = useState(getPlaysetById("t0001"))
+    const playsetRef = useRef(playset)
+
     const [playWithBury, setPlayWithBury] = useState(false);
 
     const [recommendBury, setRecommendBury] = useState(false);
@@ -244,6 +246,7 @@ function HostLobby({ me, code }) {
 
 
     useEffect(() => {
+        playsetRef.current = playset;
         updateAllClients();
     }, [playset])
 
@@ -268,7 +271,6 @@ function HostLobby({ me, code }) {
         setPlayerState(players.current)
 
         var offlinePlayers = players?.current?.filter(p => !p?.conn && p?.id !== "HOST") || [];
-        console.log(offlinePlayers)
         setArePlayersOffline((offlinePlayers?.length > 0));
 
 
@@ -418,7 +420,7 @@ function HostLobby({ me, code }) {
     function updateAllClients() {
         for (let element of players.current) {
             if (element.conn) {
-                element.conn.send({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })), playsetId: playset?.id } })
+                element.conn.send({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })), playsetId: playsetRef.current?.id } })
 
             }
         }
@@ -506,7 +508,7 @@ function HostLobby({ me, code }) {
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
-                <PlaysetDisplay forceOpen selected onClick={() => showAllPlaysets()} playset={playset} playersUpdated={playersUpdated} showDisabledError='top' />
+                <PlaysetDisplay forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
                 <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury || !playset?.odd_card || playset?.force_bury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={!playset?.odd_card || playset?.no_bury || playset?.force_bury} />
             </div>
 

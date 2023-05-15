@@ -1,0 +1,15 @@
+[
+    {
+        "name": "My first hot potato",
+        "id": "f0001",
+        "emoji": "🥔",
+        "players": "6-17",
+        "cards": [
+            "b001",
+            "r001"
+        ],
+        "odd_card": "g009",
+        "shuffle": false,
+        "no_bury": false
+    }
+]

@@ -16,6 +16,10 @@ const TABS = [
     {
         title: "Official",
         playsetName: "official"
+    },
+    {
+        title: "Friends",
+        playsetName: "friends"
     }
 ]
 
