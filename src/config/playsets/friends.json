@@ -12,5 +12,24 @@
         "odd_card": "g006",
         "shuffle": false,
         "no_bury": false
+    },
+    {
+        "name": "Love or hate or travel",
+        "id": "f0002",
+        "emoji": "🖤",
+        "players": "8-23",
+        "cards": [
+            "b001",
+            "r001",
+            "b011",
+            "r011",
+            "g023",
+            "g011",
+            "g002",
+            "g017"
+        ],
+        "odd_card": "g027",
+        "shuffle": false,
+        "no_bury": false
     }
 ]
