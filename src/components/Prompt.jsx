@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Prompt({ title, text, onApprove = () => { }, onCancel = () => { }, element }) { // element overwrites everything (even onApprove())
+function Prompt({ title, text, onApprove = () => { }, onCancel = () => { }, element, noCancel }) { // element overwrites everything (even onApprove())
 
     const [loaded, setLoaded] = useState(false);
 
@@ -9,7 +9,7 @@ function Prompt({ title, text, onApprove = () => { }, onCancel = () => { }, elem
     }, [])
 
     return (
-        <div className='absolute inset-0 z-[100] bg-black/50 flex justify-center items-center ' onClick={() => (element ? "" : onCancel())}>
+        <div className='absolute inset-0 z-[100] bg-black/50 flex justify-center items-center ' onClick={() => (element || noCancel ? "" : onCancel())}>
             <div div className={'mx-4 w-full max-w-md bg-white text-black shadow-lg  rounded-xl flex flex-col justify-start items-center p-4 ' + (loaded ? " animate-in " : " animate-out ") + (element ? " h-fit " : " h-fit ")} >
                 {element ? element : <>
                     <div className='grow flex flex-col items-start justify-start w-full p-3 pointer-events-none'>
@@ -21,7 +21,7 @@ function Prompt({ title, text, onApprove = () => { }, onCancel = () => { }, elem
                         </p>
                     </div>
                     <div className='flex items-center justify-end w-full gap-1'>
-                        <button className='btn btn-ghost' onClick={() => onCancel()}>Cancel</button>
+                        {!noCancel && <button className='btn btn-ghost' onClick={() => onCancel()}>Cancel</button>}
                         <button className='btn btn-primary' onClick={() => onApprove()}>Okay</button>
                     </div>
                 </>}

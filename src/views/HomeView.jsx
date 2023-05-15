@@ -164,8 +164,10 @@ function HomeView({ }) {
         if (code.length < 4) return toast.error("Code must be 4 letters");
 
 
+        const playerData = JSON.parse(localStorage.getItem(`player-${code}`))
+
         if (localStorage.getItem(`game-${code}`)) return redirect(`/game/${code}`)
-        if (localStorage.getItem(`player-${code}`)) return redirect(`/lobby/${code}`)
+        if (playerData?.name) return redirect(`/lobby/${code}`)
 
 
 
@@ -210,7 +212,8 @@ function HomeView({ }) {
 
 
             localStorage.setItem(`player-${code}`, JSON.stringify({
-                name
+                name,
+                id: playerData?.id
             }));
 
             setPrompt(null);

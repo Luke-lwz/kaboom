@@ -184,13 +184,13 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
             conn.on("error", async () => { testConnection(); peer.destroy() })
 
-            conn.on("close", async () => { testConnection(); peer.destroy() })
+            conn.on("close", async () => { testConnection(); peer.destroy() }) 
         })
 
 
 
-        peer.on("error", async (err) => {
-            if (!game) return connectionErrorPrompt();
+        peer.on("error", async (err) => { 
+            if (!game) return connectionErrorPrompt();  
             setConn(null);
         })
 
@@ -458,6 +458,10 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         peer.on("error", async (err) => {
             console.log(err)
+        })
+
+        peer.on("disconnected", async (err) => { 
+            connectionErrorPrompt(true) 
         })
     }
 
@@ -992,7 +996,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     function showSendCard(card) {
         const players = getPlayers();
-        if (!players) return
+        if (!players) return 
 
 
         setMenu(

@@ -24,6 +24,7 @@ import PlaysetDisplay, { PlayWithBuryToggle, WrongPlayerNumberPlayset } from '..
 import ChoosePlaysetMenu, { calculatePlaysetDisabled } from '../components/menus/ChoosePlaysetMenu';
 import QRCodeMenu from '../components/menus/QRCodeMenu';
 import Info from '../components/Info';
+import { PlayerRow } from "../components/PlayerList"
 
 
 
@@ -48,7 +49,7 @@ function LobbyView(props) {
         if (!code) return redirect("/");
         if (localStorage.getItem(`game-${code}`)) setHost(true);
         const me = JSON.parse(localStorage.getItem(`player-${code}`));
-        if (!me) {
+        if (!me?.name) {
             setTimeout(() => redirect("/?c=" + code), 100); // redirects to join home
             return
         }
@@ -120,7 +121,7 @@ function ClientLobby({ me, setMe, code }) {
             var conn = peer.connect(constructPeerID(code, "host"));
 
             conn.on("open", async () => {
-                conn.send({ intent: "join", payload: { name: player_data.name } })
+                conn.send({ intent: "join", payload: { name: player_data.name, id: player_data?.id } })
                 setConn(conn);
             })
 
@@ -165,7 +166,17 @@ function ClientLobby({ me, setMe, code }) {
 
         peer.on("error", async () => connectionErrorPrompt())
 
+        peer.on("disconnected", async (err) => {
+            connectionErrorPrompt(true)
+        })
 
+
+    }
+
+
+    function changeName() {
+        localStorage.setItem(`player-${code}`, JSON.stringify({ id: me?.id }))
+        redirect(`/?c=${code}`);
     }
 
 
@@ -176,10 +187,11 @@ function ClientLobby({ me, setMe, code }) {
             <Lobby me={me} players={playerList} />
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
                 <button className={'w-full btn text-title text-primary-content' + (ready ? " btn-success " : " btn-accent ")} onClick={() => setReady(!ready)}>{ready ? "Ready!" : "Ready up!"}</button>
-                <a className='link font-bold clickable' href="/">Leave</a>
+                <button className={'w-full btn text-title btn-ghost text-neutral'} onClick={() => changeName()}>change name</button>
+                <button className='link font-bold clickable' onClick={() => { conn?.send({ intent: "leave", payload: { id: me?.id } }); redirect("/") }}>Leave</button>
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
-                <h1 className='font-extrabold text-lg uppercase'>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
+                <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
                 <PlaysetDisplay forceOpen selected playset={playset} showDisabledError='top' />
             </div>
             <LobbyFooter />
@@ -199,7 +211,7 @@ function ClientLobby({ me, setMe, code }) {
 
 function HostLobby({ me, code }) {
 
-    const { redirect, setMenu2, menu2, devMode, setPrompt } = useContext(PageContext);
+    const { redirect, setMenu2, menu2, devMode, setPrompt, connectionErrorPrompt } = useContext(PageContext);
 
 
     const player_data = JSON.parse(localStorage.getItem("player-" + code));
@@ -210,15 +222,20 @@ function HostLobby({ me, code }) {
     const [playset, setPlayset] = useState(getPlaysetById("t0001"))
     const [playWithBury, setPlayWithBury] = useState(false);
 
-    const [recommendBury,setRecommendBury] = useState(false);
+    const [recommendBury, setRecommendBury] = useState(false);
 
-    const [peer, setPeer] = useState(null)
+    const [peer, setPeer] = useState(null);
+
 
 
     const [wrongPlayerNumber, setWrongPlayerNumber] = useState(true);
 
 
     const players = useRef([{ name: player_data.name, id: "HOST", host: true }]);
+
+    const [playerState, setPlayerState] = useState(players.current);
+    const [arePlayersOffline, setArePlayersOffline] = useState(false);
+
 
     useEffect(() => {
         if (localStorage.getItem(`game-${code}`) && JSON.parse(localStorage.getItem(`game-${code}`))?.game) return redirect(`/game/${code}`)
@@ -247,6 +264,15 @@ function HostLobby({ me, code }) {
         setRecommendBury((playset?.cards?.length % 2) === (players.current.length % 2));
         setPlayWithBury((playset?.cards?.length % 2) === (players.current.length % 2));
 
+
+        setPlayerState(players.current)
+
+        var offlinePlayers = players?.current?.filter(p => !p?.conn && p?.id !== "HOST") || [];
+        console.log(offlinePlayers)
+        setArePlayersOffline((offlinePlayers?.length > 0));
+
+
+
     }, [playersUpdated, playset])
 
 
@@ -266,22 +292,30 @@ function HostLobby({ me, code }) {
 
 
 
-                const playerID = idGenAlphabet(3, [players.current.map(p => p.id)]);
+                const playerID = { value: idGenAlphabet(3, [players.current.map(p => p.id)]) };
 
 
                 conn.on("data", async (data) => {
                     switch (data?.intent) {
                         case "join":
 
+                            if (data?.payload?.id) playerID.value = data?.payload?.id
 
+                            await addPlayer(playerID.value, data?.payload?.name, conn)
 
-                            await addPlayer(playerID, data?.payload?.name, conn)
-
-                            conn.send({ intent: "joined_lobby", payload: { myId: playerID } })
+                            conn.send({ intent: "joined_lobby", payload: { myId: playerID.value } })
 
                             updateAllClients();
 
 
+                            break;
+
+                        case "leave":
+                            removePlayer(data?.payload?.id || playerID.value);
+
+                            setPlayersUpdated([])
+
+                            updateAllClients();
                             break;
 
                         case "ready":
@@ -307,7 +341,9 @@ function HostLobby({ me, code }) {
 
 
                 conn.on("close", async () => {
-                    removePlayer(playerID)
+                    players.current = players.current.map(p => (p?.id === playerID.value ? { ...p, conn: null } : p));
+
+                    setPlayersUpdated([])
 
                     updateAllClients();
 
@@ -322,6 +358,10 @@ function HostLobby({ me, code }) {
 
         peer.on("error", async (err) => {
             console.log(err)
+        })
+
+        peer.on("disconnected", async (err) => {
+            connectionErrorPrompt(true)
         })
     }
 
@@ -341,7 +381,11 @@ function HostLobby({ me, code }) {
 
     async function addPlayer(id, name, conn) {
 
-        players.current.push({ id, name, conn })
+        if (players.current.filter(p => p?.id === id)[0]) {
+            players.current = players.current.map(p => (p?.id === id ? { ...p, conn, name: (name ? name : p.name) } : p))
+        } else players.current.push({ id, name, conn })
+
+
 
 
         setPlayersUpdated([])
@@ -362,7 +406,8 @@ function HostLobby({ me, code }) {
 
     function kickPlayer(id) {
         const player = players.current.filter(p => p.id == id)[0];
-        player.conn.send({ intent: "redirect", payload: { to: "/" } })
+        player?.conn?.send({ intent: "redirect", payload: { to: "/" } })
+        removePlayer(id);
 
     }
 
@@ -392,22 +437,41 @@ function HostLobby({ me, code }) {
 
 
     function startGame() {
-        localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x") }));
 
-        redirectAllClients("/game/" + code)
+        if (arePlayersOffline) {
+            setPrompt({
+                title: "Some players are offline!",
+                text: "They can reconnect by joining the room after you started.",
+                onApprove: () => startIt()
+            })
+        } else startIt();
 
-        setTimeout(() => {
-            if (peer) peer.destroy();
-            redirect("/game/" + code, { replace: true })
-        }, 200)
+
+
+
+        function startIt() { 
+            setPrompt(null);
+            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x") }));
+
+            redirectAllClients("/game/" + code)
+
+            setTimeout(() => {
+                if (peer) peer.destroy();
+                setPrompt(null);
+
+                redirect("/game/" + code, { replace: true })
+            }, 200)
+        }
+
 
     }
 
 
     function promptStartGame() {
+        if (arePlayersOffline) return startGame();
         setPrompt({
             title: "Are you sure?",
-            text: "DevMode: Check again if player count and playset match",
+            text: "DevMode: Check again if player count and playset match and if everyone is online",
             onApprove: () => startGame()
         })
     }
@@ -432,7 +496,7 @@ function HostLobby({ me, code }) {
 
     return (
         <div className='flex flex-col justify-start items-center w-full pb-24'>
-            <Lobby me={me} kickPlayer={kickPlayer} amHost players={players.current} playersUpdated={playersUpdated} />
+            <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} />
             {devMode && <h1 className='bg-warning/50 w-full p-2 text-center text-warning-content text-title'>DEV MODE IS ENABLED</h1>}
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
                 <button onClick={(devMode ? promptStartGame : startGame)} className={'w-full btn  text-title' + (startCondition ? " btn-primary  " : " btn-disabled ")} >Start game</button>
@@ -452,49 +516,27 @@ function HostLobby({ me, code }) {
 }
 
 
-function Lobby({ me, players = [], amHost, playersUpdated = [], kickPlayer }) { // playersUpdated is a work around to update players which are really a state
+function Lobby({ me, players = [], amHost, kickPlayer, arePlayersOffline }) { // playersUpdated is a work around to update players which are really a state
 
 
     return (
         <div className='w-full flex flex-col justify-start items-center'>
             <div className='bg-neutral flex items-center justify-center w-full'>
                 <div className='w-full max-w-2xl p-4 gap-4 flex flex-col justify-start items-center'>
-                    {playersUpdated !== false && players.map((player, i) => <PlayerRow isMe={player?.id === me?.id} kick={kickPlayer} key={i} amHost={amHost} {...player} />)}
-                    {playersUpdated !== false && players.length < 6 && [...Array(6 - players.length)].map((e, i) => <EmptyPlayerRow key={i} />)}
+                    {players.map((player, i) => <PlayerRow showOnline={me?.id === "HOST"} showId={me?.id === "HOST" || player?.id === "HOST"} me={me} {...player} key={i} amHost={amHost} element={me?.id === "HOST" && !player.host &&
+                        <div className='grow flex justify-end items-center'><button className='clickable btn-ghost p-3 -mr-1 rounded-md skew ' onClick={() => kickPlayer(player?.id)}><IoPersonRemoveSharp /></button></div>
+                    } />)}
+                    {players.length < 6 && [...Array(6 - players.length)].map((e, i) => <EmptyPlayerRow key={i} />)}
                 </div>
 
 
             </div>
-            {playersUpdated !== false && players?.length && <div className='w-full bg-neutral text-neutral-content text-center font-extrabold text-title pb-4 flex items-center justify-center gap-2'>{players?.length} <HiUsers size={22} /></div>}
+            {players?.length && <div className={'w-full bg-neutral text-center font-extrabold text-title pb-4 flex items-center justify-center gap-2 ' + (arePlayersOffline ? " text-accent " : " text-neutral-content ")}>{players?.length} <HiUsers size={22} /></div>}
         </div>
     )
 }
 
-function PlayerRow({ name, host, amHost, ready, id, kick = () => { }, isMe }) { // amHost is when the person looking at the screen is the host. host = is when the player who is rendered is a host
 
-    const [avaConfig, setAvaConfig] = useState(genConfig(name || id || "a"));
-
-    useEffect(() => {
-        setAvaConfig(genConfig(name || id || "a"))
-    }, [name, id])
-
-
-
-
-    return (
-        <div className='bg-base-100 rounded-md h-12 skew overflow-hidden p-2 pl-6 text-title font-extrabold text-sm w-full flex justify-between items-center'>
-            <div className='flex items-center gap-2'>
-                <Avatar shape="square" className='skew' style={{ height: "3rem", width: "3rem", borderRadius: "0px", marginLeft: "-1.55rem", marginRight: "0.25rem" }} {...avaConfig} />
-                <h1>{name}</h1>
-                {amHost && !host && <div className='label flex items-center justify-center label-primary bg-primary text-primary-content rounded-md px-2 py-1 text-xs text-normal skew'>{id}</div>}
-                {host && <div className='label flex items-center justify-center label-secondary bg-secondary text-secondary-content rounded-md px-2 py-1 text-xs text-normal skew'>HOST</div>}
-                {isMe && <div className={'label w-fit flex items-center justify-center label-primary text-primary-content rounded-md px-2 py-1 text-xs text-normal skew bg-info '}>YOU</div>}
-                {ready && <div className='label flex items-center justify-center label-secondary bg-success text-secondary-content rounded-md px-2 py-1 text-xs text-normal skew'>READY</div>}
-            </div>
-            {amHost && !host && <button className='clickable btn-ghost noskew p-3 -mr-1 rounded-md skew' onClick={() => kick(id)}><IoPersonRemoveSharp /></button>}
-        </div>
-    )
-}
 
 function EmptyPlayerRow({ }) { // amHost is when the person looking at the screen is the host. host = is when the player who is rendered is a host
     return (

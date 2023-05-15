@@ -74,8 +74,8 @@ function App() {
   }
 
 
-  function connectionErrorPrompt() {
-    setPrompt({ title: "Error", text: "Connection lost! Reload?", onApprove: () => window.location.href = window.location.href });
+  function connectionErrorPrompt(noCancel) {
+    setPrompt({ title: "Error", text: "Connection lost! Reload?", onApprove: () => window.location.href = window.location.href, noCancel });
   }
 
 
@@ -147,7 +147,7 @@ function App() {
         }}
       />
       <PageContextProvider value={{ toast, navigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, devMode, setDevMode }}>
-        {prompt && <Prompt onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
+        {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
         {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
         {menu && <Menu onCancel={menuHide}>{menu}</Menu>}
 
