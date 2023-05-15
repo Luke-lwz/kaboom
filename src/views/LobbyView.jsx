@@ -259,7 +259,7 @@ function HostLobby({ me, code }) {
         if (calculatePlaysetDisabled(playset, players.current.length)) ok = false;
 
         setStartCondition((devMode ? true : ok))
-        if (menu2) showAllPlaysets()
+        
 
 
         setWrongPlayerNumber(calculatePlaysetDisabled(playset, players.current.length));

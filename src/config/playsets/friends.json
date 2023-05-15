@@ -6,9 +6,10 @@
         "players": "6-17",
         "cards": [
             "b001",
-            "r001"
+            "r001",
+            "g009"
         ],
-        "odd_card": "g009",
+        "odd_card": "g006",
         "shuffle": false,
         "no_bury": false
     }
