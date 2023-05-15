@@ -654,7 +654,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         },
         "redirect-to-lobby": () => {
             var to = `/lobby/${code}`;
-            localStorage.setItem(`game-${code}`, JSON.stringify({ ...game, game: undefined }));
+            localStorage.setItem(`game-${code}`, "{}");
             sendToAll({ intent: "redirect", payload: { to, delay: 1500 } })
             window.location.href = to;
         },
@@ -697,7 +697,7 @@ function HostGame({ me, setMe, code, setScreen }) {
             }
 
         },
-        "force-start-game" : () => {
+        "force-start-game": () => {
             game.current.phase = "rounds";
             nextRound();
         }
@@ -805,7 +805,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-function Game({ me, getPlayers = () => null, game, execute = () => {}, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
+function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
 
     const [card, setCard] = useState(null);
 
@@ -1088,17 +1088,20 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 
     return (
         <>
+            <div className='flex flex-col items-center justify-center w-full absolute inset-0 z-10'>
+                <div className={"uppercase font-extrabold text-title text-3xl mb-4 animate__animated animate__bounceInLeft" + (roomNr == 1 ? " text-primary " : " text-secondary ")}>
+                    GO TO
+                </div>
+                <div className={"uppercase font-extrabold text-title text-5xl mb-8 animate__animated animate__bounceInRight" + (roomNr == 1 ? " text-secondary " : " text-primary ")}>
+                    ROOM {roomNr}
+                </div>
+                <button className={"btn btn-wide btn-accent text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
+                {onForceReady && <button className='text-normal font-light text-sm underline mt-6 p-3 ' onClick={onForceReady}>Force next</button>}
+
+            </div>
+
             <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -top-[50vh] opacity-50 " + (roomNr == 1 ? " circular-gradient-secondary " : " circular-gradient-primary ")}></div>
             <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -bottom-[50vh] opacity-50 " + (roomNr == 1 ? " circular-gradient-primary " : " circular-gradient-secondary ")}></div>
-
-            <div className={"uppercase font-extrabold text-title text-3xl mb-4 animate__animated animate__bounceInLeft" + (roomNr == 1 ? " text-primary " : " text-secondary ")}>
-                GO TO
-            </div>
-            <div className={"uppercase font-extrabold text-title text-5xl mb-8 animate__animated animate__bounceInRight" + (roomNr == 1 ? " text-secondary " : " text-primary ")}>
-                ROOM {roomNr}
-            </div>
-            <button className={"btn btn-wide btn-accent text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
-            {onForceReady && <button className='text-normal font-light text-sm underline mt-6' onClick={onForceReady}>Force next</button>}
 
         </>
     )

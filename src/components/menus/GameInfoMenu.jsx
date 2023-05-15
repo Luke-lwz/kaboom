@@ -69,6 +69,8 @@ function GameInfoMenu({ code, game, getPlayers = () => [], isHost, me, nextRound
                         <button className='btn btn-warning noskew' onClick={() => restartGame()}>restart game</button>
                         <button className='btn btn-warning noskew' onClick={() => closeAllConn()}>close connections</button>
                         <button className='btn btn-warning noskew' onClick={() => execute("redirect-to-lobby")}>lobby</button>
+                        <button className='btn btn-warning noskew' onClick={() => console.log(game)}>log game object</button>
+
 
                     </div>
                 </div>}
