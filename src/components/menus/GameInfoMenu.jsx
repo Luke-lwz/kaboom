@@ -12,13 +12,20 @@ function GameInfoMenu({ code, game, getPlayers = () => [], isHost, me, nextRound
 
     const [players, setPlayers] = useState(getPlayers());
 
+    const [cardsInGame, setCardsInGame] = useState([]);
+
 
     useEffect(() => {
 
         if (isHost) {
             setInterval(() => setPlayers(getPlayers()), 2000)
         }
+
+
+        setCardsInGame(game.cardsInGame?.sort((a,b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])
+
     }, [])
+
 
 
     function restartGame() {
@@ -57,7 +64,7 @@ function GameInfoMenu({ code, game, getPlayers = () => [], isHost, me, nextRound
 
                     <div className='flex gap-6 py-2 pb-4 px-6 overflow-x-scroll w-full scrollbar-hide'>
 
-                        <CardsRow cards={game.cardsInGame?.sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || []} />
+                        <CardsRow cards={cardsInGame} />
                     </div>
                 </div>
 

@@ -1067,7 +1067,7 @@ function AvatarMenu({ isHost, me, execute = () => { } }) {
         <div className='bg-neutral rounded-lg p-4 text-neutral-content w-full flex flex-col justify-start items-start gap-2'>
             <h1 className='font-extrabold text text-title'>{me.name}</h1>
             <button onClick={isHost ? closeRoom : leaveRoom} className='btn btn-primary w-44'>{isHost ? "CLOSE ROOM" : "LEAVE GAME"}</button>
-            {isHost && <button className='btn btn-success w-44 text-success-content' onClick={() => toLobby()}>Return to lobby</button>}
+            {isHost && <button className='btn btn-success w-44 text-success-content' onClick={() => toLobby()}>Back to lobby</button>}
         </div>
     )
 }

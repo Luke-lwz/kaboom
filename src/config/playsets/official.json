@@ -20,7 +20,7 @@
     {
         "name": "INSTANT DEATH",
         "id": "o0002",
-        "players": "6-6",
+        "players": "6-20",
         "emoji": "☠️",
         "cards": [
             "b001",
@@ -71,7 +71,7 @@
     { 
         "name": "2 Rooms + 2 Booms + 1 Gunshot",
         "id": "o0005",
-        "players": "6-6",
+        "players": "6-20",
         "emoji": "🔫",
         "cards": [
             "b001",
