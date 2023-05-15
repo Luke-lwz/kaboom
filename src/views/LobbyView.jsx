@@ -114,19 +114,19 @@ function ClientLobby({ me, setMe, code }) {
     }, [ready])
 
 
-    async function startPeer() {
+    function startPeer() {
         const peer = new Peer();
 
-        peer.on("open", async () => {
+        peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
 
-            conn.on("open", async () => {
+            conn.on("open", () => {
                 conn.send({ intent: "join", payload: { name: player_data.name, id: player_data?.id } })
                 setConn(conn);
             })
 
 
-            conn.on("data", async data => {
+            conn.on("data", data => {
                 switch (data?.intent) {
                     case "player_list": // also carries playset
                         setPlayerList(data?.payload?.players || [])
@@ -157,16 +157,16 @@ function ClientLobby({ me, setMe, code }) {
             })
 
 
-            conn.on("error", async () => connectionErrorPrompt())
+            conn.on("error", () => connectionErrorPrompt())
 
-            conn.on("close", async () => connectionErrorPrompt())
+            conn.on("close", () => connectionErrorPrompt())
         })
 
 
 
-        peer.on("error", async () => connectionErrorPrompt())
+        peer.on("error", () => connectionErrorPrompt())
 
-        peer.on("disconnected", async (err) => {
+        peer.on("disconnected", (err) => {
             connectionErrorPrompt(true)
         })
 
@@ -279,7 +279,7 @@ function HostLobby({ me, code }) {
 
 
 
-    async function startPeer() {
+    function startPeer() {
         const peer = new Peer(constructPeerID(code, "host"));
 
 
@@ -287,23 +287,23 @@ function HostLobby({ me, code }) {
 
 
 
-        peer.on("connection", async (conn) => {
+        peer.on("connection", (conn) => {
 
 
-            conn.on("open", async () => {
+            conn.on("open", () => {
 
 
 
                 const playerID = { value: idGenAlphabet(3, [players.current.map(p => p.id)]) };
 
 
-                conn.on("data", async (data) => {
+                conn.on("data", (data) => {
                     switch (data?.intent) {
                         case "join":
 
                             if (data?.payload?.id) playerID.value = data?.payload?.id
 
-                            await addPlayer(playerID.value, data?.payload?.name, conn)
+                            addPlayer(playerID.value, data?.payload?.name, conn)
 
                             conn.send({ intent: "joined_lobby", payload: { myId: playerID.value } })
 
@@ -342,7 +342,7 @@ function HostLobby({ me, code }) {
                 });
 
 
-                conn.on("close", async () => {
+                conn.on("close", () => {
                     players.current = players.current.map(p => (p?.id === playerID.value ? { ...p, conn: null } : p));
 
                     setPlayersUpdated([])
@@ -358,11 +358,11 @@ function HostLobby({ me, code }) {
 
         });
 
-        peer.on("error", async (err) => {
+        peer.on("error", (err) => {
             console.log(err)
         })
 
-        peer.on("disconnected", async (err) => {
+        peer.on("disconnected", (err) => {
             connectionErrorPrompt(true)
         })
     }
@@ -381,7 +381,7 @@ function HostLobby({ me, code }) {
     }
 
 
-    async function addPlayer(id, name, conn) {
+    function addPlayer(id, name, conn) {
 
         if (players.current.filter(p => p?.id === id)[0]) {
             players.current = players.current.map(p => (p?.id === id ? { ...p, conn, name: (name ? name : p.name) } : p))
@@ -395,7 +395,7 @@ function HostLobby({ me, code }) {
         return players.current
     }
 
-    async function removePlayer(id) {
+    function removePlayer(id) {
         const newPlayers = players.current.filter(p => p.id !== id);
 
         players.current = newPlayers

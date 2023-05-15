@@ -134,19 +134,19 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    async function startPeer() {
+    function startPeer() {
         const peer = new Peer(constructPeerID(code, me?.id));
 
-        peer.on("open", async () => {
+        peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
 
-            conn.on("open", async () => {
+            conn.on("open", () => {
                 conn.send({ intent: "connect", payload: { id: me?.id } })
                 setConn(conn);
             })
 
 
-            conn.on("data", async data => {
+            conn.on("data", data => {
                 switch (data?.intent) {
                     case "player_list":
                         setPlayerList(data?.payload?.players || []);
@@ -182,14 +182,14 @@ function ClientGame({ me, setMe, code, setScreen }) {
             })
 
 
-            conn.on("error", async () => { testConnection(); peer.destroy() })
+            conn.on("error", () => { testConnection(); peer.destroy() })
 
-            conn.on("close", async () => { testConnection(); peer.destroy() }) 
+            conn.on("close", () => { testConnection(); peer.destroy() }) 
         })
 
 
 
-        peer.on("error", async (err) => { 
+        peer.on("error", (err) => { 
             if (!game) return connectionErrorPrompt();  
             setConn(null);
         })
@@ -252,7 +252,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
     // menu
     function showInfoMenu() {
         setMenu2(
-            <GameInfoMenu me={me} code={code} game={game} getPlayers={() => playerList} />
+            <GameInfoMenu me={me} code={code} game={game} players={playerList} />
         )
     }
 
@@ -337,6 +337,7 @@ function HostGame({ me, setMe, code, setScreen }) {
     const game = useRef(game_data?.game || null);
 
 
+    const [playerState, setPlayerState] = useState({ ...players.current });
     const [gameState, setGameState] = useState({ ...game.current });
 
     const avaConfig = useMemo(() => {
@@ -352,6 +353,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     useEffect(() => {
+        setPlayerState({ ...players.current })
         setGameState({ ...game.current })
         storeGame();
         sendToAll({ intent: "game_data", payload: { game: game.current } })
@@ -397,21 +399,21 @@ function HostGame({ me, setMe, code, setScreen }) {
         setMe(newMe);
     }
 
-    async function startPeer() {
+    function startPeer() {
         const peer = new Peer(constructPeerID(code, "host"));
 
         setPeer(peer);
 
 
 
-        peer.on("connection", async (conn) => {
+        peer.on("connection", (conn) => {
 
 
-            conn.on("open", async () => {
+            conn.on("open", () => {
 
 
 
-                conn.on("data", async (data) => {
+                conn.on("data", (data) => {
                     switch (data?.intent) {
                         case "join":
                             conn.send({ intent: "redirect", payload: { to: "/rejoin/" + code } });
@@ -442,7 +444,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 });
 
 
-                conn.on("close", async () => {
+                conn.on("close", () => {
                     const newPlayers = players.current.map(p => (p?.conn?.connectionId === conn?.connectionId ? { ...p, conn: undefined } : p))
                     players.current = newPlayers;
 
@@ -456,11 +458,11 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         });
 
-        peer.on("error", async (err) => {
+        peer.on("error", (err) => {
             console.log(err)
         })
 
-        peer.on("disconnected", async (err) => { 
+        peer.on("disconnected", (err) => { 
             connectionErrorPrompt(true) 
         })
     }
@@ -729,7 +731,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     function showInfoMenu() {
         setMenu2(
-            <GameInfoMenu execute={execute} nextRound={nextRound} endRound={endRound} me={me} code={code} game={game.current} getPlayers={() => players.current} isHost />
+            <GameInfoMenu execute={execute} nextRound={nextRound} endRound={endRound} me={me} code={code} game={gameState} players={playerState} isHost />
         )
     }
 

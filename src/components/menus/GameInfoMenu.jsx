@@ -6,20 +6,16 @@ import PlaysetDisplay, { CardsRow } from '../playsets/PlaysetDisplay';
 import { getPlaysetById } from '../../helpers/playsets';
 import { getCardFromId } from '../../helpers/cards';
 
-function GameInfoMenu({ code, game, getPlayers = () => [], isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => {} }) {
+function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => {} }) {
 
     const { devMode, setPrompt } = useContext(PageContext);
 
-    const [players, setPlayers] = useState(getPlayers());
 
     const [cardsInGame, setCardsInGame] = useState([]);
 
 
     useEffect(() => {
 
-        if (isHost) {
-            setInterval(() => setPlayers(getPlayers()), 2000)
-        }
 
 
         setCardsInGame(game.cardsInGame?.sort((a,b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])

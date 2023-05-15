@@ -172,7 +172,7 @@ export function PlayWithBuryToggle({ bury, recommendBury, onChange = () => true,
                     <h1 className={"font-bold text uppercase " + (disabled ? " opacity-20 " : " opacity-100 ")}>Play with Card Burying </h1>
                     <Info tooltip="Influences the way cards are shuffled and distributed. (Rulebook page 12)" />
                 </div>
-                <input type="checkbox" className={"toggle toggle-success "} checked={bury} disabled={disabled} onChange={() => onChange(!bury)} />
+                <input type="checkbox" className={"toggle toggle-success "} checked={bury || recommendBury} disabled={disabled} onChange={() => onChange(!bury)} />
             </div>
             {!disabled && <p className="text-sm font-light -mt-4">
                 Recommended: <span className=" font-medium">{recommendBury ? " On " : " Off "}</span>
