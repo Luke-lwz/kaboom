@@ -5,20 +5,25 @@ import PlayerList from '../PlayerList';
 import PlaysetDisplay, { CardsRow } from '../playsets/PlaysetDisplay';
 import { getPlaysetById } from '../../helpers/playsets';
 import { getCardFromId } from '../../helpers/cards';
+import Info from '../Info';
 
-function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => {} }) {
+function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
 
     const { devMode, setPrompt } = useContext(PageContext);
 
 
     const [cardsInGame, setCardsInGame] = useState([]);
 
+    console.log(players)
+
+
+
 
     useEffect(() => {
 
 
 
-        setCardsInGame(game.cardsInGame?.sort((a,b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])
+        setCardsInGame(game.cardsInGame?.sort((a, b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])
 
     }, [])
 
@@ -63,6 +68,16 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                         <CardsRow cards={cardsInGame} />
                     </div>
                 </div>
+
+                {game.soberCard && <div className='pt-0 flex flex-col justify-start items-start w-full shrink bg-base-100'>
+                    <div className='flex items-center gap-0'><h1 className='px-4 text-xl font-extrabold text-[#554180]'>SOBER CARD</h1><Info tooltip='Last round: Drunk player can switch to this card and acquire its abilities' /></div>
+                    
+
+                    <div className='flex gap-6 py-2 pb-4 px-6 overflow-x-scroll w-full scrollbar-hide'>
+
+                        <CardsRow cards={[getCardFromId(game?.soberCard)]} />
+                    </div>
+                </div>}
 
 
                 {devMode && isHost && <div className=' flex mt-2 flex-col justify-start items-start w-full shrink bg-base-100'>

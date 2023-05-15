@@ -264,8 +264,9 @@ function HostLobby({ me, code }) {
 
         setWrongPlayerNumber(calculatePlaysetDisabled(playset, players.current.length));
 
-        setRecommendBury((playset?.cards?.length % 2) === (players.current.length % 2));
-        setPlayWithBury((playset?.cards?.length % 2) === (players.current.length % 2));
+
+
+        setRecommendBury((playset?.cards.filter(c=> c?.id !== "p001")?.length % 2) === (players.current.length % 2)); // filters out drunk card
 
 
         setPlayerState(players.current)
@@ -276,6 +277,12 @@ function HostLobby({ me, code }) {
 
 
     }, [playersUpdated, playset])
+
+
+
+    useEffect(() => {
+        setPlayWithBury(recommendBury || !playset?.odd_card || playset?.force_bury || false);
+    }, [recommendBury])
 
 
 
@@ -509,7 +516,7 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
                 <PlaysetDisplay forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
-                <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury || !playset?.odd_card || playset?.force_bury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={!playset?.odd_card || playset?.no_bury || playset?.force_bury} />
+                <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={!playset?.odd_card || playset?.no_bury || playset?.force_bury} />
             </div>
 
             <LobbyFooter />

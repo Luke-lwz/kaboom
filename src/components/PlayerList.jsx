@@ -8,7 +8,7 @@ function PlayerList({ players = [], onClick, element, showOnline, showId, me }) 
 
     return (
         <div className="w-full p-3 flex flex-col justify-start items-center gap-3">
-            {players.map((player, i) => <PlayerRow key={i} element={element} me={me} {...player} onClick={onClick} showId={showId} showOnline={showOnline} />)}
+            {players?.map((player, i) => <PlayerRow key={i} element={element} me={me} {...player} onClick={onClick} showId={showId} showOnline={showOnline} />)}
         </div>
     );
 }

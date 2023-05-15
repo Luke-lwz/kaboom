@@ -184,13 +184,13 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
             conn.on("error", () => { testConnection(); peer.destroy() })
 
-            conn.on("close", () => { testConnection(); peer.destroy() }) 
+            conn.on("close", () => { testConnection(); peer.destroy() })
         })
 
 
 
-        peer.on("error", (err) => { 
-            if (!game) return connectionErrorPrompt();  
+        peer.on("error", (err) => {
+            if (!game) return connectionErrorPrompt();
             setConn(null);
         })
 
@@ -337,7 +337,7 @@ function HostGame({ me, setMe, code, setScreen }) {
     const game = useRef(game_data?.game || null);
 
 
-    const [playerState, setPlayerState] = useState({ ...players.current });
+    const [playerState, setPlayerState] = useState([...players.current]);
     const [gameState, setGameState] = useState({ ...game.current });
 
     const avaConfig = useMemo(() => {
@@ -353,7 +353,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     useEffect(() => {
-        setPlayerState({ ...players.current })
+        setPlayerState([...players.current.map(p => (p?.conn ? {...p, conn: true} : {...p, conn: false}))])
         setGameState({ ...game.current })
         storeGame();
         sendToAll({ intent: "game_data", payload: { game: game.current } })
@@ -378,6 +378,8 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     function updateGameFor(playerIds = []) { // saves game n stuff but only sends updates to specific ids
+        setPlayerState([...players.current.map(p => (p?.conn ? {...p, conn: true} : {...p, conn: false}))])
+
         setGameState({ ...game.current })
         storeGame();
         updateMe();
@@ -414,6 +416,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
                 conn.on("data", (data) => {
+                    console.log(data)
                     switch (data?.intent) {
                         case "join":
                             conn.send({ intent: "redirect", payload: { to: "/rejoin/" + code } });
@@ -424,6 +427,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                             if (playerData?.conn) playerData.conn.close();
                             let newPlayers = players.current.map(p => (p.id === data?.payload?.id ? { ...p, conn } : p))
                             players.current = newPlayers;
+                            updateGameFor([])
                             if (game) conn.send({ intent: "connected", payload: { game: game.current, players: players.current.map(p => ({ ...p, conn: undefined })) } })
                             break;
                         case "player-fn":
@@ -447,7 +451,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 conn.on("close", () => {
                     const newPlayers = players.current.map(p => (p?.conn?.connectionId === conn?.connectionId ? { ...p, conn: undefined } : p))
                     players.current = newPlayers;
-
+                    updateGameFor([])
 
                 })
 
@@ -462,8 +466,8 @@ function HostGame({ me, setMe, code, setScreen }) {
             console.log(err)
         })
 
-        peer.on("disconnected", (err) => { 
-            connectionErrorPrompt(true) 
+        peer.on("disconnected", (err) => {
+            connectionErrorPrompt(true)
         })
     }
 
@@ -500,7 +504,10 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         var gameData = generateGame(players.current.length);
 
-        var cards = getCardsForPlayset(game_data);
+        var { cards, soberCard } = getCardsForPlayset(game_data);
+
+
+
 
 
         var cardsInGameInitial = [...cards];
@@ -540,7 +547,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         cardsInGame = [...new Set(cardsInGame)];
         cardsInGame = cardsInGame.sort((a, b) => parseInt(a.slice(-3)) - parseInt(b.slice(-3)))
 
-        game.current = { ...gameData, ...game_data, buriedCard, cardsInGame: cardsInGameInitial, swapRequests: [], readyForRound: 1, paused: false, timeToReveal: false, pauseGameIndex: 0 };
+        game.current = { ...gameData, ...game_data, buriedCard, cardsInGame: cardsInGameInitial, soberCard, swapRequests: [], readyForRound: 1, paused: false, timeToReveal: false, pauseGameIndex: 0 };
 
         manuallyUpdateRef();
     }
@@ -651,6 +658,11 @@ function HostGame({ me, setMe, code, setScreen }) {
             if (!initId) return
             game.current.swapRequests = game?.current?.swapRequests?.filter(r => r.initId !== initId);
             updateGameFor([initId, withId]);
+        },
+        "get-sober-card": () => {
+            if (!game?.current?.soberCard) return;
+            players.current = players.current.map(p => (p?.card === "p001" ? {...p, card: game?.current?.soberCard} : p))
+            manuallyUpdateRef();
         },
         "am-in-room": (id) => {
             isInRoom(id);
@@ -998,11 +1010,11 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     function showSendCard(card) {
         const players = getPlayers();
-        if (!players) return 
+        if (!players) return
 
 
         setMenu(
-            <SendCardMenu onCancel={() => setMenu(null)} card={card} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
+            <SendCardMenu onCancel={() => setMenu(null)} card={card} me={me} getSoberCard={() => {execute("get-sober-card", [me?.id]); setMenu(null); setMenu2(null)}} lastRound={game.rounds.length === game.round} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
         )
 
     }

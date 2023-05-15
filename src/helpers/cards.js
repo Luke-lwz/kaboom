@@ -62,6 +62,13 @@ export function getCardsForPlayset(game_data) {
 
     var { cards, odd_card, shuffle } = playset;
 
+    let playingWithDrunk = false
+
+    if (cards.filter(c => c?.id === "p001")[0]) { // drunk card gets removed (will be switched with any card later)
+        cards = cards.filter(c => c?.id !== "p001");
+        playingWithDrunk = true;
+    }
+
     const playerLength = players.length;
 
 
@@ -178,9 +185,18 @@ export function getCardsForPlayset(game_data) {
     if (buriedCard) out_cards.push(buriedCard);
 
 
+    let soberCard = undefined;
+
+    if (playingWithDrunk) {
+        var i = rng(0, out_cards?.length - 1);
+        soberCard = out_cards[i];
+        out_cards[i] = getCardFromId("p001");
+        console.log(i, out_cards[i])
+    }
 
 
-    return out_cards.map(c => c.id);
+
+    return {cards: out_cards.map(c => c.id), soberCard: soberCard?.id};
 
 
 

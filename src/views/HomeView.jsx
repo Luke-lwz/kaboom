@@ -6,7 +6,7 @@ import { Peer } from "peerjs";
 import { constructPeerID } from "../helpers/peerid";
 
 
-import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
+// import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
 
 
 
@@ -23,7 +23,7 @@ import BannerBoxWithImage, { NeutralBlankBannerBox } from "../components/BannerB
 //icons
 import { BsBook } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
-import {HiOutlineExternalLink} from "react-icons/hi"
+import { HiOutlineExternalLink } from "react-icons/hi"
 
 
 // avatar 
@@ -67,9 +67,26 @@ function HomeView({ }) {
     useEffect(() => {
 
 
-        // safari
+        // // safari
 
-        if ((isIOS || isIOS13 || isMacOs) && (!(isSafari && isMobileSafari))) setDisplayUseSafari(true);
+        // const isSafariLocal = JSON.parse(localStorage.getItem("issafari"));
+
+        // console.log(isSafariLocal)
+        // if (isSafariLocal) {
+        //     setDisplayUseSafari(true);
+        // } else if (isSafariLocal === false) {
+
+        // } else {
+        //     if ((isIOS || isIOS13 || isMacOs) && (!(isSafari && isMobileSafari))) {
+        //         setDisplayUseSafari(true);
+        //         localStorage.setItem("issafari", "true")
+        //     } else {
+        //         localStorage.setItem("issafari", "false")
+
+        //     }
+        // }
+
+
 
 
 
@@ -303,7 +320,7 @@ function HomeView({ }) {
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll pb-24">
 
             {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/80 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-2xl grid grid-cols-8  px-2">
-                    <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
+                <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
             </a>}
 
             {devMode && <DevModeBanner />}

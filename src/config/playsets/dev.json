@@ -33,6 +33,22 @@
         "no_bury": false
     },
     {
+        "name": "Test Drunk",
+        "id": "dev0003",
+        "players": "5-6",
+        "emoji": "🛠️",
+        "cards": [
+            "b001",
+            "r001",
+            "b004",
+            "r004",
+            "p001"
+        ],
+        "odd_card": "g008",
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
         "name": "Every single card",
         "id": "dev1000",
         "players": "1-100",
