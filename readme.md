@@ -17,7 +17,7 @@ Click the Kaboom logo 7 times to enter development mode.
 
 # Installation  
   
-Made using ReactJS  
+Made using Preact  
   
 1. Install NodeJS + NPM + Vite  
 2. `npm i`  
