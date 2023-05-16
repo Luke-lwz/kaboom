@@ -10,7 +10,7 @@
             "g009"
         ],
         "odd_card": "g006",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": false
     },
     {
@@ -29,7 +29,27 @@
             "g017"
         ],
         "odd_card": "g027",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": false
+    },
+    {
+        "name": "I'm not green, trust me",
+        "id": "f0003",
+        "emoji": "🌳",
+        "players": "9-24",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "e003",
+            "g024",
+            "g026",
+            "g007",
+            "g006"
+        ],
+        "odd_card": "g009",
+        "shuffle": true,
+        "no_bury": true
     }
 ]

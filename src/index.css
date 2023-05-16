@@ -22,6 +22,11 @@ body {
 }
 
 
+/* div {
+  @apply border-2 border-pink-500
+} */
+
+
 .btn {
     @apply rounded-md transition-all no-animation clickable
     

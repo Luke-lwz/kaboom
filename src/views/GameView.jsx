@@ -773,7 +773,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         setMenu2(
             <PauseTimer paused={gameState.paused} onPause={gameState.paused ? handleTimerResume : handleTimerPause} onEndRound={() => {
                 setPrompt({ title: "End round?", text: "This action is irreversible.", onApprove: () => { endRound(); manuallyUpdateRef() } })
-            }} />
+            }} onEndGame={endGame} />
         );
     }
 
@@ -781,6 +781,19 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     function execute(action, args = []) {
         if (PlayerFn[action]) PlayerFn[action](...args);
+    }
+
+
+    function endGame() {
+        setPrompt({title: "End game?", text: "This will reveal everyone's card.", onApprove: () => endIt()});
+
+
+        function endIt() {
+            var ts = moment().format("X")
+            game.current.rounds = game.current.rounds.map(r => ({started_at: ts, ...r, ended: true, }));
+            game.current.phase = "boom";
+            nextRound();
+        }
     }
 
     return (
@@ -870,20 +883,30 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
 
 
-    useEffect(() => {
-        getSwapRequests();
-        gameHasUpdated();
-        round.current = { ...(game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }), paused: game.paused };
-    }, [me, game])
+    
 
 
 
 
     useEffect(() => {
         if (!me?.card) return
+        console.log(me)
         var card = getCardFromId(me?.card);
         setCard(card);
+
+        console.log(card)
+        
+        round.current = { ...(game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }), paused: game.paused };
+        getSwapRequests();
+        gameHasUpdated();
     }, [me, game])
+
+
+    useEffect(() => {
+        gameHasUpdated();
+    }, [card])
+
+
 
 
 
@@ -1342,14 +1365,14 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
                     </div>
                 </div>}
 
-                <div style={{ animationDelay: "5000ms" }} className='w-full flex flex-col items-center animate__animated animate__fadeInUp'>
+                <div style={{ animationDelay: "3000ms" }} className='w-full flex flex-col items-center animate__animated animate__fadeInUp'>
 
                     {onLobby && <button onClick={onLobby} className='btn btn-wide btn-success text-title font-extrabold mt-6'>Return to lobby!</button>}
                     {onClose && <button onClick={onClose} className='underline text-normal text-sm mt-4' >Close room</button>}
 
                 </div>
 
-                {!onLobby && !onClose && <a style={{ animationDelay: "5000ms" }} href="/" className=" animate__animated animate__fadeIn underline text-normal font-normal text-sm mt-8 z-20 w-full text-center text-base-100">Leave</a>}
+                {!onLobby && !onClose && <a style={{ animationDelay: "3000ms" }} href="/" className=" animate__animated animate__fadeIn underline text-normal font-normal text-sm mt-8 z-20 w-full text-center text-base-100">Leave</a>}
 
             </div>
         </>

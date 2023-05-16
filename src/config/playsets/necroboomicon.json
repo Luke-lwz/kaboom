@@ -10,7 +10,7 @@
             "e003"
         ],
         "odd_card": "g006",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": true
     },
     {
@@ -26,7 +26,7 @@
             "d001"
         ],
         "odd_card": "g022",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": false
     },
     {
@@ -43,7 +43,7 @@
             "g001"
         ],
         "odd_card": "g006",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": false
     },
     {
@@ -60,7 +60,7 @@
             "r006"
         ],
         "odd_card": "g027",
-        "shuffle": false,
+        "shuffle": true,
         "no_bury": false
     }
 ]
