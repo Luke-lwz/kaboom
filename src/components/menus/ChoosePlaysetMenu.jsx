@@ -78,7 +78,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
                 </TabRow>
             </div>
             {TABS.map((TAB, i) => (playsets?.[TAB.playsetName] ?
-                (tab === TAB.title && <PlaysetList key={i} playerCount={playerCount} playsets={playsets[TAB.playsetName]} currentPlayset={currentPlayset} />)
+                (tab === TAB.title && <PlaysetList onClick={onClick} key={i} playerCount={playerCount} playsets={playsets[TAB.playsetName]} currentPlayset={currentPlayset} />)
                 :
                 <></>
             ))}
@@ -119,7 +119,7 @@ function sortPlaysets(playset, playerCount, shuffle = true) {
 
 
 
-function PlaysetList({ playsets, playerCount, currentPlayset }) {
+function PlaysetList({ playsets, playerCount, currentPlayset, onClick }) {
 
     const sortedPlaysets = useMemo(() => sortPlaysets(playsets.filter(p => p.id !== currentPlayset.id), playerCount, false), [playsets])
 
