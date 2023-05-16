@@ -118,7 +118,7 @@ export function CardFront({ onClick = () => {}, color, card }) {
                     <div style={{ backgroundColor: color.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
                         {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
                     </div>
-                    <div className="text-white upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
+                    <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
                         <div className="text-xs -ml-0.5 text-normal">You are the</div>
                         <div className="text-xl font-extrabold uppercase text-title -ml-0.5">{card.name}</div>
 
@@ -127,7 +127,7 @@ export function CardFront({ onClick = () => {}, color, card }) {
                     </div>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center h-1/6">
-                    <h1 className="text-white text-title h-full w-9/12 flex justify-center items-center p-2 text-2xl font-extrabold uppercase">
+                    <h1 className="text-title h-full w-9/12 flex justify-center items-center p-2 text-2xl font-extrabold uppercase">
                         {color.title}
                     </h1>
                     <div className="w-3/12 flex items-center justify-center text-2xl">
@@ -207,7 +207,7 @@ export function CardBack({ onClick = () => {}, color }) {
 export function C({ onClick = () => { }, color = { primary: "#888888", secondary: "#888888" }, children }) {
 
     return (
-        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shadow drop-shadow-xl'}>
+        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary, color: color.text || "#ffffff" }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shadow drop-shadow-xl'}>
             {children}
         </div>
     )

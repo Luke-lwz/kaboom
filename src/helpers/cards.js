@@ -3,6 +3,7 @@ import RedCards from "../config/cards/red.json";
 import GreyCards from "../config/cards/grey.json";
 import GreenCards from "../config/cards/green.json";
 import PurpleCards from "../config/cards/purple.json";
+import BlackCards from "../config/cards/black.json";
 
 
 
@@ -10,6 +11,7 @@ import PurpleCards from "../config/cards/purple.json";
 import { FaBomb, FaTheaterMasks } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { GiBrain, GiBottleCap } from "react-icons/gi";
+import { MdDarkMode } from "react-icons/md"
 import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
 
@@ -50,6 +52,13 @@ export const CARD_COLORS = {
         title: "???? Team",
         icon: GiBottleCap,
     },
+    d: { // d = dark
+        primary: "#000000",
+        secondary: "#000000",
+        text: "#000000",
+        title: "Black Team",
+        icon: MdDarkMode,
+    }
 }
 
 
@@ -58,7 +67,7 @@ export function getCardsForPlayset(game_data) {
     var { players, playsetId, playWithBury } = game_data;
 
     const playset = getPlaysetById(playsetId);
-    
+
 
     var { cards, odd_card, shuffle } = playset;
 
@@ -79,7 +88,7 @@ export function getCardsForPlayset(game_data) {
         const n = length - cards.length // how many cards
         const addodd = (n % 2 === 1) // if cards to add is odd
 
-        const rngSeed = rng(0,1);
+        const rngSeed = rng(0, 1);
 
 
         for (let i = 1; i <= n; i++) {
@@ -96,12 +105,12 @@ export function getCardsForPlayset(game_data) {
     }
 
 
-    
+
 
     if (shuffle) { // shuffles in pairs
         var shuffled_cards = [...cards.sort((a, b) => 0.5 - Math.random())];
 
-        
+
         shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0; });
         shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0; });
 
@@ -196,7 +205,7 @@ export function getCardsForPlayset(game_data) {
 
 
 
-    return {cards: out_cards.map(c => c.id), soberCard: soberCard?.id};
+    return { cards: out_cards.map(c => c.id), soberCard: soberCard?.id };
 
 
 
@@ -216,8 +225,8 @@ export function getCardsForPlayset(game_data) {
             return true
         })
 
-        
-        
+
+
         const rn = rng(0, nonLinkedCards.length - 1);
 
         return nonLinkedCards[rn];
@@ -232,10 +241,11 @@ export function getCardFromId(id) {
     let card = null;
 
     card = BlueCards.filter(c => c.id == id)[0] || null;
-    card = RedCards.filter(c => c.id == id)[0] || card;
-    card = GreyCards.filter(c => c.id == id)[0] || card;
-    card = GreenCards.filter(c => c.id == id)[0] || card;
-    card = PurpleCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = RedCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = GreyCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = GreenCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = PurpleCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = BlackCards.filter(c => c.id == id)[0] || card;
 
 
     if (card) card = { ...card, color: getCardColorFromId(card.id) };
@@ -256,7 +266,7 @@ export function getCardColorFromId(id) {
 
 
 export function getAllCards() {
-    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards];
+    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...BlackCards];
     all = all.map(c => ({ ...c, color: getCardColorFromId(c.id) }))
     return all;
 }

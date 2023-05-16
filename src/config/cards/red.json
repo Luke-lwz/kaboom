@@ -262,5 +262,13 @@
         "links": [],
         "src": "/red/crown.png",
         "info": "You have the USURPER power: during any round but the last, you may publicly reveal your card and become the leader. However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. You cannot be usurped during the same round in which you used your USURPER power, not even by another Usurper. If 2 Usurpers use their power in the same room during the same round, whichever Usurper used their power first remains the leader, the other Usurper wasted their power."
+    },
+    {
+        "name": "TENTACLESE",
+        "id": "r033",
+        "description": "PULL AN EXTRA PLAYER INTO YOUR ROOM",
+        "links": [],
+        "src": "/red/tentacle.png",
+        "info": "You have the TENTACLE power: if you are in a room that has fewer players than the other room, you may leave your current room.\r\n\r\nYou never count as a member of the opposing room while using the TENTACLE power. Upon entering the opposing room, you must IMMEDIATELY grab any player of your choosing. Both you and that grabbed player return to the room from which you just left.\r\n\r\nIn the case where the chosen player is a character who is unaffected by powers (example: the Immunologist), Tentaclese's power has been wasted and you must IMMEDIATELY grab a different player.\r\n\r\nIf Tentaclese uses the TENTACLE power on a room's leader, the leader should immediately place the leader card on the ground. At this point, a new leader is nominated in the same method as the first round.\r\n\r\nYou may use the TENTACLE power during anytime EXCEPT FOR THE LAST ROUND. This can be done limitlessly."
     }
 ]

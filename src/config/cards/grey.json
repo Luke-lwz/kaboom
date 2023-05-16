@@ -244,5 +244,13 @@
         "links": ["g016"],
         "src": "/grey/ring.png",
         "info": "You win if you are in the same room as the President at the end of the game and the Mistress is not."
+    },
+    {
+        "name": "NECRONOMICON",
+        "id": "g030",
+        "description": "If all other players in your room lose, you all win.",
+        "links": [],
+        "src": "/grey/squidthing.png",
+        "info": "Your whole room wins if no one in it survived at the end of the game."
     }
 ]

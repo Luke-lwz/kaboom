@@ -14,5 +14,13 @@
         "links": [],
         "src": "/green/brain.png",
         "info": "You begin with the \"zombie\" condition. The \"zombie\" condition provides a replacement win condition. Players with the \"zombie\" condition win if Team Zombie wins. Team Zombie wins if all players without the \"dead\" condition at the end of the game are on Team Zombie. Any player that card shares or color shares with a player that has the \"zombie\" condition gains the \"zombie\" condition.\r\n\r\nNote: \"zombie\" players without a Zombie character card must indicate to players with whom they card share or color share that they now also have the \"zombie\" condition. Typically this is done by saying something like, \"I'm a Zombie, and now so are you.\"\r\n\r\nWorks well with the Privacy Promise rule variant."
+    },
+    {
+        "name": "YOG-SOTHOTH",
+        "id": "e003", 
+        "description": "ANY SHARE >> EVERYBODY LOSES BUT YOU",
+        "links": [],
+        "src": "/green/tentacle.png",
+        "info": "You win if any player color or card shares with you.\r\n\r\nIf you win, all otherplayers lose."
     }
 ]
