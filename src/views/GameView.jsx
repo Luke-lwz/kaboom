@@ -785,6 +785,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     function endGame() {
+        setMenu2(null)
         setPrompt({title: "End game?", text: "This will reveal everyone's card.", onApprove: () => endIt()});
 
 
