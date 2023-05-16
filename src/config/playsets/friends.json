@@ -51,5 +51,57 @@
         "odd_card": "g009",
         "shuffle": true,
         "no_bury": true
+    },
+    { 
+        "name": "The cover up 2.0",
+        "id": "f0004",
+        "players": "14-31",
+        "emoji": "🧱",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b034",
+            "r034",
+            "b016",
+            "r016",
+            "b011",
+            "r011",
+            "b019",
+            "r019",
+            "b030",
+            "r030",
+            "b032",
+            "r032",
+            "b006",
+            "r006",
+            "b020",
+            "r020"
+            
+        ],
+        "odd_card": "g027",
+        "shuffle": true,
+        "no_bury": false
+    },
+    { 
+        "name": "Shared mayhem",
+        "id": "f0005",
+        "players": "11-25",
+        "emoji": "🧨",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b034",
+            "r034",
+            "b016",
+            "r016"
+            
+        ],
+        "odd_card": "",
+        "shuffle": true,
+        "no_bury": false
     }
 ]

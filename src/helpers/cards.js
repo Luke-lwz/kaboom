@@ -82,7 +82,6 @@ export function getCardsForPlayset(game_data) {
 
 
     var length = (playWithBury ? playerLength + 1 : playerLength);
-    if (length > 30) length = 30;
 
     if (cards.length < length) {
         const n = length - cards.length // how many cards
