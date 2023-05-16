@@ -1,6 +1,7 @@
 import tutorial from "../config/playsets/tutorial.json"
 import official from "../config/playsets/official.json"
 import friends from "../config/playsets/friends.json"
+import necroboomicon from "../config/playsets/necroboomicon.json"
 import dev from "../config/playsets/dev.json"
 
 
@@ -14,10 +15,11 @@ import { getCardFromId } from "./cards.js"
 export const PLAYSET_COLORS = {
     tutorial: "#c342ff",
     official: "#427bff",
-    friends: "#27c210",
+    friends: "#0da312",
+    necroboomicon: "#9cde47",
     dev: "#FBBD23"
 }
-const PLAYSETS = { tutorial, official, friends, dev };
+const PLAYSETS = { tutorial, official, friends, necroboomicon, dev };
 
 export function getPlaysetsWithCards() {
     var outPlaysets = {};

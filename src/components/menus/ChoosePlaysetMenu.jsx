@@ -18,6 +18,10 @@ const TABS = [
         playsetName: "official"
     },
     {
+        title: "Necroboomicon",
+        playsetName: "necroboomicon"
+    },
+    {
         title: "Friends",
         playsetName: "friends"
     }

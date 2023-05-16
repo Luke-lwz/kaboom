@@ -1,0 +1,66 @@
+[
+    {
+        "name": "My first Necroboomicon game",
+        "id": "n0001",
+        "emoji": "🪴",
+        "players": "6-18",
+        "cards": [
+            "b001",
+            "r001",
+            "e003"
+        ],
+        "odd_card": "g006",
+        "shuffle": false,
+        "no_bury": true
+    },
+    {
+        "name": "DARE TO COLOR SHARE",
+        "id": "n0002",
+        "emoji": "🕳️",
+        "players": "6-20",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "d001"
+        ],
+        "odd_card": "g022",
+        "shuffle": false,
+        "no_bury": false
+    },
+    {
+        "name": "FEAR",
+        "id": "n0003",
+        "emoji": "☠️",
+        "players": "10-24",
+        "cards": [
+            "b001",
+            "r001",
+            "e003",
+            "d001",
+            "g030",
+            "g001"
+        ],
+        "odd_card": "g006",
+        "shuffle": false,
+        "no_bury": false
+    },
+    {
+        "name": "H.P. PING PONG",
+        "id": "n0004",
+        "emoji": "🏓",
+        "players": "7-21",
+        "cards": [
+            "b001",
+            "r001",
+            "b033",
+            "r033",
+            "b006",
+            "r006"
+        ],
+        "odd_card": "g027",
+        "shuffle": false,
+        "no_bury": false
+    }
+]
