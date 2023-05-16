@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useMemo } from 'react';
 
 
 import { getAllPlaysetsArray, getPlaysetsWithCards } from '../../helpers/playsets';
@@ -29,7 +29,7 @@ const TABS = [
 
 function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount }) {
 
-    const {devMode} = useContext(PageContext)
+    const { devMode } = useContext(PageContext)
 
     let playsets = getPlaysetsWithCards();
     let allPlaysets = getAllPlaysetsArray();
@@ -41,7 +41,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
     useState(() => {
         // shuffle forYou
-        let fy = sortPlaysets(allPlaysets)// pushes certain elements to front
+        let fy = sortPlaysets(allPlaysets, playerCount)// pushes certain elements to front
         fy = fy.filter(p => !p?.id?.startsWith("dev"));
 
         setForYou(fy);
@@ -51,16 +51,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
 
-    function sortPlaysets(playset) {
-        let pl = playset.sort((a, b) => 0.5 - Math.random());
-        pl = pl.sort((x, y) => {
-            var [xmin, xmax] = x.players.split("-");
-            var [ymin, ymax] = y.players.split("-");
-            return playerCount >= xmin && playerCount <= xmax ? -1 : playerCount >= ymin && playerCount <= ymax ? 1 : xmin - ymin;
-        }); // pushes certain elements to front
 
-        return pl;
-    }
 
 
 
@@ -87,9 +78,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
                 </TabRow>
             </div>
             {TABS.map((TAB, i) => (playsets?.[TAB.playsetName] ?
-                (tab === TAB.title && <TabPage key={i} className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
-                    {sortPlaysets(playsets[TAB.playsetName].filter(p => p.id !== currentPlayset.id)).map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
-                </TabPage>)
+                (tab === TAB.title && <PlaysetList key={i} playerCount={playerCount} playsets={playsets[TAB.playsetName]} currentPlayset={currentPlayset} />)
                 :
                 <></>
             ))}
@@ -101,7 +90,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
             }
 
             {tab === "Development" && <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
-                {sortPlaysets(playsets["dev"].filter(p => p.id !== currentPlayset.id)).map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
+                {playsets["dev"].filter(p => p.id !== currentPlayset.id).map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
             </TabPage>}
 
 
@@ -114,6 +103,31 @@ export function calculatePlaysetDisabled(playset, playerCount) {
     const [min, max] = playset.players.split("-");
     return (playerCount < parseInt(min) || playerCount > parseInt(max))
 
+}
+
+
+function sortPlaysets(playset, playerCount, shuffle = true) {
+    let pl = (shuffle ? playset.sort((a, b) => 0.5 - Math.random()) : playset);
+    pl = pl.sort((x, y) => {
+        var [xmin, xmax] = x.players.split("-");
+        var [ymin, ymax] = y.players.split("-");
+        return playerCount >= xmin && playerCount <= xmax ? -1 : playerCount >= ymin && playerCount <= ymax ? 1 : xmin - ymin;
+    }); // pushes certain elements to front
+
+    return pl;
+}
+
+
+
+function PlaysetList({ playsets, playerCount, currentPlayset }) {
+
+    const sortedPlaysets = useMemo(() => sortPlaysets(playsets.filter(p => p.id !== currentPlayset.id), playerCount, false), [playsets])
+
+    return (
+        <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
+            {sortedPlaysets.map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
+        </TabPage>
+    )
 }
 
 
