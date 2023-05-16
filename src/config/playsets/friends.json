@@ -83,9 +83,9 @@
         "no_bury": false
     },
     { 
-        "name": "Shared mayhem",
+        "name": "Sharing is caring",
         "id": "f0005",
-        "players": "11-25",
+        "players": "8-26",
         "emoji": "🧨",
         "cards": [
             "b001",
@@ -99,6 +99,36 @@
             
         ],
         "odd_card": "",
+        "shuffle": true,
+        "no_bury": false
+    },
+    { 
+        "name": "Exchange Mayhem",
+        "id": "f0006",
+        "players": "14-31",
+        "emoji": "🔀",
+        "cards": [
+            "b001",
+            "r001",
+            "b034",
+            "r034",
+            "b011",
+            "r011",
+            "b019",
+            "r019",
+            "b030",
+            "r030",
+            "b006",
+            "r006",
+            "b028",
+            "r028",
+            "b003",
+            "r003",
+            "b033",
+            "r033"
+            
+        ],
+        "odd_card": "g027",
         "shuffle": true,
         "no_bury": false
     }
