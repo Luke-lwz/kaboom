@@ -30,10 +30,10 @@
         "no_bury": false
     },
     {
-        "name": "FEAR",
+        "name": "PARANOIA",
         "id": "n0003",
-        "emoji": "☠️",
-        "players": "9-21",
+        "emoji": "👁️‍🗨️",
+        "players": "8-21",
         "cards": [
             "b001",
             "r001",

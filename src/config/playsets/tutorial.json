@@ -144,5 +144,29 @@
         ],
         "odd_card": "",
         "shuffle": true
+    },
+    { 
+        "name": "Trust?",
+        "id": "t0007",
+        "players": "12-27",
+        "emoji": "❤️‍🔥",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b030",
+            "r030",
+            "b004",
+            "r004",
+            "g029",
+            "g016",
+            "g023",
+            "g011"
+            
+        ],
+        "odd_card": "g008",
+        "shuffle": true,
+        "no_bury": true
     }
 ]

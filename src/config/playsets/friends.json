@@ -85,7 +85,7 @@
     { 
         "name": "Sharing is caring",
         "id": "f0005",
-        "players": "8-26",
+        "players": "8-23",
         "emoji": "🧨",
         "cards": [
             "b001",
@@ -98,12 +98,12 @@
             "r016"
             
         ],
-        "odd_card": "",
+        "odd_card": "g009",
         "shuffle": true,
         "no_bury": false
     },
     { 
-        "name": "Exchange Mayhem",
+        "name": "Hostage Mayhem",
         "id": "f0006",
         "players": "14-31",
         "emoji": "🔀",
@@ -131,5 +131,24 @@
         "odd_card": "g027",
         "shuffle": true,
         "no_bury": false
+    },
+    { 
+        "name": "I'm on your team.",
+        "id": "f0007",
+        "players": "7-22",
+        "emoji": "😜",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b030",
+            "r030",
+            "e003"
+            
+        ],
+        "odd_card": "g009",
+        "shuffle": true,
+        "no_bury": true
     }
 ]

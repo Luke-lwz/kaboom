@@ -63,6 +63,20 @@
         "no_bury": true
     },
     {
+        "name": "My first game + grey",
+        "id": "dev0005",
+        "players": "6-17",
+        "emoji": "🛠️",
+        "cards": [
+            "b001",
+            "r001",
+            "g006"
+        ],
+        "odd_card": "g008",
+        "shuffle": false,
+        "no_bury": true
+    },
+    {
         "name": "Every single card",
         "id": "dev1000",
         "players": "1-100",
