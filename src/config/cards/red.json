@@ -274,7 +274,7 @@
     {
         "name": "REMOTE DETONATOR",
         "id": "r034",
-        "description": "CARD SAHRE WITH PRESIDENT >> BOOM",
+        "description": "CARD SHARE WITH PRESIDENT >> BOOM",
         "links": [],
         "src": "/red/fuse.png",
         "info": "If you card share with the President, the game will end early.\r\n\r\nEveryone in the same room as the Bomber instantly gains the \"dead\" condition.\r\n\r\nRed Team wins if the President gains the \"dead\" condition."
