@@ -274,7 +274,7 @@
     {
         "name": "IGNITER",
         "id": "b034",
-        "description": "CARD SAHRE WITH BOMBER >> BOOM",
+        "description": "CARD SHARE WITH BOMBER >> BOOM",
         "links": [],
         "src": "/blue/lighter.png",
         "info": "If you card share with the Bomber, the game will end early.\r\n\r\nEveryone in the same room as the Bomber instantly gains the \"dead\" condition.\r\n\r\nBlue Team wins if the President survives."
