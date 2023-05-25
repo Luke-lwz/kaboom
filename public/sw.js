@@ -18,7 +18,8 @@ function colorNotif(card) {
         tag: "KaboomCard",
         body: "Click to reveal card.",
         data: card,
-        icon: card?.circleIcon
+        icon: card?.circleIcon,
+        actions: [{action: "", title: card?.name}]
     })
 
 
