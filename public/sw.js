@@ -34,6 +34,7 @@ function revealNotif(card) {
         body: `${card?.description || ""}. (click to hide)`,
         tag: "KaboomCard",
         data: card,
-        icon: card?.cardIcon
+        icon: card?.cardIcon,
+        actions: [{action: "", title: "Hide"}]
     })
 }
