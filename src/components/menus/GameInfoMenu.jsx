@@ -54,7 +54,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
     function pushNotif() {
 
-        navigator.serviceWorker.register('/sw.js');
+        navigator.serviceWorker.register('../sw.js');
         const card = getCardFromId(me?.card);
 
         const circleIcon = coloredCircleForNotif(card?.color?.primary);
