@@ -53,6 +53,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     function pushNotif() {
+
+        navigator.serviceWorker.register('/sw.js');
         const card = getCardFromId(me?.card);
 
         const circleIcon = coloredCircleForNotif(card?.color?.primary);
@@ -61,52 +63,43 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
         coloredCardForNotif(card?.color?.primary, card?.src, cardIcon => {
 
 
-            colorNotif();
-            function colorNotif() {
-                if (Notification && card) {
-                    Notification.requestPermission().then(perm => {
-                        if (perm === "granted") {
-                            let notif = new Notification(card?.color?.title || "error", {
+            if (Notification && card) {
+                Notification.requestPermission().then(perm => {
+                    if (perm === "granted") {
+                        navigator.serviceWorker.ready.then(function (registration) {
+
+
+
+
+
+
+                            registration.showNotification(card?.color?.title || "error", {
                                 tag: "KaboomCard",
                                 body: "Click to reveal card.",
+                                data: { ...card, color: { ...card?.color, icon: undefined }, info: undefined, cardIcon, circleIcon },
                                 icon: circleIcon
                             })
 
-
-                            notif.addEventListener("click", () => {
-                                revealNotif();
-                                notif.close();
-                            })
-                        }
-                    })
+                            registration.getNotifications({ tag: "KaboomCard" }).then((notifications) => {
+                                console.log(notifications)
+                            });
 
 
 
-                }
+                        })
+
+
+
+
+
+
+
+
+                    }
+                })
             }
-
-
-            function revealNotif() {
-                if (Notification && card) {
-                    Notification.requestPermission().then(perm => {
-                        if (perm === "granted") {
-                            let notif = new Notification(card?.name ? `${card.name}` : "error", {
-                                body: `${card?.description || ""}. (click to hide)`,
-                                tag: "KaboomCard",
-                                icon: cardIcon
-                            })
-                            notif.addEventListener("click", () => {
-                                colorNotif();
-                                notif.close();
-                            })
-                        }
-                    })
-
-
-                }
-            }
-
         })
+
 
 
 
