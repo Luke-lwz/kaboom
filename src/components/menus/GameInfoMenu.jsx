@@ -167,9 +167,10 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             this.lineTo(x + rounded, y);
         }
 
+
         let ctx = canvas.getContext('2d');
         ctx.beginPath();
-        ctx.roundedRectangle(0, 0, 140, 200, 10);
+        ctx.roundedRectangle(30, 0, 140, 200, 10);
         ctx.fillStyle = color || "red";
         ctx.fill();
 
@@ -179,10 +180,13 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             var img = new Image;
             img.src = new URL("/cards" + src, import.meta.url).href
             img.onload = function () {
-                ctx.drawImage(img, 0, 0, 140, 200); // Or at whatever offset you like
+                ctx.drawImage(img, 30, 0, 140, 200); // Or at whatever offset you like
+                
                 callback(canvas.toDataURL('image/png'));
             };
         } else {
+            
+
             callback(canvas.toDataURL('image/png'));
 
         }
