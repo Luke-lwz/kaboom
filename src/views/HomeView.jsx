@@ -406,7 +406,7 @@ function HomeView({ }) {
 
             <ContributeLinks />
 
-            <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a></div></div>
+            <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a><br/><a href="/privacy" target="_blank" className="underline">Privacy</a></div></div>
         </div>
     );
 }

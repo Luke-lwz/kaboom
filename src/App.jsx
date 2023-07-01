@@ -21,13 +21,14 @@ import {
 import GameView from './views/GameView'
 import HomeView from './views/HomeView';
 import LobbyView from './views/LobbyView';
+import CardsView from './views/CardsView';
+import RejoinView from './views/RejoinView';
+import Privacy from './views/Privacy';
 
 // Components
 import Prompt from './components/Prompt';
 import Menu from './components/Menu';
 import Menu2 from './components/Menu2';
-import CardsView from './views/CardsView';
-import RejoinView from './views/RejoinView';
 
 
 
@@ -159,6 +160,9 @@ function App() {
 
           <Route path="/cards" element={<CardsView />} />
           <Route path="/cards/:id" element={<CardsView />} />
+
+          <Route path="/privacy" element={<Privacy />} />
+
 
 
 
