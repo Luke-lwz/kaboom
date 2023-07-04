@@ -377,9 +377,9 @@ function HomeView({ }) {
                 <Box>
                     <h1 className="text-2xl">Join Room</h1>
                     <input autoComplete="off" id="room-input" type="text" max={4} maxLength={4} className="input skew-reverse text-center font-extrabold text-xl text-normal tracking-widest text-black w-fit px-0 bg-accent-content" placeholder="&#x2022; &#x2022; &#x2022; &#x2022;" onChange={(e) => (e?.target?.value?.length <= 4 ? e.target.value = e.target.value.toUpperCase() : e.target.value = e.target.value.substring(0, 4))} />
-                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " loading btn-disabled text-primary-content btn-wide opacity-75 " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
+                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
                     <div className="mx-12 max-w-sm my-2.5 py-[0.05rem] bg-neutral-content w-full rounded-full"></div>
-                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary btn-disabled text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE ROOM</button>
+                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE ROOM</button>
 
                 </Box>
             </div>
