@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+:root {
+  color-scheme: only light;
+}
+
 html {
   @apply transition-all
 }
