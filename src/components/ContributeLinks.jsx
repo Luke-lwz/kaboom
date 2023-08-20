@@ -12,7 +12,7 @@ function ContributeLinks(props) {
             <Link className="bg-[#fd0] border-4 border-[#fd0] pl-2.5 " src="/buymeacoffeebanner.png" href="https://www.buymeacoffee.com/lukas.fish">
 
             </Link>
-            <Link className="bg-[#1a2532] border-4 border-[#1a2532] text-white font-bold text-xl gap-4 " src="/spercoolpictureofme.png" href="https://lukas.fish">
+            <Link className="bg-[#1a2532] border-4 border-[#1a2532] text-white font-bold text-xl gap-4 " src="/spercoolpictureofme.png" href="https://bento.me/lukasimurr">
                 Other projects
             </Link>
 
