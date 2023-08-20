@@ -6,7 +6,7 @@ import './index.css'
 
 render(
   <BrowserRouter>
-    <Analytics mode={'production'} />;
+    <Analytics mode={'production'} />
     <App />
   </BrowserRouter>,
   document.getElementById('root')
