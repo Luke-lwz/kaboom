@@ -568,7 +568,7 @@ function LobbyFooter() {
                     SIGNALING LEADERSHIP:
                 </h1>
                 <div className='bg-base-200 text-info-content p-3 rounded-lg bold-child-error'>
-                    You might have noticed: <br /><b>Leader cards are missing!</b><br />Any appointed leader should now <b>carry an object</b> of your choice (like a hat or cooking spoon) <b>to signal their leadership.</b><br />Any instructions the leader cards usually display, will be shown on your screen.
+                    You might have noticed: <br /><b>Leader cards are missing!</b><br />Any appointed leader should now <b>carry an object</b> of your choice (like a hat or cooking spoon) <b>to signal their leadership.</b><br />Any instruction the leader cards usually display, will be shown on your screen.
                 </div>
             </div>
         </>
