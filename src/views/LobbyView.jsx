@@ -460,7 +460,7 @@ function HostLobby({ me, code }) {
 
         function startIt() { 
             setPrompt(null);
-            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x") }));
+            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
             redirectAllClients("/game/" + code)
 

@@ -389,7 +389,7 @@ function HomeView({ }) {
 
 
 
-            <BannerBoxWithImage href="/cards" src="cards_image.png">
+            <BannerBoxWithImage noTarget href="/cards" src="cards_image.png">
                 <h1 className='font-extrabold text-lg'>Check out the cards!</h1>
             </BannerBoxWithImage>
 

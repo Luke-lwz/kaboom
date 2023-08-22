@@ -8,12 +8,14 @@ import { motion } from "framer-motion";
 import { PageContext } from "./PageContextProvider";
 import CardInfoMenu from "./menus/CardInfoMenu";
 
+import { BiError } from "react-icons/bi"
 
 
 
-function Card({ card, hide, setHide, sendCard }) {
 
-    
+function Card({ card, hide, setHide, sendCard, allowColorReveal }) {
+
+
     const [cardInfo, setCardInfo] = useState(card || null);
     const [derender, setDerender] = useState(false);
 
@@ -91,7 +93,7 @@ function Card({ card, hide, setHide, sendCard }) {
                         <CardFront card={cardInfo} color={cardInfo.color} onClick={() => setHide(true)} />
                     </div>
                     <div className="flip-card-back rounded-xl overflow-hidden">
-                        <CardBack color={cardInfo.color} onClick={() => setHide(false)} />
+                        <CardBack allowColorReveal={allowColorReveal} color={cardInfo.color} onClick={() => setHide(false)} />
                     </div>
 
                 </div>
@@ -107,12 +109,12 @@ function Card({ card, hide, setHide, sendCard }) {
 }
 
 
-export function CardFront({ onClick = () => {}, color, card }) {
+export function CardFront({ onClick = () => { }, color, card }) {
 
 
 
     return (
-        <C onClick={onClick} color={color} > 
+        <C onClick={onClick} color={color} >
             <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
                 <div className="flex flex-row justify-start items-center w-full h-5/6">
                     <div style={{ backgroundColor: color.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
@@ -139,7 +141,7 @@ export function CardFront({ onClick = () => {}, color, card }) {
     )
 }
 
-export function CardBack({ onClick = () => {}, color }) {
+export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
 
     const [drag, setDrag] = useState(0);
     const [colorReveal, setColorReveal] = useState(false);
@@ -148,7 +150,7 @@ export function CardBack({ onClick = () => {}, color }) {
 
 
     useEffect(() => {
-        if (drag >= 180 && !colorReveal) {
+        if (drag >= 180 && !colorReveal && allowColorReveal) {
             setColorReveal(true);
             navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
             if (navigator.vibrate) {
@@ -165,10 +167,21 @@ export function CardBack({ onClick = () => {}, color }) {
         <C onClick={onClick}>
             <div style={{ backgroundColor: (colorReveal ? color.secondary : `#000000`) }} className=" absolute inset-0 rounded-xl overflow-hidden">
                 <div style={{ transform: `translateY(${drag / 5.5}px)`, color: "#ffffff" }} className="text-title w-full text-center text-md overflow-hidden">
-                    <h1 style={{ transform: `scale(${(colorReveal ? "135%" : "100%")})`, transitionProperty: "transform", transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)", transitionDuration: "150ms" }} className="">{colorReveal ? <div className="flex justify-center items-center gap-3 p-1.5">
-                        <color.icon color={color?.primary || ""} size={22} />
-                        <h1>{color.title}</h1>
-                    </div> : "COLOR REVEAL"}</h1>
+                    <h1 style={{ transform: `scale(${(colorReveal ? "135%" : "100%")})`, transitionProperty: "transform", transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)", transitionDuration: "150ms" }} className="">
+                        {colorReveal ?
+                            <div className="flex justify-center items-center gap-3 p-1.5">
+                                <color.icon color={color?.primary || ""} size={22} />
+                                <h1>{color.title}</h1>
+                            </div> :
+                            allowColorReveal ?
+                                "COLOR REVEAL"
+                                :
+                                <div className="flex justify-center items-center gap-3 p-1.5 text-error">
+                                    <BiError size={22} />
+                                    <h1 className="text-white">DISABLED</h1>
+                                </div>
+                        }
+                    </h1>
                 </div>
             </div>
             <motion.div

@@ -18,6 +18,9 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
     const [cardsInGame, setCardsInGame] = useState([]);
 
 
+    const [playWithColorReveal, setPlayWithColorReveal] = useState(game?.color_reveal)
+
+
 
 
 
@@ -78,7 +81,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                                 body: "Click to reveal card.",
                                 data: { ...card, color: { ...card?.color, icon: undefined }, info: undefined, cardIcon, circleIcon },
                                 icon: circleIcon,
-                                actions: [{action: "", title: card?.name}]
+                                actions: [{ action: "", title: card?.name }]
                             })
 
                             registration.getNotifications({ tag: "KaboomCard" }).then((notifications) => {
@@ -182,11 +185,11 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             img.src = new URL("/cards" + src, import.meta.url).href
             img.onload = function () {
                 ctx.drawImage(img, 30, 0, 140, 200); // Or at whatever offset you like
-                
+
                 callback(canvas.toDataURL('image/png'));
             };
         } else {
-            
+
 
             callback(canvas.toDataURL('image/png'));
 
@@ -196,6 +199,13 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
     }
 
+
+
+    function changeColorReveal() {
+        if (!isHost) return
+        setPlayWithColorReveal(!playWithColorReveal);
+        execute("change-color-reveal")
+    }
 
 
 
@@ -230,9 +240,12 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
                 <div className=' flex mt-2 flex-col justify-start items-start w-full shrink bg-base-100'>
                     <h1 className='text-xl px-4 font-extrabold text-neutral uppercase'>OPTIONS</h1>
-                    <div className='bg-neutral/30 p-4 w-full flex items-center gap-4 overflow-x-scroll scrollbar-hide'>
+                    <div className=' p-4 w-full flex items-center gap-4 overflow-x-scroll scrollbar-hide'>
                         <button className='btn btn-neutral noskew' onClick={() => { pushNotif() }}><span className='skew pr-2 text-xl'><TbNotification /></span> card notification</button>
 
+                        {isHost && <>
+                            <ToggleButton recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveal</ToggleButton>
+                        </>}
 
                     </div>
                 </div>
@@ -261,6 +274,20 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
         </div>
     );
+}
+
+
+
+function ToggleButton({ checked, onChange, children, recommended }) {
+    return (
+        <div onClick={onChange} className='whitespace-nowrap w-fit btn-base-100 border-2 border-neutral uppercase cursor-pointer flex items-center h-12 px-4 text-sm font-semibold rounded-md gap-4'>
+            <div className='flex flex-col justify-center'>
+                <h4>{children}</h4>
+                <p className={'text-xs text-error transition-all ' + (recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ")}>Recommended: {recommended ? "on" : "off"}</p>
+            </div>
+            <input type="checkbox" className="toggle toggle-primary" checked={checked} />
+        </div>
+    )
 }
 
 export default GameInfoMenu;

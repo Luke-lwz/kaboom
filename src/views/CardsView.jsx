@@ -38,7 +38,7 @@ function CardsView({ }) {
         const card = getCardFromId(id);
         if (!card) {
             toast.error("Card not found")
-            navigate("/cards")
+            navigate("/cards", { replace: true })
         }
         else setFocusedCard(card);
     }, [id])
@@ -83,7 +83,7 @@ function CardsView({ }) {
 
 
     function onMenuHide() {
-        navigate("/cards");
+        navigate("/cards", { replace: true });
     }
 
 
@@ -130,10 +130,10 @@ function CardsView({ }) {
     return (
         <div className='flex flex-col justify-start items-center w-full h-full  overflow-x-hidden'>
             {devMode && <DevModeBanner />}
-            <div className='text-title flex items-center justify-center gap-4 text-3xl mt-10 my-6 font-extrabold'>
+            <a href='/' className='text-title flex items-center justify-center gap-4 text-3xl mt-10 my-6 font-extrabold'>
                 <span className='text-primary'>KABOOM</span>
                 <span className=''>CARDS</span>
-            </div>
+            </a>
             <Search value={search} onChange={(v) => setSearch(v)} />
             <div className='flex flex-wrap items-start justify-center gap-4 p-4 w-full overflow-y-scroll scrollbar-hide h-fit pt-0 pb-24 '>
                 {visibleCards.map(card => <div key={card.id} onClick={() => navigate(`/cards/${card.id}`)} className='relative scale-[50%] overflow-hidden w-fit -mx-16 -m-24'>

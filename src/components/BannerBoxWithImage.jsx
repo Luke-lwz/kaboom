@@ -1,8 +1,8 @@
 import React from 'react';
 
-function BannerBoxWithImage({src, children, href}) {
+function BannerBoxWithImage({ src, children, href, noTarget = false }) {
     return (
-        <a href={href} target="_blank" className=' px-4 w-full flex items-center justify-center clickable'>
+        <a href={href} target={noTarget ? "" : "_blank"} className=' px-4 w-full flex items-center justify-center clickable'>
             <div className='bg-base-200 flex items-center w-full max-w-2xl p-2 gap-2 rounded-lg h-20 '>
                 <div className='overflow-hidden rounded h-fit w-16 '>
                     <img src={src} alt="" />
@@ -16,7 +16,7 @@ function BannerBoxWithImage({src, children, href}) {
 }
 
 
-export function BlankBannerBox({children, onClick = () => {}}) {
+export function BlankBannerBox({ children, onClick = () => { } }) {
     return (
         <div onClick={onClick} className=' px-4 w-full flex items-center justify-center clickable'>
             <div className='bg-base-200 flex items-center w-full max-w-2xl p-2 gap-2 rounded-lg h-20 '>
@@ -26,7 +26,7 @@ export function BlankBannerBox({children, onClick = () => {}}) {
     );
 }
 
-export function NeutralBlankBannerBox({children, onClick = () => {}}) {
+export function NeutralBlankBannerBox({ children, onClick = () => { } }) {
     return (
         <div onClick={onClick} className=' px-4 w-full flex items-center justify-center clickable'>
             <div className='bg-neutral text-neutral-content flex items-center w-full max-w-2xl p-2 gap-2 rounded-lg'>

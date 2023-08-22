@@ -291,7 +291,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
                 <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {game?.round}
+                    ROUND {game?.round} / {game?.rounds?.length}
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
@@ -353,7 +353,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     useEffect(() => {
-        setPlayerState([...players.current.map(p => (p?.conn ? {...p, conn: true} : {...p, conn: false}))])
+        setPlayerState([...players.current.map(p => (p?.conn ? { ...p, conn: true } : { ...p, conn: false }))])
         setGameState({ ...game.current })
         storeGame();
         sendToAll({ intent: "game_data", payload: { game: game.current } })
@@ -378,7 +378,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
     function updateGameFor(playerIds = []) { // saves game n stuff but only sends updates to specific ids
-        setPlayerState([...players.current.map(p => (p?.conn ? {...p, conn: true} : {...p, conn: false}))])
+        setPlayerState([...players.current.map(p => (p?.conn ? { ...p, conn: true } : { ...p, conn: false }))])
 
         setGameState({ ...game.current })
         storeGame();
@@ -661,7 +661,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         },
         "get-sober-card": () => {
             if (!game?.current?.soberCard) return;
-            players.current = players.current.map(p => (p?.card === "p001" ? {...p, card: game?.current?.soberCard} : p))
+            players.current = players.current.map(p => (p?.card === "p001" ? { ...p, card: game?.current?.soberCard } : p))
             manuallyUpdateRef();
         },
         "am-in-room": (id) => {
@@ -718,6 +718,11 @@ function HostGame({ me, setMe, code, setScreen }) {
         "force-start-game": () => {
             game.current.phase = "rounds";
             nextRound();
+        },
+        "change-color-reveal": () => {
+            game.current.color_reveal = !game.current.color_reveal;
+            manuallyUpdateRef();
+
         }
     }
 
@@ -786,12 +791,12 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     function endGame() {
         setMenu2(null)
-        setPrompt({title: "End game?", text: "This will reveal everyone's card.", onApprove: () => endIt()});
+        setPrompt({ title: "End game?", text: "This will reveal everyone's card.", onApprove: () => endIt() });
 
 
         function endIt() {
             var ts = moment().format("X")
-            game.current.rounds = game.current.rounds.map(r => ({started_at: ts, ...r, ended: true, }));
+            game.current.rounds = game.current.rounds.map(r => ({ started_at: ts, ...r, ended: true, }));
             game.current.phase = "boom";
             nextRound();
         }
@@ -822,7 +827,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 </div>
 
                 <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {updatedRef !== false && game.current?.round}
+                    ROUND {updatedRef !== false && game.current?.round} / {game.current?.rounds?.length}
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
@@ -884,7 +889,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
 
 
-    
+
 
 
 
@@ -896,7 +901,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         setCard(card);
 
         console.log(card)
-        
+
         round.current = { ...(game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }), paused: game.paused };
         getSwapRequests();
         gameHasUpdated();
@@ -991,6 +996,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     function announceRoundEnd(roundName) {
         setMenu(null);
         setMenu2(null);
+        setHideCard(true)
         setScreen(<RoundEndScreen hostages={round.current?.hostages} onReady={() => execute("ready-for-next-round", [me?.id])} onForceReady={me?.id === "HOST" ? () => { endRound(); nextRound() } : undefined} />)
     }
 
@@ -1038,7 +1044,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
 
         setMenu(
-            <SendCardMenu onCancel={() => setMenu(null)} card={card} me={me} getSoberCard={() => {execute("get-sober-card", [me?.id]); setMenu(null); setMenu2(null)}} lastRound={game.rounds.length === game.round} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
+            <SendCardMenu onCancel={() => setMenu(null)} card={card} me={me} getSoberCard={() => { execute("get-sober-card", [me?.id]); setMenu(null); setMenu2(null) }} lastRound={game.rounds.length === game.round} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
         )
 
     }
@@ -1063,7 +1069,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     return (
         <>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {card && <Card hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
+                {card && <Card allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
 
             {/* <div className='absolute inset-2 z-20 top-auto clickable flex justify-center items-center text-title bg-neutral text-neutral-content rounded-lg p-2.5 gap-2'>
