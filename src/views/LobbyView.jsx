@@ -256,7 +256,7 @@ function HostLobby({ me, code }) {
         let ok = true;
         if (players.current.length < 3) ok = false;
         if (players.current.filter(p => p.ready).length < players.current.length - 1) ok = false; // checks if everyone is ready
-        if (calculatePlaysetDisabled(playset, players.current.length)) ok = false;
+        // if (calculatePlaysetDisabled(playset, players.current.length)) ok = false;
 
         setStartCondition((devMode ? true : ok))
         
@@ -453,6 +453,12 @@ function HostLobby({ me, code }) {
                 text: "They can reconnect by joining the room after you started.",
                 onApprove: () => startIt()
             })
+        } else if (wrongPlayerNumber) {
+            setPrompt({
+                title: "Insufficient player count!",
+                text: "Your player count doesn't match the playset. This can cause errors.",
+                onApprove: () => startIt()
+            })
         } else startIt();
 
 
@@ -477,7 +483,7 @@ function HostLobby({ me, code }) {
 
 
     function promptStartGame() {
-        if (arePlayersOffline) return startGame();
+        if (arePlayersOffline || wrongPlayerNumber) return startGame();
         setPrompt({
             title: "Are you sure?",
             text: "DevMode: Check again if player count and playset match and if everyone is online",

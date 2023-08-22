@@ -76,6 +76,21 @@
         "shuffle": false,
         "no_bury": true
     },
+    { 
+        "name": "Test - Love, Hate and Mystery",
+        "id": "dev0006",
+        "players": "2-5",
+        "emoji": "🛠️",
+        "cards": [
+            "b001",
+            "r001",
+            "g019"
+        ],
+        "odd_card": "g014",
+        "shuffle": true,
+        "no_bury": false,
+        "force_bury": true
+    },
     {
         "name": "Every single card",
         "id": "dev1000",
