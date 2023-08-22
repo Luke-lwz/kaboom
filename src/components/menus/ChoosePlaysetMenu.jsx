@@ -83,7 +83,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
                 <TabRow>
                     <Tab title='For you' onClick={(d) => setTab(d)} color={"#eb387d"} selected={tab === "For you"} />
-                    {lastPlayedPlaysets && <Tab title='Last played' onClick={(d) => setTab(d)} color={lastPlayedPlaysets?.[0]?.color || "#ed5353"} selected={tab === "Last played"} />}
+                    {lastPlayedPlaysets && <Tab title='Last played' onClick={(d) => setTab(d)} color={"#eb387d"} selected={tab === "Last played"} />}
                     {TABS.map((TAB, i) =>
                         <Tab key={i} {...TAB} onClick={(d) => setTab(d)} color={playsets?.[TAB.playsetName]?.[0]?.color || TAB?.color} selected={tab === TAB.title} />
                     )}
