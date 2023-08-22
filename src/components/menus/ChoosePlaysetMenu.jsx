@@ -1,7 +1,7 @@
 import { useContext, useState, useMemo } from 'react';
 
 
-import { getAllPlaysetsArray, getPlaysetsWithCards } from '../../helpers/playsets';
+import { getAllPlaysetsArray, getPlaysetsWithCards, getPlaysetById, getLastPlayedPlaysets } from '../../helpers/playsets';
 import PlaysetDisplay from '../playsets/PlaysetDisplay';
 
 import TabPage, { TabRow, Tab } from '../tabpage/TabPage';
@@ -34,12 +34,15 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
     let playsets = getPlaysetsWithCards();
     let allPlaysets = getAllPlaysetsArray();
 
+    let lastPlayedPlaysets = useMemo(() => getLastPlayedPlaysets(), []);
+
     const [tab, setTab] = useState("For you");
 
     const [forYou, setForYou] = useState(allPlaysets);
 
 
     useState(() => {
+        console.log(lastPlayedPlaysets)
         // shuffle forYou
         let fy = sortPlaysets(allPlaysets, playerCount)// pushes certain elements to front
         fy = fy.filter(p => !p?.id?.startsWith("dev"));
@@ -50,6 +53,19 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
 
+
+    function getLastPlayedPlaysets() {
+        const playsetsString = localStorage.getItem("last-played-playsets");
+        if (playsetsString) {
+            var playsets = JSON.parse(playsetsString);
+            if (Array.isArray(playsets)) {
+                return playsets.map(p => getPlaysetById(p));
+            }
+
+        }
+
+        return null
+    }
 
 
 
@@ -67,6 +83,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
                 <TabRow>
                     <Tab title='For you' onClick={(d) => setTab(d)} color={"#eb387d"} selected={tab === "For you"} />
+                    {lastPlayedPlaysets && <Tab title='Last played' onClick={(d) => setTab(d)} color={lastPlayedPlaysets?.[0]?.color || "#ed5353"} selected={tab === "Last played"} />}
                     {TABS.map((TAB, i) =>
                         <Tab key={i} {...TAB} onClick={(d) => setTab(d)} color={playsets?.[TAB.playsetName]?.[0]?.color || TAB?.color} selected={tab === TAB.title} />
                     )}
@@ -86,6 +103,12 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
             {tab === "For you" &&
                 <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
                     {forYou.filter(p => p.id !== currentPlayset.id).map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
+                </TabPage>
+            }
+
+            {tab === "Last played" &&
+                <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
+                    {lastPlayedPlaysets.map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
                 </TabPage>
             }
 

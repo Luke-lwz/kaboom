@@ -11,7 +11,7 @@ import Peer from 'peerjs';
 // helpers
 import { constructPeerID } from '../helpers/peerid';
 import { idGenAlphabet } from '../helpers/idgen';
-import { getPlaysetById, getPlaysetsWithCards } from '../helpers/playsets';
+import { getPlaysetById, getPlaysetsWithCards, getLastPlayedPlaysets } from '../helpers/playsets';
 
 
 // icons 
@@ -219,7 +219,7 @@ function HostLobby({ me, code }) {
     const [playersUpdated, setPlayersUpdated] = useState([]);
     const [startCondition, setStartCondition] = useState(false);
 
-    const [playset, setPlayset] = useState(getPlaysetById("t0001"))
+    const [playset, setPlayset] = useState(getLastPlayedPlaysets()?.[0] || getPlaysetById("t0001"))
     const playsetRef = useRef(playset)
 
     const [playWithBury, setPlayWithBury] = useState(false);
@@ -468,6 +468,8 @@ function HostLobby({ me, code }) {
             setPrompt(null);
             localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
+            addLastPlayedPlaysets(playset.id)
+            
             redirectAllClients("/game/" + code)
 
             setTimeout(() => {
@@ -506,6 +508,27 @@ function HostLobby({ me, code }) {
         setMenu2(
             <ChoosePlaysetMenu onClick={(playset) => { setPlayset(playset); setMenu2(null) }} playerCount={players.current.length} currentPlayset={(playersUpdated ? playset : playset)} playersUpdated={playersUpdated} />
         )
+    }
+
+
+
+    function addLastPlayedPlaysets(playset_id) {
+        var array = [playset_id];
+        const playsetsString = localStorage.getItem("last-played-playsets");
+        if (playsetsString) {
+            var playsets = JSON.parse(playsetsString);
+            if (Array.isArray(playsets)) {
+                playsets = playsets.filter(p => p != playset_id); // remove duplicates
+                array = [...array, ...playsets];
+            }
+            
+        }
+
+
+        var shortenedArray = array.slice(0, 20); // shortens array to be only 20 elements long
+
+        localStorage.setItem("last-played-playsets", JSON.stringify(shortenedArray))
+
     }
 
 

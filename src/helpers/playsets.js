@@ -59,3 +59,18 @@ export function getPlaysetById(id) {
     const set = playsets.filter(p => p.id === id)?.[0] || null;
     return set;
 }
+
+
+
+export function getLastPlayedPlaysets() {
+    const playsetsString = localStorage.getItem("last-played-playsets");
+    if (playsetsString) {
+        var playsets = JSON.parse(playsetsString);
+        if (Array.isArray(playsets)) {
+            return playsets.map(p => getPlaysetById(p));
+        }
+
+    }
+
+    return null
+}
