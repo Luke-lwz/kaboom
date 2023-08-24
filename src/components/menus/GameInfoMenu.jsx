@@ -242,7 +242,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                     <h1 className='text-xl px-4 font-extrabold text-neutral uppercase'>OPTIONS</h1>
                     <div className=' p-4 w-full flex items-center gap-4 overflow-x-scroll scrollbar-hide'>
                         {isHost && <>
-                            <ToggleButton recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveal</ToggleButton>
+                            <ToggleButton recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveals</ToggleButton>
                         </>}
                         
                         <button className='btn btn-neutral noskew' onClick={() => { pushNotif() }}><span className='skew pr-2 text-xl'><TbNotification /></span> card notification</button>
