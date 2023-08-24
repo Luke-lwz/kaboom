@@ -164,6 +164,10 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
 
 
+          <Route path="/defaultsite" element={<RedirectToStart />} />
+
+
+
 
 
 
@@ -172,6 +176,17 @@ function App() {
       </PageContextProvider>
     </div>
   )
+}
+
+
+function RedirectToStart() {
+
+  useEffect(() => {
+    console.log("yeah")
+    window.location.href = "/"
+  }, [])
+
+  return (<></>)
 }
 
 export default App
