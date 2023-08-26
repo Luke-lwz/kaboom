@@ -17,6 +17,7 @@ import { getPlaysetById, getPlaysetsWithCards, getLastPlayedPlaysets } from '../
 // icons 
 import { IoPersonRemoveSharp } from "react-icons/io5"
 import { HiQrCode, HiUsers } from "react-icons/hi2"
+import { BiError } from "react-icons/bi"
 
 
 //components
@@ -259,14 +260,14 @@ function HostLobby({ me, code }) {
         // if (calculatePlaysetDisabled(playset, players.current.length)) ok = false;
 
         setStartCondition((devMode ? true : ok))
-        
+
 
 
         setWrongPlayerNumber(calculatePlaysetDisabled(playset, players.current.length));
 
 
 
-        setRecommendBury((playset?.cards.filter(c=> c?.id !== "p001")?.length % 2) === (players.current.length % 2)); // filters out drunk card
+        setRecommendBury((playset?.cards.filter(c => c?.id !== "p001")?.length % 2) === (players.current.length % 2)); // filters out drunk card
 
 
         setPlayerState(players.current)
@@ -464,12 +465,12 @@ function HostLobby({ me, code }) {
 
 
 
-        function startIt() { 
+        function startIt() {
             setPrompt(null);
             localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
             addLastPlayedPlaysets(playset.id)
-            
+
             redirectAllClients("/game/" + code)
 
             setTimeout(() => {
@@ -521,7 +522,7 @@ function HostLobby({ me, code }) {
                 playsets = playsets.filter(p => p != playset_id); // remove duplicates
                 array = [...array, ...playsets];
             }
-            
+
         }
 
 
@@ -537,6 +538,25 @@ function HostLobby({ me, code }) {
             <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} />
             {devMode && <h1 className='bg-warning/50 w-full p-2 text-center text-warning-content text-title'>DEV MODE IS ENABLED</h1>}
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
+
+
+
+                {playerState.length < 6 ?
+                    <div className="text-error text-sm font-semibold flex items-center gap-2 -my-1">
+                        <BiError />
+                        <h4>Need at least 6 players</h4>
+                    </div>
+                    : startCondition ?
+                        <></>
+                        :
+                        <div className="text-error text-sm font-semibold flex items-center gap-2 -my-1">
+                            <BiError />
+                            <h4>Everyone needs to be ready</h4>
+                        </div>
+
+                }
+
+
                 <button onClick={(devMode ? promptStartGame : startGame)} className={'w-full btn  text-title' + (startCondition ? " btn-primary  " : " btn-disabled ")} >Start game</button>
                 <button className='link font-bold clickable' onClick={() => closeRoom()}>Close room</button>
 
