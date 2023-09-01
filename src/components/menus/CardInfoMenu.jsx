@@ -24,7 +24,7 @@ function CardInfoMenu({ card, color, onCancel }) {
 
     return (
         <>
-            <div style={{ backgroundColor: color.secondary, color: color.text }} className='w-full max-w-[23rem] h-fit rounded-xl flex flex-col items-center overflow-hidden bg-base-100 transition-all p-4 gap-4'>
+            <div style={{ backgroundColor: color.secondary, color: color.text }} className='w-full max-w-[23rem] h-fit rounded-2xl flex flex-col items-center overflow-hidden bg-base-100 transition-all p-4 gap-4'>
                 <div className='h-24 flex justify-start items-center w-full relative'>
                     <div style={{ backgroundColor: color.primary }} className='w-[3.5rem] h-24 overflow-hidden flex flex-col-reverse items-center justify-start rounded-lg'>
                         {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
