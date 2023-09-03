@@ -28,7 +28,7 @@ export function BlankBannerBox({ children, onClick = () => { } }) {
 
 export function NeutralBlankBannerBox({ children, onClick = () => { } }) {
     return (
-        <div onClick={onClick} className=' px-4 w-full flex items-center justify-center clickable overflow-x-hidden'>
+        <div onClick={onClick} className=' px-4 w-full flex items-center justify-center clickable'>
             <div className='bg-neutral text-neutral-content flex items-center w-full max-w-2xl p-2 gap-2 rounded-lg'>
                 {children}
             </div>
