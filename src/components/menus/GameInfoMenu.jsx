@@ -48,7 +48,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
     function closeAllConn() {
         if (!devMode || !isHost) return
         for (let pl of players) {
-            if (pl?.conn) pl.conn.close();
+            if (pl?.conn) pl?.conn?.close();
         }
     }
 
