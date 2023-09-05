@@ -91,6 +91,27 @@
         "no_bury": false,
         "force_bury": true
     },
+    { 
+        "name": "Sharing is caring",
+        "id": "f0007",
+        "players": "9-24",
+        "emoji": "🧨",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b034",
+            "r034",
+            "b016",
+            "r016",
+            "e004"
+            
+        ],
+        "odd_card": "g013",
+        "shuffle": true,
+        "no_bury": false
+    },
     {
         "name": "Every single card",
         "id": "dev1000",
