@@ -22,5 +22,12 @@
         "links": [],
         "src": "/green/tentacle.png",
         "info": "You win if any player color or card shares with you.\r\n\r\nIf you win, all otherplayers lose."
-    }
+    },
+    {
+        "name": "BEHOLDER",
+        "id": "e004", 
+        "description": "WALK FREELY & SEE CARD >> WIN",
+        "links": [],
+        "info": "WIP"
+}
 ]
