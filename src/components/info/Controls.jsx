@@ -6,7 +6,7 @@ function Controls() {
             This can be used to card share aswell.
             <br /><span className="text-secondary font-extrabold">Color reveal:</span><br />
             To reveal your color simply <b>swipe down on your card.</b> (Card face must be closed)<br />
-            When less than 11 players: Disabled. (Can be enabled by host)
+            Disabled when less than 11 players. (Can be enabled by host)
             <br /><span className="text-secondary font-extrabold">See all cards in game:</span><br />
             Click the <b>info icon</b> in the upper right corner of your screen.<br/>
             Now you can see all cards that are distributed among your friends
