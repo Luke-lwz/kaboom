@@ -2,7 +2,6 @@
     {
         "name": "Blue Team",
         "id": "b000",
-        "primary": true,
         "description": "KEEP THE PRESIDENT AWAY FROM THE BOMBER",
         "links": [],
         "src": "/blue/wing.png",
@@ -14,6 +13,8 @@
         "name": "President",
         "id": "b001",
         "description": "Avoid the Bomber",
+        "primary": true,
+        "secondaries": ["b018"],
         "links": [],
         "src": "/blue/president.png",
         "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.\r\n\r\nGrey characters that need to know you are your natural allies.\r\n\r\n",
@@ -144,6 +145,7 @@
         "name": "DOCTOR",
         "id": "b014",
         "description": "CARD SHARE WITH THE PRESIDENT",
+        "secondaries": ["b024"],
         "links": [],
         "src": "/blue/medicine.png",
         "info": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with the Detonator, additional rules apply",
@@ -185,7 +187,7 @@
         "id": "b018",
         "description": "IF THERE IS NO PRESIDENT, BE THE PRESIDENT",
         "links": [],
-        "secondary_to": "b000",
+        "secondary_to": "b001",
         "src": "/blue/girl.png",
         "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\nYou are the heir, a huge deal if the President card is buried.\r\n\r\n",
         "tags": "",
@@ -361,6 +363,6 @@
         "info": "Card sharing with the Bomber defuses him. He now has to card share with the Engineer again or else the Red Team loses.\r\n\r\nNote: if the Engineer was buried (Rulebook p.12), the Bomber has to card share with the Tinkerer instead of the Engineer\r\n\r\nNote: If neither Engineer nor Tinkerer are part of the game, this card is considered a Blue Team card and cannot defuse the Bomber",
         "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/hiRbxwJ_slip-joint-pliers-clip-arts-slip-joint-pliers/"},
         "tags": "custom patch1 friends",
-        "color_name": "red"
+        "color_name": "blue"
     }
 ]

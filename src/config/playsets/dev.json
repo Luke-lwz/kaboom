@@ -95,7 +95,7 @@
         "name": "Sharing is caring",
         "id": "dev0007",
         "players": "9-24",
-        "emoji": "🛠",
+        "emoji": "🛠️",
         "cards": [
             "b001",
             "r001",
@@ -109,6 +109,20 @@
             
         ],
         "odd_card": "g013",
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
+        "name": "Test Bury",
+        "id": "dev0008",
+        "players": "5-6",
+        "emoji": "🛠️",
+        "cards": [
+            "b001",
+            "r001",
+            "r018"
+        ],
+        "odd_card": "",
         "shuffle": true,
         "no_bury": false
     },

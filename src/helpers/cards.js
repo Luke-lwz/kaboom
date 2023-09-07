@@ -16,6 +16,17 @@ import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
 
 
+export const CARD_COLOR_NAMES = {
+    red: "r",
+    blue: "b",
+    grey: "g",
+    green: "e",
+    purple: "p",
+    dark: "d"
+    
+}
+
+
 export const CARD_COLORS = {
     r: {
         primary: "#ec1f2b",
@@ -217,12 +228,31 @@ export function getCardsForPlayset(game_data) {
 
 
     function getBuriedCard(cards) {
+
+
+        console.log("getBuriedCards", cards)
+
+
+        
+
+
+
         const nonLinkedCards = cards.filter(c => {
             if (c.links?.length > 0) return false;
-            if (c.id === "b001" && !cards.filter(c => c.id === "b018")?.[0]) return false;
-            if (c.id === "r001" && !cards.filter(c => c.id === "r018")?.[0]) return false;
+
+            let secondary_exists = false;
+            if (c?.secondaries?.[0]) {
+                for (let i = 0; i < c?.secondaries?.length; i++) {
+                    let secondary = c?.secondaries?.[i];
+                    if (cards.filter(c => c?.id === secondary)?.[0]) secondary_exists = true;
+                }
+            } else secondary_exists = true;
+
+            if (!secondary_exists) return false
             return true
         })
+
+        console.log(nonLinkedCards)
 
 
 
@@ -247,7 +277,7 @@ export function getCardFromId(id) {
     if (!card) card = BlackCards.filter(c => c.id == id)[0] || card;
 
 
-    if (card) card = { ...card, color: getCardColorFromId(card.id) };
+    if (card) card = { ...card, color: getCardColorFromColorName(card?.color_name) };
 
     return card;
 }
@@ -260,13 +290,18 @@ export function getCardColorFromId(id) {
     return CARD_COLORS[id[0] || "g"]
 }
 
+export function getCardColorFromColorName(color_name) {
+    var color_nickname = CARD_COLOR_NAMES[color_name || "grey"] || "g";
+    return CARD_COLORS[color_nickname ]
+}
+
 
 
 
 
 export function getAllCards() {
     var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...BlackCards];
-    all = all.map(c => ({ ...c, color: getCardColorFromId(c.id) }))
+    all = all.map(c => ({ ...c, color: getCardColorFromColorName(c?.color_name) }))
     return all;
 }
 
