@@ -416,7 +416,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
                 conn.on("data", (data) => {
-                    console.log(data)
+                    console.log(data?.intent)
                     switch (data?.intent) {
                         case "join":
                             conn.send({ intent: "redirect", payload: { to: "/rejoin/" + code } });
@@ -896,11 +896,9 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     useEffect(() => {
         if (!me?.card) return
-        console.log(me)
         var card = getCardFromId(me?.card);
         setCard(card);
 
-        console.log(card)
 
         round.current = { ...(game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }), paused: game.paused };
         getSwapRequests();

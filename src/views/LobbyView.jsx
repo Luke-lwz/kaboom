@@ -31,6 +31,7 @@ import { PlayerRow } from "../components/PlayerList"
 
 // avatar 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
+import Controls from '../components/info/controls';
 
 
 
@@ -612,11 +613,20 @@ function EmptyPlayerRow({ }) { // amHost is when the person looking at the scree
 function LobbyFooter() {
     return (
         <>
+            <div className='w-full max-w-2xl p-4 pb-4'>
+                <h1 className='text-lg font-extrabold'>
+                    CONTROLS:
+                </h1>
+                <div className='border-neutral border-2 text-base-content p-3 rounded-lg'>
+                    <Controls />
+
+                </div>
+            </div>
             <div className='w-full max-w-2xl p-4 pb-32'>
                 <h1 className='text-lg font-extrabold'>
                     SIGNALING LEADERSHIP:
                 </h1>
-                <div className='bg-base-200 text-info-content p-3 rounded-lg bold-child-error'>
+                <div className='border-neutral border-2 text-base-content p-3 rounded-lg bold-child-error'>
                     You might have noticed: <br /><b>Leader cards are missing!</b><br />Any appointed leader should now <b>carry an object</b> of your choice (like a hat or cooking spoon) <b>to signal their leadership.</b><br />Any instruction the leader cards usually display, will be shown on your screen.
                 </div>
             </div>

@@ -42,7 +42,6 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
     useState(() => {
-        console.log(lastPlayedPlaysets)
         // shuffle forYou
         let fy = sortPlaysets(allPlaysets, playerCount)// pushes certain elements to front
         fy = fy.filter(p => !p?.id?.startsWith("dev"));

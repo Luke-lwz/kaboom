@@ -182,7 +182,6 @@ function App() {
 function RedirectToStart() {
 
   useEffect(() => {
-    console.log("yeah")
     window.location.href = "/"
   }, [])
 

@@ -210,7 +210,6 @@ export function getCardsForPlayset(game_data) {
         var i = rng(0, out_cards?.length - 1);
         soberCard = out_cards[i];
         out_cards[i] = getCardFromId("p001");
-        console.log(i, out_cards[i])
     }
 
 
@@ -230,7 +229,6 @@ export function getCardsForPlayset(game_data) {
     function getBuriedCard(cards) {
 
 
-        console.log("getBuriedCards", cards)
 
 
         
@@ -252,7 +250,6 @@ export function getCardsForPlayset(game_data) {
             return true
         })
 
-        console.log(nonLinkedCards)
 
 
 

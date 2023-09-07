@@ -8,6 +8,7 @@ import { getCardFromId } from '../../helpers/cards';
 import Info from '../Info';
 
 import { TbNotification } from "react-icons/tb";
+import Controls from '../info/controls';
 
 
 function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
@@ -16,6 +17,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     const [cardsInGame, setCardsInGame] = useState([]);
+    const [showControls, setShowControls] = useState(false);
 
 
     const [playWithColorReveal, setPlayWithColorReveal] = useState(game?.color_reveal)
@@ -85,7 +87,6 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                             })
 
                             registration.getNotifications({ tag: "KaboomCard" }).then((notifications) => {
-                                console.log(notifications)
                             });
 
 
@@ -244,13 +245,16 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                         {isHost && <>
                             <ToggleButton recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveals</ToggleButton>
                         </>}
-                        
+
                         <button className='btn btn-neutral noskew' onClick={() => { pushNotif() }}><span className='skew pr-2 text-xl'><TbNotification /></span> card notification</button>
 
-                        
+
 
                     </div>
                 </div>
+
+
+
 
 
                 {devMode && isHost && <div className=' flex mt-2 flex-col justify-start items-start w-full shrink bg-base-100'>
@@ -265,6 +269,16 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
                     </div>
                 </div>}
+
+                <div className=' flex mt-2 flex-col justify-start items-start w-full bg-base-100 px-4'>
+                    <h1 className='text-xl font-extrabold text-neutral uppercase'>Controls</h1>
+                    <div  onClick={() => setShowControls(!showControls)} className={'border-neutral border-2 text-base-content p-3 rounded-lg w-full transition-all overflow-y-scroll relative ' + (showControls ? " h-64 " : " h-[3.3rem] ")}>
+
+                        <div className='cursor-pointer underline '>{showControls ? "Tap to hide" : "Show controls"}</div>
+                        {showControls && <Controls />}
+
+                    </div>
+                </div>
 
                 <div className='bg-neutral w-full h-fit border-neutral mt-2'>
                     <PlayerList players={players} me={me} showId showOnline={isHost} />
