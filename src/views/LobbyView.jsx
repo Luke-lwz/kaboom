@@ -31,7 +31,7 @@ import { PlayerRow } from "../components/PlayerList"
 
 // avatar 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
-import Controls from '../components/info/controls';
+import Controls from '../components/info/Controls';
 
 
 

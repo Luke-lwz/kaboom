@@ -8,7 +8,7 @@ import { getCardFromId } from '../../helpers/cards';
 import Info from '../Info';
 
 import { TbNotification } from "react-icons/tb";
-import Controls from '../info/controls';
+import Controls from '../info/Controls';
 
 
 function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
