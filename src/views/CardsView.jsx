@@ -15,6 +15,10 @@ import Menu from '../components/Menu';
 import { toast } from 'react-hot-toast';
 import { DevModeBanner } from './HomeView';
 
+import { useSearchParams } from 'react-router-dom'
+
+
+
 
 
 
@@ -31,6 +35,15 @@ function CardsView({ }) {
     const [focusedCard, setFocusedCard] = useState(null);
     const [visibleCards, setVisibleCards] = useState(allCards || []);
     const [search, setSearch] = useState("");
+
+    let [searchParams, setSearchParams] = useSearchParams();
+
+
+    useEffect(() => {
+        const initParam = searchParams.get("s"); // initial search param
+        setSearch(initParam || "")
+        if (initParam && window?.history?.pushState) window?.history?.pushState({}, "", `/cards`)
+    }, [])
 
 
     useEffect(() => {
@@ -57,6 +70,7 @@ function CardsView({ }) {
 
     useEffect(() => {
         filterVisibleCards(search)
+        if (search) setSearchParams("s=" + search)
     }, [search])
 
 
@@ -112,7 +126,7 @@ function CardsView({ }) {
 
 
         function checkText(card) {
-            if (card.name.toLowerCase().includes(q) || card.description.toLowerCase().includes(q) || card.color.title.toLowerCase().includes(q) || card.id.toLowerCase().includes(q)) return true;
+            if (card?.name?.toLowerCase()?.includes(q) || card?.description?.toLowerCase()?.includes(q) || card?.color?.title?.toLowerCase()?.includes(q) || card?.id?.toLowerCase()?.includes(q) || card?.tags?.toLowerCase()?.includes(q)) return true;
             return false
         }
 

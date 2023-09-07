@@ -37,12 +37,16 @@ function CardInfoMenu({ card, color, onCancel }) {
                         <div className='-mt-1 text-xs uppercase'>
                             {card.description}
                         </div>
+
                     </div>
                     {devMode && <div style={{ color: color.primary }} className='absolute top-1 right-2 text-xs'>{card.id.toUpperCase()}</div>}
                 </div>
                 <div className='h-full w-full text-base-content p-4 pb-2.5 text-lg flex flex-col overflow-y-scroll scrollbar-hide leading-5 bg-white rounded-lg '>
                     {card.info.split("\n").map((t, i) => <div key={i}><p key={i}>{t}</p><div className='my-2 mb-0' /></div>)}
                 </div>
+                {card?.credit?.link && <a target="_blank" href={card?.credit?.link} className='text-xs underline -my-3'>
+                    {card?.credit?.text || "Image credit"} 
+                </a>}
             </div>
             {linkedCards.length > 0 && <div className='w-full max-w-[23rem] m-12 flex items-center justify-start gap-4 relative'>
                 <div className='absolute flex justify-start items-center'>
