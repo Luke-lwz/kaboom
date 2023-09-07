@@ -358,7 +358,7 @@
         "description": "CARD SHARE WITH BOMBER >> DEFUSED",
         "links": [],
         "src": "/blue/pliers.png",
-        "info": "Card sharing with the Bomber defuses him. He now has to card share with the Engineer again or else the Red Team loses.\r\n\r\nNote: if the Engineer was buried (Rulebook p.12), the Bomber has to card share with the Tinkerer instead of the Engineer\r\n\r\nNote: If neither Engineer nor Tinkerer are part of the game, this card is treated as a Blue Team card and cannot defuse the Bomber",
+        "info": "Card sharing with the Bomber defuses him. He now has to card share with the Engineer again or else the Red Team loses.\r\n\r\nNote: if the Engineer was buried (Rulebook p.12), the Bomber has to card share with the Tinkerer instead of the Engineer\r\n\r\nNote: If neither Engineer nor Tinkerer are part of the game, this card is considered a Blue Team card and cannot defuse the Bomber",
         "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/hiRbxwJ_slip-joint-pliers-clip-arts-slip-joint-pliers/"},
         "tags": "custom patch1 friends",
         "color_name": "red"
