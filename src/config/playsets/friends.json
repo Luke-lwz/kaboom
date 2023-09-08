@@ -150,5 +150,22 @@
         "odd_card": "g009",
         "shuffle": true,
         "no_bury": true
+    },
+    {
+        "name": "Josh's playset #1",
+        "id": "josh1",
+        "emoji": "*️⃣",
+        "players": "6-20",
+        "cards": [
+            "b001",
+            "r001",
+            "b015",
+            "r015",
+            "b016",
+            "r016"
+        ],
+        "odd_card": "",
+        "shuffle": true,
+        "no_bury": false
     }
 ]
