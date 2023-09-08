@@ -92,6 +92,19 @@
         "force_bury": true
     },
     { 
+        "name": "Test - Love, Hate and Mystery",
+        "id": "dev0016",
+        "players": "2",
+        "emoji": "🛠️",
+        "cards": [
+            "b001",
+            "r001"
+        ],
+        "odd_card": "",
+        "shuffle": true,
+        "no_bury": false
+    },
+    { 
         "name": "Sharing is caring",
         "id": "dev0007",
         "players": "9-24",
