@@ -166,6 +166,6 @@
         ],
         "odd_card": "g014",
         "shuffle": true,
-        "no_bury": false
+        "no_bury": true
     }
 ]
