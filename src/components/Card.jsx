@@ -87,11 +87,11 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
                         More info
                     </button>
 
-                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-200 flex items-center justify-center " + (hide || !remoteMode ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode ? " w-10 " : " w-0 -mx-4 ")}>
+                    <button onClick={() => onRemoteCardReveal()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-200 flex items-center justify-center " + (hide || !remoteMode ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode ? " w-10 " : " w-0 -mx-4 ")}>
                         <TbPlayCard size={16} />
                     </button>
 
-                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-300 flex items-center justify-center " + (hide || !remoteMode ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode ? " w-10 " : " w-0 -mx-4 ")}>
+                    <button onClick={() => onRemoteColorReveal()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-300 flex items-center justify-center " + (hide || !remoteMode || !allowColorReveal ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode && allowColorReveal ? " w-10 " : " w-0 -mx-4 ")}>
                         <IoColorPaletteSharp size={16} />
                     </button>
                 </div>

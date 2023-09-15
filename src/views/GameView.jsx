@@ -36,6 +36,7 @@ import { SwapPropmt } from '../components/swapcards/SwapCards';
 import PauseTimer from '../components/menus/PauseTimer';
 import { CardsRow } from '../components/playsets/PlaysetDisplay';
 import CardInfoMenu from '../components/menus/CardInfoMenu';
+import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
 
 
 
@@ -1051,6 +1052,17 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     }
 
+    function onRemoteCardReveal() {
+        
+        const players = getPlayers();
+        if (!players) return
+        setMenu(<PlayerSelectMenu color={card?.color?.primary || "#0019fd"} players={players.filter(p => p.id !== me.id)} />)
+    }
+
+    function onRemoteColorReveal() {
+
+    }
+
 
     function getSwapRequests() {
         const request = game?.swapRequests?.filter(r => r.initId === me?.id || r.withId === me?.id)[0];
@@ -1071,7 +1083,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     return (
         <>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={() => {}} onRemoteCardReveal={() => {}} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
+                {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
             
 
