@@ -84,7 +84,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
                                 body: "Click to reveal card.",
                                 data: { ...card, color: { ...card?.color, icon: undefined }, info: undefined, cardIcon, circleIcon },
                                 icon: circleIcon,
-                                actions: [{ action: "", title: card?.name }]
+                                actions: [{ action: "", title: "Show card" }]
                             })
 
                             registration.getNotifications({ tag: "KaboomCard" }).then((notifications) => {

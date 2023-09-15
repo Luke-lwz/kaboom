@@ -9,6 +9,8 @@ import { PageContext } from "./PageContextProvider";
 import CardInfoMenu from "./menus/CardInfoMenu";
 
 import { BiError } from "react-icons/bi"
+import { IoColorPaletteSharp } from "react-icons/io5"
+import { TbPlayCard } from "react-icons/tb"
 
 
 
@@ -80,9 +82,17 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
         >
             <div className={"flip-card relative animate__animated " + (derender ? " animate__bounceOutUp " : " animate__bounceInDown ")}>
 
-                <div className={"absolute w-full flex justify-center items-center  z-10 transition-all duration-700 delay-200 rounded-xl " + (hide ? " opacity-0 bottom-3 " : " opacity-100 -bottom-11 ")}>
-                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className="text-sm font-bold text-white px-3 py-1 rounded-full clickable">
+                <div className={"absolute w-full flex justify-center items-center gap-2 z-10 transition-all rounded-xl -bottom-11 "}>
+                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-400 " + (hide ? " opacity-0 -translate-y-14 " : " opacity-100 -translate-y-0 ")}>
                         More info
+                    </button>
+
+                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-200 flex items-center justify-center " + (hide || !remoteMode ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode ? " w-10 " : " w-0 -mx-4 ")}>
+                        <TbPlayCard size={16} />
+                    </button>
+
+                    <button onClick={() => showCardInfo()} style={{ backgroundColor: cardInfo.color.primary }} className={" h-7 text-sm font-bold text-white px-3 py-1 rounded-full transition-all duration-500 delay-300 flex items-center justify-center " + (hide || !remoteMode ? " opacity-0 -translate-y-14 " : ` opacity-100 -translate-y-0 `) + (remoteMode ? " w-10 " : " w-0 -mx-4 ")}>
+                        <IoColorPaletteSharp size={16} />
                     </button>
                 </div>
 

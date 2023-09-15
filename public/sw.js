@@ -19,7 +19,7 @@ function colorNotif(card) {
         body: "Click to reveal card.",
         data: card,
         icon: card?.circleIcon,
-        actions: [{action: "", title: card?.name}]
+        actions: [{action: "", title: "Show card"}]
     })
 
 
