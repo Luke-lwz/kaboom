@@ -13,7 +13,7 @@ import { BiError } from "react-icons/bi"
 
 
 
-function Card({ card, hide, setHide, sendCard, allowColorReveal }) {
+function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal }) {
 
 
     const [cardInfo, setCardInfo] = useState(card || null);

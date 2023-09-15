@@ -21,6 +21,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     const [playWithColorReveal, setPlayWithColorReveal] = useState(game?.color_reveal)
+    const [remoteMode, setRemoteMode] = useState(game?.remote_mode)
 
 
 
@@ -209,6 +210,14 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
     }
 
 
+    function changeRemoteMode() {
+        
+        if (!isHost) return
+        execute("change-remote-mode", [!remoteMode])
+        setRemoteMode(!remoteMode);
+    }
+
+
 
     return (
         <div className='w-full h-full bg-base-100 overflow-hidden flex flex-col items-center'>
@@ -241,12 +250,14 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
                 <div className=' flex mt-2 flex-col justify-start items-start w-full shrink bg-base-100'>
                     <h1 className='text-xl px-4 font-extrabold text-neutral uppercase'>OPTIONS</h1>
-                    <div className=' p-4 w-full flex items-center gap-4 overflow-x-scroll scrollbar-hide'>
+                    <div className=' p-4 w-full flex items-center gap-4 flex-col'>
                         {isHost && <>
-                            <ToggleButton recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveals</ToggleButton>
+                            <ToggleButton full recommended={(game?.players?.length > 10)} checked={playWithColorReveal} onChange={changeColorReveal}>Color reveals</ToggleButton>
+                            <ToggleButton full recommended={false} hideReccomended={!remoteMode} checked={remoteMode} onChange={changeRemoteMode} customText={"Remotely reveal card & color"} customTextClassName='text-secondary' toggleClassName='toggle-secondary'>Remote Party Mode</ToggleButton>
+
                         </>}
 
-                        <button className='btn btn-neutral noskew' onClick={() => { pushNotif() }}><span className='skew pr-2 text-xl'><TbNotification /></span> card notification</button>
+                        <button className='btn btn-neutral noskew w-full' onClick={() => { pushNotif() }}><span className='skew pr-2 text-xl'><TbNotification /></span> card notification</button>
 
 
 
@@ -272,7 +283,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
                 <div className=' flex mt-2 flex-col justify-start items-start w-full bg-base-100 px-4'>
                     <h1 className='text-xl font-extrabold text-neutral uppercase'>Controls</h1>
-                    <div  onClick={() => setShowControls(!showControls)} className={'border-neutral border-2 text-base-content p-3 rounded-lg w-full transition-all overflow-y-scroll relative ' + (showControls ? " h-64 " : " h-[3.3rem] ")}>
+                    <div onClick={() => setShowControls(!showControls)} className={'border-neutral border-2 text-base-content p-3 rounded-lg w-full transition-all overflow-y-scroll relative ' + (showControls ? " h-64 " : " h-[3.3rem] ")}>
 
                         <div className='cursor-pointer underline '>{showControls ? "Tap to hide" : "Show controls"}</div>
                         {showControls && <Controls />}
@@ -294,14 +305,14 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
 
-function ToggleButton({ checked, onChange, children, recommended }) {
+function ToggleButton({ checked, onChange = () => {}, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false }) {
     return (
-        <div onClick={onChange} className='whitespace-nowrap w-fit btn-base-100 border-2 border-neutral uppercase cursor-pointer flex items-center h-12 px-4 text-sm font-semibold rounded-md gap-4'>
+        <div onClick={onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase cursor-pointer flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 ' + (full ? " w-full " : " w-fit ")}>
             <div className='flex flex-col justify-center'>
                 <h4>{children}</h4>
-                <p className={'text-xs text-error transition-all ' + (recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ")}>Recommended: {recommended ? "on" : "off"}</p>
+                <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>
             </div>
-            <input type="checkbox" className="toggle toggle-primary" checked={checked} />
+            <input type="checkbox" className={"toggle toggle-primary " + toggleClassName} checked={checked} />
         </div>
     )
 }

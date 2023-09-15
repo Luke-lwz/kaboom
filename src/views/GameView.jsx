@@ -723,6 +723,10 @@ function HostGame({ me, setMe, code, setScreen }) {
             game.current.color_reveal = !game.current.color_reveal;
             manuallyUpdateRef();
 
+        },
+        "change-remote-mode": (bool) => {
+            game.current.remote_mode = bool;
+            manuallyUpdateRef();
         }
     }
 
@@ -1067,8 +1071,9 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     return (
         <>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {card && <Card allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
+                {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={() => {}} onRemoteCardReveal={() => {}} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
+            
 
             {/* <div className='absolute inset-2 z-20 top-auto clickable flex justify-center items-center text-title bg-neutral text-neutral-content rounded-lg p-2.5 gap-2'>
                 <div className='-rotate-90 scale-110'>
