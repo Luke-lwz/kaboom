@@ -15,6 +15,8 @@ import moment from 'moment';
 
 import { RxAvatar, RxCardStack } from "react-icons/rx"
 import { IoCloudOfflineOutline, IoColorPaletteSharp } from "react-icons/io5"
+import { FiSend } from "react-icons/fi"
+
 
 
 import { TbPlayCard } from "react-icons/tb"
@@ -40,6 +42,7 @@ import PauseTimer from '../components/menus/PauseTimer';
 import { CardsRow } from '../components/playsets/PlaysetDisplay';
 import CardInfoMenu from '../components/menus/CardInfoMenu';
 import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
+import toast from 'react-hot-toast';
 
 
 
@@ -64,6 +67,7 @@ function GameView(props) {
 
 
     useEffect(() => {
+
         setPrompt(null);
         if (!code) return
         if (localStorage.getItem(`game-${code}`)) setHost(true);
@@ -352,6 +356,11 @@ function HostGame({ me, setMe, code, setScreen }) {
         startPeer()
         setupGame();
         updateMe();
+
+
+        // setTimeout(() => toast.custom(<CardRevealToast card={getCardFromId("r000")} player={{ name: "Lukas rth rtrt gtrgrtgrtg rtg rt" }} />, { id: "color:<player-id1>", duration: 8000, position: "top-center", ariaProps: { "aria-live": "assertive", status: "alert" } }), 2000)
+        // setTimeout(() => toast.custom(<ColorRevealToast color={getCardFromId("b000")?.color} player={{ name: "Lukaserergergergergergergerg" }} />, { id: "card:<player-id2>", duration: 8000, position: "top-center", ariaProps: { "aria-live": "assertive", status: "alert" } }), 2800)
+
 
     }, [code])
 
@@ -1063,6 +1072,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             color={card?.color?.primary || "#0019fd"}
             players={players.filter(p => p.id !== me.id)}
             onSelect={onSelect}
+            buttonText={<>REVEAL <FiSend className=" -rotate-45 ml-2 noskew" /></>}
             titleElement={
                 <div className='w-full flex items-center justify-start text-title text-base-content'>
                     <TbPlayCard size={28} className='mr-2' /> CARD REVEAL
@@ -1073,6 +1083,10 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
         function onSelect(playerIdArray) {
             setMenu(null)
+            if (playerIdArray.length > 0) {
+                toast.success("Card revealed");
+                execute("do-remote-card-reveal", [playerIdArray])
+            }
         }
     }
 
@@ -1083,6 +1097,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             color={card?.color?.primary || "#0019fd"}
             players={players.filter(p => p.id !== me.id)}
             onSelect={onSelect}
+            buttonText={<>REVEAL <FiSend className=" -rotate-45 ml-2 noskew" /></>}
             titleElement={
                 <div className='w-full flex items-center justify-start text-title text-base-content'>
                     <IoColorPaletteSharp size={28} className='mr-2' /> COLOR REVEAL
@@ -1092,6 +1107,10 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
         function onSelect(playerIdArray) {
             setMenu(null)
+            if (playerIdArray.length > 0) {
+                toast.success("Color revealed");
+                execute("do-remote-color-reveal", [playerIdArray])
+            }
         }
     }
 
@@ -1435,6 +1454,48 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
 
 
 
+}
+
+
+// Custom toasts
+
+function CardRevealToast({ card, player }) {
+    if (!card || !player) return (<></>)
+
+
+
+    return (
+        <div className='w-full max-w-md bg-base-100 grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded px-3 py-2'>
+            <div className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
+            <div className='w-full flex flex-col pl-2.5'>
+                <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                    <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>
+                </div>
+                <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is <div style={{ color: card?.color?.primary }}>{card?.name}</div></div>
+            </div>
+
+        </div>
+    )
+}
+
+
+function ColorRevealToast({ color, player }) {
+    if (!color || !player) return (<></>)
+
+
+
+    return (
+        <div className='w-full max-w-md bg-base-100 grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded-xl p-2'>
+            <div style={{ backgroundColor: color?.secondary, color: color?.primary }} className='h-12 w-12 rounded-lg text-xl flex items-center justify-center'>{<color.icon />}</div>
+            <div className=' grow flex flex-col pl-3'>
+                <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                    <IoColorPaletteSharp size={18} className='mr-1' /> <p>COLOR REVEAL</p>
+                </div>
+                <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is in <div style={{ color: color?.primary }}>{color?.title}</div></div>
+            </div>
+
+        </div>
+    )
 }
 
 

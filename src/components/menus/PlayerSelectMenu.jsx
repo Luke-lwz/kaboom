@@ -2,9 +2,8 @@ import { useState, useEffect } from "react"
 
 import SelectGrid, { SelectGridBox } from "../SelectGrid";
 
-import {FiSend} from "react-icons/fi"
 
-function PlayerSelectMenu({ players, onSelect = (selectedPlayerIds) => { }, titleElement, preSelectedPlayers = [], color }) {
+function PlayerSelectMenu({ players, onSelect = (selectedPlayerIds) => { }, titleElement, preSelectedPlayers = [], color, buttonText }) {
 
     const [selectedArray, setSelectedArray] = useState([...preSelectedPlayers])
 
@@ -34,7 +33,7 @@ function PlayerSelectMenu({ players, onSelect = (selectedPlayerIds) => { }, titl
                 
             </SelectGrid>
             <div className="w-full flex items-center flex-row-reverse justify-start">
-                <button onClick={() => onSelect(selectedArray)} style={{backgroundColor: color, borderColor: color}} className={" btn noskew w-full mt-3 transition-all text-white " + (selectedArray?.length <=0 ? " opacity-50 " : " opacity-100 clickable ")}>REVEAL <FiSend className=" -rotate-45 ml-2 noskew"/> </button>
+                <button onClick={() => onSelect(selectedArray)} style={{backgroundColor: color, borderColor: color}} className={" btn noskew w-full mt-3 transition-all text-white " + (selectedArray?.length <=0 ? " opacity-50 " : " opacity-100 clickable ")}>{buttonText || "SELECT"} </button>
 
             </div>
         </div>
