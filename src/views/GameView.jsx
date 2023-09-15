@@ -14,7 +14,10 @@ import moment from 'moment';
 // icons
 
 import { RxAvatar, RxCardStack } from "react-icons/rx"
-import { IoCloudOfflineOutline } from "react-icons/io5"
+import { IoCloudOfflineOutline, IoColorPaletteSharp } from "react-icons/io5"
+
+
+import { TbPlayCard } from "react-icons/tb"
 
 
 
@@ -1053,14 +1056,43 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
     function onRemoteCardReveal() {
-        
+
         const players = getPlayers();
         if (!players) return
-        setMenu(<PlayerSelectMenu color={card?.color?.primary || "#0019fd"} players={players.filter(p => p.id !== me.id)} />)
+        setMenu(<PlayerSelectMenu
+            color={card?.color?.primary || "#0019fd"}
+            players={players.filter(p => p.id !== me.id)}
+            onSelect={onSelect}
+            titleElement={
+                <div className='w-full flex items-center justify-start text-title text-base-content'>
+                    <TbPlayCard size={28} className='mr-2' /> CARD REVEAL
+                </div>
+            }
+        />)
+
+
+        function onSelect(playerIdArray) {
+            setMenu(null)
+        }
     }
 
     function onRemoteColorReveal() {
+        const players = getPlayers();
+        if (!players) return
+        setMenu(<PlayerSelectMenu
+            color={card?.color?.primary || "#0019fd"}
+            players={players.filter(p => p.id !== me.id)}
+            onSelect={onSelect}
+            titleElement={
+                <div className='w-full flex items-center justify-start text-title text-base-content'>
+                    <IoColorPaletteSharp size={28} className='mr-2' /> COLOR REVEAL
+                </div>
+            }
+        />)
 
+        function onSelect(playerIdArray) {
+            setMenu(null)
+        }
     }
 
 
@@ -1085,7 +1117,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
                 {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
-            
+
 
             {/* <div className='absolute inset-2 z-20 top-auto clickable flex justify-center items-center text-title bg-neutral text-neutral-content rounded-lg p-2.5 gap-2'>
                 <div className='-rotate-90 scale-110'>
