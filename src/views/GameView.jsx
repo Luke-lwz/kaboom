@@ -25,7 +25,7 @@ import { TbPlayCard } from "react-icons/tb"
 
 // helpers 
 import { generateGame } from "../helpers/game";
-import { getCardFromId, getCardsForPlayset } from "../helpers/cards";
+import { getCardColorFromColorName, getCardFromId, getCardsForPlayset } from "../helpers/cards";
 import Card, { CardFront } from "../components/Card";
 import { constructPeerID } from "../helpers/peerid";
 import { idGenAlphabet, rng } from "../helpers/idgen";
@@ -185,6 +185,18 @@ function ClientGame({ me, setMe, code, setScreen }) {
                             }
 
                         }
+                        break;
+                    case "remote-color-reveal":
+                        var { color_name, player } = data?.payload || {}
+                        var color = getCardColorFromColorName(color_name);
+                        if (!color || !player) return;
+                        toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none" })
+                        break;
+                    case "remote-card-reveal":
+                        var { card, player } = data?.payload || {}
+                        var color = getCardColorFromColorName(card?.color_name);
+                        if (!color || !player || !card) return;
+                        toast(<CardRevealToast card={{ ...card, color }} player={player} />, { id: "card:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none" })
                         break;
                 }
             })
@@ -358,8 +370,6 @@ function HostGame({ me, setMe, code, setScreen }) {
         updateMe();
 
 
-        setTimeout(() => toast.custom(<CardRevealToast setMenu={setMenu} card={getCardFromId("r000")} player={{ name: "Lukas" }} />, { id: "color:<player-id1>", duration: 8500, position: "top-left", ariaProps: { "aria-live": "off", status: "status" } }), 2000)
-        setTimeout(() => toast.custom(<ColorRevealToast color={getCardFromId("b000")?.color} player={{ name: "Lukaser" }} />, { id: "card:<player-id2>", duration: 8500, position: "top-left", ariaProps: { "aria-live": "off", status: "status" } }), 2800)
 
 
     }, [code])
@@ -740,6 +750,28 @@ function HostGame({ me, setMe, code, setScreen }) {
         "change-remote-mode": (bool) => {
             game.current.remote_mode = bool;
             manuallyUpdateRef();
+        },
+        "do-remote-color-reveal": (playerIdArray, color_name) => {
+            for (let i = 0; i < playerIdArray.length; i++) {
+                const playerId = playerIdArray[i];
+                const player = getPlayerFromId(playerId)
+                const color = getCardColorFromColorName(color_name);
+                if (!player || !color) return
+                if (playerId?.toUpperCase() === "HOST") toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none" })
+                else sendTo(playerId, { intent: "remote-color-reveal", payload: { color_name, player: { ...player, conn: undefined } } })
+            }
+        },
+        "do-remote-card-reveal": (playerIdArray, card) => {
+            for (let i = 0; i < playerIdArray.length; i++) {
+                const playerId = playerIdArray[i];
+                const player = getPlayerFromId(playerId)
+                const color = getCardColorFromColorName(card?.color_name);
+                if (!player || !card || !color) return
+                console.log(card, player)
+
+                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none" })
+                else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined } } })
+            }
         }
     }
 
@@ -1085,7 +1117,8 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             setMenu(null)
             if (playerIdArray.length > 0) {
                 toast.success("Card revealed");
-                execute("do-remote-card-reveal", [playerIdArray])
+                console.log(card)
+                execute("do-remote-card-reveal", [playerIdArray, { ...card, info: undefined, color: undefined }])
             }
         }
     }
@@ -1109,7 +1142,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             setMenu(null)
             if (playerIdArray.length > 0) {
                 toast.success("Color revealed");
-                execute("do-remote-color-reveal", [playerIdArray])
+                execute("do-remote-color-reveal", [playerIdArray, card?.color_name])
             }
         }
     }
@@ -1462,29 +1495,21 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
 function CardRevealToast({ card, player, setMenu }) {
     if (!card || !player) return (<></>)
 
-    const [hidden, setHidden] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => setHidden(true), 8500)
-    }, [])
-
 
 
 
 
 
     return (
-        <div style={{ animationDelay: "8000ms" }} className={' w-full max-w-md p-3 pb-0 animate__animated animate__fadeOut animate__faster' + (hidden && " hidden h-0 ")}>
-            <div className='w-full max-w-md bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded px-3 py-2'>
-                <div onClick={() => (setMenu && setMenu(<CardInfoMenu card={card} color={card.color} />))} className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
-                <div className='w-full flex flex-col pl-2.5' onClick={() => setHidden(true)}>
-                    <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
-                        <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>
-                    </div>
-                    <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is <div style={{ color: card?.color?.primary }}>{card?.name}</div></div>
+        <div className='w-full max-w-md text-base-content bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start rounded px-3 py-2'>
+            <div onClick={() => (setMenu && setMenu(<CardInfoMenu card={card} color={card.color} />))} className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
+            <div className='w-full flex flex-col pl-2.5' onClick={() => setHidden(true)}>
+                <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                    <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>
                 </div>
-
+                <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is <div style={{ color: card?.color?.primary }}>{card?.name}</div></div>
             </div>
+
         </div>
     )
 }
@@ -1494,26 +1519,19 @@ function ColorRevealToast({ color, player }) {
     if (!color || !player) return (<></>)
 
 
-    const [hidden, setHidden] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => setHidden(true), 8500)
-    }, [])
 
 
-    return (
-        <div style={{ animationDelay: "8000ms" }} className={' w-full max-w-md p-3 pb-0 animate__animated animate__fadeOut animate__faster transition-all ' + (hidden && " hidden h-0 ")}>
-            <div className='w-full max-w-md bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded-xl p-2'>
-                <div style={{ backgroundColor: color?.secondary, color: color?.primary }} className='h-12 w-12 rounded-lg text-xl flex items-center justify-center'>{<color.icon />}</div>
-                <div className=' grow flex flex-col pl-3' onClick={() => setHidden(true)}>
-                    <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
-                        <IoColorPaletteSharp size={18} className='mr-1' /> <p>COLOR REVEAL</p>
-                    </div>
-                    <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is in <div style={{ color: color?.primary }}>{color?.title}</div></div>
-                </div>
 
+    return (<div className='w-full max-w-md text-base-content bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start rounded-xl p-2'>
+        <div style={{ backgroundColor: color?.secondary, color: color?.primary }} className='h-12 w-12 rounded-lg text-xl flex items-center justify-center'>{<color.icon />}</div>
+        <div className=' grow flex flex-col pl-3'>
+            <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                <IoColorPaletteSharp size={18} className='mr-1' /> <p>COLOR REVEAL</p>
             </div>
+            <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is in <div style={{ color: color?.primary }}>{color?.title}</div></div>
         </div>
+
+    </div>
     )
 }
 

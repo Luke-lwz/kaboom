@@ -3,14 +3,14 @@ import { useState, useEffect } from "react"
 import SelectGrid, { SelectGridBox } from "../SelectGrid";
 
 
-function PlayerSelectMenu({ players, onSelect = (selectedPlayerIds) => { }, titleElement, preSelectedPlayers = [], color, buttonText }) {
+function PlayerSelectMenu({ players, onSelect = () => {}, titleElement, preSelectedPlayers = [], color, buttonText }) {
 
     const [selectedArray, setSelectedArray] = useState([...preSelectedPlayers])
 
 
 
 
-    function onSelect(id) {
+    function handleSelect(id) {
         if (!selectedArray?.includes(id)) { // add 
             setSelectedArray([...selectedArray, id])
         } else {
@@ -26,7 +26,7 @@ function PlayerSelectMenu({ players, onSelect = (selectedPlayerIds) => { }, titl
                 {titleElement}
             </div>
             <SelectGrid className={"h-fit max-h-[16rem] overflow-y-scroll overflow-x-hidden scrollbar-hide"}>
-                {players.map(player => <SelectGridBox color={color} key={player?.id} onClick={() => onSelect(player?.id)} selected={(selectedArray?.includes(player?.id))}>
+                {players.map(player => <SelectGridBox color={color} key={player?.id} onClick={() => handleSelect(player?.id)} selected={(selectedArray?.includes(player?.id))}>
                     {player?.name}
                 </SelectGridBox>)}
                 
