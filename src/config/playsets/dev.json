@@ -139,6 +139,21 @@
         "no_bury": false
     },
     {
+        "name": "Test - Lars' Changing Leadership",
+        "id": "dev0010",
+        "emoji": "🛠️",
+        "players": "8-23",
+        "cards": [
+            "b001",
+            "r001",
+            "g003",
+            "g015",
+            "g013"
+        ],
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
         "name": "Every single card",
         "id": "dev1000",
         "players": "1-100",

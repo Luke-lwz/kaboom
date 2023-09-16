@@ -166,6 +166,78 @@
         ],
         "odd_card": "g014",
         "shuffle": true,
-        "no_bury": true
+        "no_bury": false
+    },
+    {
+        "name": "Josh's Lepotato",
+        "id": "josh2",
+        "emoji": "*️⃣",
+        "players": "6-21",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "g009",
+            "e001"
+        ],
+        "odd_card": "g018",
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
+        "name": "Meme's Just a Psych Game",
+        "id": "pizzaguy1",
+        "emoji": "🍕",
+        "players": "6-21",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b010",
+            "r010",
+            "b027",
+            "r027"
+        ],
+        "odd_card": "g014",
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
+        "name": "Lars' Changing Leadership",
+        "id": "Lars1",
+        "emoji": "🧊",
+        "players": "9-23",
+        "cards": [
+            "b001",
+            "r001",
+            "b014",
+            "r014",
+            "b032",
+            "r032",
+            "g003",
+            "g015",
+            "g013"
+        ],
+        "shuffle": true,
+        "no_bury": false
+    },
+    {
+        "name": "Lars' Secret Alliances",
+        "id": "Lars2",
+        "emoji": "🧊",
+        "players": "7-21",
+        "cards": [
+            "b001",
+            "r001",
+            "g024",
+            "g026",
+            "g007",
+            "g006",
+            "g022"
+        ],
+        "shuffle": true,
+        "no_bury": false
     }
 ]
