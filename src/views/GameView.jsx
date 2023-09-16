@@ -769,7 +769,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 if (!player || !card || !color) return
                 console.log(card, player)
 
-                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 55000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined } } })
             }
         }
