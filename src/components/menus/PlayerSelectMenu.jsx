@@ -26,7 +26,7 @@ function PlayerSelectMenu({ players, onSelect = () => { }, titleElement, preSele
         <div className="w-full max-w-[36rem] h-full flex flex-col justify-start items-center overflow-hidden bg-base-100 rounded-lg p-4">
             <div className="w-[100vw]"></div>
             <div className="w-full flex items-center justify-center text-base-content text-xl font-extrabold mb-3">
-                {titleElement}
+                {titleElement} <span className="text-base">(BETA)</span>
             </div>
             <SelectGrid className={"h-fit max-h-[16rem] overflow-y-scroll overflow-x-hidden scrollbar-hide"}>
                 {players.map(player => {
