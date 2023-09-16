@@ -322,7 +322,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 function HostGame({ me, setMe, code, setScreen }) {
 
-    const { connectionErrorPrompt, setMenu2, setPrompt } = useContext(PageContext);
+    const { connectionErrorPrompt, setMenu2, setPrompt, setMenu } = useContext(PageContext);
 
     const [updatedRef, setUpdatedRef] = useState([]); // update like this manuallyUpdateRef(); every time ref is updated
     const [startCondition, setStartCondition] = useState(false);
@@ -358,8 +358,8 @@ function HostGame({ me, setMe, code, setScreen }) {
         updateMe();
 
 
-        // setTimeout(() => toast.custom(<CardRevealToast card={getCardFromId("r000")} player={{ name: "Lukas rth rtrt gtrgrtgrtg rtg rt" }} />, { id: "color:<player-id1>", duration: 8000, position: "top-center", ariaProps: { "aria-live": "assertive", status: "alert" } }), 2000)
-        // setTimeout(() => toast.custom(<ColorRevealToast color={getCardFromId("b000")?.color} player={{ name: "Lukaserergergergergergergerg" }} />, { id: "card:<player-id2>", duration: 8000, position: "top-center", ariaProps: { "aria-live": "assertive", status: "alert" } }), 2800)
+        setTimeout(() => toast.custom(<CardRevealToast setMenu={setMenu} card={getCardFromId("r000")} player={{ name: "Lukas" }} />, { id: "color:<player-id1>", duration: 8500, position: "top-left", ariaProps: { "aria-live": "off", status: "status" } }), 2000)
+        setTimeout(() => toast.custom(<ColorRevealToast color={getCardFromId("b000")?.color} player={{ name: "Lukaser" }} />, { id: "card:<player-id2>", duration: 8500, position: "top-left", ariaProps: { "aria-live": "off", status: "status" } }), 2800)
 
 
     }, [code])
@@ -1459,21 +1459,32 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
 
 // Custom toasts
 
-function CardRevealToast({ card, player }) {
+function CardRevealToast({ card, player, setMenu }) {
     if (!card || !player) return (<></>)
+
+    const [hidden, setHidden] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setHidden(true), 8500)
+    }, [])
+
+
+
 
 
 
     return (
-        <div className='w-full max-w-md bg-base-100 grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded px-3 py-2'>
-            <div className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
-            <div className='w-full flex flex-col pl-2.5'>
-                <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
-                    <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>
+        <div style={{ animationDelay: "8000ms" }} className={' w-full max-w-md p-3 pb-0 animate__animated animate__fadeOut animate__faster' + (hidden && " hidden h-0 ")}>
+            <div className='w-full max-w-md bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded px-3 py-2'>
+                <div onClick={() => (setMenu && setMenu(<CardInfoMenu card={card} color={card.color} />))} className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
+                <div className='w-full flex flex-col pl-2.5' onClick={() => setHidden(true)}>
+                    <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                        <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>
+                    </div>
+                    <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is <div style={{ color: card?.color?.primary }}>{card?.name}</div></div>
                 </div>
-                <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is <div style={{ color: card?.color?.primary }}>{card?.name}</div></div>
-            </div>
 
+            </div>
         </div>
     )
 }
@@ -1483,17 +1494,25 @@ function ColorRevealToast({ color, player }) {
     if (!color || !player) return (<></>)
 
 
+    const [hidden, setHidden] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setHidden(true), 8500)
+    }, [])
+
 
     return (
-        <div className='w-full max-w-md bg-base-100 grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded-xl p-2'>
-            <div style={{ backgroundColor: color?.secondary, color: color?.primary }} className='h-12 w-12 rounded-lg text-xl flex items-center justify-center'>{<color.icon />}</div>
-            <div className=' grow flex flex-col pl-3'>
-                <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
-                    <IoColorPaletteSharp size={18} className='mr-1' /> <p>COLOR REVEAL</p>
+        <div style={{ animationDelay: "8000ms" }} className={' w-full max-w-md p-3 pb-0 animate__animated animate__fadeOut animate__faster transition-all ' + (hidden && " hidden h-0 ")}>
+            <div className='w-full max-w-md bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start animate__animated animate__slideInDown animate__faster rounded-xl p-2'>
+                <div style={{ backgroundColor: color?.secondary, color: color?.primary }} className='h-12 w-12 rounded-lg text-xl flex items-center justify-center'>{<color.icon />}</div>
+                <div className=' grow flex flex-col pl-3' onClick={() => setHidden(true)}>
+                    <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
+                        <IoColorPaletteSharp size={18} className='mr-1' /> <p>COLOR REVEAL</p>
+                    </div>
+                    <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is in <div style={{ color: color?.primary }}>{color?.title}</div></div>
                 </div>
-                <div className='text-title font-extrabold text-sm sm:text-lg pl-1 w-full overflow-clip flex items-center justify-start gap-1.5 flex-nowrap whitespace-nowrap pr-2'><div className='truncate shrink'>{player?.name}</div> is in <div style={{ color: color?.primary }}>{color?.title}</div></div>
-            </div>
 
+            </div>
         </div>
     )
 }
