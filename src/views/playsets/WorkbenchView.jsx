@@ -4,6 +4,7 @@
 // icons
 import { FaTools, FaBomb } from "react-icons/fa"
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { MdOutlineClose } from "react-icons/md"
 
 
 
@@ -30,11 +31,12 @@ export default function WorkbenchView(props) {
             <div className="absolute inset-0 bg-blue-100 flex flex-col lg:flex-row w-full">
                 <div className="p-4 pt-14 w-full max-w-lg bg-green-100 ">  {/* Left Bar With linked cards box */}
 
-                   
+
                     <div className="flex flex-col items-start justify-start w-full h-36">  {/* Component for Linked Cards */}
                         <div className="flex items-center justify-start h-full w-full">
                             <LinkedCardsContainer cards={getLinkedCardsPairedById("r000")} />
                             <div className="w-12 bg-purple-200 p-2 h-full flex flex-col items-center justify-center">
+                                <ActionCircle icon={<MdOutlineClose />} />
                                 <ActionCircle icon={<AiOutlineInfoCircle />} />
                             </div>
                         </div>
@@ -56,9 +58,9 @@ export default function WorkbenchView(props) {
 
 
 
-export function ActionCircle({ onClick, icon, tooltip }) {
+export function ActionCircle({ onClick, icon, tooltip, hidden = false }) {
     return (
-        <div onClick={onClick} className={"h-8 w-8 rounded-full bg-neutral flex items-center justify-center text-neutral-content clickable " + (tooltip && " tooltip ")} data-tip={tooltip}>
+        <div onClick={onClick} className={" rounded-full bg-neutral flex items-center justify-center text-neutral-content clickable " + (tooltip && " tooltip ") + (hidden ? " h-0 w-0 " : " h-8 w-8 ")} data-tip={tooltip}>
             {icon}
         </div>
     )
