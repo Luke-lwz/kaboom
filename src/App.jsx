@@ -133,6 +133,7 @@ function App() {
 
           // Define default options
           duration: 5000,
+          className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
           style: {
             background: '#ffffff',
             color: '#000000',
@@ -150,7 +151,7 @@ function App() {
         {(t) => (
           <ToastBar toast={t}>
             {({ icon, message }) => (
-              <div className='w-fit max-w-md flex items-center shadow-transparent' onClick={() => toast.dismiss(t.id)}>
+              <div className='w-fit max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
                 {icon}
                 {message}
               </div>
