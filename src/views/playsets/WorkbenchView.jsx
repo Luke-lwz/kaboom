@@ -35,7 +35,7 @@ export default function WorkbenchView(props) {
                     <div className="flex flex-col items-start justify-start w-full h-36">  {/* Component for Linked Cards */}
                         <div className="flex items-center justify-start h-full w-full">
                             <LinkedCardsContainer cards={getLinkedCardsPairedById("r000")} />
-                            <div className="w-12 bg-purple-200 p-2 h-full flex flex-col items-center justify-center">
+                            <div className="w-12 bg-purple-200 p-2 gap-2 h-full flex flex-col items-center justify-center">
                                 <ActionCircle icon={<MdOutlineClose />} />
                                 <ActionCircle icon={<AiOutlineInfoCircle />} />
                             </div>
