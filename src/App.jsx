@@ -150,7 +150,7 @@ function App() {
           blank: {
             className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
             style: {
-              boxShadow: "box-shadow: none;",
+              boxShadow: "none",
               padding: "0px"}
 
           }
