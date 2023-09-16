@@ -769,7 +769,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 if (!player || !card || !color) return
                 console.log(card, player)
 
-                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} player={player} />, { id: "card:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined } } })
             }
         }
@@ -1492,7 +1492,7 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
 
 // Custom toasts
 
-function CardRevealToast({ card, player, setMenu }) {
+function CardRevealToast({ card, player }) {
     if (!card || !player) return (<></>)
 
 
@@ -1502,7 +1502,7 @@ function CardRevealToast({ card, player, setMenu }) {
 
     return (
         <div className='w-full max-w-md text-base-content bg-base-100 shadow grid grid-cols-[3rem_minmax(0,_1fr)] items-center justify-start rounded px-3 py-2'>
-            <div onClick={() => (setMenu && setMenu(<CardInfoMenu card={card} color={card.color} />))} className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
+            <div className='card relative scale-[18%] -m-28 -my-40'><CardFront card={card} color={card?.color} /></div>
             <div className='w-full flex flex-col pl-2.5' onClick={() => setHidden(true)}>
                 <div className='text-title font-extrabold opacity-70 text-xs w-full flex items-center'>
                     <TbPlayCard size={18} className='mr-1' /> <p>CARD REVEAL</p>

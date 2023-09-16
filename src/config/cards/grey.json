@@ -318,7 +318,7 @@
         "id": "g031",
         "description": "GUESS THE LAST HOSTAGE >> WIN",
         "links": [],
-        "src": "",
+        "src": "/grey/telepath_meme.png",
         "info": "You win if you correctly predict the player (not character) that will be the hostage coming into your room at the end of the last round. To formalize your prediction, you must publicly reveal your card during the last round of the game and verbally name (or adequately describe) your prediction. Note: your prediction can't be the hostage leaving your current room. You must predict the hostage that will be coming INTO your room.",
         "tags": "patch1",
         "color_name": "grey"

@@ -90,7 +90,7 @@ function CardsView({ }) {
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("g") ? 1 : y.id.startsWith("g") ? -1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("p") ? 1 : y.id.startsWith("p") ? -1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("e") ? 1 : y.id.startsWith("e") ? -1 : 0; });
-        allSorted = allSorted.sort((x, y) => { return x.id.startsWith("d") ? 1 : y.id.startsWith("d") ? -1 : 0; });
+        allSorted = allSorted.sort((x, y) => { return x.id.startsWith("s") ? 1 : y.id.startsWith("s") ? -1 : 0; });
 
         return allSorted;
     }

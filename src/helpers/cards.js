@@ -3,7 +3,7 @@ import RedCards from "../config/cards/red.json";
 import GreyCards from "../config/cards/grey.json";
 import GreenCards from "../config/cards/green.json";
 import PurpleCards from "../config/cards/purple.json";
-import BlackCards from "../config/cards/black.json";
+import SpecialCards from "../config/cards/special.json";
 
 
 
@@ -271,7 +271,7 @@ export function getCardFromId(id) {
     if (!card) card = GreyCards.filter(c => c.id == id)[0] || card;
     if (!card) card = GreenCards.filter(c => c.id == id)[0] || card;
     if (!card) card = PurpleCards.filter(c => c.id == id)[0] || card;
-    if (!card) card = BlackCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = SpecialCards.filter(c => c.id == id)[0] || card;
 
 
     if (card) card = { ...card, color: getCardColorFromColorName(card?.color_name) };
@@ -297,7 +297,7 @@ export function getCardColorFromColorName(color_name) {
 
 
 export function getAllCards() {
-    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...BlackCards];
+    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
     all = all.map(c => ({ ...c, color: getCardColorFromColorName(c?.color_name) }))
     return all;
 }
