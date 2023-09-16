@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { ToastBar, Toaster } from 'react-hot-toast';
 
 
 // Context
@@ -127,10 +127,10 @@ function App() {
         reverseOrder={false}
         gutter={8}
         containerClassName=""
-        
+
         containerStyle={{}}
         toastOptions={{
-          
+
           // Define default options
           duration: 5000,
           style: {
@@ -146,8 +146,19 @@ function App() {
               secondary: 'black',
             },
           },
-        }}
-      />
+        }}>
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }) => (
+              <div className='w-fit max-w-md flex items-center' onClick={() => toast.dismiss(t.id)}>
+                {icon}
+                {message}
+              </div>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>
+
       <PageContextProvider value={{ toast, navigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, devMode, setDevMode }}>
         {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
         {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
