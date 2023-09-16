@@ -121,7 +121,7 @@ function App() {
 
 
   return (
-    <div className="App absolute inset-0 overflow-hidden scrollbar-hide">
+    <div className="App absolute inset-0 overflow-hidden scrollbar-hide drop-shadow-none">
       <Toaster
         position="top-left"
         reverseOrder={false}
@@ -150,15 +150,18 @@ function App() {
           blank: {
             className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
             style: {
-              boxShadow: "box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)"
+              boxShadow: "box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+              padding: "0px",
+              filter: "var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)"
             }
+
           }
 
         }}>
         {(t) => (
           <ToastBar toast={t}>
             {({ icon, message }) => (
-              <div style={{ padding: "0px" }} className='w-fit max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
+              <div className='w-fit max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
                 {icon}
                 {message}
               </div>
