@@ -121,7 +121,7 @@ function App() {
 
 
   return (
-    <div className="App absolute inset-0 overflow-hidden scrollbar-hide drop-shadow-none">
+    <div className="App absolute inset-0 overflow-hidden scrollbar-hide">
       <Toaster
         position="top-left"
         reverseOrder={false}
@@ -147,13 +147,6 @@ function App() {
             },
           },
 
-          blank: {
-            className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
-            style: {
-              boxShadow: "none",
-              padding: "0px"}
-
-          }
 
         }}>
         {(t) => (
