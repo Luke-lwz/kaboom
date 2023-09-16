@@ -150,10 +150,8 @@ function App() {
           blank: {
             className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
             style: {
-              boxShadow: "box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
-              padding: "0px",
-              filter: "var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)"
-            }
+              boxShadow: "box-shadow: none;",
+              padding: "0px"}
 
           }
 
