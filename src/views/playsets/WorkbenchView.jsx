@@ -28,11 +28,10 @@ export default function WorkbenchView(props) {
             } />
 
             <div className="absolute inset-0 bg-blue-100 flex flex-col lg:flex-row w-full">
-                <div className="p-4 pt-14 w-full max-w-lg bg-green-100 ">
+                <div className="p-4 pt-14 w-full max-w-lg bg-green-100 ">  {/* Left Bar With linked cards box */}
 
-
-                    <div className="flex flex-col items-start justify-start w-full h-36">
-
+                   
+                    <div className="flex flex-col items-start justify-start w-full h-36">  {/* Component for Linked Cards */}
                         <div className="flex items-center justify-start h-full w-full">
                             <LinkedCardsContainer cards={getLinkedCardsPairedById("r000")} />
                             <div className="w-12 bg-purple-200 p-2 h-full flex flex-col items-center justify-center">
@@ -42,7 +41,11 @@ export default function WorkbenchView(props) {
                     </div>
 
                 </div>
-                <div className="p-4 pt-14 grow bg-red-100">
+
+
+
+
+                <div className="p-4 pt-14 grow bg-red-100">  {/* Right Bar With More Settings */}
 
                 </div>
             </div>
