@@ -150,7 +150,7 @@ function App() {
         {(t) => (
           <ToastBar toast={t}>
             {({ icon, message }) => (
-              <div className='w-fit max-w-md flex items-center' onClick={() => toast.dismiss(t.id)}>
+              <div className='w-fit max-w-md flex items-center shadow-transparent' onClick={() => toast.dismiss(t.id)}>
                 {icon}
                 {message}
               </div>
