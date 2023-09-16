@@ -133,7 +133,6 @@ function App() {
 
           // Define default options
           duration: 5000,
-          className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
           style: {
             background: '#ffffff',
             color: '#000000',
@@ -147,11 +146,19 @@ function App() {
               secondary: 'black',
             },
           },
+
+          blank: {
+            className: "shadow-none shadow-transparent drop-shadow-none drop-shadow-transparent",
+            style: {
+              boxShadow: "box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)"
+            }
+          }
+
         }}>
         {(t) => (
           <ToastBar toast={t}>
             {({ icon, message }) => (
-              <div className='w-fit max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
+              <div style={{ padding: "0px" }} className='w-fit max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
                 {icon}
                 {message}
               </div>
