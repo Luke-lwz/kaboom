@@ -267,8 +267,7 @@ function HostLobby({ me, code }) {
         setWrongPlayerNumber(calculatePlaysetDisabled(playset, players.current.length));
 
 
-
-        setRecommendBury((playset?.cards.filter(c => c?.id !== "p001")?.length % 2) === (players.current.length % 2)); // filters out drunk card
+        setRecommendBury(playset?.odd_card ? false : ((playset?.cards.filter(c => c?.id !== "p001")?.length + (playset?.odd_card ? 1 : 0)) % 2) !== (players.current.length % 2)); // filters out drunk card
 
 
         setPlayerState(players.current)
@@ -283,7 +282,7 @@ function HostLobby({ me, code }) {
 
 
     useEffect(() => {
-        setPlayWithBury(recommendBury || !playset?.odd_card || playset?.force_bury || false);
+        setPlayWithBury(recommendBury || playset?.force_bury || false);
     }, [recommendBury])
 
 
