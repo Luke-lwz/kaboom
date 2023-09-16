@@ -316,3 +316,14 @@ export function getLinkedCards(card) {
     if (opposite) lc = [opposite, ...lc]
     return lc;
 }
+
+
+export function getLinkedCardsPaired(card) { // pairs everything up into one array
+    var lc = getLinkedCards(card)
+    return [card, ...lc];
+}
+
+
+export function getLinkedCardsPairedById(id) { // pairs everything up into one array
+    return getLinkedCardsPaired(getCardFromId(id))
+}

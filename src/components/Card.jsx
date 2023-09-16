@@ -236,4 +236,7 @@ export function C({ onClick = () => { }, color = { primary: "#888888", secondary
     )
 }
 
+
+
+
 export default Card;

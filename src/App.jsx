@@ -29,6 +29,7 @@ import Privacy from './views/Privacy';
 import Prompt from './components/Prompt';
 import Menu from './components/Menu';
 import Menu2 from './components/Menu2';
+import WorkbenchView from './views/playsets/WorkbenchView';
 
 
 
@@ -176,6 +177,12 @@ function App() {
           <Route path="/cards/:id" element={<CardsView />} />
 
           <Route path="/privacy" element={<Privacy />} />
+
+
+          <Route path="/playsets" element={<></>} />
+          <Route path="/playsets/workbench" element={<WorkbenchView />} />
+
+
 
 
           <Route path="/defaultsite" element={<RedirectToStart />} />
