@@ -190,13 +190,13 @@ function ClientGame({ me, setMe, code, setScreen }) {
                         var { color_name, player } = data?.payload || {}
                         var color = getCardColorFromColorName(color_name);
                         if (!color || !player) return;
-                        toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                        toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                         break;
                     case "remote-card-reveal":
                         var { card, player } = data?.payload || {}
                         var color = getCardColorFromColorName(card?.color_name);
                         if (!color || !player || !card) return;
-                        toast(<CardRevealToast card={{ ...card, color }} player={player} />, { id: "card:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                        toast(<CardRevealToast card={{ ...card, color }} player={player} />, { id: "card:" + player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                         break;
                 }
             })
@@ -757,7 +757,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 const player = getPlayerFromId(playerId)
                 const color = getCardColorFromColorName(color_name);
                 if (!player || !color) return
-                if (playerId?.toUpperCase() === "HOST") toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                if (playerId?.toUpperCase() === "HOST") toast(<ColorRevealToast color={color} player={player} />, { id: "color:" + playerId, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-color-reveal", payload: { color_name, player: { ...player, conn: undefined } } })
             }
         },
@@ -769,7 +769,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 if (!player || !card || !color) return
                 console.log(card, player)
 
-                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 55000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "0px" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
+                if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} setManu={setMenu} player={player} />, { id: "card:" + playerId, duration: 55000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined } } })
             }
         }
