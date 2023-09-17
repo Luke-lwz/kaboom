@@ -21,6 +21,10 @@ function Controls() {
                 <li>End the <b>round</b> prematurely</li>
                 <li>End the <b>game</b> prematurely</li>
             </ul>
+            <br /><span className="text-primary font-extrabold">Remote Party Mode</span> (Host)<br />
+            <b>DO NOT USE WHEN PLAYING IN PERSON</b><br />
+            Enable this and you can virtually and remotely card and color share.<br/>
+            This is for lobbies that are playing online rather than in person. (via Discord, Zoom, ...)
 
         </>
     );
