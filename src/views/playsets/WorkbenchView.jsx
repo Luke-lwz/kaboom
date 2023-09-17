@@ -28,8 +28,8 @@ export default function WorkbenchView(props) {
                 </>
             } />
 
-            <div className="absolute inset-0 bg-blue-100 flex flex-col lg:flex-row w-full">
-                <div className="p-4 pt-14 w-full max-w-lg bg-green-100 ">  {/* Left Bar With linked cards box */}
+            <div className="absolute inset-0 bg-blue-100 flex flex-col md:flex-row w-full">
+                <div className="p-4 pt-14 w-full max-w-sm lg:max-w-md xl:max-w-xl bg-green-100 ">  {/* Left Bar With linked cards box */}
 
 
                     <div className="flex flex-col items-start justify-start w-full h-36">  {/* Component for Linked Cards */}
