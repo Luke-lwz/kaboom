@@ -7,6 +7,7 @@
         "src": "",
         "info": "If any player color shares with you, then you win and all other players lose.",
         "tags": "necroboomicon",
-        "color_name": "dark"
+        "color_name": "dark",
+        "difficulty": 7
     }
 ]

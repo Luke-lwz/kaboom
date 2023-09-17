@@ -7,6 +7,7 @@
         "src": "/purple/can.png",
         "info": "A \"sober\" card will automatically be prepared by the game. At the beginning of the last round of the game, the Drunk character should trade their Drunk card with the \"sober\" card by swiping their opened card up. Assume all powers and responsibilities associated with the \"sober\" character card.\r\n\r\nYou lose if you forget or to trade your card for the \"sober\" card.\r\n\r\nNote: The \"sober\" card is always cleansed when it is first retrieved, meaning it has no acquired conditions.\r\n\r\nAnother Note: If you don't retrieve the \"sober\" card at the beginning of the last round, you're still considered to be the \"sober\" character.",
         "tags": "",
-        "color_name": "purple"
+        "color_name": "purple",
+        "difficulty": 4
     }
 ]

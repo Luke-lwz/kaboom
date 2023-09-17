@@ -7,7 +7,8 @@
         "src": "/blue/wing.png",
         "info": "You are on the Blue Team.\nYou win If the President does not gain the\r\n\"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be\r\non the Blue Team.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 1
     },
     {
         "name": "President",
@@ -19,7 +20,8 @@
         "src": "/blue/president.png",
         "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.\r\n\r\nGrey characters that need to know you are your natural allies.\r\n\r\n",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 2
     },
     {
         "name": "AGENT",
@@ -29,7 +31,8 @@
         "src": "/blue/id.png",
         "info": "You have the AGENT power: once per round, you may privately reveal your card to a player and force that player to card share with you. You must verbally say to the target player, \"I'm using my AGENT power. You must card share with me.\"\r\n\r\nNote: The AGENT power works even on characters that normally can't card share (e.g. Shy Guy and Coy Boy).",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "AMBASSADOR",
@@ -39,7 +42,8 @@
         "src": "/blue/car.png",
         "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "ANGEL",
@@ -49,7 +53,8 @@
         "src": "/blue/halo.png",
         "info": "You begin with the \"honest\" condition. Players with the \"honest\" condition must always verbally tell the truth. This means that you are permitted to lie as long as it is not verbally.\r\n\r\nNote: If a player with the \"honest\" condition were to acquire the \"liar\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 1
     },
     {
         "name": "BLIND",
@@ -59,7 +64,8 @@
         "src": "",
         "info": "You begin with the \"blind\" condition. Players with the \"blind\" condition must do their best to never open their eyes during the game. Don't worry, it is a short game.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 2
     },
     {
         "name": "BOUNCER",
@@ -67,9 +73,10 @@
         "description": "KICK AN EXTRA PLAYER OUT",
         "links": [],
         "src": "/blue/bouncer.png",
-        "info": "You have the BOUNCER power: if you are in a room that has more players than the other room, you may privately reveal your card to any player and verbally tell them, \"Get out!\" When you do, that player must immediately change rooms. The BOUNCER power does not work during the last round or between rounds.",
+        "info": "You have the BOUNCER power: if you are in a room that has more players than the other room, you may privately reveal your card to any player and verbally tell them, \"Get out!\" When you do, that player must immediately change rooms. The BOUNCER power does not work during the last round or between rounds. This can only be done once per round",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 5
     },
     {
         "name": "CLOWN",
@@ -79,7 +86,8 @@
         "src": "/blue/clown.png",
         "info": "Do your best to smile at all times.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 1
     },
     {
         "name": "CONMAN",
@@ -89,7 +97,8 @@
         "src": "/blue/fingers.png",
         "info": "You have the CONMAN power: when a player agrees to color share with you, private reveal instead.\r\n\r\nThey must private reveal their card too.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "COYBOY",
@@ -99,7 +108,8 @@
         "src": "/blue/mask.png",
         "info": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a\r\nPsychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the\r\n\"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "CRIMINAL",
@@ -109,7 +119,8 @@
         "src": "/blue/knife.png",
         "info": "You have the CRIMINAL power: any player that card shares with you gains the \"shy\" condition.\r\n\r\nPlayers with the \"shy\" condition may not reveal any part of their card to any player.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire the \"shy\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "ERIS",
@@ -119,7 +130,8 @@
         "src": "/blue/heart.png",
         "info": "You have the ERIS power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You hate each other.\" Those 2 players gain the \"in hate\" condition.\r\n\r\nPlayers with the \"in hate\" condition replace their original win objective with the following win objective: be in the opposite room of the player with whom you are \"in hate\" at the end of the game or fail to win.\r\n\r\nYou cannot use this power on yourself.\r\n\r\nNote: If a player with the \"in hate\" condition were to acquire the \"in love\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     },
     {
         "name": "DEALER",
@@ -129,7 +141,8 @@
         "src": "/blue/drugman.png",
         "info": "You have the DEALER power: any player that card shares with you\r\ngains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a\r\ncontradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would\r\ncancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "DEMON",
@@ -139,7 +152,8 @@
         "src": "/blue/horns.png",
         "info": "You begin with the \"liar\" condition. Players with the \"liar\" condition must always verbally tell lies. This means that you are permitted to tell the truth as long as it is not verbally.\r\n\r\nNote: If a player with the \"liar\" condition were to acquire the \"honest\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 2
     },
     {
         "name": "DOCTOR",
@@ -150,7 +164,8 @@
         "src": "/blue/medicine.png",
         "info": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with the Detonator, additional rules apply",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 5 
     },
     {
         "name": "TUESDAY KNIGHT",
@@ -160,7 +175,8 @@
         "src": "/blue/knight.png",
         "info": "You have the HUG power: if you card share with the Bomber, everyone in the same room as you, except the President, gains the \"dead\" condition and the game instantly ends.\r\n\r\nNote: the HUG power never works on the Martyr. If the Bomber is buried, the HUG power is never used.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 5
     },
     {
         "name": "ENFORCER",
@@ -170,7 +186,8 @@
         "src": "/blue/gun.png",
         "info": "You have the ENFORCER power: once per round, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You must reveal your cards to one another.\" Those 2 players must card share with one another (not to you). You cannot use this power on yourself, but another Enforcer can use their power on you.\r\n\r\nNote: The ENFORCER power works even on characters that normally can't card share (e.g. Shy Guy).",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 9
     },
     {
         "name": "INVINCIBLE",
@@ -180,7 +197,8 @@
         "src": "/blue/super.png",
         "info": "You begin with the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions without exception.\r\n\r\nNote: Players should never lie about having the \"immune\" condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "PRESIDENT'S DAUGHTER",
@@ -191,7 +209,8 @@
         "src": "/blue/girl.png",
         "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\nYou are the heir, a huge deal if the President card is buried.\r\n\r\n",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "MAYOR",
@@ -201,7 +220,8 @@
         "src": "/blue/vote.png",
         "info": "If your room has an even number of players, you may publicly reveal\r\nyour card when attempting to usurp a leader. Your vote to usurp counts\r\nas 2 votes instead of 1 unless the opposing Mayor also publicly reveals\r\ntheir card.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 5
     },
     {
         "name": "MEDIC",
@@ -211,7 +231,8 @@
         "src": "/blue/medic.png",
         "info": "You have the MEDIC power: any player that card shares with you has all \"conditions\" removed. This does not make yourself immune to acquiring conditions. The opposing Medic can remove your acquired conditions.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "MIME",
@@ -221,7 +242,8 @@
         "src": "/blue/mime.png",
         "info": "Do your best to not make any noise.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 2
     },
     {
         "name": "MUMMY",
@@ -231,7 +253,8 @@
         "src": "/blue/mummy.png",
         "info": "You have the MUMMY power: any player that card shares with you gains the \"cursed\" condition.\r\n\r\nPlayers with the \"cursed\" condition must do their best to not make any noise.\r\n\r\nNote: Because of the MUMMY power, \"cursed\" players are prevented from using any powers or abilities that requires a verbalization (e.g. Agent, Enforcer, etc.).",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "NEGOTIATOR",
@@ -241,7 +264,8 @@
         "src": "/blue/telephone.png",
         "info": "You begin with the \"savvy\" condition. Players with the \"savvy\" condition may only card share. You may not publicly, privately, or color share.\r\n\r\nNote: It is possible for \"savvy\" players to acquire conditions that prevent card sharing (e.g. the \"coy\"\r\nor \"shy\" condition). If this happens, then the \"savvy\" player can't do anything with their card.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 3
     },
     {
         "name": "NURSE",
@@ -252,7 +276,8 @@
         "src": "/blue/medhat.png",
         "info": "You are the backup character for the Doctor. If the Doctor card is buried, you must carry out Doctor responsibilities (i.e. card sharing with the President).",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     },
     {
         "name": "PAPARAZZO",
@@ -262,7 +287,8 @@
         "src": "/blue/camera.png",
         "info": "Do your best to make sure there are no private conversations. Be as intrusive and nosy as possible without actually physically manipulating others. If playing with the Privacy Promise rule variant, ignore the rule as long as you publicly reveal your card to prove to others that you are permitted to be invasive.\r\n\r\nPrivacy Promise variant recommended. Gives you an excuse to be annoying.\r\n\r\n",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 2
     },
     {
         "name": "PARANOID",
@@ -272,7 +298,8 @@
         "src": "/blue/eye.png",
         "info": "You begin with the \"paranoid\" condition. Players with the \"paranoid\" condition may only card share.\r\n\r\nMoreover, they may only card share once per game.\r\n\r\nNote: If a \"paranoid\" player is forced to card share by a power (e.g. the AGENT power), this does not count as the \"paranoid\" player's only card share.\r\n\r\nAnother Note: The \"paranoid\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"paranoid\" condition were to acquire the \"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     },
     {
         "name": "PSYCHOLOGIST",
@@ -282,7 +309,8 @@
         "src": "/blue/sofa.png",
         "info": "When you privately reveal your card to a character with a psych condition (e.g. \"shy\", \"coy\", etc.), that character may then immediately card share with you. If they do, their psych condition is removed.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "SECURITY",
@@ -292,7 +320,8 @@
         "src": "/blue/flashlight.png",
         "info": "You have the TACKLE power: publicly reveal your card, immediately\r\npick any player in the room (besides yourself), then verbally tell them,\r\n\"You're going nowhere.\" However, your card must permanently remain\r\npublicly revealed for the rest of the game. This means that you can only\r\nuse this power once. The target of your TACKLE power can't leave as a hostage this round.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 5
     },
     {
         "name": "SHY GUY",
@@ -302,7 +331,8 @@
         "src": "/blue/facemask.png",
         "info": "You begin with the \"shy\" condition. Players with the \"shy\" condition may not reveal any part of their card to any player.\r\n\r\nNote: The \"shy\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"shy\" condition were to acquire the \"foolish\" condition, the 2\r\nconditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "RED SPY",
@@ -312,7 +342,8 @@
         "src": "/blue/staff.png",
         "info": "This is a special character card that is the color of the opposite team. This means that the red Spy has an allegiance to the Red Team, but their card is blue.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 7
     },
     {
         "name": "THUG",
@@ -322,7 +353,8 @@
         "src": "/blue/knuckle.png",
         "info": "You have the THUG power: any player that card shares with you acquires the \"coy\" condition. Players with the \"coy\"\r\ncondition may only color share unless a character's power might force a card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire the \"coy\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 4
     },
     {
         "name": "USURPER",
@@ -332,7 +364,8 @@
         "src": "/blue/crown.png",
         "info": "You have the USURPER power: during any round but the last, you may publicly reveal your card and become the leader. However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. You cannot be usurped during the same round in which you used your USURPER power, not even by another Usurper. If 2 Usurpers use their power in the same room during the same round, whichever Usurper used their power first remains the leader, the other Usurper wasted their power.",
         "tags": "",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     },
     {
         "name": "TENTACLESE",
@@ -340,9 +373,10 @@
         "description": "PULL AN EXTRA PLAYER INTO YOUR ROOM",
         "links": [],
         "src": "/blue/tentacle.png",
-        "info": "You have the TENTACLE power: if you are in a room that has fewer players than the other room, you may leave your current room.\r\n\r\nYou never count as a member of the opposing room while using the TENTACLE power. Upon entering the opposing room, you must IMMEDIATELY grab any player of your choosing. Both you and that grabbed player return to the room from which you just left.\r\n\r\nIn the case where the chosen player is a character who is unaffected by powers (example: the Immunologist), Tentaclese's power has been wasted and you must IMMEDIATELY grab a different player.\r\n\r\nIf Tentaclese uses the TENTACLE power on a room's leader, the leader should immediately place the leader card on the ground. At this point, a new leader is nominated in the same method as the first round.\r\n\r\nYou may use the TENTACLE power during anytime EXCEPT FOR THE LAST ROUND. This can be done limitlessly.",
+        "info": "You have the TENTACLE power: if you are in a room that has fewer players than the other room, you may leave your current room.\r\n\r\nYou never count as a member of the opposing room while using the TENTACLE power. Upon entering the opposing room, you must IMMEDIATELY grab any player of your choosing. Both you and that grabbed player return to the room from which you just left.\r\n\r\nIn the case where the chosen player is a character who is unaffected by powers (example: the Immunologist), Tentaclese's power has been wasted and you must IMMEDIATELY grab a different player.\r\n\r\nIf Tentaclese uses the TENTACLE power on a room's leader, the leader should immediately place the leader card on the ground. At this point, a new leader is nominated in the same method as the first round.\r\n\r\nYou may use the TENTACLE power during anytime EXCEPT FOR THE LAST ROUND. This can be done once per round.",
         "tags": "necroboomicon",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     },
     {
         "name": "IGNITER",
@@ -352,7 +386,8 @@
         "src": "/blue/lighter.png",
         "info": "If you card share with the Bomber, the game will end early.\r\n\r\nEveryone in the same room as the Bomber instantly gains the \"dead\" condition.\r\n\r\nBlue Team wins if the President survives.",
         "tags": "custom patch1 friends",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 7
     },
     {
         "name": "DEFUSER",
@@ -360,9 +395,10 @@
         "description": "CARD SHARE WITH BOMBER >> DEFUSED",
         "links": [],
         "src": "/blue/pliers.png",
-        "info": "Card sharing with the Bomber defuses him. He now has to card share with the Engineer again or else the Red Team loses.\r\n\r\nNote: if the Engineer was buried (Rulebook p.12), the Bomber has to card share with the Tinkerer instead of the Engineer\r\n\r\nNote: If neither Engineer nor Tinkerer are part of the game, this card is considered a Blue Team card and cannot defuse the Bomber",
+        "info": "Card sharing with the Bomber defuses him. He now has to card share with the Engineer again or else the Red Team loses. (if the President is buried, card share with the President's Daughter instead)\r\n\r\nNote: if the Engineer was buried (Rulebook p.12), the Bomber has to card share with the Tinkerer instead of the Engineer\r\n\r\nNote: If neither Engineer nor Tinkerer are part of the game, this card is considered a Blue Team card and cannot defuse the Bomber",
         "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/hiRbxwJ_slip-joint-pliers-clip-arts-slip-joint-pliers/"},
         "tags": "custom patch1 friends",
-        "color_name": "blue"
+        "color_name": "blue",
+        "difficulty": 6
     }
 ]
