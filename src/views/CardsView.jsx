@@ -87,6 +87,7 @@ function CardsView({ }) {
         allSorted = allSorted.sort((x, y) => { return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0; });
 
+        allSorted = allSorted.sort((x, y) => { return x.id.startsWith("y") ? 1 : y.id.startsWith("y") ? -1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("g") ? 1 : y.id.startsWith("g") ? -1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("p") ? 1 : y.id.startsWith("p") ? -1 : 0; });
         allSorted = allSorted.sort((x, y) => { return x.id.startsWith("e") ? 1 : y.id.startsWith("e") ? -1 : 0; });

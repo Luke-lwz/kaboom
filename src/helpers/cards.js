@@ -1,5 +1,6 @@
 import BlueCards from "../config/cards/blue.json";
 import RedCards from "../config/cards/red.json";
+import YellowCards from "../config/cards/yellow.json";
 import GreyCards from "../config/cards/grey.json";
 import GreenCards from "../config/cards/green.json";
 import PurpleCards from "../config/cards/purple.json";
@@ -10,7 +11,7 @@ import SpecialCards from "../config/cards/special.json";
 // icons
 import { FaBomb, FaTheaterMasks } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
-import { GiBrain, GiBottleCap } from "react-icons/gi";
+import { GiBrain, GiBottleCap, GiThrownKnife } from "react-icons/gi";
 import { MdDarkMode } from "react-icons/md"
 import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
@@ -22,8 +23,8 @@ export const CARD_COLOR_NAMES = {
     grey: "g",
     green: "e",
     purple: "p",
-    dark: "d"
-    
+    dark: "d",
+    yellow: "y"
 }
 
 
@@ -69,6 +70,13 @@ export const CARD_COLORS = {
         text: "#000000",
         title: "Black Team",
         icon: MdDarkMode,
+    },
+    y: { // d = dark
+        primary: "#ffde26",
+        secondary: "#6e4c18",
+        text: "#ffffff",
+        title: "Yellow Team",
+        icon: GiThrownKnife,
     }
 }
 
@@ -268,6 +276,7 @@ export function getCardFromId(id) {
 
     card = BlueCards.filter(c => c.id == id)[0] || null;
     if (!card) card = RedCards.filter(c => c.id == id)[0] || card;
+    if (!card) card = YellowCards.filter(c => c.id == id)[0] || card;
     if (!card) card = GreyCards.filter(c => c.id == id)[0] || card;
     if (!card) card = GreenCards.filter(c => c.id == id)[0] || card;
     if (!card) card = PurpleCards.filter(c => c.id == id)[0] || card;
@@ -297,7 +306,7 @@ export function getCardColorFromColorName(color_name) {
 
 
 export function getAllCards() {
-    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
+    var all = [...BlueCards, ...RedCards, ...YellowCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
     all = all.map(c => ({ ...c, color: getCardColorFromColorName(c?.color_name) }))
     return all;
 }

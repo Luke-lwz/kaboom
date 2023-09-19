@@ -400,5 +400,16 @@
         "tags": "custom patch1 friends",
         "color_name": "red",
         "difficulty": 6
+    },
+    {
+        "name": "BODY GUARD",
+        "id": "r036",
+        "description": "PROHIBIT CARD & COLOR SHARES",
+        "links": [],
+        "src": "",
+        "info": "Once per round // Only last one round",
+        "tags": "custom patch1 friends",
+        "color_name": "red",
+        "difficulty": 5
     }
 ]

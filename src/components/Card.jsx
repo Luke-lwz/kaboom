@@ -139,7 +139,7 @@ export function CardFront({ onClick = () => { }, color, card }) {
                     </div>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center h-1/6">
-                    <h1 className="text-title h-full w-9/12 flex justify-center items-center p-2 text-2xl font-extrabold uppercase">
+                    <h1 className={"text-title h-full w-9/12 flex justify-center items-center p-2 font-extrabold uppercase " + (color?.title?.length < 10 ? " text-2xl " :  " text-xl ")}>
                         {color.title}
                     </h1>
                     <div className="w-3/12 flex items-center justify-center text-2xl">
