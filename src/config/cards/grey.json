@@ -342,5 +342,27 @@
         "tags": "patch1",
         "color_name": "grey",
         "difficulty": 5
+    },
+    {
+        "name": "HORSE",
+        "id": "g031",
+        "description": "DONT LEAVE WITHOUT YOUR CARRIAGE",
+        "links": ["g032"],
+        "src": "/grey/telepath_meme.png",
+        "info": "You win as soon as you leave a room as a hostage together with the carriage",
+        "tags": "custom patch1 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "CARRIAGE",
+        "id": "g032",
+        "description": "DONT LEAVE WITHOUT YOUR HORSE",
+        "links": ["g031"],
+        "src": "/grey/telepath_meme.png",
+        "info": "You win as soon as you leave a room as a hostage together with the horse",
+        "tags": "custom patch1 friends",
+        "color_name": "grey",
+        "difficulty": 5
     }
 ]
