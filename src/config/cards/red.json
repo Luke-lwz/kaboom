@@ -400,5 +400,17 @@
         "tags": "custom patch1 friends",
         "color_name": "red",
         "difficulty": 6
+    },
+    {
+        "name": "POISON2",
+        "id": "r036",
+        "description": "CARD SHARE WITH PRESIDENT >> POISONED",
+        "links": [],
+        "src": "/red/poison.png",
+        "info": "Card sharing with the President poisons him. He now has to card share with the Doctor again or else the Blue Team loses.  (if the Bomber is buried, card share with the Martyr instead)\r\n\r\nNote: if the Doctor was buried (Rulebook p.12), the President has to card share with the Nurse instead of the Doctor\r\n\r\nNote: If neither Doctor nor Nurse are part of the game, this card is considered a Red Team card and cannot poison the President",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/bottle-with-skull-potion-poison-hand-drawn-illustration_5323288.html?sol=downref&id=bef"},
+        "tags": "custom patch1 friends",
+        "color_name": "red",
+        "difficulty": 6
     }
 ]
