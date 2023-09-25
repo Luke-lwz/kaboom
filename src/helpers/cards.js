@@ -246,15 +246,15 @@ export function getCardsForPlayset(game_data) {
         const nonLinkedCards = cards.filter(c => {
             if (c.links?.length > 0) return false;
 
-            let secondary_exists = false;
-            if (c?.secondaries?.[0]) {
-                for (let i = 0; i < c?.secondaries?.length; i++) {
-                    let secondary = c?.secondaries?.[i];
-                    if (cards.filter(c => c?.id === secondary)?.[0]) secondary_exists = true;
+            let backup_exists = false;
+            if (c?.backup_cards?.[0]) {
+                for (let i = 0; i < c?.backup_cards?.length; i++) {
+                    let backup = c?.backup_cards?.[i];
+                    if (cards.filter(c => c?.id === backup)?.[0]) backup_exists = true;
                 }
-            } else secondary_exists = true;
+            } else backup_exists = true;
 
-            if (!secondary_exists) return false
+            if (!backup_exists) return false
             return true
         })
 

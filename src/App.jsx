@@ -31,6 +31,9 @@ import Menu from './components/Menu';
 import Menu2 from './components/Menu2';
 import WorkbenchView from './views/playsets/WorkbenchView';
 
+const isBeta = import.meta.env.VITE_BETA || false;
+
+
 
 
 function App() {
@@ -47,6 +50,7 @@ function App() {
   const [onMenuHide2, setOnMenuHide2] = useState(null); //{execute: () => {}} will be function taht gets fired once when menu is onHide
 
   const [devMode, setDevMode] = useState(false);
+
 
 
   useEffect(() => {
@@ -195,7 +199,17 @@ function App() {
 
         </Routes>
       </PageContextProvider>
+      {isBeta && <BetaBanner />}
     </div>
+  )
+}
+
+
+function BetaBanner() {
+  return (
+    <a href='https://discord.gg/EmDbDm6PMz' className='bg-secondary rounded-lg px-5 py-3 text-lg text-title text-secondary-content font-extrabold fixed left-2 bottom-2 cursor-pointer opacity-80'>
+      BETA
+    </a>
   )
 }
 

@@ -35,6 +35,7 @@ import ContributeLinks from "../components/ContributeLinks";
 
 
 
+const isBeta = import.meta.env.VITE_BETA || false;
 
 
 function HomeView({ }) {
@@ -325,9 +326,12 @@ function HomeView({ }) {
 
             {devMode && <DevModeBanner />}
             <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 rounded-full text-primary relative w-full flex items-center justify-center">
-                <div className="flex flex-col items-center" onClick={clickDev}>
+                <div className="flex flex-col items-center relative" onClick={clickDev}>
                     KABOOM
                     <span className="text-neutral text-normal text-xs font-light">Adaptation of Two Rooms and a Boom&trade;</span>
+                    {isBeta && <div className="absolute text-sm md:text-base text-secondary-content bg-secondary rounded-lg px-3 md:px-4 py-1.5 md:py-2 -rotate-12 right-2 sm:right-0 md:-right-4 bottom-0 animate-pulse">
+                        BETA
+                    </div>}
                 </div>
 
             </div>
