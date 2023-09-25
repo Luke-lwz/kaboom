@@ -46,7 +46,7 @@ export default function WorkbenchView(props) {
         <div className="flex flex-col md:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide ">
 
 
-            <div className="w-full md:max-w-md xl:max-w-xl flex flex-col items-start justify-start grow border-neutral/10 border-b md:border-r ">  {/* Left Bar With linked cards box */}
+            <div className="w-full md:max-w-md xl:max-w-xl flex flex-col items-start justify-start grow border-neutral/10 border-b md:border-r">  {/* Left Bar With linked cards box */}
 
 
                 <div className="shadow-xl shadow-base-100">
