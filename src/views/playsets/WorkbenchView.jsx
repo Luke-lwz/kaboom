@@ -28,7 +28,13 @@ export default function WorkbenchView(props) {
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"],
     ])
-
+    const [generalCards, setGeneralCards] = useState([
+        ["b014", "r014"],
+    ])
+    const [oddCard, setoddCard] = useState("g008"); // nullable
+    const [defaultCards, setDefaultCards] = useState([
+        ["b000", "r000"],
+    ])
 
     // events
     function onCardSetInfo(card) {
@@ -37,32 +43,51 @@ export default function WorkbenchView(props) {
 
 
     return (
-        <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll pb-24 ">
-            <TitleBar fixed titleElement={
-                <>
-                    <FaTools />
-                    <h1>Workbench</h1>
-                </>
-            } />
+        <div className="flex flex-col md:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide ">
 
-            <div className="absolute inset-0 flex flex-col md:flex-row w-full">
-                <div className="p-4 pt-14 w-full max-w-sm lg:max-w-md xl:max-w-xl">  {/* Left Bar With linked cards box */}
+
+            <div className="w-full md:max-w-md xl:max-w-xl flex flex-col items-start justify-start grow ">  {/* Left Bar With linked cards box */}
+
+
+                <div className="shadow-xl shadow-base-100">
+                    <TitleBar titleElement={
+                        <>
+                            <FaTools />
+                            <h1>Workbench</h1>
+                        </>
+                    } />
+                </div>
+                <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 flex flex-col">
 
 
                     <WorkbenchPlaysetArea areaId="primaries">
                         {primaries.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"primary-" + i + cards?.[0]?.id} id={cards[0]} />)}
                     </WorkbenchPlaysetArea>
 
+                    <WorkbenchPlaysetArea areaId="general">
+                        {generalCards.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"general-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    </WorkbenchPlaysetArea>
+
+                    <WorkbenchPlaysetArea areaId="odd" hideAddButton={oddCard}>
+                        {oddCard && <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"odd-card"} id={oddCard} />}
+                    </WorkbenchPlaysetArea>
+
+                    <WorkbenchPlaysetArea areaId="default" hideAddButton={oddCard} >
+                        {defaultCards.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"general-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    </WorkbenchPlaysetArea>
 
 
                 </div>
 
 
 
+            </div>
 
-                <div className="p-4 pt-14 grow bg-neutral/10">  {/* Right Bar With More Settings */}
 
-                </div>
+
+
+            <div className="p-4 grow bg-neutral/10 md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide">
+                lol
             </div>
 
         </div>
@@ -125,6 +150,9 @@ export function VerticalDivider() {
         <div className="h-full p-[1px] rounded-full bg-neutral/20" />
     )
 }
+
+
+
 
 
 
