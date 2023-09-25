@@ -1,5 +1,5 @@
 
-
+import { useState, useContext } from "react"
 
 // icons
 import { FaTools, FaBomb } from "react-icons/fa"
@@ -10,7 +10,10 @@ import { MdOutlineClose } from "react-icons/md"
 
 
 import LinkedCardsContainer from "../../components/LinkedCardsContainer";
-import { getLinkedCardsPairedById } from "../../helpers/cards";
+import { getCardFromId, getLinkedCardsPairedById } from "../../helpers/cards";
+import { PageContext } from "../../components/PageContextProvider";
+import CardInfoMenu from "../../components/menus/CardInfoMenu";
+import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
 
 
 
@@ -19,6 +22,20 @@ import { getLinkedCardsPairedById } from "../../helpers/cards";
 
 
 export default function WorkbenchView(props) {
+
+    const { setMenu } = useContext(PageContext);
+
+    const [primaries, setPrimaries] = useState([
+        ["b001", "r001"],
+    ])
+
+
+    // events
+    function onCardSetInfo(card) {
+        setMenu(<CardInfoMenu card={card} color={card?.color} />)
+    }
+
+
     return (
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll pb-24 ">
             <TitleBar fixed titleElement={
@@ -28,32 +45,49 @@ export default function WorkbenchView(props) {
                 </>
             } />
 
-            <div className="absolute inset-0 bg-blue-100 flex flex-col md:flex-row w-full">
-                <div className="p-4 pt-14 w-full max-w-sm lg:max-w-md xl:max-w-xl bg-green-100 ">  {/* Left Bar With linked cards box */}
+            <div className="absolute inset-0 flex flex-col md:flex-row w-full">
+                <div className="p-4 pt-14 w-full max-w-sm lg:max-w-md xl:max-w-xl">  {/* Left Bar With linked cards box */}
 
 
-                    <div className="flex flex-col items-start justify-start w-full h-36">  {/* Component for Linked Cards */}
-                        <div className="flex items-center justify-start h-full w-full">
-                            <LinkedCardsContainer cards={getLinkedCardsPairedById("r000")} />
-                            <div className="w-12 bg-purple-200 p-2 h-full flex flex-col items-center justify-center">
-                                <ActionCircle icon={<MdOutlineClose />} />
-                                <ActionCircle icon={<AiOutlineInfoCircle />} />
-                            </div>
-                        </div>
-                    </div>
+                    <WorkbenchPlaysetArea areaId="primaries">
+                        {primaries.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"primary-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    </WorkbenchPlaysetArea>
+
+
 
                 </div>
 
 
 
 
-                <div className="p-4 pt-14 grow bg-red-100">  {/* Right Bar With More Settings */}
+                <div className="p-4 pt-14 grow bg-neutral/10">  {/* Right Bar With More Settings */}
 
                 </div>
             </div>
 
         </div>
     );
+}
+
+
+
+
+
+export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
+
+    const cards = getLinkedCardsPairedById(id)
+
+    return (
+        <div className="flex flex-col items-start justify-start w-full h-36">
+            <div className="flex items-center justify-start h-full w-full">
+                <LinkedCardsContainer cards={cards} />
+                <div className="w-12 p-2 h-full flex flex-col items-center justify-center">
+                    <ActionCircle icon={<MdOutlineClose />} />
+                    <ActionCircle onClick={() => onInfo(cards[0])} icon={<AiOutlineInfoCircle />} />
+                </div>
+            </div>
+        </div>
+    )
 }
 
 
