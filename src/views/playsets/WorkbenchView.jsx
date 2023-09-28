@@ -60,7 +60,7 @@ export default function WorkbenchView(props) {
                 <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 flex flex-col">
 
 
-                    <WorkbenchPlaysetArea areaId="primaries">
+                    <WorkbenchPlaysetArea areaId="primaries" infoText={"lol"}>
                         {primaries.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"primary-" + i + cards?.[0]?.id} id={cards[0]} />)}
                     </WorkbenchPlaysetArea>
 
@@ -103,13 +103,16 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
     const cards = getLinkedCardsPairedById(id)
 
     return (
-        <div className="flex flex-col items-start justify-start w-full h-36">
-            <div className="flex items-center justify-start h-full w-full">
+        <div className="flex flex-col items-start justify-start w-full h-fit gap-1">
+            <div className="flex items-center justify-start h-36 w-full">
                 <LinkedCardsContainer cards={cards} />
                 <div className="w-12 p-2 h-full flex flex-col items-center justify-center">
                     <ActionCircle icon={<MdOutlineClose />} />
                     <ActionCircle onClick={() => onInfo(cards[0])} icon={<AiOutlineInfoCircle />} />
                 </div>
+            </div>
+            <div className="overflow-x-scroll scrollbar-hide flex items-center">
+                
             </div>
         </div>
     )
