@@ -10,32 +10,32 @@ const DIFFICULTIES = [
         }
     },
     {
-        name: "Beginner",
-        key: "beginner",
+        name: "Advanced",
+        key: "advanced",
         colors: {
             primary: "",
             secondary: ""
         }
     },
     {
-        name: "Beginner",
-        key: "beginner",
+        name: "Intermediate",
+        key: "intermediate",
         colors: {
             primary: "",
             secondary: ""
         }
     },
     {
-        name: "Beginner",
-        key: "beginner",
+        name: "Expert",
+        key: "expert",
         colors: {
             primary: "",
             secondary: ""
         }
     },
     {
-        name: "Beginner",
-        key: "beginner",
+        name: "Master",
+        key: "master",
         colors: {
             primary: "",
             secondary: ""
@@ -46,7 +46,7 @@ const DIFFICULTIES = [
 
 
 export function getDifficultyDataFromValue(value) {
-    const index = ""
+    const index = (Math.ceil(value / 2) -1); // gets index from number from 1-10
     const diff = DIFFICULTIES[index] || DIFFICULTIES[0];
     return {...diff, difficulty: value}
 }

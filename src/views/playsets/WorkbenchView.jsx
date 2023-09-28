@@ -14,6 +14,7 @@ import { getCardFromId, getLinkedCardsPairedById } from "../../helpers/cards";
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
 import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
+import Pill from "../../components/Pills";
 
 
 
@@ -60,7 +61,7 @@ export default function WorkbenchView(props) {
                 <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 flex flex-col">
 
 
-                    <WorkbenchPlaysetArea areaId="primaries" infoText={"lol"}>
+                    <WorkbenchPlaysetArea areaId="primaries">
                         {primaries.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"primary-" + i + cards?.[0]?.id} id={cards[0]} />)}
                     </WorkbenchPlaysetArea>
 
@@ -112,7 +113,7 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
                 </div>
             </div>
             <div className="overflow-x-scroll scrollbar-hide flex items-center">
-                
+                <Pill>Hi</Pill>
             </div>
         </div>
     )
