@@ -1,11 +1,15 @@
 import React from 'react';
 
-export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false }) {
+export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip }) {
     return (
         <>
-            {bgBaseify && <div className='bg-base-100 rounded-full w-fit h-fit'></div>}
-            <div style={{ backgroundColor: bgColor, color: textColor }} className='text-xs font bold bg-blue-400 rounded-full px-3 min-w-[2rem] w-fit py-1'>
-                {children}
+            <div className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
+                <div style={{ backgroundColor: bgColor, color: textColor }} className='text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 '>
+                    {Icon && <div className='-ml-1 text-sm'>
+                        <Icon />
+                    </div>}
+                    {children}
+                </div>
             </div>
         </>
     );

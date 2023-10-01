@@ -5,12 +5,15 @@ import { useState, useContext } from "react"
 import { FaTools, FaBomb } from "react-icons/fa"
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { MdOutlineClose } from "react-icons/md"
+import { RiSpeedUpFill } from "react-icons/ri"
+import { GiSwordwoman } from "react-icons/gi"
 
 
 
 
 import LinkedCardsContainer from "../../components/LinkedCardsContainer";
 import { getCardFromId, getLinkedCardsPairedById } from "../../helpers/cards";
+import { avgFromCards, getDifficultyDataFromValue } from "../../helpers/difficulty";
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
 import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
@@ -58,7 +61,7 @@ export default function WorkbenchView(props) {
                         </>
                     } />
                 </div>
-                <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 flex flex-col">
+                <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 pb-20 flex flex-col">
 
 
                     <WorkbenchPlaysetArea areaId="primaries">
@@ -88,7 +91,7 @@ export default function WorkbenchView(props) {
 
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32">
-                
+
             </div>
 
         </div>
@@ -102,6 +105,8 @@ export default function WorkbenchView(props) {
 export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
 
     const cards = getLinkedCardsPairedById(id)
+    const averageDifficulty = avgFromCards(cards)
+    const difficultyData = getDifficultyDataFromValue(averageDifficulty)
 
     return (
         <div className="flex flex-col items-start justify-start w-full h-fit gap-1">
@@ -113,7 +118,7 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
                 </div>
             </div>
             <div className="overflow-x-scroll scrollbar-hide flex items-center">
-                <Pill>Hi</Pill>
+                {difficultyData && <Pill Icon={GiSwordwoman} bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={difficultyData?.difficulty}>{difficultyData?.name}</Pill>}
             </div>
         </div>
     )
