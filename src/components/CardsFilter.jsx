@@ -43,12 +43,16 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
     const [searchFocused, setSearchFocused] = useState(false);
     const [search, setSearch] = useState(defaultSearch);
 
+
     useEffect(() => {
-        filterVisibleCards(search)
-    }, [search])
+        if (defaultSearch) filterVisibleCards(defaultSearch)
+
+    }, [])
+
 
 
     function handleSearchUpdate(value) {
+        filterVisibleCards(value)
         setSearch(value);
         onSearchUpdate(value)
     }
@@ -85,6 +89,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
     function filterVisibleCards(query) {
+        console.log("äää", query)
         if (query === "") return setVisibleCards(allCards)
         const q = query.toLowerCase()
         var cards = allCards.filter(card => {
