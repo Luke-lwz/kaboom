@@ -80,13 +80,13 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                     <CardsRow cards={playset?.primaries} />
                 </PlaysetDisplayArea>
 
-                <PlaysetDisplayArea areaId={"general"}>
+                {playset?.cards?.[0] && <PlaysetDisplayArea areaId={"general"}>
                     <CardsRow cards={playset?.cards} />
-                </PlaysetDisplayArea>
+                </PlaysetDisplayArea>}
 
-                <PlaysetDisplayArea areaId={"odd"}>
+                {playset?.odd_card && <PlaysetDisplayArea areaId={"odd"}>
                     <CardsRow cards={[playset?.odd_card]} />
-                </PlaysetDisplayArea>
+                </PlaysetDisplayArea>}
 
                 <PlaysetDisplayArea areaId={"default"}>
                     <CardsRow cards={playset?.default_cards || [getCardFromId("b000"), getCardFromId("r000")]} />

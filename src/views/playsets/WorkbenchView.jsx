@@ -300,7 +300,7 @@ export default function WorkbenchView(props) {
 
 
 
-            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32 gap-4">
+            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32 gap-4 flex flex-col items-center">
                 <input type="text" placeholder="Name" className="input w-full" />
                 <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
             </div>
