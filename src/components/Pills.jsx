@@ -19,34 +19,34 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
 
 
 
-export function DifficultyPill({ difficulty = 7 }) {
+export function DifficultyPill({ difficulty = 7, minimal = false }) {
     const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
     return (
         <Pill bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
-            <div className='-ml-1 flex items-center justify-center'>
+            <div className={'-ml-1 flex items-center justify-center ' + (minimal ? " -mr-1 " : "")}>
 
                 <SmallRadialProgress value={(difficultyData?.difficulty || 7) * 10} />
             </div>
-            <div className='ml-1'>
+            {!minimal && <div className='ml-0.5'>
                 {difficultyData?.name}
-            </div>
+            </div>}
         </Pill>
     )
 }
 
 
 
-export function WhiteDifficultyPill({ difficulty = 7 }) {
+export function WhiteDifficultyPill({ difficulty = 7, minimal = false }) {
     const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
     return (
         <Pill bgColor={"#ffffff20"} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
-            <div className='-ml-1 flex items-center justify-center'>
+            <div className={'-ml-1 flex items-center justify-center ' + (minimal ? " -mr-1 " : "")}>
 
                 <SmallRadialProgress value={(difficultyData?.difficulty || 7) * 10} />
             </div>
-            <div className='ml-1'>
+            {!minimal && <div className='ml-0.5'>
                 {difficultyData?.name}
-            </div>
+            </div>}
         </Pill>
     )
 }
