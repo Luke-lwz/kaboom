@@ -44,7 +44,7 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
                     {devMode && <div style={{ color: color.primary }} className='absolute top-1 right-2 text-xs'>{card.id.toUpperCase()}</div>}
                 </div>
                 <div className='flex items-center justify-start w-full -my-2'>
-                    <WhiteDifficultyPill difficulty={card?.difficulty} />
+                    <WhiteDifficultyPill key={card?.id} difficulty={card?.difficulty} />
 
                 </div>
                 <div className='h-full w-full text-base-content p-4 pb-2.5 text-lg flex flex-col overflow-y-scroll scrollbar-hide leading-5 bg-white rounded-lg '>

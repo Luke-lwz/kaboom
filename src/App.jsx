@@ -32,6 +32,7 @@ import Menu2 from './components/Menu2';
 import WorkbenchView from './views/playsets/WorkbenchView';
 import CardsFilter from './components/CardsFilter';
 import CardsView from './views/CardsView';
+import PageCover from './components/PageCover';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -50,6 +51,9 @@ function App() {
 
   const [menu2, setMenu2] = useState(null); // contains element will be rendered as child to Menu component
   const [onMenuHide2, setOnMenuHide2] = useState(null); //{execute: () => {}} will be function taht gets fired once when menu is onHide
+
+  const [pageCover, setPageCover] = useState(null); // element that covers page {title: string, element: string | ReactNode}
+
 
   const [devMode, setDevMode] = useState(false);
 
@@ -168,7 +172,8 @@ function App() {
         )}
       </Toaster>
 
-      <PageContextProvider value={{ toast, navigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, devMode, setDevMode }}>
+      <PageContextProvider value={{ toast, navigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, pageCover, setPageCover, devMode, setDevMode }}>
+        {pageCover && <PageCover {...pageCover} />}
         {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
         {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
         {menu && <Menu onCancel={menuHide}>{menu}</Menu>}
@@ -181,7 +186,7 @@ function App() {
 
 
           <Route path="/cards" element={<CardsView />} />
-          
+
 
           <Route path="/privacy" element={<Privacy />} />
 

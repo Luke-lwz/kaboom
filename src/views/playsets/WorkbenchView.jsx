@@ -1,5 +1,5 @@
 
-import { useState, useContext } from "react"
+import { useState, useContext, useCallback, useMemo } from "react"
 
 // icons
 import { FaTools, FaBomb } from "react-icons/fa"
@@ -12,22 +12,34 @@ import { GiSwordwoman } from "react-icons/gi"
 
 
 import LinkedCardsContainer from "../../components/LinkedCardsContainer";
-import { getCardFromId, getLinkedCardsPairedById } from "../../helpers/cards";
+import { getAllCards, getCardFromId, getLinkedCardsPaired, getLinkedCardsPairedById } from "../../helpers/cards";
 import { avgFromCards, getDifficultyDataFromValue } from "../../helpers/difficulty";
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
 import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
 import Pill, { DifficultyPill } from "../../components/Pills";
+import CardsFilter from "../../components/CardsFilter";
 
 
 
-
+const MIN = {
+    primaries: 2,
+    generalCards: 0,
+    oddCard: 0,
+    defaultCards: 2
+}
+const MAX = {
+    primaries: 3,
+    generalCards: 1000,
+    oddCard: 1,
+    defaultCards: 2
+}
 
 
 
 export default function WorkbenchView(props) {
 
-    const { setMenu } = useContext(PageContext);
+    const { setMenu, setPageCover } = useContext(PageContext);
 
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"],
@@ -40,9 +52,104 @@ export default function WorkbenchView(props) {
         ["b000", "r000"],
     ])
 
+
+
     // events
     function onCardSetInfo(card) {
         setMenu(<CardInfoMenu card={card} color={card?.color} />)
+    }
+
+
+    // functions
+    function crackOpenPairs(pairs) { // makes 1d array from 2d array
+        var cracked = [];
+        pairs.forEach(cardPair => {
+            cracked = [...cracked, ...cardPair]
+        })
+
+        return cracked;
+    }
+
+    function removeAtIndex(arr, index) {
+        return arr.filter((value, i) => i !== index);
+    }
+
+    // useCallback functions
+    const getAllCardsInPlaysetInRowId = useCallback(() => {
+        var allCardsIds = [];
+
+        primaries.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        generalCards.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        defaultCards.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        if (oddCard) allCardsIds.push(oddCard);
+
+
+        return allCardsIds
+    }, [primaries, generalCards, oddCard, defaultCards])
+
+
+
+
+    // select
+    function onPrimaryCardsClick(clickedIndex) {
+        const allCardsInPlaysetId = getAllCardsInPlaysetInRowId()
+        var primaryCards = getAllCards()?.filter(card => card?.primary && !allCardsInPlaysetId.includes(card?.id));
+        setPageCover({
+            title: "Select primary",
+            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
+            onClose: () => setPageCover(null)
+        })
+
+
+        function replaceOrAddCard(card) {
+            var cardsIdsPair = getLinkedCardsPaired(card)?.map(c => c?.id);
+
+            if (clickedIndex !== undefined && clickedIndex !== null) { // replace at this index
+                setPrimaries(primaries => {
+                    primaries[clickedIndex] = cardsIdsPair;
+                    return primaries;
+                })
+            } else { // add new
+                setPrimaries(primaries => {
+                    return [...primaries, cardsIdsPair]
+                });
+
+            }
+            setPageCover(null)
+        }
+    }
+
+    function onGeneralCardsClick(clickedIndex) {
+        var primaryCards = getAllCards()?.filter(card => !card?.primary);
+        setPageCover({
+            title: "Select general card(s)",
+            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
+            onClose: () => setPageCover(null)
+        })
+
+
+        function replaceOrAddCard(card) {
+            var cardsIdsPair = getLinkedCardsPaired(card)?.map(c => c?.id);
+
+            if (clickedIndex !== undefined && clickedIndex !== null) { // replace at this index
+                setGeneralCards(generalCards => {
+                    generalCards[clickedIndex] = cardsIdsPair;
+                    return generalCards;
+                })
+            } else { // add new
+                setGeneralCards(generalCards => {
+                    return [...generalCards, cardsIdsPair]
+                });
+
+            }
+            setPageCover(null)
+        }
     }
 
 
@@ -64,20 +171,61 @@ export default function WorkbenchView(props) {
                 <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 pb-20 flex flex-col">
 
 
-                    <WorkbenchPlaysetArea areaId="primaries">
-                        {primaries.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"primary-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    <WorkbenchPlaysetArea
+                        areaId="primaries"
+                        min={MIN.primaries}
+                        max={MAX.primaries}
+                        cardCount={crackOpenPairs(primaries)?.length || 0}
+                        onAdd={() => onPrimaryCardsClick(null)}>
+
+                        {primaries.map((cardsIds, i) => <WorkbenchLinkedCards
+                            onX={() => setPrimaries(primaries => removeAtIndex(primaries, i))}
+                            onClick={() => onPrimaryCardsClick(i)}
+                            onInfo={onCardSetInfo}
+                            key={"primary-" + i + cardsIds?.[0]?.id} id={cardsIds[0]} />)}
+
                     </WorkbenchPlaysetArea>
 
-                    <WorkbenchPlaysetArea areaId="general">
-                        {generalCards.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"general-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    <WorkbenchPlaysetArea
+                        areaId="general"
+                        min={MIN.generalCards}
+                        max={MAX.generalCards}
+                        cardCount={crackOpenPairs(generalCards)?.length || 0}
+                        onAdd={() => onGeneralCardsClick(null)}>
+
+                        {generalCards.map((cardsIds, i) => <WorkbenchLinkedCards
+                            onX={() => setGeneralCards(generalCards => removeAtIndex(generalCards, i))}
+                            onClick={() => onGeneralCardsClick(i)}
+                            onInfo={onCardSetInfo}
+                            key={"general-" + i + cardsIds?.[0]?.id}
+                            id={cardsIds[0]} />)}
+
                     </WorkbenchPlaysetArea>
 
-                    <WorkbenchPlaysetArea areaId="odd" hideAddButton={oddCard}>
-                        {oddCard && <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"odd-card"} id={oddCard} />}
+                    <WorkbenchPlaysetArea
+                        areaId="odd"
+                        min={MIN.oddCard}
+                        max={MAX.oddCard}
+                        cardCount={oddCard ? 1 : 0}>
+
+                        {oddCard && <WorkbenchLinkedCards
+                            onInfo={onCardSetInfo}
+                            key={"odd-card"}
+                            id={oddCard} />}
+
                     </WorkbenchPlaysetArea>
 
-                    <WorkbenchPlaysetArea areaId="default" hideAddButton={oddCard} >
-                        {defaultCards.map((cards, i) => <WorkbenchLinkedCards onInfo={onCardSetInfo} key={"general-" + i + cards?.[0]?.id} id={cards[0]} />)}
+                    <WorkbenchPlaysetArea
+                        areaId="default"
+                        min={MIN.defaultCards}
+                        max={MAX.defaultCards}
+                        cardCount={crackOpenPairs(defaultCards)?.length || 0} >
+
+                        {defaultCards.map((cardsIds, i) => <WorkbenchLinkedCards
+                            onInfo={onCardSetInfo}
+                            key={"general-" + i + cardsIds?.[0]?.id}
+                            id={cardsIds[0]} />)}
+
                     </WorkbenchPlaysetArea>
 
 
@@ -102,24 +250,24 @@ export default function WorkbenchView(props) {
 
 
 
-export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
+export function WorkbenchLinkedCards({ id, onInfo = (card) => { }, onClick = () => { }, onX = () => { } }) {
 
-    const cards = getLinkedCardsPairedById(id)
-    const averageDifficulty = avgFromCards(cards)
+    const cards = useMemo(() => getLinkedCardsPairedById(id), [id])
+    const averageDifficulty = useMemo(() => avgFromCards(cards), [cards])
     // const difficultyData = getDifficultyDataFromValue(averageDifficulty)
 
     return (
         <div className="flex flex-col items-start justify-start w-full h-fit gap-1">
             <div className="flex items-center justify-start h-36 w-full">
-                <LinkedCardsContainer cards={cards} />
+                <LinkedCardsContainer cards={cards} onClick={onClick} />
                 <div className="w-12 p-2 h-full flex flex-col items-center justify-center">
-                    <ActionCircle icon={<MdOutlineClose />} />
+                    <ActionCircle onClick={() => onX()} icon={<MdOutlineClose />} />
                     <ActionCircle onClick={() => onInfo(cards[0])} icon={<AiOutlineInfoCircle />} />
                 </div>
             </div>
             <div className="overflow-x-scroll scrollbar-hide flex items-center">
                 {/* {difficultyData && <Pill Icon={GiSwordwoman} bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={difficultyData?.difficulty}>{difficultyData?.name}</Pill>} */}
-                <DifficultyPill difficulty={averageDifficulty}/>
+                <DifficultyPill difficulty={averageDifficulty} />
             </div>
         </div>
     )

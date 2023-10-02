@@ -30,10 +30,6 @@ function CardsView({ }) {
     let [searchParams, setSearchParams] = useSearchParams();
 
 
-    useEffect(() => {
-        const initParam = searchParams.get("s"); // initial search param
-        if (initParam && window?.history?.pushState) window?.history?.pushState({}, "", `/cards`)
-    }, [])
 
 
 
@@ -54,7 +50,7 @@ function CardsView({ }) {
                 </>
             } />
             <div className='-mt-2 w-full p-2 pt-0'>
-                <CardsFilter onSearchUpdate={(search) => setSearchParams("s=" + search)} defaultSearch={searchParams.get("s")} onClick={(card) => setMenu(
+                <CardsFilter showDifficulty onSearchUpdate={(search) => setSearchParams("s=" + search)} defaultSearch={searchParams.get("s")} onClick={(card) => setMenu(
                     <CardInfoMenu card={card} color={card?.color}  />
                 )} />
             </div>

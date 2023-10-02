@@ -64,7 +64,7 @@ export function avg(numbers = []) {
 export function avgFromCards(cards) {
     if (cards.length <= 1) return cards?.[0]?.difficulty || 4;
 
-    const sum = cards.reduce((acc, cur) => acc?.difficulty + cur?.difficulty);
+    const sum = cards.map(c => c.difficulty).reduce((acc, cur) => acc + cur);
     const average = sum / cards.length;
     return average;
 }

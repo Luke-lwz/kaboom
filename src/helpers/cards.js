@@ -250,7 +250,7 @@ export function getCardsForPlayset(game_data) {
 
 
 
-        
+
 
 
 
@@ -309,7 +309,7 @@ export function getCardColorFromId(id) {
 
 export function getCardColorFromColorName(color_name) {
     var color_nickname = CARD_COLOR_NAMES[color_name || "grey"] || "g";
-    return CARD_COLORS[color_nickname ]
+    return CARD_COLORS[color_nickname]
 }
 
 
@@ -338,12 +338,26 @@ export function getLinkedCards(card) {
 }
 
 
-export function getLinkedCardsPaired(card) { // pairs everything up into one array
-    var lc = getLinkedCards(card)
-    return [card, ...lc];
+export function getLinkedCardsPaired(card, sort = true) { // pairs everything up into one array
+    var lc = getLinkedCards(card, sort)
+    let arr = [card, ...lc];
+
+    if (sort) {
+        arr = arr.sort(function(a, b) {
+            return a?.name === b?.name ? 0 : a?.name < b?.name ? -1 : 1;
+          })
+        for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
+            let colorName = CARD_COLOR_ORDER[i];
+            arr = arr.sort((x, y) => { return x.color_name === colorName ? 1 : y.color_name === colorName ? -1 : 0; });
+
+
+        }
+    }
+
+    return arr;
 }
 
 
-export function getLinkedCardsPairedById(id) { // pairs everything up into one array
-    return getLinkedCardsPaired(getCardFromId(id))
+export function getLinkedCardsPairedById(id, sort = true) { // pairs everything up into one array
+    return getLinkedCardsPaired(getCardFromId(id), sort)
 }

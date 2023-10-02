@@ -20,7 +20,7 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
 
 
 export function DifficultyPill({ difficulty = 7, minimal = false }) {
-    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
+    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [difficulty])
     return (
         <Pill bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
             <div className={'-ml-1 flex items-center justify-center ' + (minimal ? " -mr-1 " : "")}>
@@ -37,7 +37,7 @@ export function DifficultyPill({ difficulty = 7, minimal = false }) {
 
 
 export function WhiteDifficultyPill({ difficulty = 7, minimal = false }) {
-    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
+    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [difficulty])
     return (
         <Pill bgColor={"#ffffff20"} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
             <div className={'-ml-1 flex items-center justify-center ' + (minimal ? " -mr-1 " : "")}>

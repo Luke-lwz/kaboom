@@ -29,7 +29,7 @@ const PLAYSET_AREAS = {
             bg: "#9e9e9e15"
         },
         name: "Odd card",
-        info: "Odd cards are shuffled in when primary and general cards leave one player empty handed. (eg. if 6 cards in playset but 7 players)",
+        info: "The odd card is shuffled in when primary and general cards leave one player empty handed. (eg. if 6 cards in playset but 7 players)",
         icon: PiCirclesThreeBold
     },
     default: {
