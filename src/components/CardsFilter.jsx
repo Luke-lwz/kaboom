@@ -122,7 +122,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
         <div className='w-full flex-col flex items-center p-2  pb-96 gap-4 relative pt-14'>
             <div className={'flex flex-col absolute inset-0 p-3 bottom-auto z-10 ' + searchContainerClassName} onBlur={() => setTimeout(() => setSearchFocused(false), 100)} onFocus={() => setSearchFocused(true)}>
                 <div className={'flex flex-col border border-neutral bg-base-100 w-full rounded-lg rounded-b-xl transition-all ' + (searchFocused ? " h-[4.5rem] " : " h-8 ")}>
-                    <input type="text" name="" id="" value={search} onChange={(e) => handleSearchUpdate(e?.target?.value || "")} placeholder='Search' className='w-full input input-sm shadow focus:outline-none scale-[101%] -mt-[1px] ' />
+                    <input type="text" name="" id="" value={search} defaultValue={defaultSearch} onChange={(e) => handleSearchUpdate(e?.target?.value || "")} placeholder='Search' className='w-full input input-sm shadow focus:outline-none scale-[101%] -mt-[1px] ' />
                     {searchFocused && <div className='w-full flex items-center p-2 gap-2 overflow-x-scroll scrollbar-hide h-full overflow-y-hidden'>
                         {SEARCH_PILLS.map((data) => <SearchPill selected={search?.toLowerCase() === data?.searchValue?.toLowerCase()} onClick={handleSearchUpdate} {...data} />)}
                     </div>}
