@@ -127,7 +127,7 @@ export function CardFront({ onClick = () => { }, color, card }) {
         <C onClick={onClick} color={color} >
             <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
                 <div className="flex flex-row justify-start items-center w-full h-5/6">
-                    <div style={{ backgroundColor: color.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
+                    <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
                         {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
                     </div>
                     <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
@@ -140,10 +140,10 @@ export function CardFront({ onClick = () => { }, color, card }) {
                 </div>
                 <div className="w-full flex flex-row justify-between items-center h-1/6">
                     <h1 className={"text-title h-full w-9/12 flex justify-center items-center p-2 font-extrabold uppercase " + (color?.title?.length < 10 ? " text-2xl " :  " text-xl ")}>
-                        {color.title}
+                        {color?.title}
                     </h1>
                     <div className="w-3/12 flex items-center justify-center text-2xl">
-                        {color.icon && <color.icon color={color?.primary || ""} />}
+                        {color?.icon && <color.icon color={color?.primary || ""} />}
                     </div>
                 </div>
             </div>

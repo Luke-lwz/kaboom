@@ -1,5 +1,5 @@
 
-import { useState, useContext, useCallback, useMemo } from "react"
+import { useState, useContext, useCallback, useMemo, useEffect } from "react"
 
 // icons
 import { FaTools, FaBomb } from "react-icons/fa"
@@ -19,6 +19,7 @@ import CardInfoMenu from "../../components/menus/CardInfoMenu";
 import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
 import Pill, { DifficultyPill } from "../../components/Pills";
 import CardsFilter from "../../components/CardsFilter";
+import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
 
 
@@ -54,6 +55,25 @@ export default function WorkbenchView(props) {
 
 
 
+
+
+    const playset = useMemo(() => ({
+        name: "Test",
+        id: "dev0001",
+        players: "7-30",
+        emoji: "🛠️",
+        primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
+        cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
+        default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
+        odd_card: oddCard ? getCardFromId(oddCard) : "",
+        shuffle: true,
+        no_bury: false
+    }), [primaries, generalCards, oddCard, defaultCards])
+
+    useEffect(() => {console.log("ää", playset)}, [playset])
+
+
+
     // events
     function onCardSetInfo(card) {
         setMenu(<CardInfoMenu card={card} color={card?.color} />)
@@ -74,7 +94,15 @@ export default function WorkbenchView(props) {
         return arr.filter((value, i) => i !== index);
     }
 
+
+
+
+
+
     // useCallback functions
+
+
+
     const getAllCardsInPlaysetInRowId = useCallback(() => {
         var allCardsIds = [];
 
@@ -113,7 +141,7 @@ export default function WorkbenchView(props) {
             if (clickedIndex !== undefined && clickedIndex !== null) { // replace at this index
                 setPrimaries(primaries => {
                     primaries[clickedIndex] = cardsIdsPair;
-                    return primaries;
+                    return JSON.parse(JSON.stringify(primaries));
                 })
             } else { // add new
                 setPrimaries(primaries => {
@@ -128,7 +156,7 @@ export default function WorkbenchView(props) {
     function onGeneralCardsClick(clickedIndex) {
         var applicableCards = getAllCards()?.filter(card => !card?.primary);
         setPageCover({
-            title: "Select general card(s)",
+            title: "General cards",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
@@ -140,7 +168,7 @@ export default function WorkbenchView(props) {
             if (clickedIndex !== undefined && clickedIndex !== null) { // replace at this index
                 setGeneralCards(generalCards => {
                     generalCards[clickedIndex] = cardsIdsPair;
-                    return generalCards;
+                    return JSON.parse(JSON.stringify(generalCards));
                 })
             } else { // add new
                 setGeneralCards(generalCards => {
@@ -155,7 +183,7 @@ export default function WorkbenchView(props) {
     function onOddCardClick() {
         var applicableCards = getAllCards()?.filter(card => !card?.primary && card?.links?.length <= 0 && !["red", "blue"].includes(card?.color_name));
         setPageCover({
-            title: "Select general card(s)",
+            title: "Odd card",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
@@ -168,9 +196,9 @@ export default function WorkbenchView(props) {
     }
 
     function onDefaultCardsClick() {
-        var applicableCards = getAllCards()?.filter(card => !card?.primary && (card?.links?.length === 1 || ["red", "blue"].includes(card?.color_name)));
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && (["red", "blue"].includes(card?.color_name)));
         setPageCover({
-            title: "Select general card(s)",
+            title: "Default cards",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
@@ -274,8 +302,9 @@ export default function WorkbenchView(props) {
 
 
 
-            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32">
-
+            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32 gap-4">
+                <input type="text" placeholder="Name" className="input w-full" />
+                <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
             </div>
 
         </div>

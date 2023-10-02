@@ -9,7 +9,7 @@ import { getPlaysetArea } from "../../helpers/playset-areas";
 
 
 export function WorkbenchPlaysetArea({ areaId, children, onAdd = () => { }, hideAddButton = false, infoText, min, max, cardCount }) {
-    const [area, setArea] = useState(getPlaysetArea(areaId || "odd"));
+    const area = useMemo(() => getPlaysetArea(areaId || "odd"), areaId);
 
     const ableToAdd = useMemo(() => {
         return (cardCount < max);
@@ -33,6 +33,20 @@ export function WorkbenchPlaysetArea({ areaId, children, onAdd = () => { }, hide
                 </div> : <></>}
             </div>
 
+        </div>
+    )
+}
+
+
+export function PlaysetDisplayArea({areaId, children}) {
+    const area = useMemo(() => getPlaysetArea(areaId || "odd") || getPlaysetArea("odd"), [areaId]);
+
+    return (
+        <div style={{ backgroundColor: area?.colors?.bg }} className="p-4 pl-10 rounded-md w-fit pr-6 flex items-center gap-6 relative">
+            <div className="absolute flex-col flex">
+                <area.icon />
+            </div>
+            {children}
         </div>
     )
 }

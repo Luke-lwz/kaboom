@@ -331,7 +331,8 @@ export function getAllCards() {
 
 
 export function getLinkedCards(card) {
-    var lc = card.links.map(cid => getCardFromId(cid));
+    if (!card?.links) return []
+    var lc = card?.links?.map(cid => getCardFromId(cid));
     var opposite = (["r", "b"].includes(card.id[0]) ? getCardFromId(`${(card.id[0] === "r" ? "b" : "r")}${card.id.slice(-3)}`) : null)
     if (opposite) lc = [opposite, ...lc]
     return lc;

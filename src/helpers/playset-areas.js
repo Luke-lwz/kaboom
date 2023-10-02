@@ -25,8 +25,8 @@ const PLAYSET_AREAS = {
     },
     odd: {
         colors: {
-            primary: "#9e9e9e",
-            bg: "#9e9e9e15"
+            primary: "#595959",
+            bg: "#59595915"
         },
         name: "Odd card",
         info: "The odd card is shuffled in when primary and general cards leave one player empty handed. (eg. if 6 cards in playset but 7 players)",
