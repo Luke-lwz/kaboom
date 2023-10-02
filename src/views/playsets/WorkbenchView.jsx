@@ -65,12 +65,10 @@ export default function WorkbenchView(props) {
         primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
         cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
         default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
-        odd_card: oddCard ? getCardFromId(oddCard) : "",
+        odd_card: oddCard ? getCardFromId(oddCard) : null,
         shuffle: true,
         no_bury: false
     }), [primaries, generalCards, oddCard, defaultCards])
-
-    useEffect(() => {console.log("ää", playset)}, [playset])
 
 
 
@@ -205,7 +203,7 @@ export default function WorkbenchView(props) {
 
 
         function replaceOrAddCard(card) {
-            setDefaultCards([getLinkedCardsPaired(card)?.map(c => c?.id)])
+            setDefaultCards(JSON.parse(JSON.stringify([getLinkedCardsPaired(card)?.map(c => c?.id)])))
             setPageCover(null)
         }
     }

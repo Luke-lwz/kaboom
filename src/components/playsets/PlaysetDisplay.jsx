@@ -12,6 +12,7 @@ import CardInfoMenu from "../menus/CardInfoMenu";
 import { PageContext } from "../PageContextProvider";
 import Info from "../Info";
 import { PlaysetDisplayArea } from "./PlaysetAreas";
+import { getCardColorFromId, getCardFromId } from "../../helpers/cards";
 
 
 
@@ -74,10 +75,21 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
             </div>
 
 
-            {open && <div className="overflow-x-scroll flex gap-6 pt-2 px-2 w-full overflow-y-hidden ">
+            {open && <div className="overflow-x-scroll flex gap-2 pt-2 px-2 w-full overflow-y-hidden scrollbar-hide ">
                 <PlaysetDisplayArea areaId={"primaries"}>
-                    <CardsRow cards={playset?.cards} />
+                    <CardsRow cards={playset?.primaries} />
+                </PlaysetDisplayArea>
 
+                <PlaysetDisplayArea areaId={"general"}>
+                    <CardsRow cards={playset?.cards} />
+                </PlaysetDisplayArea>
+
+                <PlaysetDisplayArea areaId={"odd"}>
+                    <CardsRow cards={[playset?.odd_card]} />
+                </PlaysetDisplayArea>
+
+                <PlaysetDisplayArea areaId={"default"}>
+                    <CardsRow cards={playset?.default_cards || [getCardFromId("b000"), getCardFromId("r000")]} />
                 </PlaysetDisplayArea>
             </div>}
 
