@@ -6,8 +6,7 @@ import { PageContext } from '../PageContextProvider';
 
 
 import { getLinkedCards } from '../../helpers/cards';
-import Pill, { SmallRadialProgress } from '../Pills';
-import { getDifficultyDataFromValue } from '../../helpers/difficulty';
+import { WhiteDifficultyPill } from '../Pills';
 
 function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false }) {
 
@@ -15,7 +14,6 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
 
     const { setMenu, devMode } = useContext(PageContext);
 
-    const difficultyData = getDifficultyDataFromValue(card?.difficulty)
 
 
     useEffect(() => {
@@ -46,15 +44,7 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
                     {devMode && <div style={{ color: color.primary }} className='absolute top-1 right-2 text-xs'>{card.id.toUpperCase()}</div>}
                 </div>
                 <div className='flex items-center justify-start w-full -my-2'>
-                    <Pill bgColor={"#ffffff20"} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
-                        <div className='-ml-1'>
-
-                            <SmallRadialProgress value={(difficultyData?.difficulty || 7) * 10} />
-                        </div>
-                        <div className='ml-1'>
-                            {difficultyData?.name}
-                        </div>
-                    </Pill>
+                    <WhiteDifficultyPill difficulty={card?.difficulty} />
 
                 </div>
                 <div className='h-full w-full text-base-content p-4 pb-2.5 text-lg flex flex-col overflow-y-scroll scrollbar-hide leading-5 bg-white rounded-lg '>

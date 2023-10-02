@@ -1,4 +1,5 @@
-import React from 'react';
+import { useMemo } from 'react';
+import { getDifficultyDataFromValue } from '../helpers/difficulty';
 
 export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip }) {
     return (
@@ -18,14 +19,47 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
 
 
 
-
-
-
-
-
-export function SmallRadialProgress({value = 30, color = "#ffffff", text = ""}) {
+export function DifficultyPill({ difficulty = 7 }) {
+    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
     return (
-        <div className="radial-progress" style={{"--value":value, "--size": "0.8rem", "--thickness": "0.15rem", color}}>{text}</div>
+        <Pill bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
+            <div className='-ml-1 flex items-center justify-center'>
+
+                <SmallRadialProgress value={(difficultyData?.difficulty || 7) * 10} />
+            </div>
+            <div className='ml-1'>
+                {difficultyData?.name}
+            </div>
+        </Pill>
+    )
+}
+
+
+
+export function WhiteDifficultyPill({ difficulty = 7 }) {
+    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [])
+    return (
+        <Pill bgColor={"#ffffff20"} tooltip={"Difficulty: " + (difficultyData?.difficulty || 7)}>
+            <div className='-ml-1 flex items-center justify-center'>
+
+                <SmallRadialProgress value={(difficultyData?.difficulty || 7) * 10} />
+            </div>
+            <div className='ml-1'>
+                {difficultyData?.name}
+            </div>
+        </Pill>
+    )
+}
+
+
+
+
+
+
+
+export function SmallRadialProgress({ value = 30, color, text = "" }) {
+    return (
+        <div className="radial-progress" style={{ "--value": value, "--size": "0.8rem", "--thickness": "0.15rem", color }}>{text}</div>
     )
 }
 

@@ -17,7 +17,7 @@ import { avgFromCards, getDifficultyDataFromValue } from "../../helpers/difficul
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
 import { WorkbenchPlaysetArea } from "../../components/playsets/PlaysetAreas";
-import Pill from "../../components/Pills";
+import Pill, { DifficultyPill } from "../../components/Pills";
 
 
 
@@ -106,7 +106,7 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
 
     const cards = getLinkedCardsPairedById(id)
     const averageDifficulty = avgFromCards(cards)
-    const difficultyData = getDifficultyDataFromValue(averageDifficulty)
+    // const difficultyData = getDifficultyDataFromValue(averageDifficulty)
 
     return (
         <div className="flex flex-col items-start justify-start w-full h-fit gap-1">
@@ -118,7 +118,8 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { } }) {
                 </div>
             </div>
             <div className="overflow-x-scroll scrollbar-hide flex items-center">
-                {difficultyData && <Pill Icon={GiSwordwoman} bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={difficultyData?.difficulty}>{difficultyData?.name}</Pill>}
+                {/* {difficultyData && <Pill Icon={GiSwordwoman} bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary} tooltip={difficultyData?.difficulty}>{difficultyData?.name}</Pill>} */}
+                <DifficultyPill difficulty={averageDifficulty}/>
             </div>
         </div>
     )
