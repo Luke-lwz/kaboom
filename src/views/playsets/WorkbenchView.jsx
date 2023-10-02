@@ -47,7 +47,7 @@ export default function WorkbenchView(props) {
     const [generalCards, setGeneralCards] = useState([
         ["b014", "r014"],
     ])
-    const [oddCard, setoddCard] = useState("g008"); // nullable
+    const [oddCard, setOddCard] = useState("g008"); // nullable
     const [defaultCards, setDefaultCards] = useState([
         ["b000", "r000"],
     ])
@@ -126,10 +126,10 @@ export default function WorkbenchView(props) {
     }
 
     function onGeneralCardsClick(clickedIndex) {
-        var primaryCards = getAllCards()?.filter(card => !card?.primary);
+        var applicableCards = getAllCards()?.filter(card => !card?.primary);
         setPageCover({
             title: "Select general card(s)",
-            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
+            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
 
@@ -148,6 +148,36 @@ export default function WorkbenchView(props) {
                 });
 
             }
+            setPageCover(null)
+        }
+    }
+
+    function onOddCardClick() {
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && card?.links?.length <= 0 && !["red", "blue"].includes(card?.color_name));
+        setPageCover({
+            title: "Select general card(s)",
+            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
+            onClose: () => setPageCover(null)
+        })
+
+
+        function replaceOrAddCard(card) {
+            setOddCard(card?.id)
+            setPageCover(null)
+        }
+    }
+
+    function onDefaultCardsClick() {
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && (card?.links?.length === 1 || ["red", "blue"].includes(card?.color_name)));
+        setPageCover({
+            title: "Select general card(s)",
+            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
+            onClose: () => setPageCover(null)
+        })
+
+
+        function replaceOrAddCard(card) {
+            setDefaultCards([getLinkedCardsPaired(card)?.map(c => c?.id)])
             setPageCover(null)
         }
     }
@@ -206,9 +236,12 @@ export default function WorkbenchView(props) {
                         areaId="odd"
                         min={MIN.oddCard}
                         max={MAX.oddCard}
-                        cardCount={oddCard ? 1 : 0}>
+                        cardCount={oddCard ? 1 : 0}
+                        onAdd={() => onOddCardClick()}>
 
                         {oddCard && <WorkbenchLinkedCards
+                            onX={() => setOddCard(null)}
+                            onClick={() => onOddCardClick()}
                             onInfo={onCardSetInfo}
                             key={"odd-card"}
                             id={oddCard} />}
@@ -219,9 +252,12 @@ export default function WorkbenchView(props) {
                         areaId="default"
                         min={MIN.defaultCards}
                         max={MAX.defaultCards}
-                        cardCount={crackOpenPairs(defaultCards)?.length || 0} >
+                        cardCount={crackOpenPairs(defaultCards)?.length || 0}
+                        onAdd={() => onDefaultCardsClick()} >
 
                         {defaultCards.map((cardsIds, i) => <WorkbenchLinkedCards
+                            onX={() => setDefaultCards(defaultCards => removeAtIndex(defaultCards, i))}
+                            onClick={() => onDefaultCardsClick()}
                             onInfo={onCardSetInfo}
                             key={"general-" + i + cardsIds?.[0]?.id}
                             id={cardsIds[0]} />)}
