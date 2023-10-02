@@ -21,7 +21,7 @@ import {
 import GameView from './views/GameView'
 import HomeView from './views/HomeView';
 import LobbyView from './views/LobbyView';
-import CardsView from './views/CardsView';
+import LegacyCardsView from './views/legacy/LegacyCardsView';
 import RejoinView from './views/RejoinView';
 import Privacy from './views/Privacy';
 
@@ -30,6 +30,8 @@ import Prompt from './components/Prompt';
 import Menu from './components/Menu';
 import Menu2 from './components/Menu2';
 import WorkbenchView from './views/playsets/WorkbenchView';
+import CardsFilter from './components/CardsFilter';
+import CardsView from './views/CardsView';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -177,8 +179,9 @@ function App() {
           <Route path="/game/:code" element={<GameView />} />
           <Route path="/rejoin/:code" element={<RejoinView />} />
 
+
           <Route path="/cards" element={<CardsView />} />
-          <Route path="/cards/:id" element={<CardsView />} />
+          
 
           <Route path="/privacy" element={<Privacy />} />
 
@@ -187,6 +190,11 @@ function App() {
           <Route path="/playsets/workbench" element={<WorkbenchView />} />
 
 
+
+          <Route path="/components/cards" element={<div className='w-full h-full overflow-y-scroll scrollbar-hide'><CardsFilter /></div>} />
+
+          <Route path="/legacy/cards" element={<LegacyCardsView />} />
+          <Route path="/legacy/cards/:id" element={<LegacyCardsView />} />
 
 
           <Route path="/defaultsite" element={<RedirectToStart />} />

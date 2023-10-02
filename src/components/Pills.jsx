@@ -15,3 +15,17 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
     );
 }
 
+
+
+
+
+
+
+
+
+export function SmallRadialProgress({value = 30, color = "#ffffff", text = ""}) {
+    return (
+        <div className="radial-progress" style={{"--value":value, "--size": "0.8rem", "--thickness": "0.15rem", color}}>{text}</div>
+    )
+}
+

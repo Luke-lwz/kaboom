@@ -1,29 +1,28 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PageContext } from '../components/PageContextProvider';
+import { PageContext } from '../../components/PageContextProvider';
 
 // helpers
-import { getAllCards, getCardFromId } from '../helpers/cards';
+import { getAllCards, getCardFromId } from '../../helpers/cards';
 
 //icons
-import { TbCardsFilled } from "react-icons/tb"
+import { IoClose } from "react-icons/io5"
 
 // components
-import { CardFront } from '../components/Card';
-import CardInfoMenu from '../components/menus/CardInfoMenu';
-import Menu from '../components/Menu';
+import { CardFront } from '../../components/Card';
+import CardInfoMenu from '../../components/menus/CardInfoMenu';
+import Menu from '../../components/Menu';
 import { toast } from 'react-hot-toast';
+import { DevModeBanner } from '../HomeView';
 
 import { useSearchParams } from 'react-router-dom'
-import { TitleBar } from './playsets/WorkbenchView';
-import CardsFilter from '../components/CardsFilter';
 
 
 
 
 
 
-function CardsView({ }) {
+function LegacyCardsView({ }) {
 
     const navigate = useNavigate();
 
@@ -43,7 +42,7 @@ function CardsView({ }) {
     useEffect(() => {
         const initParam = searchParams.get("s"); // initial search param
         setSearch(initParam || "")
-        if (initParam && window?.history?.pushState) window?.history?.pushState({}, "", `/cards`)
+        if (initParam && window?.history?.pushState) window?.history?.pushState({}, "", `/legacy/cards`)
     }, [])
 
 
@@ -52,7 +51,7 @@ function CardsView({ }) {
         const card = getCardFromId(id);
         if (!card) {
             toast.error("Card not found")
-            navigate("/cards", { replace: true })
+            navigate("/legacy/cards", { replace: true })
         }
         else setFocusedCard(card);
     }, [id])
@@ -99,7 +98,7 @@ function CardsView({ }) {
 
 
     function onMenuHide() {
-        navigate("/cards", { replace: true });
+        navigate("/legacy/cards", { replace: true });
     }
 
 
@@ -144,20 +143,30 @@ function CardsView({ }) {
 
 
     return (
-        <div className='flex flex-col justify-start items-center w-full h-full  overflow-x-hidden relative scrollbar-hide'>
-            <TitleBar titleElement={
-                <>
-                    <TbCardsFilled size={27} />
-                    <h1>Cards</h1>
-                </>
-            } />
-            <div className='-mt-2 w-full'>
-                <CardsFilter onClick={(card) => setMenu(
-                    <CardInfoMenu card={card} color={card?.color}  />
-                )} />
+        <div className='flex flex-col justify-start items-center w-full h-full  overflow-x-hidden'>
+            {devMode && <DevModeBanner />}
+            <a href='/' className='text-title flex items-center justify-center gap-4 text-3xl mt-10 my-6 font-extrabold'>
+                <span className='text-primary'>KABOOM</span>
+                <span className=''>CARDS</span>
+            </a>
+            <Search value={search} onChange={(v) => setSearch(v)} />
+            <div className='flex flex-wrap items-start justify-center gap-4 p-4 w-full overflow-y-scroll scrollbar-hide h-fit pt-0 pb-24 '>
+                {visibleCards.map(card => <div key={card.id} onClick={() => navigate(`/legacy/cards/${card.id}`)} className='relative scale-[50%] overflow-hidden w-fit -mx-16 -m-24'>
+                    <><CardFront key={card.id} card={card} color={card?.color} />{devMode ? <div className='text-2xl font-extrabold'>{card.id}</div> : ""}</>
+                </div>)}
             </div>
         </div>
     );
 }
 
-export default CardsView;
+
+function Search({ onChange = () => { }, value }) {
+    return (
+        <div className='bg-base-100 m-3 w-full max-w-xl rounded-lg flex justify-between items-center px-2 '>
+            <input type="text" name="" id="" placeholder='Search' value={value} onChange={(e) => onChange(e.target.value)} className='p-1.5 w-full bg-base-200  rounded-lg text-sm px-3 font-semibold border-none outline-none overflow-x-hidden' />
+            {value.length > 0 && <div onClick={() => onChange("")} className='px-2'><IoClose color={"#656565"} size="20" /></div>}
+        </div>
+    )
+}
+
+export default LegacyCardsView;

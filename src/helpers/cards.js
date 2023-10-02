@@ -17,6 +17,17 @@ import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
 
 
+export const CARD_COLOR_ORDER = [
+    "blue",
+    "red",
+    "grey",
+    "yellow",
+    "green",
+    "purple",
+    "dark"
+]
+
+
 export const CARD_COLOR_NAMES = {
     red: "r",
     blue: "b",
