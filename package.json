@@ -14,6 +14,7 @@
     "@vercel/analytics": "^1.0.2",
     "animate.css": "^4.1.1",
     "daisyui": "^2.51.6",
+    "emoji-picker-react": "^4.5.2",
     "framer-motion": "^10.12.2",
     "moment": "^2.29.4",
     "peerjs": "^1.4.7",

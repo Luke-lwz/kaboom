@@ -21,6 +21,8 @@ import Pill, { DifficultyPill } from "../../components/Pills";
 import CardsFilter from "../../components/CardsFilter";
 import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
+import Picker from 'emoji-picker-react';
+
 
 
 const MIN = {
@@ -54,21 +56,27 @@ export default function WorkbenchView(props) {
     ])
 
 
+    // Form 
+    const [emoji, setEmoji] = useState("🎲");
+    const [name, setName] = useState("My Playset");
+
+
+
+
 
 
 
     const playset = useMemo(() => ({
-        name: "Test",
-        id: "dev0001",
+        name,
         players: "7-30",
-        emoji: "🛠️",
+        emoji,
         primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
         cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
         default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
         odd_card: oddCard ? getCardFromId(oddCard) : null,
         shuffle: true,
         no_bury: false
-    }), [primaries, generalCards, oddCard, defaultCards])
+    }), [primaries, generalCards, oddCard, defaultCards, emoji, name])
 
 
 
@@ -224,7 +232,7 @@ export default function WorkbenchView(props) {
                         </>
                     } />
                 </div>
-                <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 pb-20 flex flex-col">
+                <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 md:pb-20 flex flex-col">
 
 
                     <WorkbenchPlaysetArea
@@ -301,13 +309,25 @@ export default function WorkbenchView(props) {
 
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32 gap-4 flex flex-col items-center">
-                <input type="text" placeholder="Name" className="input w-full" />
                 <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
+                <div className="w-full flex items-center gap-2 text-center">
+                    <div className="dropdown input p-0 rounded-md">
+                        <label tabIndex={0} className="w-16 h-full flex items-center justify-center">{playset?.emoji}</label>
+                        <div tabIndex={0} className="dropdown-content">
+                            <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" />
+                        </div>
+                    </div>
+                    <input type="text" placeholder="Name" className="input w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")}  />
+                </div>
             </div>
 
         </div>
     );
 }
+
+
+
+
 
 
 
