@@ -67,7 +67,7 @@ export default function WorkbenchView(props) {
 
     // Form 
     const [emoji, setEmoji] = useState("🎲");
-    const [name, setName] = useState("My Playset");
+    const [name, setName] = useState("");
     const [shuffle, setShuffle] = useState("My Playset");
     const [minPlayers, setMinPlayers] = useState(6);
     const [maxPlayers, setMaxPlayers] = useState(30);
