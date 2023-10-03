@@ -45,7 +45,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     }
 
     return (
-        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-44 " : " h-14 ")}>
+        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-40 " : " h-14 ")}>
             <div className={"bg-black w-full relative h-14 overflow-hidden rounded-xl transition-all grow " + (disabled ? " grayscale opacity-60 " : " grayscale-0 opacity-100 ")}>
                 <div style={{ background: `linear-gradient(65deg, #00000000, ${playset?.color || "#c342ff"}63, ${playset?.color || "#c342ff"}ab)` }} className="playset-gradient w-full absolute inset-0 opacity-50" />
                 <div className="h-14 flex items-center absolute top-0 left-0 right-0 z-10">
@@ -76,9 +76,9 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
             {open && <div className="overflow-x-scroll flex gap-2 pt-2 px-2 w-full overflow-y-hidden scrollbar-hide ">
-                <PlaysetDisplayArea areaId={"primaries"}>
+                {playset?.primaries?.[0] && <PlaysetDisplayArea areaId={"primaries"}>
                     <CardsRow cards={playset?.primaries} />
-                </PlaysetDisplayArea>
+                </PlaysetDisplayArea>}
 
                 {playset?.cards?.[0] && <PlaysetDisplayArea areaId={"general"}>
                     <CardsRow cards={playset?.cards} />

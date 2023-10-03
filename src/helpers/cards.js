@@ -94,12 +94,13 @@ export const CARD_COLORS = {
 
 export function getCardsForPlayset(game_data) {
 
-    var { players, playsetId, playWithBury } = game_data;
-
-    const playset = getPlaysetById(playsetId);
+    var { players, playset, playWithBury } = game_data;
 
 
-    var { cards, odd_card, shuffle } = playset;
+
+    var { primaries, cards, odd_card, shuffle, default_cards } = playset;
+
+    cards = [...(primaries || []), ...(cards || [])]
 
     let playingWithDrunk = false
 
@@ -123,9 +124,9 @@ export function getCardsForPlayset(game_data) {
         for (let i = 1; i <= n; i++) {
             if (i === n && addodd) { // last odd (if odd and odd_card -> add odd_card else -> random blue or red)
                 if (odd_card && odd_card !== "") cards = cards = [odd_card, ...cards];
-                else cards = [...cards, getCardFromId(["b000", "r000"][rng(0, 1)])];
+                else cards = [...cards, getCardFromId((default_cards?.map(c => c?.id) || ["b000", "r000"])[rng(0, 1)])];
             } else {
-                cards.push(getCardFromId((i % 2 === rngSeed ? "b000" : "r000")));
+                cards.push(getCardFromId((i % 2 === rngSeed ? default_cards?.[0]?.id || "b000" : default_cards?.[1]?.id || "r000")));
             }
         }
     } else {
@@ -140,8 +141,10 @@ export function getCardsForPlayset(game_data) {
         var shuffled_cards = [...cards.sort((a, b) => 0.5 - Math.random())];
 
 
-        shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0; });
-        shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0; });
+        for (let i = 0; i < primaries?.length; i++) {
+            let primary = primaries[i]
+            shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == primary?.id ? -1 : y.id == primary?.id ? 1 : 0; });
+        }
 
         var sCardsWithPairs = [];
 
@@ -344,9 +347,9 @@ export function getLinkedCardsPaired(card, sort = true) { // pairs everything up
     let arr = [card, ...lc];
 
     if (sort) {
-        arr = arr.sort(function(a, b) {
+        arr = arr.sort(function (a, b) {
             return a?.name === b?.name ? 0 : a?.name < b?.name ? -1 : 1;
-          })
+        })
         for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
             let colorName = CARD_COLOR_ORDER[i];
             arr = arr.sort((x, y) => { return x.color_name === colorName ? 1 : y.color_name === colorName ? -1 : 0; });

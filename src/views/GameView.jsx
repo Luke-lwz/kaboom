@@ -527,7 +527,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         var gameData = generateGame(players.current.length);
 
-        var { cards, soberCard } = getCardsForPlayset(game_data);
+        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: getPlaysetById(playsetId)});
 
 
 

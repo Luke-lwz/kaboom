@@ -47,8 +47,8 @@ export function PlaysetDisplayArea({areaId, children}) {
                 <area.icon />
                 
             </div>
-            <div className="text-xs -rotate-90 absolute top-12 -left-2">
-                    {area?.name?.replace(" cards", "s")}
+            <div className="text-xs -rotate-90 origin-top-left absolute -bottom-2 left-2 p-0">
+                    {area?.name?.replace(" cards", "  ")}
                 </div>
             {children}
         </div>

@@ -12,7 +12,7 @@ import { GiSwordwoman } from "react-icons/gi"
 
 
 import LinkedCardsContainer from "../../components/LinkedCardsContainer";
-import { getAllCards, getCardFromId, getLinkedCardsPaired, getLinkedCardsPairedById } from "../../helpers/cards";
+import { getAllCards, getCardFromId, getCardsForPlayset, getLinkedCardsPaired, getLinkedCardsPairedById } from "../../helpers/cards";
 import { avgFromCards, getDifficultyDataFromValue } from "../../helpers/difficulty";
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
@@ -22,6 +22,8 @@ import CardsFilter from "../../components/CardsFilter";
 import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
 import Picker from 'emoji-picker-react';
+import { getPlaysetArea } from "../../helpers/playset-areas";
+import RangeCounter from "../../components/RangeCounter";
 
 
 
@@ -78,6 +80,24 @@ export default function WorkbenchView(props) {
         no_bury: false
     }), [primaries, generalCards, oddCard, defaultCards, emoji, name])
 
+    const allCardsInPlaysetInRowId = useMemo(() => {
+        var allCardsIds = [];
+
+        primaries.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        generalCards.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        defaultCards.forEach(cardPair => {
+            allCardsIds = [...allCardsIds, ...cardPair]
+        })
+        if (oddCard) allCardsIds.push(oddCard);
+
+
+        return allCardsIds
+    }, [primaries, generalCards, oddCard, defaultCards])
+
 
 
     // events
@@ -109,31 +129,14 @@ export default function WorkbenchView(props) {
 
 
 
-    const getAllCardsInPlaysetInRowId = useCallback(() => {
-        var allCardsIds = [];
 
-        primaries.forEach(cardPair => {
-            allCardsIds = [...allCardsIds, ...cardPair]
-        })
-        generalCards.forEach(cardPair => {
-            allCardsIds = [...allCardsIds, ...cardPair]
-        })
-        defaultCards.forEach(cardPair => {
-            allCardsIds = [...allCardsIds, ...cardPair]
-        })
-        if (oddCard) allCardsIds.push(oddCard);
-
-
-        return allCardsIds
-    }, [primaries, generalCards, oddCard, defaultCards])
 
 
 
 
     // select
     function onPrimaryCardsClick(clickedIndex) {
-        const allCardsInPlaysetId = getAllCardsInPlaysetInRowId()
-        var primaryCards = getAllCards()?.filter(card => card?.primary && !allCardsInPlaysetId.includes(card?.id));
+        var primaryCards = getAllCards()?.filter(card => card?.primary && !allCardsInPlaysetInRowId.includes(card?.id));
         setPageCover({
             title: "Select primary",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
@@ -314,11 +317,13 @@ export default function WorkbenchView(props) {
                     <div className="dropdown input p-0 rounded-md">
                         <label tabIndex={0} className="w-16 h-full flex items-center justify-center">{playset?.emoji}</label>
                         <div tabIndex={0} className="dropdown-content">
-                            <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" />
+                            <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
                         </div>
                     </div>
-                    <input type="text" placeholder="Name" className="input w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")}  />
+                    <input type="text" placeholder="Name" className="input w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
                 </div>
+                <h1 className="font-extrabold w-full text-lg mt-4 text-center">Simulate Game</h1>
+                <PlaysetSimulator playset={playset} />
             </div>
 
         </div>
@@ -328,9 +333,59 @@ export default function WorkbenchView(props) {
 
 
 
+export function PlaysetSimulator({ playset }) {
+
+    const [playerCount, setPlayerCount] = useState(11);
+
+    const { cards, soberCard } = useMemo(() => {
+        return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury: false })
+    }, [playset, playerCount])
 
 
 
+
+    return (
+        <div className="w-full flex flex-col items-center">
+            <div className="flex items-center justify-between w-full">
+                <div className="flex items-center w-fit gap-2 text-lg">
+                    <h3 className="font-semibold">Players</h3>
+                    <RangeCounter value={playerCount} onChange={setPlayerCount} min={6} max={1000} />
+                </div>
+                <button>Reset</button>
+            </div>
+            <div className="w-full flex-wrap flex border-2 border-neutral rounded-xl gap-2 p-2">
+
+                {playset?.primaries?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="primaries" />)}
+                {playset?.cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="general" />)}
+                {playset?.odd_card && <ShuffledInCardDummy disabled={!cards.includes(playset?.odd_card?.id) && !soberCard !== playset?.odd_card?.id} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
+                {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="default" />)}
+            </div>
+        </div>
+    )
+}
+
+
+// Simulator components
+
+export function ShuffledInCardDummy({ card, areaId, disabled = false }) {
+    const area = useMemo(() => getPlaysetArea(areaId || "odd"), [areaId]);
+
+    return (
+        <div className={"bg-black rounded-md overflow-hidden w-fit h-fit transition-all group " + (disabled ? " scale-75 " : " scale-100 ")}>
+            <div style={{ backgroundColor: card?.color?.primary }} className={"text-white flex items-center justify-center flex-col relative aspect-[2/3] w-10 transition-all " + (disabled ? " opacity-50 " : " opacity-100 ")}>
+                <area.icon className="opacity-0 group-hover:opacity-100 transition-all" />
+                {card?.src && card?.src !== "" && <img src={`/cards${card.src}`} className="opacity-100 group-hover:opacity-0 transition-all absolute inset-0" />}
+            </div>
+        </div>
+
+    )
+}
+
+
+
+
+
+// End Simulator Components
 
 
 export function WorkbenchLinkedCards({ id, onInfo = (card) => { }, onClick = () => { }, onX = () => { } }) {
