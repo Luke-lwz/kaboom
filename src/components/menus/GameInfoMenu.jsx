@@ -307,7 +307,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
 
-function ToggleButton({ checked, onChange = () => {}, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false }) {
+export function ToggleButton({ checked, onChange = () => {}, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false }) {
     return (
         <div onClick={onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase cursor-pointer flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 ' + (full ? " w-full " : " w-fit ")}>
             <div className='flex flex-col justify-center'>

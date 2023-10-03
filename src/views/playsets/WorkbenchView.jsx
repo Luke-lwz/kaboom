@@ -7,6 +7,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { MdOutlineClose } from "react-icons/md"
 import { RiSpeedUpFill } from "react-icons/ri"
 import { GiSwordwoman } from "react-icons/gi"
+import { TfiReload } from "react-icons/tfi"
 
 
 
@@ -24,6 +25,9 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 import Picker from 'emoji-picker-react';
 import { getPlaysetArea } from "../../helpers/playset-areas";
 import RangeCounter from "../../components/RangeCounter";
+import { CardFront } from "../../components/Card";
+import { ToggleButton } from "../../components/menus/GameInfoMenu";
+import Info from "../../components/Info";
 
 
 
@@ -64,6 +68,9 @@ export default function WorkbenchView(props) {
     // Form 
     const [emoji, setEmoji] = useState("🎲");
     const [name, setName] = useState("My Playset");
+    const [shuffle, setShuffle] = useState("My Playset");
+    const [minPlayers, setMinPlayers] = useState(6);
+    const [maxPlayers, setMaxPlayers] = useState(30);
 
 
 
@@ -73,15 +80,15 @@ export default function WorkbenchView(props) {
 
     const playset = useMemo(() => ({
         name,
-        players: "7-30",
+        players: `${minPlayers}-${maxPlayers}`,
         emoji,
         primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
         cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
         default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
         odd_card: oddCard ? getCardFromId(oddCard) : null,
-        shuffle: false,
+        shuffle: shuffle,
         no_bury: false
-    }), [primaries, generalCards, oddCard, defaultCards, emoji, name])
+    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, shuffle, minPlayers, maxPlayers])
 
     const allCardsInPlaysetInRowId = useMemo(() => {
         var allCardsIds = [];
@@ -314,18 +321,40 @@ export default function WorkbenchView(props) {
 
 
 
-            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide pb-32 gap-4 flex flex-col items-center">
-                <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
-                <div className="w-full flex items-center gap-2 text-center">
-                    <div className="dropdown input p-0 rounded-md">
-                        <label tabIndex={0} className="w-16 h-full flex items-center justify-center">{playset?.emoji}</label>
-                        <div tabIndex={0} className="dropdown-content">
-                            <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
+            <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide gap-4 flex flex-col items-center">
+                <div className="w-full h-fit">
+                    <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
+
+                </div>
+                <div className="flex flex-col w-full items-center gap-2">
+                    <div className="w-full flex items-center gap-2 text-center">
+                        <div className="dropdown input border-2 p-0 rounded-md">
+                            <label tabIndex={0} className="w-16 h-full flex items-center justify-center">{playset?.emoji}</label>
+                            <div tabIndex={0} className="dropdown-content">
+                                <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
+                            </div>
+                        </div>
+                        <input type="text" placeholder="Name" className="input border-2 w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
+                    </div>
+                    <div className="w-full">
+                        <ToggleButton full checked={!shuffle} onChange={() => setShuffle(shuffle => !shuffle)} recommended={false}>
+                            Distribute cards in order <Info tooltip="Click me!" href={""} />
+                        </ToggleButton>
+                    </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h3 className="font-bold">
+                            Player range:
+                        </h3>
+                        <div className="flex items-center gap-2">
+                            <RangeCounter value={minPlayers} onChange={setMinPlayers} min={6} max={maxPlayers} />
+                            <p>-</p>
+                            <RangeCounter value={maxPlayers} onChange={setMaxPlayers} min={minPlayers <= 6 ? 6 : minPlayers} max={1000} />
+
                         </div>
                     </div>
-                    <input type="text" placeholder="Name" className="input w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
+
+
                 </div>
-                <h1 className="font-extrabold w-full text-lg mt-4 text-center">Simulate Game</h1>
                 <PlaysetSimulator playset={playset} />
             </div>
 
@@ -339,31 +368,69 @@ export default function WorkbenchView(props) {
 export function PlaysetSimulator({ playset }) {
 
     const [playerCount, setPlayerCount] = useState(11);
+    const [playWithBury, setPlayWithBury] = useState(false);
+
+    const [reloading, setReloading] = useState(false);
+
+    const [reloader, setRealoader] = useState([])
 
     const { cards, soberCard } = useMemo(() => {
-        return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury: false })
-    }, [playset, playerCount])
+        setReloading(true);
+        setTimeout(() => setReloading(false), 500)
+        return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury })
+    }, [playset, playerCount, playWithBury, reloader])
 
-    useEffect(() => console.log(cards,soberCard), [cards, soberCard])
+    const buriedCard = useMemo(() => {
+        return (playWithBury ? cards[playerCount] || null : null)
+    }, [cards, soberCard, playerCount, playWithBury])
+
+    useEffect(() => console.log(cards, soberCard), [cards, soberCard])
 
 
+
+    function reload() {
+        setRealoader([])
+    }   
 
 
     return (
-        <div className="w-full flex flex-col items-center">
-            <div className="flex items-center justify-between w-full">
-                <div className="flex items-center w-fit gap-2 text-lg">
+        <div className="w-full flex flex-col items-center gap-4">
+            <div className="font-extrabold w-full text-lg mt-4 text-center border-b border-neutral/30 pb-2 relative">
+                <p>Simulate Playset</p>
+                <div className=" absolute top-0 right-0 bottom-0 flex items-center">
+                    <button onClick={() => reload()} className={"clickable rounded-full w-9 h-9 flex items-center justify-center " + (reloading ? " animate-spin " : " animate-none ")}><TfiReload style={{transform: "scaleY(-1)"}} size={20} /></button>
+                </div>
+            </div>
+            <div className="flex flex-col items-center w-full gap-2">
+                <div className="flex items-center w-full justify-between gap-2 text-lg">
                     <h3 className="font-semibold">Players</h3>
                     <RangeCounter value={playerCount} onChange={setPlayerCount} min={6} max={1000} />
                 </div>
-                <button>Reset</button>
+                <div className="flex items-center w-full justify-between gap-2 text-lg">
+                    <ToggleButton full checked={playWithBury} onChange={() => setPlayWithBury(playWithBury => !playWithBury)} recommended={false}>
+                        Play with bury
+                    </ToggleButton>
+                </div>
             </div>
             <div className="w-full flex-wrap flex border-2 border-neutral rounded-xl gap-2 p-2">
 
                 {playset?.primaries?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="primaries" />)}
                 {playset?.cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="general" />)}
                 {playset?.odd_card && <ShuffledInCardDummy disabled={!cards.includes(playset?.odd_card?.id) && !soberCard !== playset?.odd_card?.id} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
-                {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="default" />)}
+                {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="default">
+                    {cards?.filter(c => card?.id === c)?.length > 1 && <ActionCircle inverted icon={<p className="font-extrabold">{cards?.filter(c => card?.id === c)?.length}</p>} />}
+                </ShuffledInCardDummy>)}
+            </div>
+            <p className="w-full text-sm -mt-4">Cards in game: {cards?.length}</p>
+            <div className="grid grid-cols-2 gap-2 w-full">
+                {buriedCard && <div className="flex flex-col w-full items-center justify-center gap-2 text-lg font-bold">
+                    <h3 className="truncate">Buried card:</h3>
+                    <div className='card relative scale-[25%] -mx-24  -my-36 '><CardFront card={getCardFromId(buriedCard)} color={getCardFromId(buriedCard)?.color} /></div>
+                </div>}
+                {soberCard && <div className="flex flex-col w-full items-center justify-center gap-2 text-lg font-bold">
+                    <h3 className="truncate">Sober card:</h3>
+                    <div className='card relative scale-[25%] -mx-24  -my-36 '><CardFront card={getCardFromId(soberCard)} color={getCardFromId(soberCard)?.color} /></div>
+                </div>}
             </div>
         </div>
     )
@@ -372,7 +439,7 @@ export function PlaysetSimulator({ playset }) {
 
 // Simulator components
 
-export function ShuffledInCardDummy({ card, areaId, disabled = false }) {
+export function ShuffledInCardDummy({ card, areaId, disabled = false, children }) {
     const area = useMemo(() => getPlaysetArea(areaId || "odd"), [areaId]);
 
     return (
@@ -380,6 +447,9 @@ export function ShuffledInCardDummy({ card, areaId, disabled = false }) {
             <div style={{ backgroundColor: card?.color?.primary }} className={"text-white flex items-center justify-center flex-col relative aspect-[2/3] w-10 transition-all " + (disabled ? " opacity-50 " : " opacity-100 ")}>
                 <area.icon className="opacity-0 group-hover:opacity-100 transition-all" />
                 {card?.src && card?.src !== "" && <img src={`/cards${card.src}`} className="opacity-100 group-hover:opacity-0 transition-all absolute inset-0" />}
+                <div className="opacity-100 group-hover:opacity-0 transition-all absolute inset-0 flex flex-col items-center justify-center">
+                    {children}
+                </div>
             </div>
         </div>
 
@@ -418,9 +488,9 @@ export function WorkbenchLinkedCards({ id, onInfo = (card) => { }, onClick = () 
 
 
 
-export function ActionCircle({ onClick, icon, tooltip, hidden = false }) {
+export function ActionCircle({ onClick, icon, tooltip, hidden = false, inverted = false }) {
     return (
-        <div onClick={onClick} className={" rounded-full bg-neutral flex items-center justify-center text-neutral-content clickable " + (tooltip && " tooltip ") + (hidden ? " h-0 w-0 my-0 " : " h-8 w-8 my-1 ")} data-tip={tooltip}>
+        <div onClick={onClick} className={" rounded-full  flex items-center justify-center  clickable " + (tooltip && " tooltip ") + (hidden ? " h-0 w-0 my-0 " : " h-8 w-8 my-1 ") + (inverted ? " text-base-content bg-base-100 " : " text-neutral-content bg-neutral ")} data-tip={tooltip}>
             {icon}
         </div>
     )
