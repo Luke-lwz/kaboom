@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAllCards, getCardColorFromColorName, getCardFromId, CARD_COLOR_ORDER, getLinkedCardsPaired } from '../helpers/cards';
+import { getAllCards, getCardColorFromColorName, getCardFromId, CARD_COLOR_ORDER, getLinkedCardsPaired, pairUpCards } from '../helpers/cards';
 import { CardFront } from './Card';
 import LinkedCardsContainer from './LinkedCardsContainer';
 import { DifficultyPill } from './Pills';
@@ -169,24 +169,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
     }
 
 
-    function pairUpCards(allCards) {
-        var alreadyIncludedCardIds = [];
-        var pairedCards = [];
-        for (let i = 0; i < allCards.length; i++) {
-            let card = allCards[i];
-
-            let cardPair = getLinkedCardsPaired(card);
-
-            if (!alreadyIncludedCardIds.includes(cardPair?.[0]?.id)) {
-                alreadyIncludedCardIds = [...alreadyIncludedCardIds, ...cardPair.map(c => c.id)]
-                pairedCards.push(cardPair)
-            }
-
-
-        }
-
-        return pairedCards;
-    }
+    
 
 
     return (

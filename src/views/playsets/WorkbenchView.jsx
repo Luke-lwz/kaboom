@@ -48,9 +48,12 @@ export default function WorkbenchView(props) {
 
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"],
+        ["y001"]
     ])
     const [generalCards, setGeneralCards] = useState([
         ["b014", "r014"],
+        ["b020", "r020"],
+        ["e002"]
     ])
     const [oddCard, setOddCard] = useState("g008"); // nullable
     const [defaultCards, setDefaultCards] = useState([
@@ -76,7 +79,7 @@ export default function WorkbenchView(props) {
         cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
         default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
         odd_card: oddCard ? getCardFromId(oddCard) : null,
-        shuffle: true,
+        shuffle: false,
         no_bury: false
     }), [primaries, generalCards, oddCard, defaultCards, emoji, name])
 
@@ -340,6 +343,8 @@ export function PlaysetSimulator({ playset }) {
     const { cards, soberCard } = useMemo(() => {
         return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury: false })
     }, [playset, playerCount])
+
+    useEffect(() => console.log(cards,soberCard), [cards, soberCard])
 
 
 

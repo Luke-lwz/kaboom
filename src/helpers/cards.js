@@ -15,6 +15,7 @@ import { GiBrain, GiBottleCap, GiThrownKnife } from "react-icons/gi";
 import { MdDarkMode } from "react-icons/md"
 import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
+import { findIndexCombinations } from "./arrays";
 
 
 export const CARD_COLOR_ORDER = [
@@ -98,6 +99,7 @@ export function getCardsForPlayset(game_data) {
 
 
 
+
     var { primaries, cards, odd_card, shuffle, default_cards } = playset;
 
     cards = [...(primaries || []), ...(cards || [])]
@@ -131,60 +133,86 @@ export function getCardsForPlayset(game_data) {
         }
     } else {
         if (playWithBury && odd_card) cards.push(odd_card);
-        else if (length % 2 === 1 && odd_card) cards.unshift(odd_card);
+        else if (length % 2 === 1 && odd_card) cards.push(odd_card);
     }
 
 
 
 
     if (shuffle) { // shuffles in pairs
-        var shuffled_cards = [...cards.sort((a, b) => 0.5 - Math.random())];
+        var cards = [...cards.sort((a, b) => 0.5 - Math.random())];
+
+    }
 
 
-        for (let i = 0; i < primaries?.length; i++) {
-            let primary = primaries[i]
-            shuffled_cards = shuffled_cards.sort((x, y) => { return x.id == primary?.id ? -1 : y.id == primary?.id ? 1 : 0; });
-        }
 
-        var sCardsWithPairs = [];
+    function selectIncludedCardsBasedOnLinks() {
+        var includedCards = [];
 
-        while (shuffled_cards.length > 0) {
-            var card = shuffled_cards[0];
-            pushCard(card);
-            var opposite = (["r", "b"].includes(card?.id[0]) ? getCardFromId(`${(card?.id[0] === "r" ? "b" : "r")}${card?.id.slice(-3)}`) : null)
-            if (opposite) pushCard(opposite);
-            card?.links.map(c => {
-                pushCard(getCardFromId(c));
-                return c;
-            })
+        for (let i = 0; i < cards?.length; i++) { // makes sure all primaries are shuffled in
+            let card = cards[i]
+            if (card?.primary) includedCards.push(card);
         }
 
 
-        cards = sCardsWithPairs;
+
+
+        let unincludedCards = getUnincludedCards();
+        let pairedCardsRow = pairUpCards(unincludedCards)
+
+        let targetValue = length - includedCards.length // playercount(+bury) - prinaries
+        let combinations = findIndexCombinations(pairedCardsRow.map(row => row.length), targetValue)
+
+        console.log(pairedCardsRow, combinations)
+
+        if (combinations?.[0]) {
+            let combination = (shuffle ?
+                (combinations[rng(0, combinations?.length - 1)]) // selects random combination that totals to targetValue
+                :
+                (combinations[0])
+            );
+
+            for (let i = 0; i < combination.length; i++) { // adds cards at indexes of index combination
+                const indexOfCardPair = combination[i];
+                includedCards = [...includedCards, ...pairedCardsRow[indexOfCardPair]];
+            }
+        }
+
+        return includedCards
 
 
 
 
+        function getUnincludedCards() { // doesn't remove duplicate ids
+            var unpaired = [...cards];
 
-        function pushCard(card) {
-            if (shuffled_cards.filter(c => c?.id === card?.id)[0]) {
-                var cardIndex = getIndex();
-                if (!cardIndex) return
-                shuffled_cards.splice(cardIndex, 1);
-                sCardsWithPairs.push(card);
+            for (let i = 0; i < includedCards.length; i++) {
+                unpaired = remove(unpaired, includedCards[i]?.id)
             }
 
+            return unpaired
 
+            function remove(remArr, cardId) {
+                if (!cardId) return [...remArr]
+                var arr = [];
 
-            function getIndex() {
-                for (let i in shuffled_cards) {
-                    const el = shuffled_cards[i];
-                    if (el?.id === card?.id) return i;
+                for (let i = 0; i < remArr.length; i++) {
+                    let card = remArr[i];
+                    if (card?.id === cardId) {
+                        return [...arr, ...remArr.slice((remArr.length - (i + 1)) * -1)]
+                    } else {
+                        arr.push(card)
+                    }
                 }
-                return null
-            }
-        }
 
+                return arr;
+            }
+
+        }
+    }
+
+    if (length < cards.length) {
+        cards = selectIncludedCardsBasedOnLinks() || cards
     }
 
 
@@ -364,4 +392,28 @@ export function getLinkedCardsPaired(card, sort = true) { // pairs everything up
 
 export function getLinkedCardsPairedById(id, sort = true) { // pairs everything up into one array
     return getLinkedCardsPaired(getCardFromId(id), sort)
+}
+
+
+
+
+
+
+export function pairUpCards(allCards) {
+    var alreadyIncludedCardIds = [];
+    var pairedCards = [];
+    for (let i = 0; i < allCards.length; i++) {
+        let card = allCards[i];
+
+        let cardPair = getLinkedCardsPaired(card);
+
+        if (!alreadyIncludedCardIds.includes(cardPair?.[0]?.id)) {
+            alreadyIncludedCardIds = [...alreadyIncludedCardIds, ...cardPair.map(c => c.id)]
+            pairedCards.push(cardPair)
+        }
+
+
+    }
+
+    return pairedCards;
 }

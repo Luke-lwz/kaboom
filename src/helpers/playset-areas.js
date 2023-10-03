@@ -4,11 +4,12 @@ import { TbCards } from "react-icons/tb"
 import { PiCirclesThreeBold } from "react-icons/pi"
 import {BsFiles} from "react-icons/bs"
 
+
 const PLAYSET_AREAS = {
     primaries: {
         colors: {
             primary: "#ec1f2b",
-            bg: "#ec1f2b20"
+            bg: "#ec1f2b15"
         },
         name: "Primaries",
         info: "Everything revolves around the primary cards (eg. the President or Bomber)",
