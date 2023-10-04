@@ -176,9 +176,11 @@ export function getCardsForPlayset(game_data) {
                 const indexOfCardPair = combination[i];
                 includedCards = [...includedCards, ...pairedCardsRow[indexOfCardPair]];
             }
+            return includedCards
         }
 
-        return includedCards
+        return cards
+
 
 
 
@@ -241,7 +243,7 @@ export function getCardsForPlayset(game_data) {
         var removedBuriedCard = false
         out_cards = out_cards.filter((c, i) => {
             if (removedBuriedCard) return true;
-            if (c.id === buriedCard.id) {
+            if (c?.id === buriedCard?.id) {
                 removedBuriedCard = true;
                 return false;
             }
@@ -264,7 +266,7 @@ export function getCardsForPlayset(game_data) {
 
 
 
-    return { cards: out_cards.map(c => c.id), soberCard: soberCard?.id };
+    return { cards: out_cards.map(c => c?.id), soberCard: soberCard?.id };
 
 
 
@@ -286,7 +288,7 @@ export function getCardsForPlayset(game_data) {
 
 
         const nonLinkedCards = cards.filter(c => {
-            if (c.links?.length > 0) return false;
+            if (c?.links?.length > 0) return false;
 
             let backup_exists = false;
             if (c?.backup_cards?.[0]) {
