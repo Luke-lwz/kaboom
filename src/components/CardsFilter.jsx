@@ -8,12 +8,12 @@ import { avgFromCards } from '../helpers/difficulty';
 
 const SEARCH_PILLS = [
     {
-        title: "Version 2",
-        searchValue: "v2"
-    },
-    {
         title: "Version 1",
         searchValue: "v1"
+    },
+    {
+        title: "Version 2",
+        searchValue: "v2"
     },
     {
         title: "Official",

@@ -348,7 +348,7 @@
         "id": "g031",
         "description": "DONT LEAVE WITHOUT YOUR CARRIAGE",
         "links": ["g032"],
-        "src": "",
+        "src": "/grey/horse.png",
         "info": "You win as soon as you leave a room as a hostage together with the carriage.",
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
@@ -359,10 +359,46 @@
         "id": "g032",
         "description": "DONT LEAVE WITHOUT YOUR HORSE",
         "links": ["g031"],
-        "src": "",
+        "src": "/grey/carriage.png",
         "info": "You win as soon as you leave a room as a hostage together with the horse.",
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
         "difficulty": 5
+    },
+    {
+        "name": "ROCK",
+        "id": "g033",
+        "description": "BE WITH SCISSORS, AVOID PAPER",
+        "links": ["g034", "g035"],
+        "src": "/grey/rock_hand.png",
+        "info": "You win if you are in the same room as the Scissors, but not in the same room as the Paper",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 6
+    },
+    {
+        "name": "PAPER",
+        "id": "g034",
+        "description": "BE WITH ROCK, AVOID SCISSORS",
+        "links": ["g035", "g033"],
+        "src": "/grey/paper_hand.png",
+        "info": "You win if you are in the same room as the Rock, but not in the same room as the Scissors",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 6
+    },
+    {
+        "name": "SCISSORS",
+        "id": "g035",
+        "description": "BE WITH PAPER, AVOID ROCK",
+        "links": ["g033", "g034"],
+        "src": "/grey/scissors_hand.png",
+        "info": "You win if you are in the same room as the Paper, but not in the same room as the Rock",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 6
     }
 ]
