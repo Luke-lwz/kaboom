@@ -340,7 +340,7 @@
         "description": "YOU LOOK LIKE YOU ARE RED",
         "links": [],
         "src": "/red/wing.png",
-        "info": "This is a special character card that is the color of the opposite team. This means that the blue Spy has an allegiance to the Blue Team, but their card is red.",
+        "info": "This is a special character card that is the color of an opposing team. This means that the blue Spy has an allegiance to the Blue Team, but their card is red.",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 7
@@ -434,5 +434,16 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
         "difficulty": 4
+    },
+    {
+        "name": "YELLOW SPY",
+        "id": "r039",
+        "description": "YOU LOOK LIKE YOU ARE RED",
+        "links": ["y003", "y004"],
+        "src": "/red/sword.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the yellow Spy has an allegiance to the Yellow Team, but their card is red.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "red",
+        "difficulty": 7
     }
 ]

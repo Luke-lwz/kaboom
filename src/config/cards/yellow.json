@@ -32,10 +32,31 @@
         "description": "Be with the President but not the Bomber",
         "links": [],
         "src": "/yellow/smith.png",
-        "info": "You are on the Yellow Team. If the President does not gain the \"dead\" condition and you are in the same room as the President Yellow Team wins, but Blue & Red Team lose. If the the President, Bomber, and you all end in the same room, then the Yellow Team, Blue Team, and even Red Team lose.\r\n\r\nNote: Only when playing without any additional \"Yellow Team\" characters, you also have YELLOW power. Any player that card or color shares with you joins the Yellow Team. New members of Yellow Team maintain their powers and conditions, but their allegiance (and therefore win condition) changes to Yellow Team. However, the YELLOW power does not work on primary characters (e.g. President, Bomber).",
-        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
+        "info": "", "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
         "tags": "custom patch1 v2 friends primary",
         "color_name": "yellow",
         "difficulty": 5
+    },
+    {
+        "name": "BLUE SPY",
+        "id": "y003",
+        "description": "YOU LOOK LIKE YOU ARE YELLOW",
+        "links": ["r039", "b039", "y004"],
+        "src": "/yellow/wing.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the blue Spy has an allegiance to the Blue Team, but their card is yellow.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 7
+    },
+    {
+        "name": "RED SPY",
+        "id": "y004",
+        "description": "YOU LOOK LIKE YOU ARE YELLOW",
+        "links": ["r039", "b039", "y003"],
+        "src": "/yellow/staff.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the red Spy has an allegiance to the Red Team, but their card is yellow.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 7
     }
 ]
