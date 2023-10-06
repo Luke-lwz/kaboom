@@ -214,8 +214,8 @@ export default function WorkbenchView(props) {
         }
     }
 
-    function onDefaultCardsClick() {
-        var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name))  || card?.color_name === "yellow" && card?.links?.length === 1));
+    function onDefaultCardsClick(clickedIndex) {
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name))  || (card?.color_name === "yellow" && card?.links?.length === 1) || card?.id === "y000"));
         setPageCover({
             title: "Default cards",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
@@ -224,7 +224,19 @@ export default function WorkbenchView(props) {
 
 
         function replaceOrAddCard(card) {
-            setDefaultCards(JSON.parse(JSON.stringify([getLinkedCardsPaired(card)?.map(c => c?.id)])))
+            var cardsIdsPair = getLinkedCardsPaired(card)?.map(c => c?.id);
+
+            if (clickedIndex !== undefined && clickedIndex !== null) { // replace at this index
+                setDefaultCards(defaultCards => {
+                    defaultCards[clickedIndex] = cardsIdsPair;
+                    return JSON.parse(JSON.stringify(defaultCards));
+                })
+            } else { // add new
+                setDefaultCards(defaultCards => {
+                    return [...defaultCards, cardsIdsPair]
+                });
+
+            }
             setPageCover(null)
         }
     }
@@ -304,7 +316,7 @@ export default function WorkbenchView(props) {
 
                         {defaultCards.map((cardsIds, i) => <WorkbenchLinkedCards
                             onX={() => setDefaultCards(defaultCards => removeAtIndex(defaultCards, i))}
-                            onClick={() => onDefaultCardsClick()}
+                            onClick={() => onDefaultCardsClick(i)}
                             onInfo={onCardSetInfo}
                             key={"general-" + i + cardsIds?.[0]?.id}
                             id={cardsIds[0]} />)}
