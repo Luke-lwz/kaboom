@@ -434,16 +434,5 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "blue",
         "difficulty": 4
-    },
-    {
-        "name": "YELLOW SPY",
-        "id": "b039",
-        "description": "YOU LOOK LIKE YOU ARE BLUE",
-        "links": ["y003", "y004"],
-        "src": "/blue/sword.png",
-        "info": "This is a special character card that is the color of an opposing team. This means that the yellow Spy has an allegiance to the Yellow Team, but their card is blue.",
-        "tags": "custom patch1 v2 friends",
-        "color_name": "blue",
-        "difficulty": 7
     }
 ]

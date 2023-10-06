@@ -215,7 +215,7 @@ export default function WorkbenchView(props) {
     }
 
     function onDefaultCardsClick() {
-        var applicableCards = getAllCards()?.filter(card => !card?.primary && (["red", "blue"].includes(card?.color_name)));
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name))  || card?.color_name === "yellow" && card?.links?.length === 1));
         setPageCover({
             title: "Default cards",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
