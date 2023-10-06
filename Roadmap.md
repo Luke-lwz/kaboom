@@ -5,4 +5,10 @@
 - Werewolf
 - Dictator -> Wins if elected leader during round and everyone else loses
 - Master & Apprentice -> Must card share maj. of rounds
-- 
+
+
+
+
+### Welche gelben sollen übertragen werden
+- Agent
+- Angel
