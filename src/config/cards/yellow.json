@@ -1,13 +1,39 @@
 [
     {
-        "name": "ASSASIN",
+        "name": "Yellow Team",
+        "id": "b000",
+        "description": "Help the Assassin",
+        "links": [],
+        "src": "/yellow/sword.png",
+        "info": "You are on the Yellow Team.\nYou win if the President is in the same Room as the Assassin but the Bomber is not\r\n\r\nNote: Any character card that has the dagger icon on it is considered to be on the Yellow Team.",
+        "tags": "v1 official",
+        "color_name": "yellow",
+        "difficulty": 2
+    },
+    {
+        "name": "ASSASSIN",
         "id": "y001",
         "primary": true,
         "backup_cards": ["y000"],
         "description": "Be with the President but not the Bomber",
         "links": [],
-        "src": "/yellow/dagger.png",
-        "info": "","credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
+        "src": "/yellow/hood.png",
+        "info": "You are on the Yellow Team. If the President does not gain the \"dead\" condition and you are in the same room as the President Yellow Team wins, but Blue & Red Team lose. If the the President, Bomber, and you all end in the same room, then the Yellow Team, Blue Team, and even Red Team lose.\r\n\r\nNote: Only when playing without any additional \"Yellow Team\" characters, you also have YELLOW power. Any player that card or color shares with you joins the Yellow Team. New members of Yellow Team maintain their powers and conditions, but their allegiance (and therefore win condition) changes to Yellow Team. However, the YELLOW power does not work on primary characters (e.g. President, Bomber).",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
+        "tags": "custom patch1 v2 friends primary",
+        "color_name": "yellow",
+        "difficulty": 5
+    },
+    {
+        "name": "WEAPONSMITH",
+        "id": "y002",
+        "primary": true,
+        "backup_cards": ["y000"],
+        "description": "Be with the President but not the Bomber",
+        "links": [],
+        "src": "/yellow/smith.png",
+        "info": "You are on the Yellow Team. If the President does not gain the \"dead\" condition and you are in the same room as the President Yellow Team wins, but Blue & Red Team lose. If the the President, Bomber, and you all end in the same room, then the Yellow Team, Blue Team, and even Red Team lose.\r\n\r\nNote: Only when playing without any additional \"Yellow Team\" characters, you also have YELLOW power. Any player that card or color shares with you joins the Yellow Team. New members of Yellow Team maintain their powers and conditions, but their allegiance (and therefore win condition) changes to Yellow Team. However, the YELLOW power does not work on primary characters (e.g. President, Bomber).",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
         "tags": "custom patch1 v2 friends primary",
         "color_name": "yellow",
         "difficulty": 5
