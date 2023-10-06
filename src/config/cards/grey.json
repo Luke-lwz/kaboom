@@ -406,10 +406,10 @@
         "id": "g036",
         "description": "YOU WANT THE GREYS TO LOSE",
         "links": [],
-        "src": "",
-        "info": "You win if everyone on the grey Team loses.\r\n\r\nNote: if you ever switch teams/alliances, your win objective changes to \"You win if your team loses.\". E.g. You become a member of Team Zombie, then you only win if Team Zombie loses. ",
+        "src": "/grey/knife_behind_back_wide.png",
+        "info": "You win if everyone on the grey Team loses.\r\n\r\nNote: if you ever switch teams/alliances, your win objective changes to: \"You win if your team loses\". E.g. You become a member of Team Zombie, then you only win if Team Zombie loses.",
         "tags": "custom patch1 v2 friends",
-        "color_name": "blue",
+        "color_name": "grey",
         "difficulty": 6
     }
 ]

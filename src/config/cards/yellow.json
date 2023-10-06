@@ -6,7 +6,7 @@
         "links": [],
         "src": "/yellow/sword.png",
         "info": "You are on the Yellow Team.\nYou win if the President is in the same Room as the Assassin but the Bomber is not\r\n\r\nNote: Any character card that has the dagger icon on it is considered to be on the Yellow Team.",
-        "tags": "v1 official",
+        "tags": "custom patch1 v2 friends",
         "color_name": "yellow",
         "difficulty": 2
     },
