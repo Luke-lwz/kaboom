@@ -24,7 +24,8 @@ export const CARD_COLOR_ORDER = [
     "grey",
     "yellow",
     "green",
-    "purple",
+    
+    "drunk",
     "dark"
 ]
 
