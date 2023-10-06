@@ -19,7 +19,7 @@
         "links": [],
         "src": "/blue/president.png",
         "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.\r\n\r\nGrey characters that need to know you are your natural allies.\r\n\r\n",
-        "tags": "v1 official",
+        "tags": "v1 official primary",
         "color_name": "blue",
         "difficulty": 2
     },

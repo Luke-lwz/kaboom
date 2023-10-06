@@ -6,9 +6,9 @@
         "backup_cards": ["y000"],
         "description": "Be with the President but not the Bomber",
         "links": [],
-        "src": "",
-        "info": "",
-        "tags": "custom patch1 v2 friends",
+        "src": "/yellow/dagger.png",
+        "info": "","credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/knife-dagger-wing-illustration-art_7712254.html"},
+        "tags": "custom patch1 v2 friends primary",
         "color_name": "yellow",
         "difficulty": 5
     }

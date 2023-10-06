@@ -24,7 +24,7 @@ export const CARD_COLOR_ORDER = [
     "grey",
     "yellow",
     "green",
-    
+
     "drunk",
     "dark"
 ]
@@ -95,7 +95,7 @@ export const CARD_COLORS = {
     },
     yellow: { 
         primary: "#ffde26",
-        secondary: "#6e4c18",
+        secondary: "#664d00",
         text: "#ffffff",
         title: "Yellow Team",
         icon: GiThrownKnife,

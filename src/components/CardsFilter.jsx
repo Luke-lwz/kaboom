@@ -30,6 +30,14 @@ const SEARCH_PILLS = [
         }
     }),
     {
+        title: "Primary cards",
+        searchValue: "primary",
+        style: {
+            borderColor: "#152aed",
+            color: "#ec1f2b"
+        }
+    },
+    {
         title: "Special cards",
         searchValue: "special",
         style: {
