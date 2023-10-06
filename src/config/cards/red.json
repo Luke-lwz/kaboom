@@ -145,7 +145,7 @@
         "difficulty": 4
     },
     {
-        "name": "DEMON",
+        "name": "LIAR",
         "id": "r013",
         "description": "LIE",
         "links": [],
@@ -444,7 +444,7 @@
         "info": "You begin with the \"giant\" condition. Players with the \"giant\" condition can never leave their room or be selected as a hostage.\r\n\r\nNote: Players should never lie about having the \"giant\" condition.",
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
-        "difficulty": 2
+        "difficulty": 3
     },
     {
         "name": "TRAITOR",

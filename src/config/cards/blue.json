@@ -145,7 +145,7 @@
         "difficulty": 4
     },
     {
-        "name": "DEMON",
+        "name": "LIAR",
         "id": "b013",
         "description": "LIE",
         "links": [],
@@ -207,7 +207,7 @@
         "links": [],
         "backup_for": "b001",
         "src": "/blue/girl.png",
-        "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\nYou are the heir, a huge deal if the President card is buried.\r\n\r\n",
+        "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\nYou are the heir, a huge deal if the President card is buried.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
@@ -444,7 +444,7 @@
         "info": "You begin with the \"giant\" condition. Players with the \"giant\" condition can never leave their room or be selected as a hostage.\r\n\r\nNote: Players should never lie about having the \"giant\" condition.",
         "tags": "custom patch1 v2 friends",
         "color_name": "blue",
-        "difficulty": 2
+        "difficulty": 3
     },
     {
         "name": "TRAITOR",
