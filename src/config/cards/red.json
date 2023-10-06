@@ -434,5 +434,27 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
         "difficulty": 4
+    },
+    {
+        "name": "GIANT",
+        "id": "r039",
+        "description": "YOU CAN NEVER LEAVE YOUR ROOM",
+        "links": [],
+        "src": "",
+        "info": "You begin with the \"giant\" condition. Players with the \"giant\" condition can never leave their room or be selected as a hostage.\r\n\r\nNote: Players should never lie about having the \"giant\" condition.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "red",
+        "difficulty": 2
+    },
+    {
+        "name": "TRAITOR",
+        "id": "r040",
+        "description": "YOU WANT YOUR TEAM TO LOSE",
+        "links": [],
+        "src": "",
+        "info": "You win if your team loses.\r\n\r\nNote: if you ever switch teams/alliances, your win objective carries over. E.g. You become a member of Team Zombie, then you only win if Team Zombie loses.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "red",
+        "difficulty": 6
     }
 ]
