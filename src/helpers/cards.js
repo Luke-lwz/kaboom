@@ -29,6 +29,15 @@ export const CARD_COLOR_ORDER = [
 ]
 
 
+export const CARD_COLOR_FILTER_OPTIONS = [
+    "blue",
+    "red",
+    "grey",
+    "yellow",
+    "green",
+]
+
+
 export const CARD_COLOR_NAMES = {
     red: "r",
     blue: "b",
@@ -41,49 +50,49 @@ export const CARD_COLOR_NAMES = {
 
 
 export const CARD_COLORS = {
-    r: {
+    red: {
         primary: "#ec1f2b",
         secondary: "#5e1717",
         text: "#ffffff",
         title: "Red Team",
         icon: FaBomb
     },
-    b: {
+    blue: {
         primary: "#4f94ff",
         secondary: "#152aed",
         text: "#ffffff",
         title: "Blue Team",
         icon: AiFillStar
     },
-    g: {
+    grey: {
         primary: "#9e9e9e",
         secondary: "#595959",
         text: "#ffffff",
         title: "Grey Team",
         icon: FaTheaterMasks,
     },
-    e: { // e = emerald (green)
+    green: { // e = emerald (green)
         primary: "#18ed1c",
         secondary: "#0c5a27",
         text: "#ffffff",
         title: "Green Team",
         icon: GiBrain,
     },
-    p: { // p = purple
+    drunk: { 
         primary: "#AA6DFF",
         secondary: "#554180",
         text: "#ffffff",
         title: "???? Team",
         icon: GiBottleCap,
     },
-    d: { // d = dark
+    dark: { // d = dark
         primary: "#000000",
         secondary: "#000000",
         text: "#000000",
         title: "Black Team",
         icon: MdDarkMode,
     },
-    y: { // d = dark
+    yellow: { 
         primary: "#ffde26",
         secondary: "#6e4c18",
         text: "#ffffff",
@@ -337,12 +346,14 @@ export function getCardFromId(id) {
 
 
 export function getCardColorFromId(id) {
-    return CARD_COLORS[id[0] || "g"]
+    if (!id) return null;
+    const card = getCardColorFromId(id);
+    return getCardColorFromColorName(card?.color_name)
 }
 
 export function getCardColorFromColorName(color_name) {
-    var color_nickname = CARD_COLOR_NAMES[color_name || "grey"] || "g";
-    return CARD_COLORS[color_nickname]
+    if (!color_name) return null;
+    return CARD_COLORS[color_name]
 }
 
 
