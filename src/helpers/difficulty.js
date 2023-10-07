@@ -46,9 +46,10 @@ const DIFFICULTIES = [
 
 
 export function getDifficultyDataFromValue(value) {
-    const index = (Math.ceil(value / 2) - 1); // gets index from number from 1-10
+    let roundedValue = Math.round(value);
+    const index = (Math.ceil(roundedValue / 2) - 1); // gets index from number from 1-10
     const diff = DIFFICULTIES[index] || DIFFICULTIES[0];
-    return { ...diff, difficulty: value }
+    return { ...diff, difficulty: Math.round( value * 10 ) / 10 }
 }
 
 

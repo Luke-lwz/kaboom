@@ -59,7 +59,13 @@ export function WhiteDifficultyPill({ difficulty = 7, minimal = false }) {
 
 export function SmallRadialProgress({ value = 30, color, text = "" }) {
     return (
-        <div className="radial-progress" style={{ "--value": value, "--size": "0.8rem", "--thickness": "0.15rem", color }}>{text}</div>
+        <div className="radial-progress text-xs" style={{ "--value": value, "--size": "0.8rem", "--thickness": "0.15rem", color }}>{text}</div>
+    )
+}
+
+export function LargeRadialProgress({ value = 30, color, text = "" }) {
+    return (
+        <div className="radial-progress text-sm" style={{ "--value": value, "--size": "3.2rem", "--thickness": "0.35rem", color }}>{text}</div>
     )
 }
 

@@ -179,16 +179,16 @@ body {
 
 
 .circular-gradient-primary {
-  background: radial-gradient(#fc021b,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+  background: radial-gradient(theme("colors.primary"),  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 }
 
 
 .circular-gradient-secondary {
-  background: radial-gradient(#0019fd,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+  background: radial-gradient(theme("colors.secondary"),  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 }
 
 .circular-gradient-success {
-  background: radial-gradient(#28df20,  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+  background: radial-gradient(theme("colors.success"),  rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 }
 
 .circular-gradient-accent {

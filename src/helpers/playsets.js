@@ -28,9 +28,11 @@ export function getPlaysetsWithCards() {
         var value = PLAYSETS[key];
 
         let v = value.map(playset => {
-            let cards = playset.cards.map(cid => getCardFromId(cid));
+            let cards = playset?.cards?.map(cid => getCardFromId(cid)) || [];
+            let primaries = playset?.primaries?.map(cid => getCardFromId(cid)) || [];
+            let default_cards = playset?.default_cards?.map(cid => getCardFromId(cid)) || null;
             if (playset?.odd_card && playset.odd_card !== "") var odd_card = getCardFromId(playset.odd_card);
-            return { ...playset, cards, odd_card, color: PLAYSET_COLORS[key] };
+            return { ...playset, cards, odd_card, primaries, default_cards, color: PLAYSET_COLORS[key] };
         })
 
 

@@ -108,8 +108,7 @@ export function getCardsForPlayset(game_data) {
     var { players, playset, playWithBury } = game_data;
 
 
-
-
+    console.log(playset)
     var { primaries, cards, odd_card, shuffle, default_cards } = playset;
 
     cards = [...(primaries || []), ...(cards || [])]
@@ -172,8 +171,6 @@ export function getCardsForPlayset(game_data) {
 
         let targetValue = length - includedCards.length // playercount(+bury) - prinaries
         let combinations = findIndexCombinations(pairedCardsRow.map(row => row.length), targetValue)
-
-        console.log(pairedCardsRow, combinations)
 
         if (combinations?.[0]) {
             let combination = (shuffle ?

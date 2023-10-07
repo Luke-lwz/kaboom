@@ -14,7 +14,7 @@
         "name": "ASSASSIN",
         "id": "y001",
         "primary": true,
-        "backup_cards": ["y002"],
+        "backup_cards": ["placeholder"],
         "description": "Be with the President but not the Bomber",
         "links": [],
         "src": "/yellow/hood.png",
@@ -25,37 +25,13 @@
         "difficulty": 4
     },
     {
-        "name": "RECRUIT",
-        "id": "y002",
-        "description": "IF THERE IS NO ASSASSIN, BE THE ASSASSIN",
-        "links": [],
-        "backup_for": "y001",
-        "src": "",
-        "info": "You are the backup character for the Assassin. If the Assassin card is buried you must carry out all responsibilities associated with the Assassin. You also gain all his initial powers.\r\n\r\nYou are his student, the next in command and only a huge deal if the Assassin card is buried.",
-        "tags": "custom patch1 v2 friends",
-        "color_name": "yellow",
-        "difficulty": 5
-    },
-    {
         "name": "WEAPONSMITH",
         "id": "y003",
         "description": "Be with the President but not the Bomber",
-        "backup_cards": ["y004"],
+        "backup_cards": ["placeholder"],
         "links": [],
         "src": "/yellow/smith.png",
         "info": "When playing with the Weaponsmith, the Blue Team has the following additional win condition: the Assasin must card share with the Weaponsmith before the end of the game or the Yellow Team loses. At the end of the game, the Assasin will be asked if he/she card shared with the Weaponsmith. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the Assasin character ever switches player control (perhaps due to the Hot Potato), then the new Assasin must card share with the Weaponsmith to prevent losing.",
-        "tags": "custom patch1 v2 friends",
-        "color_name": "yellow",
-        "difficulty": 5
-    },
-    {
-        "name": "YOUNGLING",
-        "id": "y004",
-        "description": "IF THERE IS NO WEAPONSMITH, BE THE WEAPONSMITH",
-        "links": [],
-        "backup_for": "y003",
-        "src": "",
-        "info": "You are the backup character for the Weaponsmith. If the Weaponsmith card is buried, you must carry out Weaponsmith responsibilities (i.e. card sharing with the Assassin).",
         "tags": "custom patch1 v2 friends",
         "color_name": "yellow",
         "difficulty": 5

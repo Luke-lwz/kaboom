@@ -48,7 +48,7 @@ const MAX = {
 
 export default function WorkbenchView(props) {
 
-    const { setMenu, setPageCover } = useContext(PageContext);
+    const { setMenu, setPageCover, devMode } = useContext(PageContext);
 
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"],
@@ -71,24 +71,11 @@ export default function WorkbenchView(props) {
     const [shuffle, setShuffle] = useState(true);
     const [minPlayers, setMinPlayers] = useState(6);
     const [maxPlayers, setMaxPlayers] = useState(30);
+    const [buryOption, setBuryOption] = useState("auto");
 
 
 
 
-
-
-
-    const playset = useMemo(() => ({
-        name,
-        players: `${minPlayers}-${maxPlayers}`,
-        emoji,
-        primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
-        cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
-        default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
-        odd_card: oddCard ? getCardFromId(oddCard) : null,
-        shuffle: shuffle,
-        no_bury: false
-    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, shuffle, minPlayers, maxPlayers])
 
     const allCardsInPlaysetInRowId = useMemo(() => {
         var allCardsIds = [];
@@ -107,6 +94,22 @@ export default function WorkbenchView(props) {
 
         return allCardsIds
     }, [primaries, generalCards, oddCard, defaultCards])
+
+
+
+    const playset = useMemo(() => ({
+        name,
+        players: `${minPlayers}-${maxPlayers}`,
+        emoji,
+        primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
+        cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
+        default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
+        odd_card: oddCard ? getCardFromId(oddCard) : null,
+        shuffle: shuffle,
+        no_bury: (buryOption === "never"),
+        force_bury: (buryOption === "always"),
+        difficulty: avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid)))
+    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption])
 
 
 
@@ -215,7 +218,7 @@ export default function WorkbenchView(props) {
     }
 
     function onDefaultCardsClick(clickedIndex) {
-        var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name))  || (card?.color_name === "yellow" && card?.links?.length === 1) || card?.id === "y000"));
+        var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name)) || (card?.color_name === "yellow" && card?.links?.length === 1) || card?.id === "y000"));
         setPageCover({
             title: "Default cards",
             element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
@@ -240,6 +243,7 @@ export default function WorkbenchView(props) {
             setPageCover(null)
         }
     }
+
 
 
     return (
@@ -335,7 +339,7 @@ export default function WorkbenchView(props) {
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide gap-4 flex flex-col items-center">
                 <div className="w-full h-fit">
-                    <PlaysetDisplay key={playset?.name} forceOpen playset={playset} />
+                    <PlaysetDisplay key={playset?.name} playset={playset} forceOpen />
 
                 </div>
                 <div className="flex flex-col w-full items-center gap-2">
@@ -364,10 +368,22 @@ export default function WorkbenchView(props) {
 
                         </div>
                     </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h3 className="font-bold">
+                            Burying:
+                        </h3>
+                        <select onChange={(e) => setBuryOption(e?.target?.value || "auto")} className="select select-bordered w-full max-w-xs border-2 border-neutral">
+                            <option value="auto" selected={buryOption === "auto"}>Auto</option>
+                            <option value="always" selected={buryOption === "always"}>Always bury</option>
+                            <option value="never" selected={buryOption === "never"}>Never bury</option>
+                        </select>
+                    </div>
 
 
                 </div>
-                <PlaysetSimulator playset={playset} />
+                <PlaysetSimulator playset={playset} buryOption={buryOption} />
+                {devMode && false && <textarea rows={10} value={JSON.stringify(playset)} className="textarea w-full border-2 border-neural" />}
+                <div className="py-12" />
             </div>
 
         </div>
@@ -377,7 +393,7 @@ export default function WorkbenchView(props) {
 
 
 
-export function PlaysetSimulator({ playset }) {
+export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
     const [playerCount, setPlayerCount] = useState(11);
     const [playWithBury, setPlayWithBury] = useState(false);
@@ -396,13 +412,11 @@ export function PlaysetSimulator({ playset }) {
         return (playWithBury ? cards[playerCount] || null : null)
     }, [cards, soberCard, playerCount, playWithBury])
 
-    useEffect(() => console.log(cards, soberCard), [cards, soberCard])
-
 
 
     function reload() {
         setRealoader([])
-    }   
+    }
 
 
     return (
@@ -410,7 +424,7 @@ export function PlaysetSimulator({ playset }) {
             <div className="font-extrabold w-full text-lg mt-4 text-center border-b border-neutral/30 pb-2 relative">
                 <p>Simulate Playset</p>
                 <div className=" absolute top-0 right-0 bottom-0 flex items-center">
-                    <button onClick={() => reload()} className={"clickable rounded-full w-9 h-9 flex items-center justify-center " + (reloading ? " animate-spin " : " animate-none ")}><TfiReload style={{transform: "scaleY(-1)"}} size={20} /></button>
+                    <button onClick={() => reload()} className={"clickable rounded-full w-9 h-9 flex items-center justify-center " + (reloading ? " animate-spin " : " animate-none ")}><TfiReload style={{ transform: "scaleY(-1)" }} size={20} /></button>
                 </div>
             </div>
             <div className="flex flex-col items-center w-full gap-2">
@@ -419,7 +433,7 @@ export function PlaysetSimulator({ playset }) {
                     <RangeCounter value={playerCount} onChange={setPlayerCount} min={6} max={1000} />
                 </div>
                 <div className="flex items-center w-full justify-between gap-2 text-lg">
-                    <ToggleButton full checked={playWithBury} onChange={() => setPlayWithBury(playWithBury => !playWithBury)} recommended={false}>
+                    <ToggleButton disabled={buryOption !== "auto"} full checked={(playWithBury || playset?.force_bury) && !playset?.no_bury} onChange={() => setPlayWithBury(playWithBury => !playWithBury)} recommended={false}>
                         Play with bury
                     </ToggleButton>
                 </div>

@@ -211,7 +211,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     function changeRemoteMode() {
-        
+
         if (!isHost) return
         execute("change-remote-mode", [!remoteMode])
         setRemoteMode(!remoteMode);
@@ -307,14 +307,14 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
 
-export function ToggleButton({ checked, onChange = () => {}, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false }) {
+export function ToggleButton({ checked, onChange = () => { }, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false, disabled = false }) {
     return (
-        <div onClick={onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase cursor-pointer flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 ' + (full ? " w-full " : " w-fit ")}>
+        <div onClick={disabled ? () => { } : onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 transition-all ' + (full ? " w-full " : " w-fit ") + (disabled ? " opacity-40 cursor-not-allowed " : " opacity-100 cursor-pointer ")}>
             <div className='flex flex-col justify-center'>
                 <h4>{children}</h4>
-                <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>
+                <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && !disabled && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>
             </div>
-            <input type="checkbox" className={"toggle toggle-primary " + toggleClassName} checked={checked} />
+            <input type="checkbox" disabled={disabled} className={"toggle toggle-primary " + toggleClassName} checked={checked} />
         </div>
     )
 }

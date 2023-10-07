@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 
 //icons
 import { BsFillPeopleFill } from "react-icons/bs";
@@ -13,11 +13,13 @@ import { PageContext } from "../PageContextProvider";
 import Info from "../Info";
 import { PlaysetDisplayArea } from "./PlaysetAreas";
 import { getCardColorFromId, getCardFromId } from "../../helpers/cards";
+import { getDifficultyDataFromValue } from "../../helpers/difficulty";
+import Pill, { DifficultyPill, LargeRadialProgress } from "../Pills";
 
 
 
 
-function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false }) {
+function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false, showClosedPills = false }) {
 
     const { setMenu } = useContext(PageContext);
 
@@ -45,7 +47,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     }
 
     return (
-        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-40 " : " h-14 ")}>
+        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-40 " : showClosedPills ? " h-24 " : " h-14 ")}>
             <div className={"bg-black w-full relative h-14 overflow-hidden rounded-xl transition-all grow " + (disabled ? " grayscale opacity-60 " : " grayscale-0 opacity-100 ")}>
                 <div style={{ background: `linear-gradient(65deg, #00000000, ${playset?.color || "#c342ff"}63, ${playset?.color || "#c342ff"}ab)` }} className="playset-gradient w-full absolute inset-0 opacity-50" />
                 <div className="h-14 flex items-center absolute top-0 left-0 right-0 z-10">
@@ -74,8 +76,13 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                 </div>
             </div>
 
+            {showClosedPills && !open && <div className="flex items-center gap-2 py-2 px-2">
+                {playset?.difficulty && <DifficultyPill difficulty={playset?.difficulty} />}
+            </div>}
 
-            {open && <div className="overflow-x-scroll flex gap-2 pt-2 px-2 w-full overflow-y-hidden scrollbar-hide ">
+
+            {open && <div className="overflow-x-scroll flex gap-2 pt-2 px-2 w-full items-center overflow-y-hidden scrollbar-hide ">
+                {playset?.difficulty && <DifficultyInPlayset difficulty={playset?.difficulty} />}
                 {playset?.primaries?.[0] && <PlaysetDisplayArea areaId={"primaries"}>
                     <CardsRow cards={playset?.primaries} />
                 </PlaysetDisplayArea>}
@@ -111,6 +118,33 @@ function EmojiHighlight({ emoji = "🎲" }) {
         </div>
     )
 }
+
+
+
+
+
+function DifficultyInPlayset({ difficulty }) {
+
+    const difficultyData = useMemo(() => getDifficultyDataFromValue(difficulty), [difficulty])
+
+    return (
+        <div className="p-2  bg-grey-100 flex flex-col items-center justify-center gap-2">
+            <LargeRadialProgress color={difficultyData?.colors?.primary} text={difficultyData?.difficulty} value={difficultyData?.difficulty * 10} />
+            <Pill bgColor={difficultyData?.colors?.secondary} textColor={difficultyData?.colors?.primary}>{difficultyData?.name}</Pill>
+        </div>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 function PlaysetDisplayOld({ onClick, playset, disabled = false, selected, showDisabledError = "bottom" }) {
