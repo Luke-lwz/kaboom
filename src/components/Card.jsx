@@ -202,7 +202,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
                     }
                 }
                 onDragEnd={() => setTimeout(() => setDrag(0), 500)}
-                className="h-full w-full flex items-center justify-center overflow-hidden rounded-xl bg-accent absolute inset-0"
+                className="h-full w-full flex items-center justify-center overflow-hidden rounded-xl bg-[#4a4a4a] absolute inset-0"
                 drag="y"
                 dragElastic={{ top: 0, bottom: 0.5 }}
                 dragSnapToOrigin
@@ -210,7 +210,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
                     top: 0.1,
                     bottom: 0,
                 }}>
-                <div className='text-title text-base-100 text-5xl scale-[150%] h-full w-full flex justify-center items-center overflow-hidden -rotate-[5deg] relative '>
+                <div className='text-title text-white text-5xl scale-[150%] h-full w-full flex justify-center items-center overflow-hidden -rotate-[5deg] relative '>
                     <div className="scrolling-image w-full h-full overflow-hidden" />
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center rotate-[5deg] text-title text-xl overflow-hidden ">
                         <h1 className="logo-gradient-neutral w-full h-1/2 flex items-center justify-center overflow-hidden">KABOOM</h1>

@@ -42,7 +42,7 @@ const isBeta = import.meta.env.VITE_BETA || false;
 function App() {
 
 
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(document.getElementById("theme-att").getAttribute("data-theme"));
 
   const [prompt, setPrompt] = useState(null); // {title: string, text: string, onApprove: function}
 
@@ -56,6 +56,7 @@ function App() {
 
 
   const [devMode, setDevMode] = useState(false);
+
 
 
 

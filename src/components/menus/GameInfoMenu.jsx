@@ -309,7 +309,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 export function ToggleButton({ checked, onChange = () => { }, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false, disabled = false }) {
     return (
-        <div onClick={disabled ? () => { } : onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 transition-all ' + (full ? " w-full " : " w-fit ") + (disabled ? " opacity-40 cursor-not-allowed " : " opacity-100 cursor-pointer ")}>
+        <div onClick={disabled ? () => { } : onChange} className={'whitespace-nowrap btn-base-100 text-base-content border-2 border-neutral uppercase flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 transition-all ' + (full ? " w-full " : " w-fit ") + (disabled ? " opacity-40 cursor-not-allowed " : " opacity-100 cursor-pointer ")}>
             <div className='flex flex-col justify-center'>
                 <h4>{children}</h4>
                 <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && !disabled && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>

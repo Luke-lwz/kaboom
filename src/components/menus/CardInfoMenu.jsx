@@ -47,7 +47,7 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
                     <WhiteDifficultyPill key={card?.id} difficulty={card?.difficulty} />
 
                 </div>
-                <div className='h-full w-full text-base-content p-4 pb-2.5 text-lg flex flex-col overflow-y-scroll scrollbar-hide leading-5 bg-white rounded-lg '>
+                <div className='h-full w-full p-4 pb-2.5 text-lg flex flex-col overflow-y-scroll scrollbar-hide leading-5 bg-white text-black rounded-lg '>
                     {card.info.split("\n").map((t, i) => <div key={i}><p key={i}>{t}</p><div className='my-2 mb-0' /></div>)}
                 </div>
                 {card?.credit?.link && <a target="_blank" href={card?.credit?.link} className='text-xs underline -my-3'>

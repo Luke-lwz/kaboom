@@ -73,7 +73,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
     return (
-        <div className='w-full h-fit rounded-xl flex flex-col items-center overflow-x-hidden overflow-y-scroll bg-base-100 transition-all scrollbar-hide'>
+        <div className='w-full h-fit rounded-xl text-base-content flex flex-col items-center overflow-x-hidden overflow-y-scroll bg-base-100 transition-all scrollbar-hide'>
             <Section name="Selected Playset">
                 <PlaysetDisplay playset={currentPlayset} forceOpen selected />
             </Section>

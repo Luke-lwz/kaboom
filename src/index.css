@@ -153,7 +153,7 @@ body {
 
 
 .screen-bg {
-  background: radial-gradient(rgba(255,255,255, 1),  rgba(107, 107, 107, 0.6));
+  background: radial-gradient(theme("colors.base-100"),  rgba(107, 107, 107, 0.6));
 }
 
 .screen-bg-blue {

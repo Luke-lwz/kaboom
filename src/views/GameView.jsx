@@ -1246,7 +1246,7 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
                 <div className={"uppercase font-extrabold text-title text-5xl mb-8 animate__animated animate__bounceInRight" + (roomNr == 1 ? " text-secondary " : " text-primary ")}>
                     ROOM {roomNr}
                 </div>
-                <button className={"btn btn-wide btn-accent text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
+                <button className={"btn btn-wide btn-neutral text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
                 {onForceReady && <button className='text-normal font-light text-sm underline mt-6 p-3 ' onClick={onForceReady}>Force next</button>}
 
             </div>
@@ -1330,7 +1330,7 @@ function ReadyButton({ onReady }) {
 
 
 function Li({ children, title, delay = 0 }) {
-    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-neutral/90 p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
+    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-black/90 p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
         <h1 className='font-bold text-2xl'>{title}</h1>
         <p className='text-sm font-light -mt-1.5'>{children}</p>
     </div>)
