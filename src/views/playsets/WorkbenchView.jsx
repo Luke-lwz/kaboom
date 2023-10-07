@@ -524,13 +524,15 @@ export function ActionCircle({ onClick, icon, tooltip, hidden = false, inverted 
 
 
 export function TitleBar({ titleElement, fixed }) {
+    const { smoothNavigate } = useContext(PageContext);
+
     return (
         <div className={"flex items-center h-14 p-4 z-10 justify-start w-full text-xl md:text-2xl font-extrabold text-title transition-all " + (fixed && " fixed top-0 left-0 right-0 ")}>
-            <a href="/" className="flex items-center justify-end text-primary mr-4 h-full cursor-pointer">
+            <button onClick={() => smoothNavigate("/")} className="flex items-center justify-end text-primary mr-4 h-full cursor-pointer">
                 <FaBomb className="mr-4 sm:hidden block" size={25} />
                 <h1 className="hidden sm:inline-block pr-4 ">KABOOM</h1>
                 <VerticalDivider />
-            </a>
+            </button>
             <div className="flex items-center justify-start gap-3 text-secondary">
                 {titleElement}
             </div>

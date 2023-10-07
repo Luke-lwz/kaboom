@@ -34,12 +34,18 @@ import CardsFilter from './components/CardsFilter';
 import CardsView from './views/CardsView';
 import PageCover from './components/PageCover';
 
+//Menus
+import LoginMenu from "./components/menus/LoginMenu"
+import supabase from './supabase';
+
 const isBeta = import.meta.env.VITE_BETA || false;
 
 
 
 
 function App() {
+
+  const navigate = useNavigate();
 
 
   const [theme, setTheme] = useState(document.getElementById("theme-att").getAttribute("data-theme"));
@@ -57,6 +63,8 @@ function App() {
 
   const [devMode, setDevMode] = useState(false);
 
+  const [user, setUser] = useState(null);
+
 
 
 
@@ -64,6 +72,10 @@ function App() {
     // devMode
     const d = localStorage.getItem("devmode");
     setDevMode(JSON.parse(d));
+
+
+    // supabase
+    getUser();
   }, [])
 
   function switchTheme(to) {
@@ -73,6 +85,22 @@ function App() {
     setTheme(to);
   }
 
+
+  async function getUser() {
+    try {
+
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+
+    } catch (e) {
+
+    }
+
+
+  }
+
+
+  useEffect(() => console.log(user), [user])
 
 
   /// PROMPT
@@ -89,6 +117,10 @@ function App() {
 
   function connectionErrorPrompt(noCancel) {
     setPrompt({ title: "Error", text: "Connection lost! Reload?", onApprove: () => window.location.href = window.location.href, noCancel });
+  }
+
+  function showLoginMenu() {
+    setMenu(<LoginMenu />);
   }
 
 
@@ -127,8 +159,8 @@ function App() {
     window.location.href = to;
   }
 
-  function navigate(to) {
-    window.location.href = to;
+  function smoothNavigate(to) {
+    navigate(to)
   }
 
 
@@ -173,7 +205,7 @@ function App() {
         )}
       </Toaster>
 
-      <PageContextProvider value={{ toast, navigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, pageCover, setPageCover, devMode, setDevMode }}>
+      <PageContextProvider value={{ user, setUser, getUser, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
         {pageCover && <PageCover {...pageCover} />}
         {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
         {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}

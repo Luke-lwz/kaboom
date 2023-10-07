@@ -24,6 +24,7 @@ import BannerBoxWithImage, { NeutralBlankBannerBox } from "../components/BannerB
 import { BsBook } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { HiOutlineExternalLink } from "react-icons/hi"
+import { FaUser } from "react-icons/fa"
 
 
 // avatar 
@@ -32,6 +33,8 @@ import Info from "../components/Info";
 import { CardsRow } from "../components/playsets/PlaysetDisplay";
 import { getCardFromId } from "../helpers/cards";
 import ContributeLinks from "../components/ContributeLinks";
+import { UserAvatar } from "../components/UserAvatars";
+import supabase from "../supabase";
 
 
 
@@ -45,7 +48,7 @@ function HomeView({ }) {
 
 
 
-    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode } = useContext(PageContext)
+    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate } = useContext(PageContext)
 
     const [loading, setLoading] = useState(false);
     const [clicksToDev, setClicksToDev] = useState(0);
@@ -315,6 +318,25 @@ function HomeView({ }) {
     }
 
 
+    async function logout() {
+        try {
+            const { error } = await supabase.auth.signOut()
+            console.log(error)
+        } catch (e) {
+
+        }
+        window.location.href = "/"
+    }
+
+
+    async function supatest() {
+        const { data, error } = await supabase.auth.updateUser({ data: { kaboom: { name: "lukas" } } })
+        console.log(data)
+
+        getUser();
+    }
+
+
 
 
     return (
@@ -325,13 +347,29 @@ function HomeView({ }) {
             </a>}
 
             {devMode && <DevModeBanner />}
-            <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 rounded-full text-primary relative w-full flex items-center justify-center">
+            <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full flex items-center justify-center">
                 <div className="flex flex-col items-center relative" onClick={clickDev}>
                     KABOOM
                     <span className="text-neutral text-normal text-xs font-light">Adaptation of Two Rooms and a Boom&trade;</span>
                     {isBeta && <div className="absolute text-sm md:text-base text-secondary-content bg-secondary rounded-lg px-3 md:px-4 py-1.5 md:py-2 -rotate-12 right-2 sm:right-0 md:-right-4 bottom-0 animate-pulse">
                         BETA
                     </div>}
+                </div>
+
+
+                {/* Login */}
+                <div className="top-0 right-0 p-4 pt-0 text-2xl md:text-3xl flex items-center justify-center absolute clickable">
+                    {!user?.id ?
+                        <FaUser onClick={() => showLoginMenu()} />
+                        :
+                        <div className="dropdown dropdown-end" >
+                            <label tabIndex={0} className="rounded-full"><UserAvatar user={user} /></label>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal">
+                                <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
+                                <li><button onClick={() => logout()}>Logout</button></li>
+                            </ul>
+                        </div>
+                    }
                 </div>
 
             </div>
@@ -392,10 +430,11 @@ function HomeView({ }) {
             <LinkToTwoRoomsBox />
 
 
-
-            <BannerBoxWithImage noTarget href="/cards" src="cards_image.png">
-                <h1 className='font-extrabold text-lg'>Check out the cards!</h1>
-            </BannerBoxWithImage>
+            <div onClick={() => smoothNavigate("/cards")} className="w-full">
+                <BannerBoxWithImage noTarget src="cards_image.png">
+                    <h1 className='font-extrabold text-lg'>Check out the cards!</h1>
+                </BannerBoxWithImage>
+            </div>
 
 
             <div className="w-full flex justify-center items-center">
@@ -410,7 +449,7 @@ function HomeView({ }) {
 
             <ContributeLinks />
 
-            <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a><br/><a href="/privacy" target="_blank" className="underline">Privacy</a></div></div>
+            <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a><br /><a href="/privacy" target="_blank" className="underline">Privacy</a></div></div>
         </div>
     );
 }
