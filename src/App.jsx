@@ -225,7 +225,7 @@ function App() {
 
 
           <Route path="/playsets" element={<></>} />
-          <Route path="/playsets/workbench" element={<WorkbenchView />} />
+          <Route path="/workbench" element={<WorkbenchView />} />
 
 
 

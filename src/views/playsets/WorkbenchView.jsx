@@ -28,6 +28,8 @@ import RangeCounter from "../../components/RangeCounter";
 import { CardFront } from "../../components/Card";
 import { ToggleButton } from "../../components/menus/GameInfoMenu";
 import Info from "../../components/Info";
+import supabase from "../../supabase";
+import toast from "react-hot-toast";
 
 
 
@@ -48,7 +50,7 @@ const MAX = {
 
 export default function WorkbenchView(props) {
 
-    const { setMenu, setPageCover, devMode } = useContext(PageContext);
+    const { setMenu, setPageCover, devMode, user, showLoginMenu, smoothNavigate } = useContext(PageContext);
 
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"],
@@ -72,6 +74,8 @@ export default function WorkbenchView(props) {
     const [minPlayers, setMinPlayers] = useState(6);
     const [maxPlayers, setMaxPlayers] = useState(30);
     const [buryOption, setBuryOption] = useState("auto");
+
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -139,7 +143,34 @@ export default function WorkbenchView(props) {
 
 
     // useCallback functions
+    const publishPlayset = useCallback(async () => {
+        if (loading) return
+        if (!user) return showLoginMenu()
 
+        return 
+
+        setLoading(true);
+
+        // change playset cards to jsut be ids
+
+        const { data, error } = await supabase
+            .from('playsets')
+            .upsert([
+                { ...playset, min_players: minPlayers, max_players: maxPlayers },
+            ])
+            .select()
+
+
+        if (data?.id) smoothNavigate(`/playsets/${data?.id}`)
+        else toast.error("Error while publishing")
+
+        console.log(error)
+
+        setLoading(false)
+
+
+
+    }, [playset, user, minPlayers, maxPlayers, loading])
 
 
 
@@ -372,12 +403,13 @@ export default function WorkbenchView(props) {
                         <h3 className="font-bold">
                             Burying:
                         </h3>
-                        <select onChange={(e) => setBuryOption(e?.target?.value || "auto")} className="select select-bordered w-full max-w-xs border-2 border-neutral">
+                        <select onChange={(e) => setBuryOption(e?.target?.value || "auto")} className="select select-bordered w-fit border-2 border-neutral">
                             <option value="auto" selected={buryOption === "auto"}>Auto</option>
                             <option value="always" selected={buryOption === "always"}>Always bury</option>
                             <option value="never" selected={buryOption === "never"}>Never bury</option>
                         </select>
                     </div>
+                    <button className="btn btn-success w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner" /> : "Publish playset!"}</button>
 
 
                 </div>
