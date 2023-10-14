@@ -154,10 +154,13 @@ export default function WorkbenchView(props) {
         const { data, error } = await supabase
             .from('playsets')
             .upsert([
-                { ...playset, min_players: minPlayers, max_players: maxPlayers },
+                { ...playsetCopy, min_players: minPlayers, max_players: maxPlayers },
             ])
             .select()
+            .single()
 
+
+        console.log(data)
 
         if (data?.id) smoothNavigate(`/playsets/${data?.id}`)
         else toast.error("Error while publishing")
@@ -407,7 +410,7 @@ export default function WorkbenchView(props) {
                             <option value="never" selected={buryOption === "never"}>Never bury</option>
                         </select>
                     </div>
-                    <button className="btn btn-success w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner" /> : "Publish playset!"}</button>
+                    <button className="btn btn-success w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : "Publish playset!"}</button>
 
 
                 </div>
@@ -452,7 +455,6 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
     }
 
 
-    console.log(playset?.cards)
 
 
     return (
