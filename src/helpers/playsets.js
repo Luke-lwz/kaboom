@@ -76,3 +76,28 @@ export function getLastPlayedPlaysets() {
 
     return null
 }
+
+
+
+export function minimizePlaylist(playset) { // makes cards[] to cid[]
+
+    const copy = JSON.parse(JSON.stringify(playset))
+
+    copy.primaries = copy?.primaries?.map(card => card?.id || card);
+    copy.default_cards = copy?.default_cards?.map(card => card?.id || card);
+    copy.cards = copy?.cards?.map(card => card?.id || card);
+    copy.odd_card = copy?.odd_card?.id || copy?.odd_card;
+    return copy;
+}
+
+
+export function maximizePlaylist(playset) { // makes cid[] to cards[]
+
+    const copy = JSON.parse(JSON.stringify(playset))
+
+    copy.primaries = copy?.primaries?.map(cid => getCardFromId(cid?.id || cid));
+    copy.default_cards = copy?.default_cards?.map(cid => getCardFromId(cid?.id || cid));
+    copy.cards = copy?.cards?.map(cid => getCardFromId(cid?.id || cid));
+    copy.odd_card = getCardFromId(copy?.odd_card?.id || copy?.odd_card) || null;
+    return copy;
+}

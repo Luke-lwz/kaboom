@@ -107,16 +107,14 @@ export function getCardsForPlayset(game_data) {
 
     var { players, playset, playWithBury } = game_data;
 
-
-    console.log(playset)
     var { primaries, cards, odd_card, shuffle, default_cards } = playset;
 
     cards = [...(primaries || []), ...(cards || [])]
 
     let playingWithDrunk = false
 
-    if (cards.filter(c => c?.id === "p001")[0]) { // drunk card gets removed (will be switched with any card later)
-        cards = cards.filter(c => c?.id !== "p001");
+    if (cards.filter(c => c?.id === "drunk")[0]) { // drunk card gets removed (will be switched with any card later)
+        cards = cards.filter(c => c?.id !== "drunk");
         playingWithDrunk = true;
     }
 
@@ -268,7 +266,7 @@ export function getCardsForPlayset(game_data) {
     if (playingWithDrunk) {
         var i = rng(0, out_cards?.length - 1);
         soberCard = out_cards[i];
-        out_cards[i] = getCardFromId("p001");
+        out_cards[i] = getCardFromId("drunk");
     }
 
 
@@ -359,7 +357,7 @@ export function getCardColorFromColorName(color_name) {
 
 
 export function getAllCards() {
-    var all = [...BlueCards, ...RedCards, ...YellowCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
+    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
     all = all.map(c => ({ ...c, color: getCardColorFromColorName(c?.color_name) }))
     return all;
 }

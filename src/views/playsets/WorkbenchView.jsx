@@ -30,6 +30,7 @@ import { ToggleButton } from "../../components/menus/GameInfoMenu";
 import Info from "../../components/Info";
 import supabase from "../../supabase";
 import toast from "react-hot-toast";
+import { minimizePlaylist } from "../../helpers/playsets";
 
 
 
@@ -53,17 +54,14 @@ export default function WorkbenchView(props) {
     const { setMenu, setPageCover, devMode, user, showLoginMenu, smoothNavigate } = useContext(PageContext);
 
     const [primaries, setPrimaries] = useState([
-        ["b001", "r001"],
-        ["y001"]
+        ["b001", "r001"]
     ])
     const [generalCards, setGeneralCards] = useState([
-        ["b014", "r014"],
-        ["b020", "r020"],
-        ["e002"]
+        ["b014", "r014"]
     ])
     const [oddCard, setOddCard] = useState("g008"); // nullable
     const [defaultCards, setDefaultCards] = useState([
-        ["b000", "r000"],
+        ["b000", "r000"]
     ])
 
 
@@ -112,7 +110,7 @@ export default function WorkbenchView(props) {
         shuffle: shuffle,
         no_bury: (buryOption === "never"),
         force_bury: (buryOption === "always"),
-        difficulty: avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid)))
+        difficulty: getDifficultyDataFromValue(avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid))))?.difficulty
     }), [primaries, generalCards, oddCard, defaultCards, emoji, name, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption])
 
 
@@ -147,7 +145,7 @@ export default function WorkbenchView(props) {
         if (loading) return
         if (!user) return showLoginMenu()
 
-        return 
+        const playsetCopy = minimizePlaylist(playset)
 
         setLoading(true);
 
@@ -440,6 +438,9 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
         return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury })
     }, [playset, playerCount, playWithBury, reloader])
 
+
+    const cardsPlusSober = useMemo(() => ([...cards, soberCard]), [cards, soberCard])
+
     const buriedCard = useMemo(() => {
         return (playWithBury ? cards[playerCount] || null : null)
     }, [cards, soberCard, playerCount, playWithBury])
@@ -449,6 +450,9 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
     function reload() {
         setRealoader([])
     }
+
+
+    console.log(playset?.cards)
 
 
     return (
@@ -472,11 +476,11 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
             </div>
             <div className="w-full flex-wrap flex border-2 border-neutral rounded-xl gap-2 p-2">
 
-                {playset?.primaries?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="primaries" />)}
-                {playset?.cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="general" />)}
-                {playset?.odd_card && <ShuffledInCardDummy disabled={!cards.includes(playset?.odd_card?.id) && !soberCard !== playset?.odd_card?.id} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
-                {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={!cards.includes(card?.id) && !soberCard !== card?.id} key={card?.id + i} card={card} areaId="default">
-                    {cards?.filter(c => card?.id === c)?.length > 1 && <ActionCircle inverted icon={<p className="font-extrabold">{cards?.filter(c => card?.id === c)?.length}</p>} />}
+                {playset?.primaries?.map((card, i) => <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(card?.id)} key={card?.id + i} card={card} areaId="primaries" />)}
+                {playset?.cards?.map((card, i) => <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(card?.id)} key={card?.id + i} card={card} areaId="general" />)}
+                {playset?.odd_card && <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(playset?.odd_card?.id)} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
+                {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={(cardsPlusSober?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => cs?.id === card?.id)?.length)) < 1} key={card?.id + i} card={card} areaId="default">
+                    {(cardsPlusSober?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => (cs?.id || cs) === card?.id)?.length)) > 1 && <ActionCircle inverted icon={<p className="font-extrabold">{(cards?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => (cs?.id || cs) === card?.id)?.length))}</p>} />}
                 </ShuffledInCardDummy>)}
             </div>
             <p className="w-full text-sm -mt-4">Cards in game: {cards?.length}</p>
