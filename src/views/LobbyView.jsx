@@ -11,7 +11,7 @@ import Peer from 'peerjs';
 // helpers
 import { constructPeerID } from '../helpers/peerid';
 import { idGenAlphabet } from '../helpers/idgen';
-import { getPlaysetById, getPlaysetsWithCards, getLastPlayedPlaysets } from '../helpers/playsets';
+import { getPlaysetById } from '../helpers/playsets';
 
 
 // icons 
@@ -221,7 +221,7 @@ function HostLobby({ me, code }) {
     const [playersUpdated, setPlayersUpdated] = useState([]);
     const [startCondition, setStartCondition] = useState(false);
 
-    const [playset, setPlayset] = useState(getLastPlayedPlaysets()?.[0] || getPlaysetById("t0001"))
+    const [playset, setPlayset] = useState(getPlaysetById("t0001"))
     const playsetRef = useRef(playset)
 
     const [playWithBury, setPlayWithBury] = useState(false);

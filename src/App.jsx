@@ -17,6 +17,8 @@ import {
   useLocation
 } from "react-router-dom";
 
+
+
 // Views
 import GameView from './views/GameView'
 import HomeView from './views/HomeView';
@@ -37,6 +39,7 @@ import PageCover from './components/PageCover';
 //Menus
 import LoginMenu from "./components/menus/LoginMenu"
 import supabase from './supabase';
+import PlaysetView from './views/playsets/PlaysetView';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -99,8 +102,6 @@ function App() {
 
   }
 
-
-  useEffect(() => console.log(user), [user])
 
 
   /// PROMPT
@@ -225,6 +226,7 @@ function App() {
 
 
           <Route path="/playsets" element={<></>} />
+          <Route path="/playsets/:id" element={<PlaysetView />} />
           <Route path="/workbench" element={<WorkbenchView />} />
 
 

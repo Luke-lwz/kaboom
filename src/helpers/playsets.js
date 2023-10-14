@@ -5,6 +5,9 @@ import necroboomicon from "../config/playsets/necroboomicon.json"
 import dev from "../config/playsets/dev.json"
 
 
+import supabase from "../supabase"
+
+
 
 
 
@@ -56,30 +59,53 @@ export function getAllPlaysetsArray() {
 }
 
 
-export function getPlaysetById(id) {
-    const playsets = getAllPlaysetsArray();
-    const set = playsets.filter(p => p.id === id)?.[0] || null;
-    return set;
-}
+export async function getPlaysetById(id) {
 
+    var playset;
+    const internalPlaysets = getAllPlaysetsArray();
+    playset = internalPlaysets.filter(p => p.id === id)?.[0] || null;
+    if (!playset) { // local storage cache
+        playset = JSON.parse(localStorage.getItem("cached-playset-" + id))
+    }
+    if (!playset) { // supabase + cache after
 
+        let { data: playsetData, error } = await supabase
+            .from('playsets')
+            .select("*")
+            .single()
+            .limit(1)
+            .eq('id', id)
 
-export function getLastPlayedPlaysets() {
-    const playsetsString = localStorage.getItem("last-played-playsets");
-    if (playsetsString) {
-        var playsets = JSON.parse(playsetsString);
-        if (Array.isArray(playsets)) {
-            return playsets.map(p => getPlaysetById(p));
-        }
+            if (playsetData) {
+                playset = playsetData;
+                localStorage.setItem("cached-playset-" + id, JSON.stringify(playset))
+            }
+
 
     }
-
-    return null
+    return playset;
 }
+
+
+
+// export function getLastPlayedPlaysets() {
+//     const playsetsString = localStorage.getItem("last-played-playsets");
+//     if (playsetsString) {
+//         var playsets = JSON.parse(playsetsString);
+//         if (Array.isArray(playsets)) {
+//             return playsets.map(p => getPlaysetById(p));
+//         }
+
+//     }
+
+//     return null
+// }
 
 
 
 export function minimizePlaylist(playset) { // makes cards[] to cid[]
+
+    if (!playset) return null; 
 
     const copy = JSON.parse(JSON.stringify(playset))
 
@@ -92,6 +118,8 @@ export function minimizePlaylist(playset) { // makes cards[] to cid[]
 
 
 export function maximizePlaylist(playset) { // makes cid[] to cards[]
+
+    if (!playset) return null; 
 
     const copy = JSON.parse(JSON.stringify(playset))
 

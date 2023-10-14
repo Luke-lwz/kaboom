@@ -1,7 +1,7 @@
 import { useContext, useState, useMemo } from 'react';
 
 
-import { getAllPlaysetsArray, getPlaysetsWithCards, getPlaysetById, getLastPlayedPlaysets } from '../../helpers/playsets';
+import { getAllPlaysetsArray, getPlaysetsWithCards } from '../../helpers/playsets';
 import PlaysetDisplay from '../playsets/PlaysetDisplay';
 
 import TabPage, { TabRow, Tab } from '../tabpage/TabPage';
@@ -34,7 +34,6 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
     let playsets = getPlaysetsWithCards();
     let allPlaysets = getAllPlaysetsArray();
 
-    let lastPlayedPlaysets = useMemo(() => getLastPlayedPlaysets(), []);
 
     const [tab, setTab] = useState("For you");
 
@@ -53,18 +52,6 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
 
-    function getLastPlayedPlaysets() {
-        const playsetsString = localStorage.getItem("last-played-playsets");
-        if (playsetsString) {
-            var playsets = JSON.parse(playsetsString);
-            if (Array.isArray(playsets)) {
-                return playsets.map(p => getPlaysetById(p));
-            }
-
-        }
-
-        return null
-    }
 
 
 
@@ -82,7 +69,6 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
                 <TabRow>
                     <Tab title='For you' onClick={(d) => setTab(d)} color={"#eb387d"} selected={tab === "For you"} />
-                    {lastPlayedPlaysets && <Tab title='Last played' onClick={(d) => setTab(d)} color={"#eb387d"} selected={tab === "Last played"} />}
                     {TABS.map((TAB, i) =>
                         <Tab key={i} {...TAB} onClick={(d) => setTab(d)} color={playsets?.[TAB.playsetName]?.[0]?.color || TAB?.color} selected={tab === TAB.title} />
                     )}
@@ -105,11 +91,6 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
                 </TabPage>
             }
 
-            {tab === "Last played" &&
-                <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
-                    {lastPlayedPlaysets.map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}
-                </TabPage>
-            }
 
             {tab === "Development" && <TabPage className={'w-full flex flex-col gap-4 items-start justify-start px-5 pb-5'}>
                 {playsets["dev"].filter(p => p.id !== currentPlayset.id).map(p => <div key={p.id} className=' w-full '><PlaysetDisplay playset={p} onClick={() => onClick(p)} /></div>)}

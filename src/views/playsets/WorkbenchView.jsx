@@ -68,6 +68,7 @@ export default function WorkbenchView(props) {
     // Form 
     const [emoji, setEmoji] = useState("🎲");
     const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [shuffle, setShuffle] = useState(true);
     const [minPlayers, setMinPlayers] = useState(6);
     const [maxPlayers, setMaxPlayers] = useState(30);
@@ -101,6 +102,7 @@ export default function WorkbenchView(props) {
 
     const playset = useMemo(() => ({
         name,
+        description,
         players: `${minPlayers}-${maxPlayers}`,
         emoji,
         primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
@@ -111,7 +113,7 @@ export default function WorkbenchView(props) {
         no_bury: (buryOption === "never"),
         force_bury: (buryOption === "always"),
         difficulty: getDifficultyDataFromValue(avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid))))?.difficulty
-    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption])
+    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, description, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption])
 
 
 
@@ -151,6 +153,8 @@ export default function WorkbenchView(props) {
 
         // change playset cards to jsut be ids
 
+        console.log(playsetCopy)
+
         const { data, error } = await supabase
             .from('playsets')
             .upsert([
@@ -162,7 +166,10 @@ export default function WorkbenchView(props) {
 
         console.log(data)
 
-        if (data?.id) smoothNavigate(`/playsets/${data?.id}`)
+        if (data?.id) {
+            toast.success("Published!")
+            smoothNavigate(`/playsets/${data?.id}`)
+        }
         else toast.error("Error while publishing")
 
         console.log(error)
@@ -382,7 +389,10 @@ export default function WorkbenchView(props) {
                                 <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
                             </div>
                         </div>
-                        <input type="text" placeholder="Name" className="input border-2 w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
+                        <input type="text" placeholder="Name *" className="input border-2 w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
+                    </div>
+                    <div className="w-full">
+                        <textarea name="" onChange={(e) => setDescription(e?.target?.value || "")} value={description} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
                     </div>
                     <div className="w-full">
                         <ToggleButton full checked={!shuffle} onChange={() => setShuffle(shuffle => !shuffle)} recommended={false}>

@@ -3,12 +3,12 @@ import { PageContext } from '../PageContextProvider';
 import { Section } from './ChoosePlaysetMenu';
 import PlayerList from '../PlayerList';
 import PlaysetDisplay, { CardsRow } from '../playsets/PlaysetDisplay';
-import { getPlaysetById } from '../../helpers/playsets';
 import { getCardFromId } from '../../helpers/cards';
 import Info from '../Info';
 
 import { TbNotification } from "react-icons/tb";
 import Controls from '../info/Controls';
+import { getPlaysetById } from '../../helpers/playsets';
 
 
 function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
@@ -23,6 +23,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
     const [playWithColorReveal, setPlayWithColorReveal] = useState(game?.color_reveal)
     const [remoteMode, setRemoteMode] = useState(game?.remote_mode)
 
+    const [playset, setPlayset] = useState(null);
+
 
 
 
@@ -34,6 +36,16 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
         setCardsInGame(game.cardsInGame?.sort((a, b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])
 
     }, [])
+
+    useEffect(() => {
+        getPlayset();
+    }, [game])
+
+
+    async function getPlayset() {
+        const playset = getPlaysetById(game?.playsetId);
+        setPlayset(playset)
+    }
 
 
 
@@ -227,7 +239,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             <div className='w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-hide pt-3'>
 
                 <div className='w-full px-4 py-2'>
-                    <PlaysetDisplay noOpen playset={getPlaysetById(game.playsetId)} />
+                    <PlaysetDisplay noOpen playset={playset} />
                 </div>
 
                 <div className='pt-0 flex flex-col justify-start items-start w-full shrink bg-base-100'>

@@ -522,14 +522,14 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     // setup game
 
-    function setupGame() {
+    async function setupGame() {
         if (game?.current || !players?.current) return; // in case of reload
         
         var gameData = generateGame(players.current.length);
         
         console.log(game_data)
 
-        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: getPlaysetById(game_data?.playsetId)});
+        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: await getPlaysetById(game_data?.playsetId)});
 
         console.log(cards)
 
