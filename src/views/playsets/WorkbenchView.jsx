@@ -391,7 +391,7 @@ export default function WorkbenchView(props) {
                         </div>
                         <input type="text" placeholder="Name *" className="input border-2 w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
                     </div>
-                    <div className="w-full">
+                    <div className="w-full -mb-1.5">
                         <textarea name="" onChange={(e) => setDescription(e?.target?.value || "")} value={description} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
                     </div>
                     <div className="w-full">

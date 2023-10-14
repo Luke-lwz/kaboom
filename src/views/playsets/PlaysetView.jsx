@@ -56,7 +56,7 @@ function PlaysetView({ }) {
 
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
                     {playsetMaximized && <PlaysetDisplay forceOpen playset={playsetMaximized} />}
-                    {playset?.description && <div className="text-sm text-base-content p-4 w-full">
+                    {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
                     {playset?.description}
                 </div>}
                 </div>

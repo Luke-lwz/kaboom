@@ -40,6 +40,7 @@ import PageCover from './components/PageCover';
 import LoginMenu from "./components/menus/LoginMenu"
 import supabase from './supabase';
 import PlaysetView from './views/playsets/PlaysetView';
+import ProfileView from './views/ProfileView';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -228,6 +229,10 @@ function App() {
           <Route path="/playsets" element={<></>} />
           <Route path="/playsets/:id" element={<PlaysetView />} />
           <Route path="/workbench" element={<WorkbenchView />} />
+
+          <Route path="/profile" element={<ProfileView />} />
+          <Route path="/profile/:id" element={<ProfileView />} />
+
 
 
 
