@@ -30,7 +30,7 @@ import { ToggleButton } from "../../components/menus/GameInfoMenu";
 import Info from "../../components/Info";
 import supabase from "../../supabase";
 import toast from "react-hot-toast";
-import { minimizePlaylist } from "../../helpers/playsets";
+import { minimizePlayset } from "../../helpers/playsets";
 
 
 
@@ -147,7 +147,7 @@ export default function WorkbenchView(props) {
         if (loading) return
         if (!user) return showLoginMenu()
 
-        const playsetCopy = minimizePlaylist(playset)
+        const playsetCopy = minimizePlayset(playset)
 
         setLoading(true);
 

@@ -41,6 +41,7 @@ import LoginMenu from "./components/menus/LoginMenu"
 import supabase from './supabase';
 import PlaysetView from './views/playsets/PlaysetView';
 import ProfileView from './views/ProfileView';
+import PlaysetsView from './views/playsets/PlaysetsView';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -226,7 +227,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
 
 
-          <Route path="/playsets" element={<></>} />
+          <Route path="/playsets" element={<PlaysetsView/>} />
           <Route path="/playsets/:id" element={<PlaysetView />} />
           <Route path="/workbench" element={<WorkbenchView />} />
 

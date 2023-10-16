@@ -103,7 +103,7 @@ export async function getPlaysetById(id) {
 
 
 
-export function minimizePlaylist(playset) { // makes cards[] to cid[]
+export function minimizePlayset(playset) { // makes cards[] to cid[]
 
     if (!playset) return null; 
 
@@ -117,7 +117,7 @@ export function minimizePlaylist(playset) { // makes cards[] to cid[]
 }
 
 
-export function maximizePlaylist(playset) { // makes cid[] to cards[]
+export function maximizePlayset(playset) { // makes cid[] to cards[]
 
     if (!playset) return null; 
 

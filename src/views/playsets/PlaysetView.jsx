@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useContext, useMemo, useState, useEffect } from "react"
 import { PageContext } from "../../components/PageContextProvider";
-import { getPlaysetById, maximizePlaylist } from "../../helpers/playsets";
+import { getPlaysetById, maximizePlayset } from "../../helpers/playsets";
 import { PlaysetSimulator, TitleBar } from "./WorkbenchView";
 import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
@@ -22,7 +22,7 @@ function PlaysetView({ }) {
 
 
     const playsetMaximized = useMemo(() => {
-        return maximizePlaylist(playset)
+        return maximizePlayset(playset)
     }, [playset])
 
 
