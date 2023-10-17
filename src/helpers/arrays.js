@@ -3,6 +3,7 @@ export function findIndexCombinations(arr, targetSum) {
 
     function backtrack(currentIndex, currentSum, currentCombination) {
         if (currentSum === targetSum) {
+            console.log(targetSum)
             result.push([...currentCombination]);
             return;
         }

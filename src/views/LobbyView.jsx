@@ -32,6 +32,7 @@ import { PlayerRow } from "../components/PlayerList"
 // avatar 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import Controls from '../components/info/Controls';
+import PlaysetsFilter from '../components/playsets/PlaysetsFilter';
 
 
 
@@ -213,7 +214,7 @@ function ClientLobby({ me, setMe, code }) {
 
 function HostLobby({ me, code }) {
 
-    const { redirect, setMenu2, menu2, devMode, setPrompt, connectionErrorPrompt } = useContext(PageContext);
+    const { redirect, devMode, setPrompt, connectionErrorPrompt, setPageCover } = useContext(PageContext);
 
 
     const player_data = JSON.parse(localStorage.getItem("player-" + code));
@@ -221,7 +222,8 @@ function HostLobby({ me, code }) {
     const [playersUpdated, setPlayersUpdated] = useState([]);
     const [startCondition, setStartCondition] = useState(false);
 
-    const [playset, setPlayset] = useState(getPlaysetById("t0001"))
+    const [playsetId, setPlaysetId] = useState("")
+    const [playset, setPlayset] = useState(null)
     const playsetRef = useRef(playset)
 
     const [playWithBury, setPlayWithBury] = useState(false);
@@ -505,12 +507,19 @@ function HostLobby({ me, code }) {
 
 
 
+    async function getPlaysets(id) {
+
+    }
+
+
+
 
     // Playsets
     function showAllPlaysets() {
-        setMenu2(
-            <ChoosePlaysetMenu onClick={(playset) => { setPlayset(playset); setMenu2(null) }} playerCount={players.current.length} currentPlayset={(playersUpdated ? playset : playset)} playersUpdated={playersUpdated} />
-        )
+        setPageCover({
+            title: "PLAYSETS",
+            element: <PlaysetsFilter onClick={getPlaysets} />
+        })
     }
 
 

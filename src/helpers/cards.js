@@ -163,11 +163,17 @@ export function getCardsForPlayset(game_data) {
 
 
 
-        let unincludedCards = getUnincludedCards();
+
+        let unincludedCards = cards.filter(card => includedCards.filter(ic => ic?.id === card?.id)?.[0] ? false : true);
         let pairedCardsRow = pairUpCards(unincludedCards)
 
-        let targetValue = length - includedCards.length // playercount(+bury) - prinaries
+        if (odd_card) pairedCardsRow.push([odd_card]);
+        pairedCardsRow.push(default_cards || [getCardFromId("b000"), getCardFromId("r000")])
+
+        let targetValue = length - includedCards?.length // playercount(+bury) - prinaries
         let combinations = findIndexCombinations(pairedCardsRow.map(row => row.length), targetValue)
+
+
 
         if (combinations?.[0]) {
             let combination = (shuffle ?
@@ -183,38 +189,40 @@ export function getCardsForPlayset(game_data) {
             return includedCards
         }
 
+        
+
         return cards
 
 
 
 
 
-        function getUnincludedCards() { // doesn't remove duplicate ids
-            var unpaired = [...cards];
+        // function getUnincludedCards() { // doesn't remove duplicate ids
+        //     var unpaired = [...cards];
 
-            for (let i = 0; i < includedCards.length; i++) {
-                unpaired = remove(unpaired, includedCards[i]?.id)
-            }
+        //     for (let i = 0; i < includedCards.length; i++) {
+        //         unpaired = remove(unpaired, includedCards[i]?.id)
+        //     }
 
-            return unpaired
+        //     return unpaired
 
-            function remove(remArr, cardId) {
-                if (!cardId) return [...remArr]
-                var arr = [];
+        //     function remove(remArr, cardId) {
+        //         if (!cardId) return [...remArr]
+        //         var arr = [];
 
-                for (let i = 0; i < remArr.length; i++) {
-                    let card = remArr[i];
-                    if (card?.id === cardId) {
-                        return [...arr, ...remArr.slice((remArr.length - (i + 1)) * -1)]
-                    } else {
-                        arr.push(card)
-                    }
-                }
+        //         for (let i = 0; i < remArr.length; i++) {
+        //             let card = remArr[i];
+        //             if (card?.id === cardId) {
+        //                 return [...arr, ...remArr.slice((remArr.length - (i + 1)) * -1)]
+        //             } else {
+        //                 arr.push(card)
+        //             }
+        //         }
 
-                return arr;
-            }
+        //         return arr;
+        //     }
 
-        }
+        // }
     }
 
     if (length < cards.length) {
