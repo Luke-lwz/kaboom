@@ -103,6 +103,7 @@ function ChoosePlaysetMenu({ onClick = () => { }, currentPlayset, playerCount })
 
 
 export function calculatePlaysetDisabled(playset, playerCount) {
+    if (!playset) return false
     const [min, max] = playset.players.split("-");
     return (playerCount < parseInt(min) || playerCount > parseInt(max))
 

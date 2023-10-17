@@ -11,7 +11,7 @@ import Peer from 'peerjs';
 // helpers
 import { constructPeerID } from '../helpers/peerid';
 import { idGenAlphabet } from '../helpers/idgen';
-import { getPlaysetById } from '../helpers/playsets';
+import { getPlaysetById, maximizePlayset } from '../helpers/playsets';
 
 
 // icons 
@@ -93,7 +93,7 @@ function ClientLobby({ me, setMe, code }) {
 
     const [ready, setReady] = useState(false);
     const [playerList, setPlayerList] = useState([]);
-    const [playset, setPlayset] = useState(getPlaysetById("t0001"))
+    const [playset, setPlayset] = useState()
 
     const [conn, setConn] = useState(null);
 
@@ -133,7 +133,7 @@ function ClientLobby({ me, setMe, code }) {
                 switch (data?.intent) {
                     case "player_list": // also carries playset
                         setPlayerList(data?.payload?.players || [])
-                        setPlayset(getPlaysetById(data?.payload?.playsetId) || getPlaysetById("t0001"));
+                        getPlayset(data?.payload?.playsetId);
                         break;
                     case "joined_lobby":
                         setPlayerList(data?.payload?.players || [])
@@ -176,6 +176,14 @@ function ClientLobby({ me, setMe, code }) {
 
     }
 
+
+    async function getPlayset(id) {
+        if (id) {
+            const playset = await getPlaysetById(id) || await getPlaysetById("t0001");
+            setPlayset(maximizePlayset(playset))
+
+        }
+    }
 
     function changeName() {
         localStorage.setItem(`player-${code}`, JSON.stringify({ id: me?.id }))
@@ -222,7 +230,6 @@ function HostLobby({ me, code }) {
     const [playersUpdated, setPlayersUpdated] = useState([]);
     const [startCondition, setStartCondition] = useState(false);
 
-    const [playsetId, setPlaysetId] = useState("")
     const [playset, setPlayset] = useState(null)
     const playsetRef = useRef(playset)
 
@@ -246,6 +253,7 @@ function HostLobby({ me, code }) {
     useEffect(() => {
         if (localStorage.getItem(`game-${code}`) && JSON.parse(localStorage.getItem(`game-${code}`))?.game) return redirect(`/game/${code}`)
         startPeer();
+        getPlayset("t0001")
     }, [])
 
 
@@ -507,8 +515,17 @@ function HostLobby({ me, code }) {
 
 
 
-    async function getPlaysets(id) {
+    async function getPlayset(id) {
+        setPageCover(null)
+        setPlayset(null);
 
+        const playset = await getPlaysetById(id) || await getPlaysetById("t0001");
+
+        playsetRef.current = playset;
+
+        setPlayset(maximizePlayset(playset))
+
+        updateAllClients()
     }
 
 
@@ -518,7 +535,8 @@ function HostLobby({ me, code }) {
     function showAllPlaysets() {
         setPageCover({
             title: "PLAYSETS",
-            element: <PlaysetsFilter onClick={getPlaysets} />
+            element: <PlaysetsFilter onClick={getPlayset} />,
+            onClose: () => setPageCover(null)
         })
     }
 
@@ -576,7 +594,7 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
                 <PlaysetDisplay forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
-                <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={ playset?.no_bury || playset?.force_bury} />
+                <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={playset?.no_bury || playset?.force_bury} />
             </div>
 
             <LobbyFooter />

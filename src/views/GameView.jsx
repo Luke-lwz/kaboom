@@ -30,7 +30,7 @@ import Card, { CardFront } from "../components/Card";
 import { constructPeerID } from "../helpers/peerid";
 import { idGenAlphabet, rng } from "../helpers/idgen";
 import SendCardMenu from '../components/menus/SendCardMenu';
-import { getPlaysetById } from '../helpers/playsets';
+import { getPlaysetById, maximizePlayset } from '../helpers/playsets';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import GameInfoMenu from '../components/menus/GameInfoMenu';
 
@@ -529,7 +529,9 @@ function HostGame({ me, setMe, code, setScreen }) {
         
         console.log(game_data)
 
-        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: await getPlaysetById(game_data?.playsetId)});
+        console.log(await getPlaysetById(game_data?.playsetId))
+
+        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: maximizePlayset(await getPlaysetById(game_data?.playsetId))});
 
         console.log(cards)
 

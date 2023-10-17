@@ -8,7 +8,7 @@ import Info from '../Info';
 
 import { TbNotification } from "react-icons/tb";
 import Controls from '../info/Controls';
-import { getPlaysetById } from '../../helpers/playsets';
+import { getPlaysetById, maximizePlayset } from '../../helpers/playsets';
 
 
 function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
@@ -43,8 +43,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     async function getPlayset() {
-        const playset = getPlaysetById(game?.playsetId);
-        setPlayset(playset)
+        const playset = await getPlaysetById(game?.playsetId);
+        setPlayset(maximizePlayset(playset))
     }
 
 
