@@ -51,7 +51,7 @@ const MAX = {
 
 export default function WorkbenchView(props) {
 
-    const { setMenu, setPageCover, devMode, user, showLoginMenu, smoothNavigate } = useContext(PageContext);
+    const { setMenu, setMenu2, setPageCover, devMode, user, showLoginMenu, smoothNavigate } = useContext(PageContext);
 
     const [primaries, setPrimaries] = useState([
         ["b001", "r001"]
@@ -285,17 +285,17 @@ export default function WorkbenchView(props) {
         }
     }
 
-
     function promptCardInfoBeforeSelect(card, replaceOrAddCard = () => {}) {
         setMenu(
-            <CardInfoMenu card={card} color={card?.color} onSelect={() => handleSelect()} />
+            <CardInfoMenu card={card} color={card?.color} onSelect={(card) => handleSelect(card)} />
         )
 
-        function handleSelect() {
-            setMenu(null);
+        function handleSelect(card) {
             replaceOrAddCard(card)
+            setTimeout(() => setMenu(null), 10)
         }
     }
+    
 
 
 
