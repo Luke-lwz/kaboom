@@ -456,5 +456,16 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "blue",
         "difficulty": 6
+    },
+    {
+        "name": "INTERROGATOR",
+        "id": "b041",
+        "description": "PRIVATE REVEAL >> YES OR NO",
+        "links": [],
+        "src": "",
+        "info": "You have the INTERROGATE power: once per round you may privately reveal to any player in the room and ask them a single yes/no question to which they must answer honestly. If they sincerely don't know the answer to the question, then they should indicate such. Answering doesn't have to be verbal (though it can be).\r\n\r\nThe recipient of the INTERROGATE power can answer with a simple nod of the head, headshake, or shrug of the shoulders. When using the Interrogate ability, you must verbally announce to your target player, \"I am using my Interrogate ability,\" as you privately reveal your card to them.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "blue",
+        "difficulty": 3
     }
 ]
