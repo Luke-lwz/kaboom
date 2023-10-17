@@ -403,10 +403,10 @@ export default function WorkbenchView(props) {
                                 <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
                             </div>
                         </div>
-                        <input type="text" placeholder="Name *" className="input border-2 w-full rounded-md" value={name} onChange={(e) => setName(e?.target?.value || "")} />
+                        <input type="text" placeholder="Name *" className="input border-2 w-full rounded-md" onChange={(e) => setName(e?.target?.value || "")} />
                     </div>
                     <div className="w-full -mb-1.5">
-                        <textarea name="" onChange={(e) => setDescription(e?.target?.value || "")} value={description} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
+                        <textarea name="" onChange={(e) => setDescription(e?.target?.value || "")} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
                     </div>
                     <div className="w-full">
                         <ToggleButton full checked={!shuffle} onChange={() => setShuffle(shuffle => !shuffle)} recommended={false}>

@@ -162,7 +162,7 @@
         "backup_cards": ["r024"],
         "links": [],
         "src": "/red/tool.png",
-        "info": "When playing with the Engineer, the Red Team has the following additional win condition: the Bomber must card share with the Engineer before the end of the game or the Red Team loses. At the end of the game, the Bomber will be asked if he/she card shared with the Engineer. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with the Detonator, additional rules apply",
+        "info": "When playing with the Engineer, the Red Team has the following additional win condition: the Bomber must card share with the Engineer before the end of the game or the Red Team loses. At the end of the game, the Bomber will be asked if he/she card shared with the Engineer. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with the Defuser, additional rules apply",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 5
