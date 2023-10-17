@@ -5,7 +5,7 @@
         "description": "Help the Assassin",
         "links": [],
         "src": "/yellow/sword.png",
-        "info": "You are on the Yellow Team.\nYou win if the President is in the same Room as the Assassin but the Bomber is not\r\n\r\nNote: Any character card that has the dagger icon on it is considered to be on the Yellow Team.",
+        "info": "You are on the Yellow Team.\nYou win if the President is in the same Room as the Assassin but the Bomber is not\r\n\r\nNote: Any character card that has the dagger icon on it is considered to be on the Yellow Team (except spies).",
         "tags": "custom patch1 v2 friends",
         "color_name": "yellow",
         "difficulty": 1
@@ -31,7 +31,7 @@
         "backup_cards": ["placeholder"],
         "links": [],
         "src": "/yellow/smith.png",
-        "info": "When playing with the Weaponsmith, the Blue Team has the following additional win condition: the Assasin must card share with the Weaponsmith before the end of the game or the Yellow Team loses. At the end of the game, the Assasin will be asked if he/she card shared with the Weaponsmith. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the Assasin character ever switches player control (perhaps due to the Hot Potato), then the new Assasin must card share with the Weaponsmith to prevent losing.",
+        "info": "When playing with the Weaponsmith, the Yellow Team has the following additional win condition: the Assasin must card share with the Weaponsmith before the end of the game or the Yellow Team loses. At the end of the game, the Assasin will be asked if he/she card shared with the Weaponsmith. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the Assasin character ever switches player control (perhaps due to the Hot Potato), then the new Assasin must card share with the Weaponsmith to prevent losing.",
         "tags": "custom patch1 v2 friends",
         "color_name": "yellow",
         "difficulty": 5

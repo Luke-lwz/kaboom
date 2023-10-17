@@ -5,7 +5,7 @@
         "description": "KEEP THE PRESIDENT AWAY FROM THE BOMBER",
         "links": [],
         "src": "/blue/wing.png",
-        "info": "You are on the Blue Team.\nYou win If the President does not gain the\r\n\"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be on the Blue Team.",
+        "info": "You are on the Blue Team.\nYou win If the President does not gain the\r\n\"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be on the Blue Team (except spies).",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 1
@@ -18,7 +18,7 @@
         "backup_cards": ["b018"],
         "links": [],
         "src": "/blue/president.png",
-        "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.\r\n\r\nGrey characters that need to know you are your natural allies.\r\n\r\n",
+        "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.",
         "tags": "v1 official primary",
         "color_name": "blue",
         "difficulty": 2

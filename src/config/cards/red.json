@@ -5,7 +5,7 @@
         "description": "GET THE BOMBER TO BE WITH THE PRESIDENT",
         "links": [],
         "src": "/red/staff.png",
-        "info": "You are on Red Team. You win if the President gains the \"dead\" condition.\r\n\r\nNote: Any character card that has the bomb icon on it is considered to be on the Red Team.",
+        "info": "You are on Red Team. You win if the President gains the \"dead\" condition.\r\n\r\nNote: Any character card that has the bomb icon on it is considered to be on the Red Team (except spies).",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 1
@@ -18,7 +18,7 @@
         "backup_cards": ["r018"],
         "links": [],
         "src": "/red/bomb.png",
-        "info": "You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the President gains the \"dead\" condition.\r\n\r\nNote: if the Bomber receives the \"dead\" condition before the end of the game then the Bomber does not provide the \"dead \" condition to everyone in the same room.\r\n\r\nGrey characters that need to know you are your natural allies.\r\n\r\n",
+        "info": "You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the President gains the \"dead\" condition.\r\n\r\nNote: if the Bomber receives the \"dead\" condition before the end of the game then the Bomber does not provide the \"dead \" condition to everyone in the same room.",
         "tags": "v1 official primary",
         "color_name": "red",
         "difficulty": 2
