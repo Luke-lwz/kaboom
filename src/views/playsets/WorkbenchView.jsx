@@ -191,7 +191,7 @@ export default function WorkbenchView(props) {
         var primaryCards = getAllCards()?.filter(card => card?.primary && !allCardsInPlaysetInRowId.includes(card?.id));
         setPageCover({
             title: "Select primary",
-            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
+            element: <CardsFilter paired showDifficulty onClick={(card) => promptCardInfoBeforeSelect(card, replaceOrAddCard)} filter={{ visibleCards: primaryCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
 
@@ -218,7 +218,7 @@ export default function WorkbenchView(props) {
         var applicableCards = getAllCards()?.filter(card => !card?.primary);
         setPageCover({
             title: "General cards",
-            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
+            element: <CardsFilter paired showDifficulty onClick={(card) => promptCardInfoBeforeSelect(card, replaceOrAddCard)} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
 
@@ -245,9 +245,11 @@ export default function WorkbenchView(props) {
         var applicableCards = getAllCards()?.filter(card => !card?.primary && card?.links?.length <= 0 && !["red", "blue"].includes(card?.color_name));
         setPageCover({
             title: "Odd card",
-            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
+            element: <CardsFilter paired showDifficulty onClick={(card) => promptCardInfoBeforeSelect(card, replaceOrAddCard)} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
+
+        
 
 
         function replaceOrAddCard(card) {
@@ -260,7 +262,7 @@ export default function WorkbenchView(props) {
         var applicableCards = getAllCards()?.filter(card => !card?.primary && ((["red", "blue"].includes(card?.color_name)) || (card?.color_name === "yellow" && card?.links?.length === 1) || card?.id === "y000"));
         setPageCover({
             title: "Default cards",
-            element: <CardsFilter paired showDifficulty onClick={replaceOrAddCard} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
+            element: <CardsFilter paired showDifficulty onClick={(card) => promptCardInfoBeforeSelect(card, replaceOrAddCard)} filter={{ visibleCards: applicableCards.map(c => c?.id) }} />,
             onClose: () => setPageCover(null)
         })
 
@@ -280,6 +282,18 @@ export default function WorkbenchView(props) {
 
             }
             setPageCover(null)
+        }
+    }
+
+
+    function promptCardInfoBeforeSelect(card, replaceOrAddCard = () => {}) {
+        setMenu(
+            <CardInfoMenu card={card} color={card?.color} onSelect={() => handleSelect()} />
+        )
+
+        function handleSelect() {
+            setMenu(null);
+            replaceOrAddCard(card)
         }
     }
 
@@ -454,9 +468,23 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
     const cardsPlusSober = useMemo(() => ([...cards, soberCard]), [cards, soberCard])
 
+    
+
     const buriedCard = useMemo(() => {
         return (playWithBury ? cards[playerCount] || null : null)
     }, [cards, soberCard, playerCount, playWithBury])
+
+
+
+    const recommendBury = useMemo(() => {
+        return ((playset?.odd_card && playset?.odd_card?.id !== "drunk" ? false : ((playset?.cards.filter(c => c?.id !== "p001")?.length + (playset?.odd_card ? 1 : 0)) % 2) !== (playerCount % 2)))
+    }, [playset, playerCount])
+
+
+    useEffect(() => {
+        setPlayWithBury(recommendBury)
+    }, [recommendBury])
+    
 
 
 
@@ -481,7 +509,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
                     <RangeCounter value={playerCount} onChange={setPlayerCount} min={6} max={1000} />
                 </div>
                 <div className="flex items-center w-full justify-between gap-2 text-lg">
-                    <ToggleButton disabled={buryOption !== "auto"} full checked={(playWithBury || playset?.force_bury) && !playset?.no_bury} onChange={() => setPlayWithBury(playWithBury => !playWithBury)} recommended={false}>
+                    <ToggleButton disabled={buryOption !== "auto"} full checked={(playWithBury || playset?.force_bury || recommendBury) && !playset?.no_bury} onChange={() => setPlayWithBury(playWithBury => !playWithBury)} recommended={false || recommendBury}>
                         Play with bury
                     </ToggleButton>
                 </div>

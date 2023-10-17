@@ -353,6 +353,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
+
     const players = useRef(game_data?.players || []);
     const game = useRef(game_data?.game || null);
 

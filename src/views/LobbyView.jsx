@@ -277,9 +277,7 @@ function HostLobby({ me, code }) {
         setWrongPlayerNumber(calculatePlaysetDisabled(playset, players.current.length));
 
 
-
-
-        setRecommendBury(playset?.odd_card ? false : ((playset?.cards.filter(c => c?.id !== "p001")?.length + (playset?.odd_card ? 1 : 0)) % 2) !== (players.current.length % 2)); // filters out drunk card
+        setRecommendBury(playset?.odd_card && playset?.odd_card?.id !== "drunk" ? false : ((playset?.cards.filter(c => c?.id !== "p001")?.length + (playset?.odd_card ? 1 : 0)) % 2) !== (players.current.length % 2)); // filters out drunk card
 
 
         setPlayerState(players.current)
@@ -480,8 +478,7 @@ function HostLobby({ me, code }) {
         function startIt() {
             setPrompt(null);
 
-            return console.log(playWithBury)
-            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
+            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
             addLastPlayedPlaysets(playset.id)
 
