@@ -253,7 +253,7 @@ function HostLobby({ me, code }) {
     useEffect(() => {
         if (localStorage.getItem(`game-${code}`) && JSON.parse(localStorage.getItem(`game-${code}`))?.game) return redirect(`/game/${code}`)
         startPeer();
-        getPlayset("t0001")
+        getPlayset(localStorage.getItem("lastSelectedPlayset") || "t0001")
     }, [])
 
 
@@ -479,6 +479,8 @@ function HostLobby({ me, code }) {
 
         function startIt() {
             setPrompt(null);
+
+            return console.log(playWithBury)
             localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || !playset.odd_card || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
             addLastPlayedPlaysets(playset.id)
@@ -526,6 +528,8 @@ function HostLobby({ me, code }) {
         setPlayset(maximizePlayset(playset))
 
         updateAllClients()
+
+        localStorage.setItem("lastSelectedPlayset", id);
     }
 
 
