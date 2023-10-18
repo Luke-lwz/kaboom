@@ -1,13 +1,15 @@
 import { useMemo } from 'react';
 import { getDifficultyDataFromValue } from '../helpers/difficulty';
 
+import {VscVerifiedFilled} from "react-icons/vsc"
+
 export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip }) {
     return (
         <>
             <div className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
                 <div style={{ backgroundColor: bgColor, color: textColor }} className='text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 '>
-                    {Icon && <div className='-ml-1 text-sm'>
-                        <Icon />
+                    {Icon && <div className='-ml-1 text-sm flex items-center justify-center'>
+                        {Icon}
                     </div>}
                     {children}
                 </div>
@@ -69,3 +71,14 @@ export function LargeRadialProgress({ value = 30, color, text = "" }) {
     )
 }
 
+
+
+
+
+export function VerifiedPill() {
+    return (
+        <Pill Icon={<VscVerifiedFilled size={17} />} bgColor="#1c96e815" textColor="#1c96e8">
+            Verified
+        </Pill>
+    )
+}

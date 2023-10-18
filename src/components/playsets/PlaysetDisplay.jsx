@@ -14,7 +14,7 @@ import Info from "../Info";
 import { PlaysetDisplayArea } from "./PlaysetAreas";
 import { getCardColorFromId, getCardFromId } from "../../helpers/cards";
 import { getDifficultyDataFromValue } from "../../helpers/difficulty";
-import Pill, { DifficultyPill, LargeRadialProgress } from "../Pills";
+import Pill, { DifficultyPill, LargeRadialProgress, VerifiedPill } from "../Pills";
 
 
 
@@ -78,6 +78,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
             {showClosedPills && !open && <div className="flex items-center gap-2 py-2 px-2">
                 {playset?.difficulty && <DifficultyPill difficulty={playset?.difficulty} />}
+                {playset?.verified && <VerifiedPill />}
             </div>}
 
 
