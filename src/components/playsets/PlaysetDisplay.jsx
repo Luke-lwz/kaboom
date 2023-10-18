@@ -82,7 +82,6 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
             {open && <div className="overflow-x-scroll flex gap-2 pt-2 px-2 w-full items-center overflow-y-hidden scrollbar-hide ">
-                {playset?.difficulty && <DifficultyInPlayset difficulty={playset?.difficulty} />}
                 {playset?.primaries?.[0] && <PlaysetDisplayArea areaId={"primaries"}>
                     <CardsRow cards={playset?.primaries} />
                 </PlaysetDisplayArea>}
@@ -98,6 +97,9 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                 <PlaysetDisplayArea areaId={"default"}>
                     <CardsRow cards={playset?.default_cards || [getCardFromId("b000"), getCardFromId("r000")]} />
                 </PlaysetDisplayArea>
+
+                {playset?.difficulty && <DifficultyInPlayset difficulty={playset?.difficulty} />}
+
             </div>}
 
 

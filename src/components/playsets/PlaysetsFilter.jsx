@@ -39,8 +39,7 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
                     const max = maximizePlayset(playset)
                     return (
                         <>
-                            <PlaysetDisplay playset={max} onClick={() => onClick(max?.id)} />
-                            <div className="-mt-2 mb-2">{max?.id}</div>
+                            <PlaysetDisplay showClosedPills playset={max} onClick={() => onClick(max?.id)} />
                         </>
                     )
                 })}
