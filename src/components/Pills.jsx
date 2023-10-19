@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { getDifficultyDataFromValue } from '../helpers/difficulty';
 
-import {VscVerifiedFilled} from "react-icons/vsc"
+import { VscVerifiedFilled } from "react-icons/vsc"
+import { BsFillCheckSquareFill, BsAt } from "react-icons/bs"
 
 export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip }) {
     return (
@@ -79,6 +80,24 @@ export function VerifiedPill() {
     return (
         <Pill Icon={<VscVerifiedFilled size={17} />} bgColor="#1c96e815" textColor="#1c96e8">
             Verified
+        </Pill>
+    )
+}
+
+export function OfficialPill() {
+    return (
+        <Pill Icon={<BsFillCheckSquareFill size={12} />} bgColor="#00000015" textColor="#000000">
+            Official
+        </Pill>
+    )
+}
+
+
+
+export function AtPill({color = "#c342ff", username}) {
+    return (
+        <Pill Icon={<BsAt />} bgColor={color + "15"} textColor={color}>
+            {username.toLowerCase() || "username"}
         </Pill>
     )
 }

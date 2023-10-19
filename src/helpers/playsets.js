@@ -76,10 +76,14 @@ export async function getPlaysetById(id) {
             .limit(1)
             .eq('id', id)
 
+            console.log(error)
+
             if (playsetData) {
                 playset = playsetData;
                 localStorage.setItem("cached-playset-" + id, JSON.stringify(playset))
             }
+
+            console.log(playsetData)
 
 
     }

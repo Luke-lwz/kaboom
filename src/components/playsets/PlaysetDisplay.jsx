@@ -14,7 +14,7 @@ import Info from "../Info";
 import { PlaysetDisplayArea } from "./PlaysetAreas";
 import { getCardColorFromId, getCardFromId } from "../../helpers/cards";
 import { getDifficultyDataFromValue } from "../../helpers/difficulty";
-import Pill, { DifficultyPill, LargeRadialProgress, VerifiedPill } from "../Pills";
+import Pill, { DifficultyPill, LargeRadialProgress, OfficialPill, VerifiedPill } from "../Pills";
 
 
 
