@@ -79,5 +79,16 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
         "difficulty": 7
+    },
+    {
+        "name": "USURPER",
+        "id": "y004",
+        "description": "PERMANENT PUBLIC REVEAL >> BECOME LEADER",
+        "links": [],
+        "src": "/yellow/crown.png",
+        "info": "You have the USURPER power: during any round but the last, you may publicly reveal your card and become the leader. However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. You cannot be usurped during the same round in which you used your USURPER power, not even by another Usurper. If 2 Usurpers use their power in the same room during the same round, whichever Usurper used their power first remains the leader, the other Usurper wasted their power.",
+        "tags": "v1 official",
+        "color_name": "yellow",
+        "difficulty": 6
     }
 ]
