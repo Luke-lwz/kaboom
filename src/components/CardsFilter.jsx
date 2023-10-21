@@ -52,7 +52,11 @@ const SEARCH_PILLS = [
             borderColor: "#9cde47",
             color: "#9cde47"
         }
-    }
+    },
+    {
+        title: "Instant win",
+        searchValue: "instant-win"
+    },
 
 ]
 

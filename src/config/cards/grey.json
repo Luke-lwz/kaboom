@@ -452,7 +452,7 @@
         "links": [],
         "src": "",
         "info": "If you get elected as a leader during any round you will instantly win and everyone else loses.",
-        "tags": "custom patch1 v2 friends",
+        "tags": "custom patch1 v2 friends instant-win",
         "color_name": "grey",
         "difficulty": 1
     }
