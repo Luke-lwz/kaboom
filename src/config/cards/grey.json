@@ -422,5 +422,27 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
         "difficulty": 10
+    },
+    {
+        "name": "MASTER",
+        "id": "g038",
+        "description": "CARD SHARE WITH THE APPRENTICE MOST ROUNDS",
+        "links": ["g039"],
+        "src": "",
+        "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 1
+    },
+    {
+        "name": "APPRENTICE",
+        "id": "g039",
+        "description": "CARD SHARE WITH THE MASTER MOST ROUNDS",
+        "links": ["g038"],
+        "src": "",
+        "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 1
     }
 ]
