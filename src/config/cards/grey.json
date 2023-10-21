@@ -451,7 +451,7 @@
         "description": "GET ELECTED AS A LEADER",
         "links": [],
         "src": "",
-        "info": "If you get elected as a leader during any round you will instantly win and everyone else will lose.",
+        "info": "If you get elected as a leader during any round you will instantly win and everyone else loses.",
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
         "difficulty": 1
