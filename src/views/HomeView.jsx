@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import { Peer } from "peerjs";
-import { constructPeerID } from "../helpers/peerid";
+import { constructPeerID, getPeerConfig } from "../helpers/peerid";
 
 
 // import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
@@ -60,10 +60,10 @@ function HomeView({ }) {
     const [displayUseSafari, setDisplayUseSafari] = useState(false)
 
 
-    const testPeer = new Peer();
+    // const testPeer = new Peer();
 
-    const joinPeer = new Peer();
-    const createPeer = new Peer();
+    const joinPeer = new Peer(getPeerConfig());
+    const createPeer = new Peer(getPeerConfig());
 
 
 
@@ -94,9 +94,9 @@ function HomeView({ }) {
 
 
 
-        setTimeout(() => getLastPlayer(), 250)
+        // setTimeout(() => getLastPlayer(), 250)
 
-        setInterval(() => getLastPlayer(), 5 * 1000)
+        // setInterval(() => getLastPlayer(), 5 * 1000)
 
 
 
@@ -149,30 +149,30 @@ function HomeView({ }) {
 
     }
 
-    function getLastPlayer() {
+    // function getLastPlayer() {
 
 
-        const all = allLocalStorage();
+    //     const all = allLocalStorage();
 
-        // last player
-        const lastPlayer = all.filter(a => a.key.startsWith("player-") && JSON.parse(a.value)?.id?.toUpperCase() !== "HOST")[0];
-        if (lastPlayer) tryToConnect(lastPlayer.key.split("-")[1], JSON.parse(lastPlayer.value));
+    //     // last player
+    //     const lastPlayer = all.filter(a => a.key.startsWith("player-") && JSON.parse(a.value)?.id?.toUpperCase() !== "HOST")[0];
+    //     if (lastPlayer) tryToConnect(lastPlayer.key.split("-")[1], JSON.parse(lastPlayer.value));
 
-        function tryToConnect(code, player) {
-            const connToRoom = testPeer.connect(constructPeerID(code, "host"));
-            connToRoom.on("open", () => {
-                setLastPlayer({ code, player, avaConfig: genConfig(player.name || player.id) })
-                connToRoom.close();
-            })
+    //     function tryToConnect(code, player) {
+    //         const connToRoom = testPeer.connect(constructPeerID(code, "host"));
+    //         connToRoom.on("open", () => {
+    //             setLastPlayer({ code, player, avaConfig: genConfig(player.name || player.id) })
+    //             connToRoom.close();
+    //         })
 
-            connToRoom.on("error", () => { conn.close(); setLastPlayer(null) })
+    //         connToRoom.on("error", () => { conn.close(); setLastPlayer(null) })
 
-            joinPeer.on("error", () => setLastPlayer(null))
+    //         joinPeer.on("error", () => setLastPlayer(null))
 
 
 
-        };
-    }
+    //     };
+    // }
 
 
 
