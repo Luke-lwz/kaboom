@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 import { Peer } from "peerjs";
-import { constructPeerID } from "../helpers/peerid";
+import { constructPeerID, getPeerConfig } from "../helpers/peerid";
 
 
 // import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
@@ -56,10 +56,10 @@ function HomeView({ }) {
     const [displayUseSafari, setDisplayUseSafari] = useState(false)
 
 
-    const testPeer = new Peer();
+    const testPeer = new Peer(getPeerConfig());
 
-    const joinPeer = new Peer();
-    const createPeer = new Peer();
+    const joinPeer = new Peer(getPeerConfig());
+    const createPeer = new Peer(getPeerConfig());
 
 
 

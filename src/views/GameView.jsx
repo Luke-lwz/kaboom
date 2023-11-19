@@ -27,7 +27,7 @@ import { TbPlayCard } from "react-icons/tb"
 import { generateGame } from "../helpers/game";
 import { getCardColorFromColorName, getCardFromId, getCardsForPlayset } from "../helpers/cards";
 import Card, { CardFront } from "../components/Card";
-import { constructPeerID } from "../helpers/peerid";
+import { constructPeerID, getPeerConfig } from "../helpers/peerid";
 import { idGenAlphabet, rng } from "../helpers/idgen";
 import SendCardMenu from '../components/menus/SendCardMenu';
 import { getPlaysetById } from '../helpers/playsets';
@@ -143,7 +143,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
     function startPeer() {
-        const peer = new Peer(constructPeerID(code, me?.id));
+        const peer = new Peer(constructPeerID(code, me?.id), getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -221,7 +221,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
     }
 
     function testConnection() {
-        const peer = new Peer();
+        const peer = new Peer(getPeerConfig());
 
         console.log("🌐")
         setConn(undefined); // undefined means loading
@@ -425,7 +425,7 @@ function HostGame({ me, setMe, code, setScreen }) {
     }
 
     function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"));
+        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
 
         setPeer(peer);
 

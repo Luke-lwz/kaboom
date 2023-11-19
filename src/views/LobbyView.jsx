@@ -9,7 +9,7 @@ import moment from 'moment/moment';
 import Peer from 'peerjs';
 
 // helpers
-import { constructPeerID } from '../helpers/peerid';
+import { constructPeerID, getPeerConfig } from '../helpers/peerid';
 import { idGenAlphabet } from '../helpers/idgen';
 import { getPlaysetById, getPlaysetsWithCards, getLastPlayedPlaysets } from '../helpers/playsets';
 
@@ -117,7 +117,7 @@ function ClientLobby({ me, setMe, code }) {
 
 
     function startPeer() {
-        const peer = new Peer();
+        const peer = new Peer(getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -290,7 +290,7 @@ function HostLobby({ me, code }) {
 
 
     function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"));
+        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
 
 
         setPeer(peer);

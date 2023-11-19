@@ -12,3 +12,12 @@ export function constructPeerID(gameID, playerID) {
 export function sendConstructor(myid, data, options = {}) {
     return {myid, data, options}
 }
+
+
+export function getPeerConfig() {
+    return {
+      secure: true,
+      host: "peerjs-kaboom-custom-server.onrender.com",
+      port: 443,
+    };
+  }
