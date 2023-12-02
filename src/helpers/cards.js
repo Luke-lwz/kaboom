@@ -364,7 +364,7 @@ export function getCardColorFromColorName(color_name) {
 
 
 export function getAllCards() {
-    var all = [...BlueCards, ...RedCards, ...GreyCards, ...YellowCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
+    var all = [...BlueCards, ...RedCards, ...GreyCards, ...GreenCards, ...PurpleCards, ...SpecialCards];
     all = all.map(c => ({ ...c, color: getCardColorFromColorName(c?.color_name) }))
     return all;
 }
