@@ -8,7 +8,7 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
     return (
         <>
             <div className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
-                <div style={{ backgroundColor: bgColor, color: textColor }} className='text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 '>
+                <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor }} className='text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 '>
                     {Icon && <div className='-ml-1 text-sm flex items-center justify-center'>
                         {Icon}
                     </div>}
@@ -71,6 +71,9 @@ export function LargeRadialProgress({ value = 30, color, text = "" }) {
         <div className="radial-progress text-sm" style={{ "--value": value, "--size": "3.2rem", "--thickness": "0.35rem", color }}>{text}</div>
     )
 }
+
+
+
 
 
 

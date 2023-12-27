@@ -363,7 +363,7 @@ function HomeView({ }) {
                         <FaUser onClick={() => showLoginMenu()} />
                         :
                         <div className="dropdown dropdown-end" >
-                            <label tabIndex={0} className="rounded-full"><UserAvatar user={user} /></label>
+                            <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8 md:h-10 w-8 md:w-10"} /></label>
                             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal">
                                 <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
                                 <li><button onClick={() => logout()}>Logout</button></li>

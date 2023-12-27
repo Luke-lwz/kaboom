@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAllCards, getCardColorFromColorName, getCardFromId, CARD_COLOR_ORDER, pairUpCards, CARD_COLOR_FILTER_OPTIONS } from '../helpers/cards';
+import { getAllCards, getCardColorFromColorName, getCardFromId, CARD_COLOR_ORDER, pairUpCards, CARD_COLOR_FILTER_OPTIONS, sortCards } from '../helpers/cards';
 import { CardFront } from './Card';
 import LinkedCardsContainer from './LinkedCardsContainer';
 import { DifficultyPill } from './Pills';
@@ -105,24 +105,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
         if (filter?.visibleCards) all = all.filter(card => filter?.visibleCards?.includes(card?.id)); // only shows cards that are specified in prop "filter.visibleCards"
         if (filter?.hiddenCards) all = all.filter(card => !filter?.hiddenCards?.includes(card?.id));
 
-        var allSorted = all.sort((a, b) => {
-            return a.name === b.name ? 0 : a.name < b.name ? -1 : 1;
-        });
-
-        allSorted = allSorted.sort((x, y) => { return x.id == "r000" ? -1 : y.id == "r000" ? 1 : 0; }); // pushes certain elements to front
-        allSorted = allSorted.sort((x, y) => { return x.id == "b000" ? -1 : y.id == "b000" ? 1 : 0; });
-        allSorted = allSorted.sort((x, y) => { return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0; });
-        allSorted = allSorted.sort((x, y) => { return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0; });
-
-        for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
-            let colorName = CARD_COLOR_ORDER[i];
-            if (!["blue", "red"].includes(colorName)) {
-                allSorted = allSorted.sort((x, y) => { return x.color_name === colorName ? 1 : y.color_name === colorName ? -1 : 0; });
-            }
-
-        }
-
-        return allSorted;
+       return sortCards(all, true);
     }
 
 

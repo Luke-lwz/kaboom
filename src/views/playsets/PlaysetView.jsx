@@ -7,7 +7,9 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
 
 //icons
-import {BsCassetteFill} from "react-icons/bs"
+import { BsCassetteFill } from "react-icons/bs"
+import MegaButton, { BookmarkMegaButton, EditPlaysetButton, RemixButton } from "../../components/MegaButtons";
+import { FaTrash } from "react-icons/fa";
 
 function PlaysetView({ }) {
 
@@ -48,20 +50,26 @@ function PlaysetView({ }) {
 
                 <TitleBar titleElement={
                     <>
-                        <BsCassetteFill className="text-2xl md:text-3xl"/>
+                        <BsCassetteFill className="text-2xl md:text-3xl" />
                         <h1>Playsets</h1>
                     </>
                 } />
 
 
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
-                    {playsetMaximized && <PlaysetDisplay forceOpen playset={playsetMaximized} />}
+                    {playsetMaximized && <PlaysetDisplay quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
+                    <div className="w-full flex items-center gap-2 mt-2">
+                        <RemixButton />
+                        <BookmarkMegaButton />
+                        <EditPlaysetButton />
+                        <MegaButton Icon={<FaTrash />} textColor={"#F87272"}/>
+                    </div>
                     {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
-                    {playset?.description}
-                </div>}
+                        {playset?.description}
+                    </div>}
                 </div>
 
-                
+
 
             </div>
 

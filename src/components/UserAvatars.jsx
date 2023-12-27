@@ -1,16 +1,25 @@
-import {useMemo} from "react"
+import { useMemo } from "react"
 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
+import { IoPersonCircleOutline } from "react-icons/io5";
 
-export function UserAvatar({ user }) {
+export function UserAvatar({ profile, className }) {
 
     const avaConfig = useMemo(() => {
-        return genConfig(user?.user_metadata?.kaboom?.name || user?.id || "a");
-    }, [user])
+        if (profile?.profile_metadata?.kaboom?.name || profile?.name || profile?.id) {
+
+            return genConfig(profile?.profile_metadata?.kaboom?.name || profile?.name || profile?.id);
+        } else {
+            return null
+        }
+    }, [profile])
 
     return (
-        <div className='rounded-full h-8 md:h-10 w-8 md:w-10'>
-            <Avatar className="w-full h-full" {...avaConfig} />
+        <div className={'rounded-full ' + className}>
+            {avaConfig ? <Avatar className="w-full h-full" {...avaConfig} />
+                :
+                <IoPersonCircleOutline className="" />
+            }
         </div>
     );
 }

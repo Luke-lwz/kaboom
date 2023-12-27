@@ -133,3 +133,15 @@ export function maximizePlayset(playset) { // makes cid[] to cards[]
     copy.odd_card = getCardFromId(copy?.odd_card?.id || copy?.odd_card) || null;
     return copy;
 }
+
+
+
+
+export function allCardsInRow(playset) {
+    const cards = playset?.cards || [];
+    const odd_card = playset?.odd_card || null;
+    const primaries = playset?.primaries || [];
+    const default_cards = playset?.default_cards || [];
+
+    return [...cards, ...primaries, odd_card, ...default_cards].filter(c => c !== null).map(c => getCardFromId(c?.id || c));
+}

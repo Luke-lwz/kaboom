@@ -7,6 +7,26 @@ import { maximizePlayset } from "../../helpers/playsets.js"
 import PlaysetDisplay from "../../components/playsets/PlaysetDisplay"
 
 
+
+const TABS = [
+    {
+        name: "All",
+        value: "all",
+        color: "",
+    },
+    {
+        name: "Official",
+        value: "official",
+        color: "",
+    },
+    {
+        name: "Verified",
+        value: "verified",
+        color: "",
+    }
+]
+
+
 export default function PlaysetsFilter({ onClick = () => { } }) {
     const { id } = useParams();
 
