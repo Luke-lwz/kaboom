@@ -10,20 +10,23 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay"
 
 const TABS = [
     {
-        name: "All",
+        name: "New",
         value: "all",
         color: "",
-    },
-    {
-        name: "Official",
-        value: "official",
-        color: "",
+        icon: <></>,
     },
     {
         name: "Verified",
         value: "verified",
         color: "",
-    }
+        icon: <></>,
+    },
+    {
+        name: "Official",
+        value: "official",
+        color: "",
+        icon: <></>,
+    },
 ]
 
 

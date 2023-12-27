@@ -13,6 +13,8 @@ import { IoColorPaletteSharp } from "react-icons/io5"
 import { TbPlayCard } from "react-icons/tb"
 
 
+import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-component';
+
 
 
 function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal }) {
@@ -125,28 +127,30 @@ export function CardFront({ onClick = () => { }, color, card }) {
 
     return (
         <C onClick={onClick} color={color} >
-            <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
-                <div className="flex flex-row justify-start items-center w-full h-5/6">
-                    <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
-                        {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
+            <LazyLoadComponent threshold={0}>
+                <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
+                    <div className="flex flex-row justify-start items-center w-full h-5/6">
+                        <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
+                            {card?.src && card.src !== "" && <LazyLoadImage delayTime={600} threshold={0} effect="opacity" src={`/cards${card.src}`} alt="" className="w-full " />}
+                        </div>
+                        <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
+                            <div className="text-xs -ml-0.5 text-normal">You are the</div>
+                            <div className="text-xl font-extrabold uppercase text-title -ml-0.5">{card.name}</div>
+
+                            <div className="text-xs uppercase text-normal">{card.description}</div>
+
+                        </div>
                     </div>
-                    <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
-                        <div className="text-xs -ml-0.5 text-normal">You are the</div>
-                        <div className="text-xl font-extrabold uppercase text-title -ml-0.5">{card.name}</div>
-
-                        <div className="text-xs uppercase text-normal">{card.description}</div>
-
+                    <div className="w-full flex flex-row justify-between items-center h-1/6">
+                        <h1 className={"text-title h-full w-9/12 flex justify-center items-center p-2 font-extrabold uppercase " + (color?.title?.length < 10 ? " text-2xl " : " text-xl ")}>
+                            {color?.title}
+                        </h1>
+                        <div className="w-3/12 flex items-center justify-center text-2xl">
+                            {color?.icon && <color.icon color={color?.primary || ""} />}
+                        </div>
                     </div>
                 </div>
-                <div className="w-full flex flex-row justify-between items-center h-1/6">
-                    <h1 className={"text-title h-full w-9/12 flex justify-center items-center p-2 font-extrabold uppercase " + (color?.title?.length < 10 ? " text-2xl " :  " text-xl ")}>
-                        {color?.title}
-                    </h1>
-                    <div className="w-3/12 flex items-center justify-center text-2xl">
-                        {color?.icon && <color.icon color={color?.primary || ""} />}
-                    </div>
-                </div>
-            </div>
+            </LazyLoadComponent>
         </C>
     )
 }
