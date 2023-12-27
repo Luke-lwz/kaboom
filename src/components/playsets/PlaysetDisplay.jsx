@@ -349,12 +349,12 @@ function BookmarkComponent({ bookmarked, onChange }) {
     }, [bookmarked])
 
     return (marked ?
-        <IoBookmark className="text-info" onClick={() => {
+        <IoBookmark className="text-info hover:scale-105" onClick={() => {
             setMarked(!marked);
             onChange(!marked);
         }} />
         :
-        <IoBookmarkOutline onClick={() => {
+        <IoBookmarkOutline className="hover:scale-105" onClick={() => {
             setMarked(!marked);
             onChange(!marked);
         }} />

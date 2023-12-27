@@ -15,10 +15,10 @@ export default function PlaysetsView({ onClick = () => { } }) {
 
     return (
         <div className="w-full flex flex-col items-center h-screen  overflow-y-scroll">
-            <TitleBar titleElement={
+            <TitleBar titleElement={ 
                 <>
                     <BsCassetteFill className="text-2xl md:text-3xl" />
-                    <h1>Playsets</h1>
+                    <h1 onClick={() => smoothNavigate("/playsets")}>Playsets</h1>
                 </>
             } />
             <PlaysetsFilter onClick={(id) => smoothNavigate(`/playsets/${id}`)} />

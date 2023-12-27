@@ -8,7 +8,7 @@ export default function MegaButton({ Icon, children, textColor, bgColor, bgBasei
     return (
         <>
             <button onClick={onClick} title={title} className={'rounded-md w-fit tooltip clickable ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ") + (fill ? " w-full " : " w-fit ")} data-tip={tooltip}>
-                <div style={{ backgroundColor: bgColor || textColor + "30", color: textColor }} className={'text-md h-12  rounded-md px-4 min-w-[2rem] py-2 flex items-center justify-center font-bold gap-2 ' + (fill ? " w-full " : " w-fit ")}>
+                <div style={{ backgroundColor: textColor, color: "#ffffff" }} className={'text-md h-14  rounded-md px-4 min-w-[2rem] py-2 flex items-center justify-center font-extrabold gap-3 ' + (fill ? " w-full " : " w-fit ")}>
                     {Icon && <div className='text-xl flex items-center justify-center'>
                         {Icon}
                     </div>}
@@ -49,7 +49,7 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 
 export function RemixButton({ onClick = () => { } }) {
     return (
-        <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#facc15" onClick={() => onClick()}>
+        <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#fad623" onClick={() => onClick()}>
             <div className="hidden md:block">Remix</div>
         </MegaButton>
     )

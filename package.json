@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "peerjs": "^1.4.7",
     "preact": "^10.14.0",
+    "react-cookie-consent": "^9.0.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",

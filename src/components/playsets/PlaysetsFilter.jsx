@@ -54,7 +54,7 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
     }
 
     return (
-            <div className="w-full max-w-3xl flex flex-col gap-4 p-4 items-center">
+            <div className="w-full max-w-3xl flex flex-col gap-4 p-4 items-center pb-64">
                 {playsets?.map(playset => {
                     const max = maximizePlayset(playset)
                     return (

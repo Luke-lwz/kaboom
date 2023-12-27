@@ -43,7 +43,7 @@ function PlaysetView({ }) {
 
 
     return (
-        <div className="flex flex-col lg:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide ">
+        <div className="flex flex-col lg:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide pb-64">
 
 
             <div className="w-full lg:max-w-3xl flex flex-col items-center justify-start border-neutral/10 lg:border-r">  {/* Left Bar With linked cards box */}
@@ -51,7 +51,7 @@ function PlaysetView({ }) {
                 <TitleBar titleElement={
                     <>
                         <BsCassetteFill className="text-2xl md:text-3xl" />
-                        <h1>Playsets</h1>
+                        <h1 onClick={() => smoothNavigate("/playsets")}>Playsets</h1>
                     </>
                 } />
 
@@ -62,7 +62,7 @@ function PlaysetView({ }) {
                         <RemixButton />
                         <BookmarkMegaButton />
                         <EditPlaysetButton />
-                        <MegaButton Icon={<FaTrash />} textColor={"#F87272"}/>
+                        <MegaButton Icon={<FaTrash />} textColor={"#fc021b"}/>
                     </div>
                     {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
                         {playset?.description}

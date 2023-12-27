@@ -42,6 +42,7 @@ import supabase from './supabase';
 import PlaysetView from './views/playsets/PlaysetView';
 import ProfileView from './views/ProfileView';
 import PlaysetsView from './views/playsets/PlaysetsView';
+import CookieConsent from 'react-cookie-consent';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -252,8 +253,24 @@ function App() {
 
 
         </Routes>
+        <CookieConsent
+                location="bottom"
+                buttonText="Accept"
+                cookieName="consent-cookie"
+                style={{ width: "fit-content", margin: "0.5rem", border: "2px solid #000000", color: "#000", background: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem"  }}
+                className="rounded-lg"
+                buttonClasses="btn btn-sm btn-secondary text-title rounded"
+                buttonStyle={{backgroundColor: "#000000", color: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem", margin: "0.5rem"  }}
+            >
+                <div className="flex flex-col pt-0">
+                    <p>🍪 We use Cookies & Localstorage to persist game data</p>
+                    <p className="text-xs">We won't share anything with 3rd parties</p>
+                </div>
+                
+            </CookieConsent>
       </PageContextProvider>
       {isBeta && <BetaBanner />}
+      
     </div>
   )
 }

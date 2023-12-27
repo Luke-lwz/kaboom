@@ -6,7 +6,7 @@ import { Peer } from "peerjs";
 import { constructPeerID, getPeerConfig } from "../helpers/peerid";
 
 
-// import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
+import { isIOS, isIOS13, isMacOs, isSafari, isMobileSafari } from "react-device-detect";
 
 
 
@@ -17,14 +17,13 @@ import { PageContext } from "../components/PageContextProvider";
 import { idGenAlphabet } from "../helpers/idgen";
 import { useSearchParams } from "react-router-dom";
 import LinkToTwoRoomsBox from "../components/LinkToTwoRoomsBox";
-import BannerBoxWithImage, { NeutralBlankBannerBox } from "../components/BannerBoxWithImage";
+import { NeutralBlankBannerBox } from "../components/BannerBoxWithImage";
 
 
 //icons
-import { BsBook } from "react-icons/bs";
+import { BsBook, BsCassetteFill } from "react-icons/bs";
 import { HiUsers } from "react-icons/hi2";
 import { HiOutlineExternalLink } from "react-icons/hi"
-import { FaUser } from "react-icons/fa"
 
 
 // avatar 
@@ -35,6 +34,9 @@ import { getCardFromId } from "../helpers/cards";
 import ContributeLinks from "../components/ContributeLinks";
 import { UserAvatar } from "../components/UserAvatars";
 import supabase from "../supabase";
+import MegaButton from "../components/MegaButtons";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { TbCardsFilled } from "react-icons/tb";
 
 
 
@@ -71,24 +73,24 @@ function HomeView({ }) {
     useEffect(() => {
 
 
-        // // safari
+        // safari
 
-        // const isSafariLocal = JSON.parse(localStorage.getItem("issafari"));
+        const isSafariLocal = JSON.parse(localStorage.getItem("issafari"));
 
-        // console.log(isSafariLocal)
-        // if (isSafariLocal) {
-        //     setDisplayUseSafari(true);
-        // } else if (isSafariLocal === false) {
+        console.log(isSafariLocal)
+        if (isSafariLocal) {
+            setDisplayUseSafari(true);
+        } else if (isSafariLocal === false) {
 
-        // } else {
-        //     if ((isIOS || isIOS13 || isMacOs) && (!(isSafari && isMobileSafari))) {
-        //         setDisplayUseSafari(true);
-        //         localStorage.setItem("issafari", "true")
-        //     } else {
-        //         localStorage.setItem("issafari", "false")
+        } else {
+            if ((isIOS || isIOS13 || isMacOs) && (!(isSafari && isMobileSafari))) {
+                setDisplayUseSafari(true);
+                localStorage.setItem("issafari", "true")
+            } else {
+                localStorage.setItem("issafari", "false")
 
-        //     }
-        // }
+            }
+        }
 
 
 
@@ -342,7 +344,7 @@ function HomeView({ }) {
     return (
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll pb-24">
 
-            {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/80 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-2xl grid grid-cols-8  px-2">
+            {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/20 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-lg place-items-center grid grid-cols-8  px-2">
                 <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
             </a>}
 
@@ -360,7 +362,7 @@ function HomeView({ }) {
                 {/* Login */}
                 <div className="top-0 right-0 p-4 pt-0 text-2xl md:text-3xl flex items-center justify-center absolute clickable">
                     {!user?.id ?
-                        <FaUser onClick={() => showLoginMenu()} />
+                        <IoPersonCircleOutline onClick={() => showLoginMenu()} />
                         :
                         <div className="dropdown dropdown-end" >
                             <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8 md:h-10 w-8 md:w-10"} /></label>
@@ -427,29 +429,44 @@ function HomeView({ }) {
             </div>
 
 
-            <LinkToTwoRoomsBox />
+            <div className="flex w-full flex-col items-center justify-start max-w-2xl gap-4">
+                <div className="grid grid-cols-2 w-full gap-2 px-4">
+                    <MegaButton onClick={() => {
+                        smoothNavigate("/playsets")
+                    }} Icon={<BsCassetteFill />} fill textColor={"#c342ff"}>
+                        Playsets
+                    </MegaButton>
+                    <MegaButton onClick={() => {
+                        smoothNavigate("/cards")
+                    }} Icon={<TbCardsFilled />} fill textColor={"#3b82f6"}>
+                        Cards
+                    </MegaButton>
+                    <MegaButton onClick={() => {
+                        window.location.href = "TwoRooms_Rulebook_v3.pdf";
+                    }} Icon={<BsBook />} fill textColor={"#27d62a"}>
+                        Rules
+                    </MegaButton>
+                    <MegaButton onClick={() => {
+                        smoothNavigate("/")
+                    }} Icon={<IoPersonCircleOutline />} fill textColor={"#ff0000"}>
+                        Profile
+                    </MegaButton>
+                </div>
 
 
-            <div onClick={() => smoothNavigate("/cards")} className="w-full">
-                <BannerBoxWithImage noTarget src="cards_image.png">
-                    <h1 className='font-extrabold text-lg'>Check out the cards!</h1>
-                </BannerBoxWithImage>
+
+
+                <LinkToTwoRoomsBox />
+
+
+
+                <ContributeLinks />
             </div>
-
-
-            <div className="w-full flex justify-center items-center">
-                <a href="TwoRooms_Rulebook_v3.pdf" target="_blank" className=' w-full max-w-2xl mx-4 clickable flex justify-center items-center text-title bg-neutral text-neutral-content rounded-lg p-2.5 gap-3'>
-                    <div className='scale-110'>
-                        <BsBook />
-                    </div>
-                    <h1 className='hi'>Rulebook</h1>
-                </a>
-            </div>
-
-
-            <ContributeLinks />
 
             <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a><br /><a href="/privacy" target="_blank" className="underline">Privacy</a></div></div>
+
+
+            
         </div>
     );
 }
