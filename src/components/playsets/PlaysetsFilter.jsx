@@ -178,7 +178,7 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
             <div id="divider-1" className=" w-full flex items-center justify-center">
                 <div className="w-full py-[1px] rounded-full bg-neutral/25" />
             </div>
-            <activeTab.component onPlaysetClick={onPlaysetClick} />
+            {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />}
         </div>
     );
 }
@@ -212,10 +212,10 @@ function SubTabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubT
         setActiveSubTab("")
     }
     return (
-        <div className={"animate__animated animate__fadeIn animate__faster justify-start items-center gap-2 w-full "  + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
+        <div className={"animate__animated animate__fadeIn animate__faster justify-start items-center gap-2 w-full " + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
             <BiArrowBack onClick={() => handleBack()} className="text-xl" />
             <Pill onClick={() => handleBack()} style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} Icon={activeTab?.icon} textColor={activeTab?.color} border  >
-            <span className="-mr-2 -ml-1"><IoMdArrowDropup /></span>
+                <span className="-mr-2 -ml-1"><IoMdArrowDropup /></span>
             </Pill>
             <div id="divider-2" className="  h-6 flex items-center justify-center -mr-2">
                 <div className=" h-6 px-[1px] rounded-full bg-neutral/25" />
