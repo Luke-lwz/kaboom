@@ -17,7 +17,7 @@ import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-componen
 
 
 
-function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal }) {
+function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal, nomotion = true }) {
 
 
     const [cardInfo, setCardInfo] = useState(card || null);
@@ -58,9 +58,11 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
         )
     }
 
+    const DIV = nomotion ? "div" : motion.div;
+
 
     return (
-        <motion.div
+        <DIV
             className="scrollbar-hide"
             drag="y"
             dragElastic={{ top: 0.5, bottom: 0 }}
@@ -116,7 +118,7 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
             </div>
 
 
-        </motion.div>
+        </DIV>
     );
 }
 
@@ -127,11 +129,10 @@ export function CardFront({ onClick = () => { }, color, card }) {
 
     return (
         <C onClick={onClick} color={color} >
-            <LazyLoadComponent threshold={0} effect="opacity">
                 <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
                     <div className="flex flex-row justify-start items-center w-full h-5/6">
                         <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
-                            {card?.src && card.src !== "" && <LazyLoadImage delayTime={600} threshold={0} effect="opacity" src={`/cards${card.src}`} alt="" className="w-full " />}
+                            {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt=""  className="w-full " />}
                         </div>
                         <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
                             <div className="text-xs -ml-0.5 text-normal">You are the</div>
@@ -150,7 +151,6 @@ export function CardFront({ onClick = () => { }, color, card }) {
                         </div>
                     </div>
                 </div>
-            </LazyLoadComponent>
         </C>
     )
 }

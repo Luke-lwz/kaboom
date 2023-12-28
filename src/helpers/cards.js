@@ -29,7 +29,6 @@ export const CARD_COLOR_FILTER_OPTIONS = [
   "blue",
   "red",
   "grey",
-  "yellow",
   "green",
 ];
 

@@ -1,5 +1,5 @@
 - "Make being traitor a condition"
-- Conspirator -> gives ppl the traiter condition
+- PERSUADER -> gives ppl the traiter condition
 - Loyalist -> is immune to traitor condition
 
 - Interrogator -> Private Reveal (once per round) >> Yes or No question 

@@ -432,7 +432,7 @@
         "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
-        "difficulty": 1
+        "difficulty": 3
     },
     {
         "name": "APPRENTICE",
@@ -443,17 +443,28 @@
         "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
-        "difficulty": 1
+        "difficulty": 3
     },
     {
         "name": "DICTATOR",
         "id": "g040",
-        "description": "GET ELECTED AS A LEADER",
+        "description": "BECOME A LEADER",
         "links": [],
         "src": "",
-        "info": "If you get elected as a leader during any round you will instantly win and everyone else loses.",
+        "info": "If you become a leader during any round you will instantly win and everyone else loses.",
         "tags": "custom patch1 v2 friends instant-win",
         "color_name": "grey",
-        "difficulty": 1
+        "difficulty": 6
+    },
+    {
+        "name": "CONSPIRATOR",
+        "id": "g041",
+        "description": "BECOME A LEADER & EXPOSE THE PRIMARIES",
+        "links": [],
+        "src": "",
+        "info": "During any round, when you become a leader, you must publicly reveal your card which forces everyone in your room to public reveal as well. You win if you have forced all primaries to publicly reveal their card at least once.",
+        "tags": "custom patch1 v2 friends instant-win",
+        "color_name": "grey",
+        "difficulty": 6
     }
 ]
