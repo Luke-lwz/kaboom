@@ -8,13 +8,15 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay"
 import Pill from "../Pills.jsx";
 
 
-import { MdOutlineWbIridescent } from "react-icons/md";
+import { MdOutlineWbIridescent, MdHistory } from "react-icons/md";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { BsCassetteFill, BsFillCheckSquareFill, BsX } from "react-icons/bs";
 import { GiFireBomb } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
-import { IoBookmark, IoHome, IoPersonAddSharp, IoPersonCircleOutline } from "react-icons/io5";
+import { IoArrowUp, IoBookmark, IoHome, IoPersonAddSharp, IoPersonCircleOutline } from "react-icons/io5";
 import { BiArrowBack } from "react-icons/bi";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import NewPage from "./filters/NewPage.jsx";
 
 
 const TABS = [
@@ -23,12 +25,19 @@ const TABS = [
         value: "new",
         color: "#02f771",
         icon: <MdOutlineWbIridescent className="text-base" />,
+        component: NewPage,
     },
     {
         name: "Hot",
         value: "hot",
         color: "#f72b02",
         icon: <GiFireBomb className="text-base" />,
+    },
+    {
+        name: "Top",
+        value: "top",
+        color: "#0019fd",
+        icon: <IoArrowUp className="text-base" />,
     },
     {
         name: "My Stuff",
@@ -41,6 +50,12 @@ const TABS = [
                 value: "my-bookmarks",
                 color: "#eb34c0",
                 icon: <IoBookmark className="text-sm mr-0.5" />,
+            },
+            {
+                name: "Recent",
+                value: "my-recent",
+                color: "#eb34c0",
+                icon: <MdHistory className="text-base mr-0.5" />,
             },
             {
                 name: "My Playsets",
@@ -98,7 +113,7 @@ const TABS = [
 ]
 
 
-export default function PlaysetsFilter({ onClick = () => { } }) {
+export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
     const { id } = useParams();
 
     const { smoothNavigate, user } = useContext(PageContext)
@@ -163,14 +178,7 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
             <div id="divider-1" className=" w-full flex items-center justify-center">
                 <div className="w-full py-[1px] rounded-full bg-neutral/25" />
             </div>
-            {playsets?.map(playset => {
-                const max = maximizePlayset(playset)
-                return (
-                    <>
-                        <PlaysetDisplay showClosedPills playset={max} onClick={() => onClick(max?.id)} />
-                    </>
-                )
-            })}
+            <activeTab.component onPlaysetClick={onPlaysetClick} />
         </div>
     );
 }
@@ -187,7 +195,7 @@ function TabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubTab,
                         if (tab?.subTags) setActiveSubTab(tab?.subTags[0]);
                         setActiveTab(tab)
                     }} Icon={tab?.icon} textColor={tab?.color} border={activeTab?.value === tab?.value} borderColor={activeTab?.value === tab?.value ? null : "transparent"} >
-                        {tab.name}
+                        {tab.name} {tab?.subTags && <span className="-mr-2 -ml-1"><IoMdArrowDropdown /></span>}
                     </Pill>
                 )
             })}
@@ -207,6 +215,7 @@ function SubTabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubT
         <div className={"animate__animated animate__fadeIn animate__faster justify-start items-center gap-2 w-full "  + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
             <BiArrowBack onClick={() => handleBack()} className="text-xl" />
             <Pill onClick={() => handleBack()} style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} Icon={activeTab?.icon} textColor={activeTab?.color} border  >
+            <span className="-mr-2 -ml-1"><IoMdArrowDropup /></span>
             </Pill>
             <div id="divider-2" className="  h-6 flex items-center justify-center -mr-2">
                 <div className=" h-6 px-[1px] rounded-full bg-neutral/25" />
