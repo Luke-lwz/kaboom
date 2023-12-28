@@ -127,7 +127,7 @@ export function CardFront({ onClick = () => { }, color, card }) {
 
     return (
         <C onClick={onClick} color={color} >
-            <LazyLoadComponent threshold={0}>
+            <LazyLoadComponent threshold={0} effect="opacity">
                 <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
                     <div className="flex flex-row justify-start items-center w-full h-5/6">
                         <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">

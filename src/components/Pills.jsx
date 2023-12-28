@@ -4,17 +4,17 @@ import { getDifficultyDataFromValue } from '../helpers/difficulty';
 import { VscVerifiedFilled } from "react-icons/vsc"
 import { BsFillCheckSquareFill, BsAt } from "react-icons/bs"
 
-export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip }) {
+export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip, border = false, borderColor, onClick = () => { }, className = "", style = {} }) {
     return (
         <>
-            <div className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
-                <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor }} className='text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 '>
+            <button onClick={onClick} className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
+                <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor, borderColor: borderColor || textColor, borderWidth: (border ? "2px" : "0px"), ...style }} className={'text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 transition-all ' + className}>
                     {Icon && <div className='-ml-1 text-sm flex items-center justify-center'>
                         {Icon}
                     </div>}
                     {children}
                 </div>
-            </div>
+            </button>
         </>
     );
 }
@@ -97,7 +97,7 @@ export function OfficialPill() {
 
 
 
-export function AtPill({color = "#c342ff", username}) {
+export function AtPill({ color = "#c342ff", username }) {
     return (
         <Pill Icon={<BsAt />} bgColor={color + "15"} textColor={color}>
             {username.toLowerCase() || "username"}
