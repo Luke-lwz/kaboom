@@ -8,8 +8,8 @@ export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = f
     return (
         <>
             <button onClick={onClick} className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
-                <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor, borderColor: borderColor || textColor, borderWidth: (border ? "2px" : "0px"), ...style }} className={'text-xs h-6 font bold  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-1 transition-all ' + className}>
-                    {Icon && <div className='-ml-1 text-sm flex items-center justify-center'>
+                <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor, borderColor: borderColor || textColor, borderWidth: (border ? "2px" : "0px"), ...style }} className={'text-xs h-6 font bold whitespace-nowrap  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-2 transition-all ' + className}>
+                    {Icon && <div className='-mx-1 text-sm flex items-center justify-center'>
                         {Icon}
                     </div>}
                     {children}

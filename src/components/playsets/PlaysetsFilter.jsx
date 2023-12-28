@@ -10,9 +10,11 @@ import Pill from "../Pills.jsx";
 
 import { MdOutlineWbIridescent } from "react-icons/md";
 import { VscVerifiedFilled } from "react-icons/vsc";
-import { BsFillCheckSquareFill, BsX } from "react-icons/bs";
+import { BsCassetteFill, BsFillCheckSquareFill, BsX } from "react-icons/bs";
 import { GiFireBomb } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
+import { IoBookmark, IoHome, IoPersonAddSharp, IoPersonCircleOutline } from "react-icons/io5";
+import { BiArrowBack } from "react-icons/bi";
 
 
 const TABS = [
@@ -29,6 +31,32 @@ const TABS = [
         icon: <GiFireBomb className="text-base" />,
     },
     {
+        name: "My Stuff",
+        value: "my-stuff",
+        color: "#eb34c0",
+        icon: <IoHome className="text-sm mr-0.5" />,
+        subTags: [
+            {
+                name: "Bookmarks",
+                value: "my-bookmarks",
+                color: "#eb34c0",
+                icon: <IoBookmark className="text-sm mr-0.5" />,
+            },
+            {
+                name: "My Playsets",
+                value: "my-playsets",
+                color: "#eb34c0",
+                icon: <BsCassetteFill className="text-sm mr-0.5" />,
+            },
+            {
+                name: "Following",
+                value: "my-following",
+                color: "#eb34c0",
+                icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
+            }
+        ]
+    },
+    {
         name: "Verified",
         value: "verified",
         color: "#1c96e8",
@@ -40,6 +68,33 @@ const TABS = [
         color: "#000000",
         icon: <BsFillCheckSquareFill className="text-sm mr-0.5" />,
     },
+    {
+        name: "Profiles",
+        value: "profiles",
+        color: "#ff0000",
+        icon: <IoPersonCircleOutline className="text-base mr-0.5" />,
+        subTags: [
+            {
+                name: "Hot",
+                value: "profiles-hot",
+                color: "#ff0000",
+                icon: <GiFireBomb className="text-base" />,
+            },
+            {
+                name: "New",
+                value: "profiles-new",
+                color: "#ff0000",
+                icon: <MdOutlineWbIridescent className="text-base" />,
+            },
+            {
+                name: "Following",
+                value: "profiles-following",
+                color: "#ff0000",
+                icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
+            }
+        ]
+    },
+
 ]
 
 
@@ -50,7 +105,8 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
 
     const [playsets, setplaysets] = useState([]);
 
-    const [activeTab, setActiveTab] = useState(TABS[0]?.value)
+    const [activeTab, setActiveTab] = useState(TABS[0])
+    const [activeSubTab, setActiveSubTab] = useState("")
 
     const [search, setSearch] = useState(null);
 
@@ -82,20 +138,14 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
 
     return (
         <div className="w-full max-w-3xl flex flex-col gap-4 p-4 items-center pb-64">
-            <div className={"flex justify-between items-center w-full relative transition-all "}>
-                <div className={"flex items-center w-full justify-start overflow-x-scroll scrollbar-hide gap-2 -ml-4 pl-4 pr-2 " + + (search === null ? " opacity-100 " : " opacity-0 ")}>
-                    {TABS.map(tab => {
-                        return (
-                            <Pill style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} onClick={() => setActiveTab(tab?.value)} Icon={tab?.icon} textColor={tab?.color} border={activeTab === tab?.value} borderColor={activeTab === tab?.value ? null : "transparent"} >
-                                {tab.name}
-                            </Pill>
-                        )
-                    })}
+            <div className={"flex justify-between items-center w-full relative transition-all h-8 "}>
 
-                </div>
-                <button onClick={() => setSearch("")} style={{boxShadow: "-13px 4px 8px 6px #ffffff", WebkitBoxShadow: "-13px 4px 8px 6px #FFFFFF"}} className=" clickable bg-base-100 w-12 h-8 flex items-center justify-center">
+
+                <SubTabsComponent activeTab={activeTab} setActiveTab={setActiveTab} activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} search={search} hidden={!activeTab?.subTags} />
+                <TabsComponent activeTab={activeTab} setActiveTab={setActiveTab} activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} search={search} hidden={activeTab?.subTags} />
+                {!activeTab?.subTags && <button onClick={() => setSearch("")} style={{ boxShadow: "-13px 4px 8px 6px #ffffff", WebkitBoxShadow: "-13px 4px 8px 6px #FFFFFF" }} className=" clickable bg-base-100 w-12 h-8 flex items-center justify-center">
                     <FaSearch className="text-2xl" />
-                </button>
+                </button>}
 
 
                 <div className={"transition-all absolute inset-0 z-20 w-full " + (search === null ? " hidden " : " flex justify-end items-center ")}>
@@ -103,10 +153,10 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
                         if (search === "") setSearch(null)
                     }} ref={searchInputRef} autoFocus={true} type="text" value={search} onChange={(e) => setSearch(e?.target?.value || "")} className={" input input-sm text-base  transition-all pr-8 " + (search === null ? " w-[0%] " : " w-[100%] ")} placeholder="Search" />
                 </div>
-                
+
                 {search !== null && <>
-                <div className="absolute top-0 bottom-0 -left-4 bg-base-100 p-4"/>
-                <BsX onClick={() => setSearch(null)} className="absolute bg-base-100 right-2 text-2xl z-30" />
+                    <div className="absolute top-0 bottom-0 -left-4 bg-base-100 p-4" />
+                    <BsX onClick={() => setSearch(null)} className="absolute bg-base-100 right-2 text-2xl z-30" />
                 </>}
             </div>
 
@@ -123,4 +173,54 @@ export default function PlaysetsFilter({ onClick = () => { } }) {
             })}
         </div>
     );
+}
+
+
+
+
+function TabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubTab, search, hidden }) {
+    return (
+        <div className={"animate__animated animate__fadeIn animate__faster items-center w-full justify-start overflow-x-scroll scrollbar-hide gap-2 -ml-4 pl-4 pr-2 " + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
+            {TABS.map(tab => {
+                return (
+                    <Pill style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} onClick={() => {
+                        if (tab?.subTags) setActiveSubTab(tab?.subTags[0]);
+                        setActiveTab(tab)
+                    }} Icon={tab?.icon} textColor={tab?.color} border={activeTab?.value === tab?.value} borderColor={activeTab?.value === tab?.value ? null : "transparent"} >
+                        {tab.name}
+                    </Pill>
+                )
+            })}
+
+        </div>
+    )
+}
+
+
+function SubTabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubTab, search, hidden }) {
+
+    function handleBack() {
+        setActiveTab(TABS[0])
+        setActiveSubTab("")
+    }
+    return (
+        <div className={"animate__animated animate__fadeIn animate__faster justify-start items-center gap-2 w-full "  + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
+            <BiArrowBack onClick={() => handleBack()} className="text-xl" />
+            <Pill onClick={() => handleBack()} style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} Icon={activeTab?.icon} textColor={activeTab?.color} border  >
+            </Pill>
+            <div id="divider-2" className="  h-6 flex items-center justify-center -mr-2">
+                <div className=" h-6 px-[1px] rounded-full bg-neutral/25" />
+            </div>
+            <div className={"flex items-center w-full justify-start overflow-x-scroll scrollbar-hide gap-2 -mr-4 pr-4 pl-2 "}>
+                {activeTab?.subTags?.map(tab => {
+                    return (
+                        <Pill style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} onClick={() => setActiveSubTab(tab)} Icon={tab?.icon} textColor={tab?.color} border={activeSubTab?.value === tab?.value} borderColor={activeSubTab?.value === tab?.value ? null : "transparent"} >
+                            {tab.name}
+                        </Pill>
+                    )
+                })}
+
+            </div>
+        </div>
+    )
 }
