@@ -26,7 +26,6 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.11.0",
-    "react-lazy-load-image-component": "^1.6.0",
     "react-nice-avatar-vite-prod-fork": "^1.6.0",
     "react-qrcode": "^0.3.6",
     "react-router-dom": "^6.8.1"

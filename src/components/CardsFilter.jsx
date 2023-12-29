@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getAllCards, getCardColorFromColorName, getCardFromId, CARD_COLOR_ORDER, pairUpCards, CARD_COLOR_FILTER_OPTIONS, sortCards } from '../helpers/cards';
 import { CardFront } from './Card';
 import LinkedCardsContainer from './LinkedCardsContainer';
@@ -60,11 +60,18 @@ const SEARCH_PILLS = [
 
 ]
 
-export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () => { }, onClick = () => { }, searchContainerClassName = "", paired = false, showDifficulty = false, filter = {visibleCards: undefined, hiddenCards: undefined} }) {
+export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () => { }, onClick = () => { }, searchContainerClassName = "", paired = false, showDifficulty = false, filter = { visibleCards: undefined, hiddenCards: undefined } }) {
 
+    const sortAllCards = useCallback(() => {
+        let all = getAllCards();
 
+        if (filter?.visibleCards) all = all.filter(card => filter?.visibleCards?.includes(card?.id)); // only shows cards that are specified in prop "filter.visibleCards"
+        if (filter?.hiddenCards) all = all.filter(card => !filter?.hiddenCards?.includes(card?.id));
 
-    const allCards = sortAllCards();
+        return sortCards(all, true);
+    }, [])
+
+    const allCards = useMemo(() => sortAllCards(), []);
 
     const [visibleCards, setVisibleCards] = useState(allCards || []);
     const [searchFocused, setSearchFocused] = useState(false);
@@ -74,42 +81,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
 
-
-
-
-    useEffect(() => {
-        if (defaultSearch) filterVisibleCards(defaultSearch)
-        if (defaultSearch && paired) filterVisiblePairedCards(defaultSearch);
-
-    }, [])
-
-
-
-    function handleSearchUpdate(value) {
-        filterVisibleCards(value)
-        if (paired) filterVisiblePairedCards(value);
-
-        setSearch(value);
-        onSearchUpdate(value)
-    }
-
-
-
-
-
-
-    // functions
-    function sortAllCards() {
-        let all = getAllCards();
-
-        if (filter?.visibleCards) all = all.filter(card => filter?.visibleCards?.includes(card?.id)); // only shows cards that are specified in prop "filter.visibleCards"
-        if (filter?.hiddenCards) all = all.filter(card => !filter?.hiddenCards?.includes(card?.id));
-
-       return sortCards(all, true);
-    }
-
-
-    function filterVisibleCards(query) {
+    const filterVisibleCards = useCallback((query) => {
         if (query === "") return setVisibleCards(allCards)
         const q = query.toLowerCase()
         var cards = allCards.filter(card => {
@@ -135,14 +107,14 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
         // prioritise names starting with e
-        cards = cards.sort((x, y) => { return x.name.toLowerCase().startsWith(q) ? -1 : y.name.toLowerCase().startsWith(q) ? 1 : 0; });
+        cards.sort((x, y) => { return x.name.toLowerCase().startsWith(q) ? -1 : y.name.toLowerCase().startsWith(q) ? 1 : 0; });
 
 
 
         setVisibleCards(cards);
-    }
+    }, [allCards])
 
-    function filterVisiblePairedCards(query) {
+    const filterVisiblePairedCards = useCallback((query) => {
         let pairedCards = pairUpCards(allCards)
         if (query === "") return setPairedCards(pairedCards)
         const q = query.toLowerCase()
@@ -169,10 +141,42 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
         setPairedCards(cardPairs);
-    }
+    }, [allCards])
 
 
     
+
+    const handleSearchUpdate = useCallback((value) => {
+        filterVisibleCards(value)
+        if (paired) filterVisiblePairedCards(value);
+
+        setSearch(value);
+        onSearchUpdate(value)
+    }, [paired])
+
+    useEffect(() => {
+        if (defaultSearch) filterVisibleCards(defaultSearch)
+        if (defaultSearch && paired) filterVisiblePairedCards(defaultSearch);
+
+    }, [])
+
+
+
+
+
+
+
+
+
+
+    // functions
+
+
+
+
+
+
+
 
 
     return (
@@ -186,6 +190,9 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
                 </div>
 
             </div>
+
+
+
             <div className='w-full flex flex-wrap items-center justify-center gap-2 scrollbar-hide'>
                 {pairedCards?.[0] ?
                     pairedCards.map(cardPair => (
@@ -197,7 +204,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
                     :
                     visibleCards?.map(card => (
                         <div key={card?.id} className='flex flex-col gap-1 items-center'>
-                            <div  onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
+                            <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
                             {showDifficulty &&
                                 <>
                                     <div className='hidden md:block'>

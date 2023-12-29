@@ -2,6 +2,7 @@ import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 import { useEffect, useState, useCallback } from "react";
 import { BsPencilFill, BsStars } from "react-icons/bs";
+import { FaTrash } from "react-icons/fa";
 
 
 export default function MegaButton({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip, fill = false, onClick = () => { }, title }) {
@@ -40,7 +41,7 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 
     return (
         <MegaButton title="Bookmark" Icon={marked ? <IoBookmark /> : <IoBookmarkOutline />} fill textColor={"#72c4ff"} onClick={() => handleChange()}>
-            <div className="hidden md:block">Bookmark{marked ? "ed" : ""}</div>
+            <div className="hidden sm:block">Bookmark{marked ? "ed" : ""}</div>
         </MegaButton>
     )
 }
@@ -50,7 +51,7 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 export function RemixButton({ onClick = () => { } }) {
     return (
         <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#fad623" onClick={() => onClick()}>
-            <div className="hidden md:block">Remix</div>
+            <div className="hidden sm:block">Remix</div>
         </MegaButton>
     )
 }
@@ -59,7 +60,16 @@ export function RemixButton({ onClick = () => { } }) {
 export function EditPlaysetButton({ onClick = () => { } }) {
     return (
         <MegaButton title="Edit" Icon={<BsPencilFill className="text-lg" />} fill textColor="#7e22ce" onClick={() => onClick()}>
-            <div className="hidden md:block">Edit</div>
+            <div className="hidden sm:block">Edit</div>
+        </MegaButton>
+    )
+}
+
+
+export function DeletePlaysetButton({ onClick = () => { } }) {
+    return (
+        <MegaButton title="Delete" Icon={<FaTrash className="text-lg" />} fill textColor={"#fc021b"} onClick={() => onClick()}>
+            <div className="hidden sm:block">Delete</div>
         </MegaButton>
     )
 }

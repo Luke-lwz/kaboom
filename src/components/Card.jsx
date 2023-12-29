@@ -13,8 +13,6 @@ import { IoColorPaletteSharp } from "react-icons/io5"
 import { TbPlayCard } from "react-icons/tb"
 
 
-import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-component';
-
 
 
 function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal, nomotion = true }) {

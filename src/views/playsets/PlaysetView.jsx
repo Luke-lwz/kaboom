@@ -8,8 +8,7 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
 //icons
 import { BsCassetteFill } from "react-icons/bs"
-import MegaButton, { BookmarkMegaButton, EditPlaysetButton, RemixButton } from "../../components/MegaButtons";
-import { FaTrash } from "react-icons/fa";
+import { BookmarkMegaButton, DeletePlaysetButton, EditPlaysetButton, RemixButton } from "../../components/MegaButtons";
 
 function PlaysetView({ }) {
 
@@ -58,11 +57,11 @@ function PlaysetView({ }) {
 
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
                     {playsetMaximized && <PlaysetDisplay quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
-                    <div className="w-full flex items-center gap-2 mt-2">
+                    <div className="w-full grid grid-cols-2 gap-2 mt-2">
                         <RemixButton />
                         <BookmarkMegaButton />
                         <EditPlaysetButton />
-                        <MegaButton Icon={<FaTrash />} textColor={"#fc021b"}/>
+                        <DeletePlaysetButton />
                     </div>
                     {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
                         {playset?.description}

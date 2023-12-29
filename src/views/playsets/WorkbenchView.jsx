@@ -391,8 +391,8 @@ export default function WorkbenchView(props) {
 
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide gap-4 flex flex-col items-center">
-                <div className="w-full h-fit">
-                    <PlaysetDisplay key={playset?.name} playset={playset} forceOpen />
+                <div className="w-full h-fit -mb-8">
+                    <PlaysetDisplay key={playset?.name} playset={playset} forceOpen quickActions={null} />
 
                 </div>
                 <div className="flex flex-col w-full items-center gap-2">
@@ -497,7 +497,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
     return (
         <div className="w-full flex flex-col items-center gap-4">
-            <div className="font-extrabold w-full text-lg mt-4 text-center border-b border-neutral/30 pb-2 relative">
+            <div className="font-extrabold w-full text-lg mt-4 text-center border-b-2 border-neutral/30 pb-2 relative">
                 <p>Simulate Playset</p>
                 <div className=" absolute top-0 right-0 bottom-0 flex items-center">
                     <button onClick={() => reload()} className={"clickable rounded-full w-9 h-9 flex items-center justify-center " + (reloading ? " animate-spin " : " animate-none ")}><TfiReload style={{ transform: "scaleY(-1)" }} size={20} /></button>

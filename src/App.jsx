@@ -43,11 +43,12 @@ import PlaysetView from './views/playsets/PlaysetView';
 import ProfileView from './views/ProfileView';
 import PlaysetsView from './views/playsets/PlaysetsView';
 import CookieConsent from 'react-cookie-consent';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
 
-
+const queryClient = new QueryClient()
 
 function App() {
 
@@ -169,109 +170,113 @@ function App() {
 
 
   return (
-    <div className="App absolute inset-0 overflow-hidden scrollbar-hide">
-      <Toaster
-        position="top-left"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
 
-        containerStyle={{}}
-        toastOptions={{
+    <QueryClientProvider client={queryClient}>
+      <div className="App absolute inset-0 overflow-hidden scrollbar-hide">
+        <Toaster
+          position="top-left"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
 
-          // Define default options
-          duration: 5000,
-          style: {
-            background: '#ffffff',
-            color: '#000000',
-          },
+          containerStyle={{}}
+          toastOptions={{
 
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
+            // Define default options
+            duration: 5000,
+            style: {
+              background: '#ffffff',
+              color: '#000000',
             },
-          },
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              theme: {
+                primary: 'green',
+                secondary: 'black',
+              },
+            },
 
 
-        }}>
-        {(t) => (
-          <ToastBar toast={t}>
-            {({ icon, message }) => (
-              <div className='w-full max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
-                {icon}
-                {message}
-              </div>
-            )}
-          </ToastBar>
-        )}
-      </Toaster>
-
-      <PageContextProvider value={{ user, setUser, getUser, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
-        {pageCover && <PageCover {...pageCover} />}
-        {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
-        {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
-        {menu && <Menu onCancel={menuHide}>{menu}</Menu>}
-
-        <Routes>
-          <Route path="/" element={<HomeView />} />
-          <Route path="/lobby/:code" element={<LobbyView />} />
-          <Route path="/game/:code" element={<GameView />} />
-          <Route path="/rejoin/:code" element={<RejoinView />} />
-
-
-          <Route path="/cards" element={<CardsView />} />
-
-
-          <Route path="/privacy" element={<Privacy />} />
-
-
-          <Route path="/playsets" element={<PlaysetsView/>} />
-          <Route path="/playsets/:id" element={<PlaysetView />} />
-          <Route path="/workbench" element={<WorkbenchView />} />
-
-          <Route path="/profile" element={<ProfileView />} />
-          <Route path="/profile/:id" element={<ProfileView />} />
-
-
-
-
-          <Route path="/components/cards" element={<div className='w-full h-full overflow-y-scroll scrollbar-hide'><CardsFilter /></div>} />
-
-          <Route path="/legacy/cards" element={<LegacyCardsView />} />
-          <Route path="/legacy/cards/:id" element={<LegacyCardsView />} />
-
-
-          <Route path="/defaultsite" element={<RedirectToStart />} />
-
-
-
-
-
-
-
-        </Routes>
-        <CookieConsent
-                location="bottom"
-                buttonText="Accept"
-                cookieName="consent-cookie"
-                style={{ width: "fit-content", margin: "0.5rem", border: "2px solid #000000", color: "#000", background: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem"  }}
-                className="rounded-lg"
-                buttonClasses="btn btn-sm btn-secondary text-title rounded"
-                buttonStyle={{backgroundColor: "#000000", color: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem", margin: "0.5rem"  }}
-            >
-                <div className="flex flex-col pt-0">
-                    <p>🍪 We use Cookies & Localstorage to persist game data</p>
-                    <p className="text-xs">We won't share anything with 3rd parties</p>
+          }}>
+          {(t) => (
+            <ToastBar toast={t}>
+              {({ icon, message }) => (
+                <div className='w-full max-w-md flex items-center ' onClick={() => toast.dismiss(t.id)}>
+                  {icon}
+                  {message}
                 </div>
-                
-            </CookieConsent>
-      </PageContextProvider>
-      {isBeta && <BetaBanner />}
-      
-    </div>
+              )}
+            </ToastBar>
+          )}
+        </Toaster>
+
+
+        <PageContextProvider value={{ user, setUser, getUser, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
+          {pageCover && <PageCover {...pageCover} />}
+          {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
+          {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
+          {menu && <Menu onCancel={menuHide}>{menu}</Menu>}
+
+          <Routes>
+            <Route path="/" element={<HomeView />} />
+            <Route path="/lobby/:code" element={<LobbyView />} />
+            <Route path="/game/:code" element={<GameView />} />
+            <Route path="/rejoin/:code" element={<RejoinView />} />
+
+
+            <Route path="/cards" element={<CardsView />} />
+
+
+            <Route path="/privacy" element={<Privacy />} />
+
+
+            <Route path="/playsets" element={<PlaysetsView />} />
+            <Route path="/playsets/:id" element={<PlaysetView />} />
+            <Route path="/workbench" element={<WorkbenchView />} />
+
+            <Route path="/profile" element={<ProfileView />} />
+            <Route path="/profile/:id" element={<ProfileView />} />
+
+
+
+
+            <Route path="/components/cards" element={<div className='w-full h-full overflow-y-scroll scrollbar-hide'><CardsFilter /></div>} />
+
+            <Route path="/legacy/cards" element={<LegacyCardsView />} />
+            <Route path="/legacy/cards/:id" element={<LegacyCardsView />} />
+
+
+            <Route path="/defaultsite" element={<RedirectToStart />} />
+
+
+
+
+
+
+
+          </Routes>
+          <CookieConsent
+            location="bottom"
+            buttonText="Accept"
+            cookieName="consent-cookie"
+            style={{ width: "fit-content", margin: "0.5rem", border: "2px solid #000000", color: "#000", background: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem" }}
+            className="rounded-lg"
+            buttonClasses="btn btn-sm btn-secondary text-title rounded"
+            buttonStyle={{ backgroundColor: "#000000", color: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem", margin: "0.5rem" }}
+          >
+            <div className="flex flex-col pt-0">
+              <p>🍪 We use Cookies & Localstorage to persist game data</p>
+              <p className="text-xs">We won't share anything with 3rd parties</p>
+            </div>
+
+          </CookieConsent>
+        </PageContextProvider>
+        {isBeta && <BetaBanner />}
+
+      </div>
+    </QueryClientProvider>
   )
 }
 
