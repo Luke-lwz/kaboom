@@ -4,7 +4,8 @@ import { CardFront } from './Card';
 import LinkedCardsContainer from './LinkedCardsContainer';
 import { DifficultyPill } from './Pills';
 import { avgFromCards } from '../helpers/difficulty';
-
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import { VariableSizeList as List } from 'react-window';
 
 const SEARCH_PILLS = [
     {
@@ -60,7 +61,9 @@ const SEARCH_PILLS = [
 
 ]
 
-export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () => { }, onClick = () => { }, searchContainerClassName = "", paired = false, showDifficulty = false, filter = { visibleCards: undefined, hiddenCards: undefined } }) {
+export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () => { }, onClick = () => { }, searchContainerClassName = "", paired = false, virtualized = false, showDifficulty = false, filter = { visibleCards: undefined, hiddenCards: undefined } }) {
+
+    const { height, width } = useWindowDimensions();
 
     const sortAllCards = useCallback(() => {
         let all = getAllCards();
@@ -144,7 +147,7 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
     }, [allCards])
 
 
-    
+
 
     const handleSearchUpdate = useCallback((value) => {
         filterVisibleCards(value)
@@ -165,7 +168,27 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
 
-
+    const rows = useMemo(() => {
+        const w = width - 32;
+        const cards = paired && pairedCards[0] ? pairedCards : visibleCards;
+        const gap = 8;
+        const cardWidth = width < 768 ? 64 : 128;
+        const cardsPerRow = Math.floor(w / (cardWidth + gap));
+        const rows = [];
+        let row = [];
+        let i = 0;
+        for (const card of cards) {
+            row.push(card);
+            i++;
+            if (i >= cardsPerRow) {
+                rows.push(row);
+                row = [];
+                i = 0;
+            }
+        }
+        if (row.length > 0) rows.push(row);
+        return rows;
+    }, [pairedCards, visibleCards, width, paired])
 
 
 
@@ -174,7 +197,34 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
 
+    const Row = useCallback(({ index, style }) => {
 
+        const row = rows[index];
+        return (
+            <div className='flex flex-row gap-2 justify-center' style={style}>
+                {row?.map(card => (paired ?
+                    <div className='flex flex-col gap-1' key={card?.[0]?.id}>
+                        <LinkedCardsContainer cards={card} onClick={() => onClick(card[0])} />
+                        {showDifficulty && <DifficultyPill difficulty={avgFromCards(card)} />}
+                    </div>
+                    :
+                    <div key={card?.id} className='flex flex-col gap-1 items-center'>
+                        <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
+                        {showDifficulty &&
+                            <>
+                                <div className='hidden md:block'>
+                                    <DifficultyPill difficulty={card?.difficulty} />
+                                </div>
+                                <div className='block md:hidden'>
+                                    <DifficultyPill minimal difficulty={card?.difficulty} />
+                                </div>
+                            </>
+                        }
+                    </div>
+                ))}
+            </div>
+        )
+    }, [rows, onClick, showDifficulty, paired]);
 
 
 
@@ -194,30 +244,40 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
 
 
             <div className='w-full flex flex-wrap items-center justify-center gap-2 scrollbar-hide'>
-                {pairedCards?.[0] ?
-                    pairedCards.map(cardPair => (
-                        <div className='flex flex-col gap-1' key={cardPair?.[0]?.id}>
-                            <LinkedCardsContainer cards={cardPair} onClick={() => onClick(cardPair[0])} />
-                            {showDifficulty && <DifficultyPill difficulty={avgFromCards(cardPair)} />}
-                        </div>
-                    ))
+                {virtualized ? <List
+                    className='scrollbar-hide overflow-x-hidden'
+                    height={height}
+                    itemCount={rows.length}
+                    itemSize={width < 768 ? () => 96 + 8 : () => 192 + 8}
+                    width={width}
+                >
+                    {Row}
+                </List>
                     :
-                    visibleCards?.map(card => (
-                        <div key={card?.id} className='flex flex-col gap-1 items-center'>
-                            <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
-                            {showDifficulty &&
-                                <>
-                                    <div className='hidden md:block'>
-                                        <DifficultyPill difficulty={card?.difficulty} />
-                                    </div>
-                                    <div className='block md:hidden'>
-                                        <DifficultyPill minimal difficulty={card?.difficulty} />
-                                    </div>
-                                </>
-                            }
-                        </div>
-                    ))
-                }
+                    (pairedCards?.[0] ?
+                        pairedCards.map(cardPair => (
+                            <div className='flex flex-col gap-1' key={cardPair?.[0]?.id}>
+                                <LinkedCardsContainer cards={cardPair} onClick={() => onClick(cardPair[0])} />
+                                {showDifficulty && <DifficultyPill difficulty={avgFromCards(cardPair)} />}
+                            </div>
+                        ))
+                        :
+                        visibleCards?.map(card => (
+                            <div key={card?.id} className='flex flex-col gap-1 items-center'>
+                                <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
+                                {showDifficulty &&
+                                    <>
+                                        <div className='hidden md:block'>
+                                            <DifficultyPill difficulty={card?.difficulty} />
+                                        </div>
+                                        <div className='block md:hidden'>
+                                            <DifficultyPill minimal difficulty={card?.difficulty} />
+                                        </div>
+                                    </>
+                                }
+                            </div>
+                        ))
+                    )}
 
             </div>
         </div>

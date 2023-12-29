@@ -17,6 +17,7 @@ import { toast } from 'react-hot-toast';
 import { useSearchParams } from 'react-router-dom'
 import { TitleBar } from './playsets/WorkbenchView';
 import CardsFilter from '../components/CardsFilter';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 
 
@@ -28,6 +29,8 @@ function CardsView({ }) {
     const { setMenu } = useContext(PageContext)
 
     let [searchParams, setSearchParams] = useSearchParams();
+
+    const {width, height} = useWindowDimensions();
 
 
 
@@ -50,7 +53,7 @@ function CardsView({ }) {
                 </>
             } />
             <div className='-mt-2 w-full p-2 pt-0'>
-                <CardsFilter onSearchUpdate={(search) => setSearchParams("s=" + search)} defaultSearch={searchParams.get("s")} onClick={(card) => setMenu(
+                <CardsFilter virtualized={width < 768} onSearchUpdate={(search) => setSearchParams("s=" + search)} defaultSearch={searchParams.get("s")} onClick={(card) => setMenu(
                     <CardInfoMenu card={card} color={card?.color}  />
                 )} />
             </div>

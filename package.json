@@ -28,7 +28,8 @@
     "react-icons": "^4.11.0",
     "react-nice-avatar-vite-prod-fork": "^1.6.0",
     "react-qrcode": "^0.3.6",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "react-window": "^1.8.10"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
