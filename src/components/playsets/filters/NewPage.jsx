@@ -12,10 +12,11 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
     const { data: playsets, error, isLoading, isError } = query
 
     async function getPlaysets() {
+        
+
         const { data, error } = await supabase
             .from('playsets')
             .select(`*,playsets_metadata(*)`)
-            .or("playsets_metadata.is.null,playsets_metadata->hidden.neq.true")
             .order('created_at', { ascending: false })
         if (data) {
             console.log(data);
