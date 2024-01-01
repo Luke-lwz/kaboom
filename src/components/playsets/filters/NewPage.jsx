@@ -3,16 +3,17 @@ import supabase from "../../../supabase";
 import { useEffect } from "react";
 import { maximizePlayset } from "../../../helpers/playsets";
 
+import PlaysetDisplay from "../PlaysetDisplay";
+
 
 export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
 
     // useQuery
-    const query = useQuery({ queryKey: ['todos'], queryFn: getPlaysets })
+    const query = useQuery({ queryKey: ['playsets-new'], queryFn: getPlaysets })
     const { data: playsets, error, isLoading, isError } = query
 
-    async function getPlaysets() {
-        
+    async function getPlaysets(props) {
 
         const { data, error } = await supabase
             .from('playsets')
@@ -33,7 +34,9 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
     return (
         <div className="w-full flex flex-col items-center justify-start">
-
+            {playsets?.map(playset => (
+                <PlaysetDisplay playset={playset} onClick={() => onPlaysetClick(playset)} />
+            ))}
         </div>
     )
 }

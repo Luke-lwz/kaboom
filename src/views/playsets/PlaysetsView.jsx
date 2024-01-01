@@ -21,7 +21,7 @@ export default function PlaysetsView({ onClick = () => { } }) {
                     <h1 onClick={() => smoothNavigate("/playsets")}>Playsets</h1>
                 </>
             } />
-            <PlaysetsFilter onClick={(id) => smoothNavigate(`/playsets/${id}`)} />
+            <PlaysetsFilter onPlaysetClick={(playset) => smoothNavigate(`/playsets/${playset.id}`)} />
         </div>
     );
 }

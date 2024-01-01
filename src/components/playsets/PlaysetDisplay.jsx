@@ -86,7 +86,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     }
 
     return (
-        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-48 " : showClosedPills ? " h-32 " : " h-32 ")}>
+        <div className={"w-full transition-all overflow-y-hidden scrollbar-hide " + (open ? " h-56 " : showClosedPills ? " h-28 " : " h-28 ")}>
             <div className={"bg-black w-full relative h-14 overflow-hidden rounded-xl transition-all grow " + (disabled ? " grayscale opacity-60 " : " grayscale-0 opacity-100 ")}>
                 <div style={{ background: `linear-gradient(65deg, #00000000, ${playset?.color || "#c342ff"}63, ${playset?.color || "#c342ff"}ab)` }} className="playset-gradient w-full absolute inset-0 opacity-50" />
                 <div className="h-14 flex items-center absolute top-0 left-0 right-0 z-10">
@@ -144,7 +144,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
             </div>}
 
 
-            {quickActions && <div className="flex items-center gap-2 py-2 px-4 -mt-1 justify-between w-full text-lg">
+            {quickActions && <div className="flex items-center gap-2 py-2 px-4 justify-between w-full text-lg">
                 {quickActions?.vote && <VoteComponent upvote={null} countWithoutMyVote={Math.floor(Math.random() * 10) - 1} />}
                 {quickActions?.remix && <BsStars className="clickable hover:scale-105 hover:text-yellow-400 hover:rotate-[-365deg]" title="Remix" />}
                 {quickActions?.open && <a target="_blank" href={`/playsets/${playset?.id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}

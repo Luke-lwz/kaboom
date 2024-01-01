@@ -72,18 +72,6 @@ const TABS = [
         ]
     },
     {
-        name: "Verified",
-        value: "verified",
-        color: "#1c96e8",
-        icon: <VscVerifiedFilled className="text-base" />,
-    },
-    {
-        name: "Official",
-        value: "official",
-        color: "#000000",
-        icon: <BsFillCheckSquareFill className="text-sm mr-0.5" />,
-    },
-    {
         name: "Profiles",
         value: "profiles",
         color: "#ff0000",

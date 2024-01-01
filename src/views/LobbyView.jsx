@@ -536,7 +536,7 @@ function HostLobby({ me, code }) {
     function showAllPlaysets() {
         setPageCover({
             title: "PLAYSETS",
-            element: <PlaysetsFilter onClick={getPlayset} />,
+            element: <PlaysetsFilter onPlaysetClick={(playset) => getPlayset(playset?.id)} />,
             onClose: () => setPageCover(null)
         })
     }
