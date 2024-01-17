@@ -59,7 +59,7 @@ export function getAllPlaysetsArray() {
 }
 
 
-export async function getPlaysetById(id) {
+export async function getPlaysetById(id, user_id) {
 
     var playset;
     const internalPlaysets = getAllPlaysetsArray();
@@ -71,7 +71,8 @@ export async function getPlaysetById(id) {
 
         let { data: playsetData, error } = await supabase
             .from('playsets')
-            .select("*")
+            .select(`*,playsets_metadata(*),interactions(*)`) // ,user:users_id(*)
+            .eq('interactions.user_id', user_id || "00000000-0000-0000-0000-000000000000")
             .single()
             .limit(1)
             .eq('id', id)

@@ -75,7 +75,7 @@ function LobbyView(props) {
         <div className='flex flex-col justify-start items-center w-full h-full overflow-hidden'>
             <div className='absolute top-3 right-3 p-3 text-3xl' onClick={openQRCode}><HiQrCode /></div>
             <div className='flex flex-col justify-start items-center text-title p-4 w-full'>
-                <h2 className='text-primary text-lg'>KABOOM</h2>
+                <a href='/' className='text-primary text-lg'>KABOOM</a>
                 <h1 className='text-secondary text-4xl skew font-extrabold'>{code}</h1>
             </div>
             <div className='overflow-y-scroll overflow-x-hidden w-full scrollbar-hide flex flex-col items-center' >
