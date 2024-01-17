@@ -21,8 +21,10 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
         const { data, error } = await supabase
             .from('playsets')
-            .select(`*,playsets_metadata(*),interactions(*)`) // ,user:users_id(*)
-            .eq('interactions.user_id', user?.id || "00000000-0000-0000-0000-000000000000")
+            .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`) // ,user:users_id(*)
+            .eq('interaction.user_id', user?.id || "00000000-0000-0000-0000-000000000000")
+            .eq('upvote_count.upvote', true)
+            .eq('downvote_count.upvote', false)
             .order('created_at', { ascending: false })
         if (data) {
             console.log(data);
