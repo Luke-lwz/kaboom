@@ -267,7 +267,7 @@ function App() {
             buttonStyle={{ backgroundColor: "#000000", color: "#fff", fontSize: "13px", borderRadius: "0.5rem", padding: "0.5rem", margin: "0.5rem" }}
           >
             <div className="flex flex-col pt-0">
-              <p>🍪 We use Cookies & Localstorage to persist game data</p>
+              <p>🍪 We use only essential cookies to persist game data</p>
               <p className="text-xs">We won't share anything with 3rd parties</p>
             </div>
 
