@@ -71,7 +71,14 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
         if (filter?.visibleCards) all = all.filter(card => filter?.visibleCards?.includes(card?.id)); // only shows cards that are specified in prop "filter.visibleCards"
         if (filter?.hiddenCards) all = all.filter(card => !filter?.hiddenCards?.includes(card?.id));
 
-        return sortCards(all, true);
+        
+        
+        const _cards = sortCards(all, true);
+        // console.log(JSON.stringify(_cards.map(c => c.id)))
+        return _cards;
+        
+
+
     }, [])
 
     const allCards = useMemo(() => sortAllCards(), []);

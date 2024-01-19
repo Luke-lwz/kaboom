@@ -238,8 +238,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             <h1 className='text-title font-extrabold text-2xl py-4 text-secondary shadow-2xl shadow-base-100 bg-base-200 w-full text-center '>{code}</h1>
             <div className='w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-hide pt-3'>
 
-                <div className='w-full px-4 py-2'>
-                    <PlaysetDisplay noOpen playset={playset} />
+                <div className='w-full px-4 py-2 -mb-4'>
+                    <PlaysetDisplay noOpen playset={playset} quickActions={{vote: true, open: true, bookmark: true, profile: true}} />
                 </div>
 
                 <div className='pt-0 flex flex-col justify-start items-start w-full shrink bg-base-100'>

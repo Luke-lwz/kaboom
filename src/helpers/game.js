@@ -74,26 +74,22 @@ export function generateGame(playerCount) {
                 hostages: 1
             },
         ]
-    } else if (playerCount >= 11) {
+    } else if (playerCount >= 8) {
         game.rounds = [
             {
-                time: 5, // minutes
+                time: 2, // minutes
                 hostages: 2
-            },
-            {
-                time: 4, // minutes
-                hostages: 2
-            },
-            {
-                time: 3, // minutes
-                hostages: 1
             },
             {
                 time: 2, // minutes
                 hostages: 1
             },
             {
-                time: 1, // minutes
+                time: 3, // minutes
+                hostages: 1
+            },
+            {
+                time: 3, // minutes
                 hostages: 1
             },
         ]

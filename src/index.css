@@ -100,6 +100,18 @@ body {
   font-family: Mythoz, Inter, Arial, Helvetica, sans-serif;
 }
 
+.title-shadow-primary {
+  text-shadow: 5px 5px 0px theme("colors.primary");
+}
+
+.title-shadow-secondary {
+  text-shadow: 5px 5px 0px theme("colors.secondary");
+}
+
+.title-shadow-secondary-xs {
+  text-shadow: 2px 2px 0px theme("colors.secondary");
+}
+
 
 .input {
   @apply border-neutral

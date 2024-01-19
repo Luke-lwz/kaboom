@@ -525,14 +525,14 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     async function setupGame() {
         if (game?.current || !players?.current) return; // in case of reload
-        
+
         var gameData = generateGame(players.current.length);
-        
+
         console.log(game_data)
 
         console.log(await getPlaysetById(game_data?.playsetId))
 
-        var { cards, soberCard } = getCardsForPlayset({...game_data, playset: maximizePlayset(await getPlaysetById(game_data?.playsetId))});
+        var { cards, soberCard } = getCardsForPlayset({ ...game_data, playset: maximizePlayset(await getPlaysetById(game_data?.playsetId)) });
 
         console.log(cards)
 
@@ -551,12 +551,30 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         // distribute cards
         appendCard(cards);
+
+
+        // first leader
+        const playersInRoom1 = players?.current?.filter(p => p?.startingRoom === 1);
+        const playersInRoom2 = players?.current?.filter(p => p?.startingRoom === 2);
+
+        const firstLeader1 = playersInRoom1?.[rng(0, playersInRoom1.length - 1)];
+        const firstLeader2 = playersInRoom2?.[rng(0, playersInRoom2.length - 1)];
+
+
+        players.current = players.current.map((p) => {
+            let firstLeader = (p?.id === firstLeader1?.id || p?.id === firstLeader2?.id ? true : false);
+            p.firstLeader = firstLeader
+            return p;
+        })
+
+
         function appendCard(cards) {
             var unappendedPlayers = players?.current?.filter(p => !p.card)
             if (!cards[0]) return; // if no cards are left
 
 
             if (!unappendedPlayers[0]) return buriedCard = cards[0];
+
 
 
             var startingRoom = ((unappendedPlayers.length % 2) + 1);
@@ -1174,7 +1192,10 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     return (
         <>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
+                {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{animationDelay: "1s"}} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
+                    <h2 className='text-title title-shadow-secondary-xs font-extrabold text-neutral text-xl absolute left-0 right-0 bottom-4'>You're first leader</h2>
+                </div>}
+                {card && <Card nomotion={false} remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
 
 

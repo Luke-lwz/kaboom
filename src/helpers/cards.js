@@ -322,12 +322,12 @@ export function getAllCards() {
     ...c,
     color: getCardColorFromColorName(c?.color_name),
   }));
+
   return all;
 }
 
 export function sortCards(cards, pairRB = false) {
   if (!cards?.[0]?.id) return cards;
-  console.log(cards);
   var allSorted = cards.toSorted((a, b) => {
     return a.name === b.name ? 0 : a.name < b.name ? -1 : 1;
   });
