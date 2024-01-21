@@ -631,7 +631,7 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
                 <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 '>
                     {ROUND_TABS.map(tab => (
-                        <SelectTab selected={selectedRoundTab === tab?.value} onClick={() => setSelectedRoundTab(tab?.value)} style={tab?.value === "playset" && selectedRoundTab !== tab?.value ? { backgroundColor: "#c342ff50" } : {}} className={tab?.value === "playset" && selectedRoundTab !== tab?.value ? "animate-pulse" : ""} {...tab}>{tab?.name}</SelectTab>
+                        <SelectTab selected={selectedRoundTab === tab?.value} onClick={() => setSelectedRoundTab(tab?.value)} {...tab}>{tab?.name}</SelectTab>
                     ))}
 
                 </div>
