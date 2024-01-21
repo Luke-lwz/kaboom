@@ -629,16 +629,13 @@ function HostLobby({ me, code }) {
 
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
-                <div className=' flex items-center justify-start overflow-x-scroll scrollbar-hide w-[calc(100%+2rem)] pr-4 -ml-4 pl-4 gap-4'>
-                    {ROUND_TABS.map(tab => {
-                        return (
-                            <Pill style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} onClick={() => {
-                                setSelectedRoundTab(tab?.value)
-                            }} Icon={tab?.icon} textColor={tab?.color} border={selectedRoundTab === tab?.value} borderColor={selectedRoundTab === tab?.value ? null : "transparent"} >
-                                {tab.name} {tab?.subTags && <span className="-mr-2 -ml-1"><IoMdArrowDropdown /></span>}
-                            </Pill>
-                        )
-                    })}
+                <div className=' flex items-center justify-start overflow-x-scroll scrollbar-hide w-full'>
+                    <select onChange={(e) => setSelectedRoundTab(e?.target?.value || ROUND_TABS?.[0]?.value)} className="select select-bordered border-2 border-neutral w-full">
+                        {ROUND_TABS.map(tab => (
+                            <option key={tab.value} value={tab?.value} selected={selectedRoundTab === tab?.value}> {tab.name}</option>
+                        ))}
+
+                    </select>
                 </div>
             </div>
 
