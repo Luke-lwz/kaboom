@@ -130,7 +130,7 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
 
 
                 <SubTabsComponent activeTab={activeTab} setActiveTab={setActiveTab} activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} search={search} hidden={!activeTab?.subTags} />
-                <TabsComponent activeTab={activeTab} setActiveTab={setActiveTab} activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} search={search} hidden={activeTab?.subTags} />
+                <NavTabsComponent activeTab={activeTab} setActiveTab={setActiveTab} activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} search={search} hidden={activeTab?.subTags} />
                 {!activeTab?.subTags && <button onClick={() => setSearch("")} style={{ boxShadow: "-13px 4px 8px 6px #ffffff", WebkitBoxShadow: "-13px 4px 8px 6px #FFFFFF" }} className=" clickable bg-base-100 w-12 h-8 flex items-center justify-center">
                     <FaSearch className="text-2xl" />
                 </button>}
@@ -159,7 +159,7 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
 
 
 
-function TabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubTab, search, hidden }) {
+export function NavTabsComponent({ activeTab, setActiveTab, activeSubTab, setActiveSubTab, search, hidden }) {
     return (
         <div className={"animate__animated animate__fadeIn animate__faster items-center w-full justify-start overflow-x-scroll scrollbar-hide gap-2 -ml-4 pl-4 pr-2 " + (search === null ? " opacity-100 " : " opacity-0 ") + (hidden ? " hidden " : " flex ")}>
             {TABS.map(tab => {

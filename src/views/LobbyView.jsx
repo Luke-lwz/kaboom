@@ -33,6 +33,9 @@ import { PlayerRow } from "../components/PlayerList"
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import Controls from '../components/info/Controls';
 import PlaysetsFilter from '../components/playsets/PlaysetsFilter';
+import { BsCassetteFill, BsGearFill } from 'react-icons/bs';
+import { FaThumbsUp } from 'react-icons/fa';
+import Pill from '../components/Pills';
 
 
 
@@ -220,6 +223,29 @@ function ClientLobby({ me, setMe, code }) {
 }
 
 
+const ROUND_TABS = [
+    {
+        name: "Recommended",
+        value: "recommended",
+        color: "#0019fd",
+        icon: <FaThumbsUp className="text-base" />,
+    },
+    {
+        name: "Custom",
+        value: "custom",
+        color: "#02f771",
+        icon: <BsGearFill className="text-base" />,
+    },
+    {
+        name: "From playset",
+        value: "playset",
+        color: "#c342ff",
+        icon: <BsCassetteFill className="text-base" />,
+    },
+
+
+]
+
 function HostLobby({ me, code }) {
 
     const { redirect, devMode, setPrompt, connectionErrorPrompt, setPageCover } = useContext(PageContext);
@@ -248,6 +274,9 @@ function HostLobby({ me, code }) {
 
     const [playerState, setPlayerState] = useState(players.current);
     const [arePlayersOffline, setArePlayersOffline] = useState(false);
+
+
+    const [selectedRoundTab, setSelectedRoundTab] = useState(ROUND_TABS[0]?.value)
 
 
     useEffect(() => {
@@ -598,10 +627,28 @@ function HostLobby({ me, code }) {
                 <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={playset?.no_bury || playset?.force_bury} />
             </div>
 
+            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
+                <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
+                <div className=' flex items-center justify-start overflow-x-scroll scrollbar-hide w-[calc(100%+2rem)] pr-4 -ml-4 pl-4 gap-4'>
+                    {ROUND_TABS.map(tab => {
+                        return (
+                            <Pill style={{ fontSize: "1rem", height: "1.8rem", paddingLeft: "1rem", paddingRight: "1rem" }} onClick={() => {
+                                setSelectedRoundTab(tab?.value)
+                            }} Icon={tab?.icon} textColor={tab?.color} border={selectedRoundTab === tab?.value} borderColor={selectedRoundTab === tab?.value ? null : "transparent"} >
+                                {tab.name} {tab?.subTags && <span className="-mr-2 -ml-1"><IoMdArrowDropdown /></span>}
+                            </Pill>
+                        )
+                    })}
+                </div>
+            </div>
+
             <LobbyFooter />
         </div>
     )
 }
+
+
+
 
 
 function Lobby({ me, players = [], amHost, kickPlayer, arePlayersOffline }) { // playersUpdated is a work around to update players which are really a state
