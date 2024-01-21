@@ -33,7 +33,7 @@ import { PlayerRow } from "../components/PlayerList"
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import Controls from '../components/info/Controls';
 import PlaysetsFilter from '../components/playsets/PlaysetsFilter';
-import { BsCassetteFill, BsGearFill } from 'react-icons/bs';
+import { BsCassetteFill, BsGearFill, BsPlus } from 'react-icons/bs';
 import { FaThumbsUp } from 'react-icons/fa';
 import Pill from '../components/Pills';
 
@@ -629,18 +629,37 @@ function HostLobby({ me, code }) {
 
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
-                <div className=' flex items-center justify-start overflow-x-scroll scrollbar-hide w-full'>
-                    <select onChange={(e) => setSelectedRoundTab(e?.target?.value || ROUND_TABS?.[0]?.value)} className="select select-bordered border-2 border-neutral w-full">
-                        {ROUND_TABS.map(tab => (
-                            <option key={tab.value} value={tab?.value} selected={selectedRoundTab === tab?.value}> {tab.name}</option>
-                        ))}
+                <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 '>
+                {ROUND_TABS.map(tab => (
+                        <SelectTab selected={selectedRoundTab === tab?.value} onClick={() => setSelectedRoundTab(tab?.value)} style={tab?.value === "playset" ? {backgroundColor: "#c342ff50"}: {}} className={tab?.value === "playset" && selectedRoundTab !== tab?.value ? "animate-pulse": ""} {...tab}>{tab?.name}</SelectTab>
+                    ))}
 
-                    </select>
+                </div>
+                <div className='w-full border border-neutral/25 rounded-xl mt-2'>
+                    <div className='p-3 text-secondary font-bold text-sm flex gap-1 w-full border-t border-neutral/25 mt-4 justify-start items-center'>
+                        <BsPlus size={24}/> Round
+                    </div>
                 </div>
             </div>
 
             <LobbyFooter />
         </div>
+    )
+
+
+
+
+}
+
+
+
+
+function SelectTab({className, style, selected, children, color, onClick = () => {}}) {
+
+
+    return (
+        <div onClick={onClick} style={{backgroundColor: (!selected ? "#00000010" : color + "20"), borderColor: color, ...style}} className={'w-full text-xs font-bold rounded-full h-10 flex items-center justify-center lg:text-base transition-all ' + (selected ? " border-2 " : "") + className}  >{children}</div>
+        
     )
 }
 
