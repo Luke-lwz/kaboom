@@ -658,35 +658,19 @@ function HostLobby({ me, code }) {
                             <span className='text-base-content pr-1'>Round</span><span>1</span>
                         </TableCell>
                         <TableCell>
-                            <span className='text-base-content'>5 <span className='text-neutral/25'>min</span></span>
+                            <span className='text-base-content pr-1'>3 min</span>
                         </TableCell>
                         <TableCell>
-                            <span className='text-base-content'>3 </span>
+                            <span className='text-base-content' >3 </span>
                         </TableCell>
                     </>
-                </div>
 
-                <table className='w-full border border-neutral/25 rounded-xl border-separate  text-title font-extrabold'>
-                    <thead className='rounded'>
-                        <tr className='rounded'>
-                            <th className='flex items-center justify-center h-12 text-xl rounded'>
-                                <BsStopwatch className='text-2xl' color={selectedRoundTab?.color} />
-                            </th>
-                            <th className='flex items-center justify-center h-12 text-xl rounded'>
-                                <BsStopwatch className='text-2xl' color={selectedRoundTab?.color} />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-
-                <div className='w-full border border-neutral/25 rounded-xl mt-2'>
-                    <div className='p-3 text-secondary font-bold text-sm gap-1 w-full border-t border-neutral/25 mt-4 '>
-                        <button className='w-full flex items-center justify-start gap-1 clickable'>
-                            <BsPlus size={24} /> Round
-                        </button>
+                    <div className='w-full bg-base-100 p-3 flex items-center justify-center h-12 col-span-3'>
+                        <div color={selectedRoundTab?.color} className='font-bold text-sm gap-1 w-full '>
+                            <button className='w-full flex items-center justify-center gap-1 clickable'>
+                                <BsPlus size={24} /> Round
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
