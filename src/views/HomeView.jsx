@@ -507,7 +507,7 @@ function NamePrompt({ onEnter, buttonValue }) {
         <div className="w-full flex flex-col justify-start items-center gap-4">
 
             {name && name != "" ? <Avatar style={{ height: "3rem", width: "3rem" }} {...avaConfig} /> : <h1 className="text-title text-2xl font-extrabold h-12 flex items-center">Name</h1>}
-            <input autoFocus={true} id="name-input-element" type="text" placeholder="Real name" className="skew input text-center font-extrabold text-xl text-normal text-accent-content w-fit px-0 bg-neutral " onChange={(e) => { e.target.value = e.target.value.trimStart(); setName(e.target.value.trimStart()) }} />
+            <input autoFocus={true} id="name-input-element" type="text" placeholder="Name" className="skew input text-center font-extrabold text-xl text-normal text-accent-content w-fit px-0 bg-neutral " onChange={(e) => { e.target.value = e.target.value.trimStart(); setName(e.target.value.trimStart()) }} />
             <div className="flex justify-end items-center w-full gap-1">
                 <button onClick={() => setPrompt(null)} className={"btn  text-title scale-50 " + (loading ? " hidden " : " btn-ghost ")}>CANCEL</button>
                 <button className={"btn text-title scale-50 " + (loading ? " loading btn-disabled " : " btn-primary ")} onClick={() => click()} >{buttonValue}</button>

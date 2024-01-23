@@ -18,6 +18,7 @@ import { getPlaysetById, maximizePlayset } from '../helpers/playsets';
 import { IoPersonRemoveSharp } from "react-icons/io5"
 import { HiQrCode, HiUsers } from "react-icons/hi2"
 import { BiError } from "react-icons/bi"
+import { FaPersonMilitaryToPerson } from "react-icons/fa6"
 
 
 //components
@@ -33,9 +34,10 @@ import { PlayerRow } from "../components/PlayerList"
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import Controls from '../components/info/Controls';
 import PlaysetsFilter from '../components/playsets/PlaysetsFilter';
-import { BsCassetteFill, BsGearFill, BsPlus } from 'react-icons/bs';
+import { BsCassetteFill, BsFillDoorOpenFill, BsGearFill, BsPlus, BsStopwatch } from 'react-icons/bs';
 import { FaThumbsUp } from 'react-icons/fa';
 import Pill from '../components/Pills';
+import { PiPersonSimpleRun, PiPersonSimpleRunBold } from 'react-icons/pi';
 
 
 
@@ -233,7 +235,7 @@ const ROUND_TABS = [
     {
         name: "Custom",
         value: "custom",
-        color: "#02f771",
+        color: "#27d62a",
         icon: <BsGearFill className="text-base" />,
     },
     {
@@ -276,7 +278,7 @@ function HostLobby({ me, code }) {
     const [arePlayersOffline, setArePlayersOffline] = useState(false);
 
 
-    const [selectedRoundTab, setSelectedRoundTab] = useState(ROUND_TABS[0]?.value)
+    const [selectedRoundTab, setSelectedRoundTab] = useState(ROUND_TABS[0])
 
 
     useEffect(() => {
@@ -631,10 +633,55 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
                 <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 '>
                     {ROUND_TABS.map(tab => (
-                        <SelectTab selected={selectedRoundTab === tab?.value} onClick={() => setSelectedRoundTab(tab?.value)} {...tab}>{tab?.name}</SelectTab>
+                        <SelectTab selected={selectedRoundTab?.value === tab?.value} onClick={() => setSelectedRoundTab(tab)} {...tab}>{tab?.name}</SelectTab>
                     ))}
 
                 </div>
+
+
+
+                <div style={{ gap: "1px", color: selectedRoundTab?.color }} className='bg-neutral rounded-2xl border-2 border-neutral overflow-hidden text-base text-title grid grid-cols-3 w-full  font-extrabold mt-2'>
+                    <TableCell>
+                        <></>
+                    </TableCell>
+                    <TableCell tooltip={"Round time"}>
+                        <BsStopwatch className='text-2xl' />
+
+                    </TableCell>
+                    <TableCell>
+                        <PiPersonSimpleRunBold className='text-xl' />
+                        <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }} className='text-2xl' />
+                    </TableCell>
+
+                    <>
+                        <TableCell>
+                            <span className='text-base-content pr-1'>Round</span><span>1</span>
+                        </TableCell>
+                        <TableCell>
+                            <span className='text-base-content'>5 <span className='text-neutral/25'>min</span></span>
+                        </TableCell>
+                        <TableCell>
+                            <span className='text-base-content'>3 </span>
+                        </TableCell>
+                    </>
+                </div>
+
+                <table className='w-full border border-neutral/25 rounded-xl border-separate  text-title font-extrabold'>
+                    <thead className='rounded'>
+                        <tr className='rounded'>
+                            <th className='flex items-center justify-center h-12 text-xl rounded'>
+                                <BsStopwatch className='text-2xl' color={selectedRoundTab?.color} />
+                            </th>
+                            <th className='flex items-center justify-center h-12 text-xl rounded'>
+                                <BsStopwatch className='text-2xl' color={selectedRoundTab?.color} />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
                 <div className='w-full border border-neutral/25 rounded-xl mt-2'>
                     <div className='p-3 text-secondary font-bold text-sm gap-1 w-full border-t border-neutral/25 mt-4 '>
                         <button className='w-full flex items-center justify-start gap-1 clickable'>
@@ -651,6 +698,17 @@ function HostLobby({ me, code }) {
 
 
 
+}
+
+
+function TableCell({ children, tooltip }) {
+    return (
+        <div className='tooltip w-full' data-tip={tooltip}>
+            <div className='w-full bg-base-100 p-3 flex items-center justify-center h-12' >
+                {children}
+            </div>
+        </div>
+    )
 }
 
 
