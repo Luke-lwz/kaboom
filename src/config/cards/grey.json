@@ -463,7 +463,7 @@
         "links": [],
         "src": "",
         "info": "During any round, when you become a leader, you must publicly reveal your card which forces everyone in your room to public reveal as well. You win if you have forced all primaries to publicly reveal their card at least once.",
-        "tags": "custom patch1 v2 friends instant-win",
+        "tags": "custom patch1 v2 friends",
         "color_name": "grey",
         "difficulty": 6
     }
