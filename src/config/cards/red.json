@@ -500,5 +500,31 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
         "difficulty": 1
+    },
+    {
+        "name": "Red Fist",
+        "id": "r045",
+        "description": "Avoid the Blue Drone",
+        "primary": true,
+        "backup_cards": [],
+        "links": [],
+        "src": "",
+        "info": "You are a primary character. The Red Team wins if you are not in the same room as the Blue Drone at the end of the game.",
+        "tags": "custom patch1 v2 friends primary",
+        "color_name": "red",
+        "difficulty": 7
+    },
+    {
+        "name": "Dragon",
+        "id": "r046",
+        "description": "Be with the King",
+        "primary": true,
+        "backup_cards": [],
+        "links": [],
+        "src": "",
+        "info": "You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the King gains the \"dead\" condition.\r\n\r\nNote: it is possible that the Dragon receives the \"dead\" condition before the end of the game. If this happens, then the Dragon does not breathe, failing to provide the \"dead\" condition to everyone in the same room at the end of the game.",
+        "tags": "custom patch1 v2 friends primary",
+        "color_name": "red",
+        "difficulty": 7
     }
 ]
