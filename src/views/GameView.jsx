@@ -43,6 +43,7 @@ import { CardsRow } from '../components/playsets/PlaysetDisplay';
 import CardInfoMenu from '../components/menus/CardInfoMenu';
 import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
 import toast from 'react-hot-toast';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 
 
@@ -83,8 +84,8 @@ function GameView(props) {
 
     return (
         <>
-            {screen && <div className="animate__animated animate__fadeIn absolute inset-0 z-[90] flex flex-col items-center justify-center screen-bg overflow-hidden">
-                {screen}
+            {true && <div className="animate__animated animate__fadeIn absolute inset-0 z-[90] flex flex-col items-center justify-center screen-bg overflow-hidden">
+                <RoundStartScreen roundName={"FIRST"} />
             </div>
             }
             <div className={'flex flex-col justify-start items-start w-full h-full'}>
@@ -1302,26 +1303,104 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 
 function RoundStartScreen({ roundName, roundNumber = 1 }) {
 
-    const {text, color, shadowColor} = useMemo(() => {
+
+    const { text, color, shadowColor } = useMemo(() => {
         switch (roundName.toUpperCase()) {
             case "FIRST":
-                return { text: "FIRST  ROUND", color: "#ffffff", shadowColor: "#00ff00" };
+                return { text: "FIRST ROUND", color: "#ffffff", shadowColor: "#00ff00" };
             case "LAST":
-                return { text: "LAST  ROUND", color: "#ffffff", shadowColor: "#ff0000" };
+                return { text: "LAST ROUND", color: "#ffffff", shadowColor: "#ff0000" };
             default:
-                return { text: "ROUND  " + roundNumber, color: "#ffffff", shadowColor: "#4287f5" };
+                return { text: "ROUND " + roundNumber, color: "#ffffff", shadowColor: "#4287f5" };
         }
     }, [roundName, roundNumber])
 
     return (
-        <div className='absolute inset-0 flex flex-col items-center animate-out-after-3 justify-center anim-out-after-3'>
-            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
-            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div>
+        <div id="round-start-screen-outer" className='absolute inset-0 flex flex-col items-center animate-out-after-3 justify-center //anim-out-after-3'>
+            {/* <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
+            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div> */}
 
-            <RunningTextAnimation text={text} color={color} shadowColor={shadowColor} />
 
+
+            {/* <RunningTextAnimation text={text} color={color} shadowColor={shadowColor} />
+             */}
+
+            <TextBandsAnimation text={text} color={color} shadowColor={shadowColor} />
         </div>
     )
+}
+
+
+function TextBandsAnimation({ text, color, shadowColor }) {
+
+    const boxClasses = "bg-red-800 text-title text-3xl font-extrabold flex items-center justify-start gap-4 p-4 w-fit";
+
+    const textShadowOffset = 3;
+
+    const { width, height } = useWindowDimensions();
+
+
+    const [rendered, setRendered] = useState(false);
+
+    useEffect(() => {
+        setRendered(true)
+    }, [])
+
+
+    const { textWidth, textHeight } = useMemo(() => {
+
+        const el = document.createElement("div");
+        el.style.position = "absolute";
+        el.style.top = "50px";
+        el.style.left = "50px";
+
+
+
+        el.classList.add(...boxClasses.split(" "));
+
+
+        // text
+        const textSplit = text.split(" ");
+
+        for (let i = 0; i < textSplit.length; i++) {
+            const word = textSplit[i];
+            const wordDiv = document.createElement("div");
+            const textNode = document.createTextNode(word);
+            // 🪠🪠🪠🪠🪠🪠🪠🪠
+            wordDiv.style.textShadow = `${textShadowOffset}px ${textShadowOffset}px 0px #0000ff}`;
+
+            wordDiv.appendChild(textNode);
+            el.appendChild(wordDiv);
+        }
+
+
+        document.body.appendChild(el);
+
+
+        console.log("üüü",el.offsetWidth, el.offsetHeight, el.classList)
+
+
+
+
+
+
+        return { textWidth: 30, textHeight: 50 }
+    }, [])
+
+    const inverted = false;
+
+    return (
+        <div className={boxClasses}>
+            {text.split(" ").map((letter, i) => {
+
+                const _color = i % 2 === 0 ? color : shadowColor;
+                const _shadowColor = i % 2 === 0 ? shadowColor : color;
+
+                return <div key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}>{letter}</div>
+            })}
+        </div>
+    )
+
 }
 
 
@@ -1344,7 +1423,7 @@ function RunningTextAnimation({ text, color, shadowColor }) {
                 const _color = i % 2 === 0 ? color : shadowColor;
                 const _shadowColor = i % 2 === 0 ? shadowColor : color;
 
-                return <span key={i} style={{color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}`}}  >{letter}</span>
+                return <span key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}  >{letter}</span>
             })}
         </div>
     )
