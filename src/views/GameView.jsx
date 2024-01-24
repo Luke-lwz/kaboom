@@ -1072,10 +1072,10 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
-    function announceRoundStart(roundName) {
+    function announceRoundStart(roundName, roundNumber) {
         setMenu(null);
         setMenu2(null);
-        setScreen(<RoundStartScreen roundName={roundName} />)
+        setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} />)
         setTimeout(() => {
             setScreen(null);
         }, 3 * 1000)
@@ -1113,7 +1113,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         var ends_at = (startedAtInt) + roundTime + extra3secs;
 
 
-        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game));
+        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game), game?.round);
         else if (tsInt >= ends_at) return setCountdown(0);
 
 
@@ -1300,19 +1300,52 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 }
 
 
-function RoundStartScreen({ roundName = "FIRST" }) {
+function RoundStartScreen({ roundName, roundNumber = 1 }) {
+
+    const {text, color, shadowColor} = useMemo(() => {
+        switch (roundName.toUpperCase()) {
+            case "FIRST":
+                return { text: "FIRST  ROUND", color: "#ffffff", shadowColor: "#00ff00" };
+            case "LAST":
+                return { text: "LAST  ROUND", color: "#ffffff", shadowColor: "#ff0000" };
+            default:
+                return { text: "ROUND  " + roundNumber, color: "#ffffff", shadowColor: "#4287f5" };
+        }
+    }, [roundName, roundNumber])
 
     return (
         <div className='absolute inset-0 flex flex-col items-center animate-out-after-3 justify-center anim-out-after-3'>
             <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
             <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div>
 
-            <div className={"uppercase font-extrabold text-title text-5xl mb-4 fly-through-from-left text-[#4a4a4a]"}>
-                {roundName}
-            </div>
-            <div className={"uppercase font-extrabold text-title text-5xl mb-8 fly-through-from-right text-[#858585]"}>
-                ROUND
-            </div>
+            <RunningTextAnimation text={text} color={color} shadowColor={shadowColor} />
+
+        </div>
+    )
+}
+
+
+function RunningTextAnimation({ text, color, shadowColor }) {
+
+    const [inverted, setInverted] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setInverted(inverted => !inverted);
+        }, 180)
+
+        return () => clearInterval(interval);
+    }, [])
+
+    return (
+        <div className='text-title text-4xl font-extrabold'>
+            {text.split("").map((letter, i) => {
+
+                const _color = i % 2 === 0 ? color : shadowColor;
+                const _shadowColor = i % 2 === 0 ? shadowColor : color;
+
+                return <span key={i} style={{color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}`}}  >{letter}</span>
+            })}
         </div>
     )
 }
