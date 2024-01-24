@@ -1366,8 +1366,8 @@ function TextBandsAnimation({ text, color, shadowColor }) {
             const word = textSplit[i];
             const wordDiv = document.createElement("div");
             const textNode = document.createTextNode(word);
-            // 🪠🪠🪠🪠🪠🪠🪠🪠
             wordDiv.style.textShadow = `${textShadowOffset}px ${textShadowOffset}px 0px #0000ff}`;
+            // 🪠🪠🪠🪠🪠🪠🪠🪠
 
             wordDiv.appendChild(textNode);
             el.appendChild(wordDiv);
