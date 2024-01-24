@@ -1,5 +1,5 @@
 import 'animate.css';
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { redirect, useParams } from "react-router-dom";
 
 // components
@@ -111,6 +111,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
     const [conn, setConn] = useState(null);
 
+    const [hostTimeDifference, setHostTimeDifference] = useState(0);
+
 
 
     const avaConfig = useMemo(() => {
@@ -163,9 +165,20 @@ function ClientGame({ me, setMe, code, setScreen }) {
                         setGame(data?.payload?.game);
                         setPlayerList(data?.payload?.players)
                         setConn(conn)
+                        var hostRN = data?.payload?.hostTimeUnixRN;
+                        if (hostRN) {
+                            var clientRN = moment().format("X");
+                            setHostTimeDifference(clientRN - hostRN);
+
+                        }
                         break;
                     case "game_data": // update game data
                         setGame(data?.payload?.game);
+                        var hostRN = data?.payload?.hostTimeUnixRN;
+                        if (hostRN) {
+                            var clientRN = moment().format("X");
+                            setHostTimeDifference(clientRN - hostRN);
+                        }
                         break;
                     case "remove_screen":
                         setScreen(null);
@@ -261,9 +274,6 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    function send(msg) {
-        if (conn) conn.send(msg)
-    }
 
 
 
@@ -316,7 +326,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
 
-            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} />
+            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} hostTimeDifference={hostTimeDifference} />
 
         </div>
 
@@ -380,7 +390,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         setPlayerState([...players.current.map(p => (p?.conn ? { ...p, conn: true } : { ...p, conn: false }))])
         setGameState({ ...game.current })
         storeGame();
-        sendToAll({ intent: "game_data", payload: { game: game.current } })
+        sendToAll({ intent: "game_data", payload: { game: game.current, hostTimeUnixRN: moment().format("X") } })
         sendToAll({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })) } })
         updateMe();
     }, [updatedRef])
@@ -409,7 +419,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         updateMe();
         for (let id of playerIds) {
             if (id.toUpperCase() !== "HOST") {
-                sendTo(id, { intent: "game_data", payload: { game: game.current } })
+                sendTo(id, { intent: "game_data", payload: { game: game.current, hostTimeUnixRN: moment().format("X") } })
                 sendTo(id, { intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })) } })
             }
         }
@@ -452,7 +462,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                             let newPlayers = players.current.map(p => (p.id === data?.payload?.id ? { ...p, conn } : p))
                             players.current = newPlayers;
                             updateGameFor([])
-                            if (game) conn.send({ intent: "connected", payload: { game: game.current, players: players.current.map(p => ({ ...p, conn: undefined })) } })
+                            if (game) conn.send({ intent: "connected", payload: { game: game.current, players: players.current.map(p => ({ ...p, conn: undefined })), hostTimeUnixRN: moment().format("X") } })
                             break;
                         case "player-fn":
                             if (data?.payload) {
@@ -528,7 +538,6 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         var gameData = generateGame(players.current.length);
 
-        console.log(game_data)
 
         console.log(await getPlaysetById(game_data?.playsetId))
 
@@ -792,7 +801,6 @@ function HostGame({ me, setMe, code, setScreen }) {
                 const player = getPlayerFromId(playerId)
                 const color = getCardColorFromColorName(card?.color_name);
                 if (!player || !card || !color || !from_player) return
-                console.log(card, player)
 
                 if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} player={from_player} />, { id: "card:" + from_player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined }, from_player } })
@@ -916,7 +924,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
+function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, hostTimeDifference = 0, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
 
     const [card, setCard] = useState(null);
 
@@ -930,10 +938,17 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     const round = useRef(game?.rounds?.[game?.round - 1 || 0]);
 
 
+    const getHostTs = useCallback(() => {
+        return JSON.stringify(moment().format("X") - hostTimeDifference);
+    }, [hostTimeDifference]);
+
+
+
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
+
             if (!round?.current?.started_at || round?.current?.paused) return
-            var ts = moment().format("X");
+            var ts = getHostTs();
             var tsInt = parseInt(ts);
 
             var startedAtInt = parseInt(round?.current?.started_at);
@@ -948,7 +963,6 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
             let lastTime = startedAtInt + (tsInt - startedAtInt);
 
-            var tsInt = Math.floor(new Date() / 1000);
             if (tsInt >= lastTime) { // newSecond
                 var secondsLeft = ends_at - lastTime;
 
@@ -959,6 +973,9 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             }
 
         }, 250)
+
+
+        return () => clearInterval(interval);
     }, [])
 
 
@@ -1084,7 +1101,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     function updateCountdown(game) {
         if (!game || game?.paused) return;
-        var ts = moment().format("X");
+        var ts = getHostTs();
         var tsInt = parseInt(ts);
         var round = game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }; // 💥 started_at: Seconds (not ms)
         if (round?.paused) return;
@@ -1192,7 +1209,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     return (
         <>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{animationDelay: "1s"}} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
+                {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{ animationDelay: "1s" }} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
                     <h2 className='text-title title-shadow-secondary-xs font-extrabold text-neutral text-xl absolute left-0 right-0 bottom-4'>You're first leader</h2>
                 </div>}
                 {card && <Card nomotion={false} remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}

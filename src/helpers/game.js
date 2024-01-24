@@ -5,8 +5,20 @@ export function generateGame(playerCount) {
     let game = {created_at: moment().format("x"), phase: "rooms", round: 1} // phases are "room", "rounds", "boom"
 
 
+    game.rounds = generateDefaultRounds(playerCount);
+    
+
+
+
+    return game;
+
+}
+
+
+
+export function generateDefaultRounds(playerCount) {
     if (playerCount >= 22) {
-        game.rounds = [
+        return [
             {
                 time: 5, // minutes
                 hostages: 5
@@ -29,7 +41,7 @@ export function generateGame(playerCount) {
             },
         ]
     } else if (playerCount >= 18) {
-        game.rounds = [
+        return [
             {
                 time: 5, // minutes
                 hostages: 4
@@ -52,7 +64,7 @@ export function generateGame(playerCount) {
             },
         ]
     } else if (playerCount >= 14) {
-        game.rounds = [
+        return [
             {
                 time: 5, // minutes
                 hostages: 3
@@ -75,9 +87,9 @@ export function generateGame(playerCount) {
             },
         ]
     } else if (playerCount >= 8) {
-        game.rounds = [
+        return [
             {
-                time: 2, // minutes
+                time: 3, // minutes
                 hostages: 2
             },
             {
@@ -85,16 +97,12 @@ export function generateGame(playerCount) {
                 hostages: 1
             },
             {
-                time: 3, // minutes
-                hostages: 1
-            },
-            {
-                time: 3, // minutes
+                time: 2, // minutes
                 hostages: 1
             },
         ]
     } else {
-        game.rounds = [
+        return [
             {
                 time: 3, // minutes
                 hostages: 2
@@ -109,9 +117,4 @@ export function generateGame(playerCount) {
             },
         ]
     }
-
-
-
-    return game;
-
 }

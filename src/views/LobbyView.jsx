@@ -18,12 +18,11 @@ import { getPlaysetById, maximizePlayset } from '../helpers/playsets';
 import { IoPersonRemoveSharp } from "react-icons/io5"
 import { HiQrCode, HiUsers } from "react-icons/hi2"
 import { BiError } from "react-icons/bi"
-import { FaPersonMilitaryToPerson } from "react-icons/fa6"
 
 
 //components
 import PlaysetDisplay, { PlayWithBuryToggle, WrongPlayerNumberPlayset } from '../components/playsets/PlaysetDisplay';
-import ChoosePlaysetMenu, { calculatePlaysetDisabled } from '../components/menus/ChoosePlaysetMenu';
+import { calculatePlaysetDisabled } from '../components/menus/ChoosePlaysetMenu';
 import QRCodeMenu from '../components/menus/QRCodeMenu';
 import Info from '../components/Info';
 import { PlayerRow } from "../components/PlayerList"
@@ -34,11 +33,34 @@ import { PlayerRow } from "../components/PlayerList"
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import Controls from '../components/info/Controls';
 import PlaysetsFilter from '../components/playsets/PlaysetsFilter';
-import { BsCassetteFill, BsFillDoorOpenFill, BsGearFill, BsPlus, BsStopwatch } from 'react-icons/bs';
+import { BsCassetteFill, BsGearFill } from 'react-icons/bs';
 import { FaThumbsUp } from 'react-icons/fa';
-import Pill from '../components/Pills';
-import { PiPersonSimpleRun, PiPersonSimpleRunBold } from 'react-icons/pi';
+import { generateDefaultRounds } from '../helpers/game';
+import toast from 'react-hot-toast';
+import RoundConfig from '../components/RoundConfig';
 
+const ROUND_TABS = [
+    {
+        name: "Recommended",
+        value: "recommended",
+        color: "#0019fd",
+        icon: <FaThumbsUp className="text-base" />,
+    },
+    {
+        name: "Custom",
+        value: "custom",
+        color: "#27d62a",
+        icon: <BsGearFill className="text-base" />,
+    },
+    {
+        name: "From playset",
+        value: "playset",
+        color: "#c342ff",
+        icon: <BsCassetteFill className="text-base" />,
+    },
+
+
+]
 
 
 
@@ -98,7 +120,10 @@ function ClientLobby({ me, setMe, code }) {
 
     const [ready, setReady] = useState(false);
     const [playerList, setPlayerList] = useState([]);
-    const [playset, setPlayset] = useState()
+    const [playset, setPlayset] = useState();
+
+    const [selectedRoundTabByHost, setSelectedRoundTabByHost] = useState(ROUND_TABS[0]?.value);
+    const [roundConfig, setRoundConfig] = useState(generateDefaultRounds(playerList?.length || 1));
 
     const [conn, setConn] = useState(null);
 
@@ -139,6 +164,8 @@ function ClientLobby({ me, setMe, code }) {
                     case "player_list": // also carries playset
                         setPlayerList(data?.payload?.players || [])
                         getPlayset(data?.payload?.playsetId);
+                        if (data?.payload?.roundConfig) setRoundConfig(data?.payload?.roundConfig)
+                        if (data?.payload?.selectedRoundTabValue) setSelectedRoundTabByHost(ROUND_TABS.find(t => t?.value === data?.payload?.selectedRoundTabValue) || ROUND_TABS[0])
                         break;
                     case "joined_lobby":
                         setPlayerList(data?.payload?.players || [])
@@ -210,6 +237,11 @@ function ClientLobby({ me, setMe, code }) {
                 <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
                 <PlaysetDisplay forceOpen selected playset={playset} />
             </div>
+            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
+                <RoundConfig
+                    color={selectedRoundTabByHost?.color}
+                    roundConfig={roundConfig} />
+            </div>
             <LobbyFooter />
 
         </div>
@@ -225,28 +257,7 @@ function ClientLobby({ me, setMe, code }) {
 }
 
 
-const ROUND_TABS = [
-    {
-        name: "Recommended",
-        value: "recommended",
-        color: "#0019fd",
-        icon: <FaThumbsUp className="text-base" />,
-    },
-    {
-        name: "Custom",
-        value: "custom",
-        color: "#27d62a",
-        icon: <BsGearFill className="text-base" />,
-    },
-    {
-        name: "From playset",
-        value: "playset",
-        color: "#c342ff",
-        icon: <BsCassetteFill className="text-base" />,
-    },
 
-
-]
 
 function HostLobby({ me, code }) {
 
@@ -277,8 +288,46 @@ function HostLobby({ me, code }) {
     const [playerState, setPlayerState] = useState(players.current);
     const [arePlayersOffline, setArePlayersOffline] = useState(false);
 
+    const lastSelectedRoundTab = localStorage.getItem("lastSelectedRoundTab") || ROUND_TABS[0]?.value;
+    const [selectedRoundTab, setSelectedRoundTab] = useState(ROUND_TABS?.find(tab => tab?.value === lastSelectedRoundTab) || ROUND_TABS[0])
 
-    const [selectedRoundTab, setSelectedRoundTab] = useState(ROUND_TABS[0])
+    const lastCustomRoundConfig = JSON.parse(localStorage.getItem("lastCustomRoundConfig")) || generateDefaultRounds(players?.current?.length || 1);
+    const [roundConfig, setRoundConfig] = useState(lastSelectedRoundTab === "custom" ? lastCustomRoundConfig : generateDefaultRounds(players?.current?.length || 1))
+
+
+
+    function onRoundTabClick(tab) {
+        setSelectedRoundTab(tab);
+
+        localStorage.setItem("lastSelectedRoundTab", tab?.value);
+
+        if (tab?.value === "recommended") {
+            setRoundConfig(generateDefaultRounds(players?.current?.length || 1))
+        }
+
+        if (tab?.value === "custom") {
+            setRoundConfig(JSON.parse(localStorage.getItem("lastCustomRoundConfig")) || generateDefaultRounds(players?.current?.length || 1))
+        }
+
+        if (tab?.value === "playset") {
+            // wip
+        }
+    }
+
+
+    useEffect(() => {
+        console.log(roundConfig)
+
+        if (selectedRoundTab?.value === "custom") {
+            localStorage.setItem("lastCustomRoundConfig", JSON.stringify(roundConfig))
+        }
+
+        updateAllClients();
+
+
+
+    }, [roundConfig, selectedRoundTab])
+
 
 
     useEffect(() => {
@@ -469,7 +518,7 @@ function HostLobby({ me, code }) {
     function updateAllClients() {
         for (let element of players.current) {
             if (element.conn) {
-                element.conn.send({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })), playsetId: playsetRef.current?.id } })
+                element.conn.send({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })), playsetId: playsetRef.current?.id, roundConfig, selectedRoundTabValue: selectedRoundTab?.value || ROUND_TABS[0]?.value } })
 
             }
         }
@@ -509,7 +558,7 @@ function HostLobby({ me, code }) {
         function startIt() {
             setPrompt(null);
 
-            localStorage.setItem(`game-${code}`, JSON.stringify({ playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
+            localStorage.setItem(`game-${code}`, JSON.stringify({ rounds: roundConfig, playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
             addLastPlayedPlaysets(playset.id)
 
@@ -633,46 +682,46 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
                 <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 '>
                     {ROUND_TABS.map(tab => (
-                        <SelectTab selected={selectedRoundTab?.value === tab?.value} onClick={() => setSelectedRoundTab(tab)} {...tab}>{tab?.name}</SelectTab>
+                        <SelectTab selected={selectedRoundTab?.value === tab?.value} onClick={() => onRoundTabClick(tab)} {...tab}>{tab?.name}</SelectTab>
                     ))}
 
                 </div>
 
 
 
-                <div style={{ gap: "1px", color: selectedRoundTab?.color }} className='bg-neutral rounded-2xl border-2 border-neutral overflow-hidden text-base text-title grid grid-cols-3 w-full  font-extrabold mt-2'>
-                    <TableCell>
-                        <></>
-                    </TableCell>
-                    <TableCell tooltip={"Round time"}>
-                        <BsStopwatch className='text-2xl' />
+                <RoundConfig
+                    color={selectedRoundTab?.color}
+                    roundConfig={roundConfig}
+                    onAddRound={() => {
+                        setRoundConfig(roundConfig => {
+                            const lastRound = roundConfig[roundConfig.length - 1];
+                            return [...roundConfig, { time: Math.ceil(lastRound?.time / 2), hostages: Math.ceil(lastRound?.hostages / 2) }]
+                        })
+                        setSelectedRoundTab(ROUND_TABS[1]);
+                    }}
+                    onHostagesChange={(value, index) => {
+                        const newValue = JSON.parse(value);
+                        setRoundConfig(roundConfig => roundConfig.map((r, i) => (i === index ? { ...r, hostages: newValue } : r)))
+                        setSelectedRoundTab(ROUND_TABS[1]);
+                    }}
+                    onTimeChange={(value, index) => {
+                        const newValue = JSON.parse(value);
+                        setRoundConfig(roundConfig => roundConfig.map((r, i) => (i === index ? { ...r, time: newValue } : r)))
+                        setSelectedRoundTab(ROUND_TABS[1]);
+                    }}
+                    onRowDelete={(index) => {
+                        setRoundConfig(roundConfig => {
+                            if (roundConfig.length <= 1) {
+                                toast.error("You need at least one round!")
+                                return roundConfig;
+                            }
+                            return roundConfig.filter((r, i) => i !== index)
+                        })
+                        setSelectedRoundTab(ROUND_TABS[1]);
+                    }}
+                />
 
-                    </TableCell>
-                    <TableCell>
-                        <PiPersonSimpleRunBold className='text-xl' />
-                        <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }} className='text-2xl' />
-                    </TableCell>
 
-                    <>
-                        <TableCell>
-                            <span className='text-base-content pr-1'>Round</span><span>1</span>
-                        </TableCell>
-                        <TableCell>
-                            <span className='text-base-content pr-1'>3 min</span>
-                        </TableCell>
-                        <TableCell>
-                            <span className='text-base-content' >3 </span>
-                        </TableCell>
-                    </>
-
-                    <div className='w-full bg-base-100 p-3 flex items-center justify-center h-12 col-span-3'>
-                        <div color={selectedRoundTab?.color} className='font-bold text-sm gap-1 w-full '>
-                            <button className='w-full flex items-center justify-center gap-1 clickable'>
-                                <BsPlus size={24} /> Round
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <LobbyFooter />
@@ -684,16 +733,6 @@ function HostLobby({ me, code }) {
 
 }
 
-
-function TableCell({ children, tooltip }) {
-    return (
-        <div className='tooltip w-full' data-tip={tooltip}>
-            <div className='w-full bg-base-100 p-3 flex items-center justify-center h-12' >
-                {children}
-            </div>
-        </div>
-    )
-}
 
 
 
