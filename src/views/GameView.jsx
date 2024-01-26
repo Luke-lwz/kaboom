@@ -1,4 +1,5 @@
 import 'animate.css';
+import '../game.css';
 import { useContext, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { redirect, useParams } from "react-router-dom";
 
@@ -44,6 +45,7 @@ import CardInfoMenu from '../components/menus/CardInfoMenu';
 import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
 import toast from 'react-hot-toast';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import { interpolateColor } from '../helpers/color';
 
 
 
@@ -84,8 +86,8 @@ function GameView(props) {
 
     return (
         <>
-            {true && <div className="animate__animated animate__fadeIn absolute inset-0 z-[90] flex flex-col items-center justify-center screen-bg overflow-hidden">
-                <RoundStartScreen roundName={"FIRST"} />
+            {screen && <div className="animate__animated animate__fadeIn absolute inset-0 z-[90] flex flex-col items-center justify-center screen-bg overflow-hidden">
+                {screen}
             </div>
             }
             <div className={'flex flex-col justify-start items-start w-full h-full'}>
@@ -947,9 +949,10 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     useEffect(() => {
         const interval = setInterval(() => {
-
+            
             if (!round?.current?.started_at || round?.current?.paused) return
             var ts = getHostTs();
+            console.log("🕒", ts)
             var tsInt = parseInt(ts);
 
             var startedAtInt = parseInt(round?.current?.started_at);
@@ -1073,13 +1076,13 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
-    function announceRoundStart(roundName, roundNumber) {
+    function announceRoundStart(roundName, roundNumber, totalRounds = 3) {
         setMenu(null);
         setMenu2(null);
-        setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} />)
+        setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} totalRounds={totalRounds} />)
         setTimeout(() => {
             setScreen(null);
-        }, 3 * 1000)
+        }, 2.8 * 1000)
     }
 
 
@@ -1114,7 +1117,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         var ends_at = (startedAtInt) + roundTime + extra3secs;
 
 
-        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game), game?.round);
+        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game), game?.round, game?.rounds?.length);
         else if (tsInt >= ends_at) return setCountdown(0);
 
 
@@ -1301,22 +1304,22 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 }
 
 
-function RoundStartScreen({ roundName, roundNumber = 1 }) {
+function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3}) {
 
 
     const { text, color, shadowColor } = useMemo(() => {
-        switch (roundName.toUpperCase()) {
+        switch (roundName?.toUpperCase()) {
             case "FIRST":
                 return { text: "FIRST ROUND", color: "#ffffff", shadowColor: "#00ff00" };
             case "LAST":
                 return { text: "LAST ROUND", color: "#ffffff", shadowColor: "#ff0000" };
             default:
-                return { text: "ROUND " + roundNumber, color: "#ffffff", shadowColor: "#4287f5" };
+                return { text: "ROUND " + roundNumber, color: "#ffffff", shadowColor: interpolateColor("#00ff00", "#ff0000", ((roundNumber - 1) / (totalRounds - 1)) * 100) };
         }
     }, [roundName, roundNumber])
 
     return (
-        <div id="round-start-screen-outer" className='absolute inset-0 flex flex-col items-center animate-out-after-3 justify-center //anim-out-after-3'>
+        <div id="round-start-screen-outer" className='absolute inset-0 flex flex-col items-center  justify-center anim-out-after-3'>
             {/* <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
             <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div> */}
 
@@ -1331,28 +1334,35 @@ function RoundStartScreen({ roundName, roundNumber = 1 }) {
 }
 
 
-function TextBandsAnimation({ text, color, shadowColor }) {
+const DIMENSIONS_MULTIPLIER = 1.5;
 
-    const boxClasses = "bg-red-800 text-title text-3xl font-extrabold flex items-center justify-start gap-4 p-4 w-fit";
+
+function TextBandsAnimation({ text, color, shadowColor, animationType = "opposite-lines", rotation = -45 }) {
+
+    const ANIMATION_TYPES = {
+        ["opposite-lines"]: ["game-start-strip", "game-start-strip-inverted", 0, "game-start-strip-opacity-animate"],
+        ["lines"]: ["game-start-strip", "game-start-strip", 2, "game-start-strip-opacity-animate"],
+        ["lines-inverted"]: ["game-start-strip-inverted", "game-start-strip-inverted", 2, "game-start-strip-opacity-animate"],
+    }
+
+    const boxClasses = "text-title text-3xl font-extrabold flex items-center justify-start gap-4 p-2 py-0.5 w-fit";
 
     const textShadowOffset = 3;
 
     const { width, height } = useWindowDimensions();
 
 
-    const [rendered, setRendered] = useState(false);
+
+    const [textDimensions, setTextDimensions] = useState({ textWidth: 0, textHeight: 0 });
+
+
 
     useEffect(() => {
-        setRendered(true)
-    }, [])
-
-
-    const { textWidth, textHeight } = useMemo(() => {
 
         const el = document.createElement("div");
         el.style.position = "absolute";
-        el.style.top = "50px";
-        el.style.left = "50px";
+        el.style.top = "-9999px";
+        el.style.left = "-9999px";
 
 
 
@@ -1366,7 +1376,7 @@ function TextBandsAnimation({ text, color, shadowColor }) {
             const word = textSplit[i];
             const wordDiv = document.createElement("div");
             const textNode = document.createTextNode(word);
-            wordDiv.style.textShadow = `${textShadowOffset}px ${textShadowOffset}px 0px #0000ff}`;
+            wordDiv.style.textShadow = `${textShadowOffset}px ${textShadowOffset}px 0px #ff00ff`;
             // 🪠🪠🪠🪠🪠🪠🪠🪠
 
             wordDiv.appendChild(textNode);
@@ -1377,28 +1387,63 @@ function TextBandsAnimation({ text, color, shadowColor }) {
         document.body.appendChild(el);
 
 
-        console.log("üüü",el.offsetWidth, el.offsetHeight, el.classList)
+
+        setTimeout(() => {
+
+            setTextDimensions({ textWidth: el.clientWidth, textHeight: el.clientHeight });
+        })
+
+    }, []);
+
+
+    const { countForWidth, countForHeight } = useMemo(() => {
+        console.log(textDimensions)
+        if (textDimensions?.textWidth && textDimensions?.textWidth !== 0 && textDimensions?.textHeight && textDimensions?.textHeight !== 0) {
+            return { countForWidth: Math.ceil(width / textDimensions?.textWidth * DIMENSIONS_MULTIPLIER), countForHeight: Math.ceil(height / textDimensions?.textHeight * DIMENSIONS_MULTIPLIER) }
+        }
+        return { countForWidth: 0, countForHeight: 0 }
+    }, [width, height, textDimensions, textDimensions])
 
 
 
 
+    const [animationClass, animationClassInverted, delayMultiplier = 2, containerAnimation = ""] = ANIMATION_TYPES[animationType || "opposite-lines"];
 
 
-        return { textWidth: 30, textHeight: 50 }
-    }, [])
-
-    const inverted = false;
 
     return (
-        <div className={boxClasses}>
-            {text.split(" ").map((letter, i) => {
+        <div style={{transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})`}} className={'h-full flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
 
-                const _color = i % 2 === 0 ? color : shadowColor;
-                const _shadowColor = i % 2 === 0 ? shadowColor : color;
+            {Array.from(Array(countForHeight).keys()).map(ih => {
 
-                return <div key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}>{letter}</div>
+
+
+
+                const inverted = ih % 2 === 0;
+
+                return (
+                    <div style={{animationDelay: `${200 + ((ih) * delayMultiplier)}ms`}} className={'w-full flex items-center justify-center ' + (inverted ? animationClass : animationClassInverted)}>
+                        {Array.from(Array(countForWidth).keys()).map(iw => {
+
+                            return (
+                                <div className={boxClasses}>
+                                    {text.split(" ").map((letter, i) => {
+
+                                        const _color = i % 2 === 0 ? color : shadowColor;
+                                        const _shadowColor = i % 2 === 0 ? shadowColor : color;
+
+                                        return <div key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}>{letter}</div>
+                                    })}
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
             })}
+
+
         </div>
+
     )
 
 }
