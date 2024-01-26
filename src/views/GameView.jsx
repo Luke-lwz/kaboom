@@ -1412,7 +1412,7 @@ function TextBandsAnimation({ text, color, shadowColor, animationType = "opposit
 
 
     return (
-        <div style={{transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})`}} className={'h-full flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
+        <div style={{transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})`}} className={'h-screen w-screen flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
 
             {Array.from(Array(countForHeight).keys()).map(ih => {
 
