@@ -1,6 +1,6 @@
 .game-start-strip {
   transform: translateX(300vw);
-  animation: game-start-strip-animation 2.4s cubic-bezier(.37,.96,.91,-0.14);
+  animation: game-start-strip-animation 2.4s cubic-bezier(.4,.97,1,-0.14);
 }
 
 @keyframes game-start-strip-animation {
@@ -15,7 +15,7 @@
 .game-start-strip-inverted {
   transform: translateX(-300vw);
   animation: game-start-strip-inverted-animation 2.4s
-    cubic-bezier(.37,.96,.91,-0.14);
+    cubic-bezier(.4,.97,1,-0.14);
 }
 
 @keyframes game-start-strip-inverted-animation {
@@ -27,21 +27,3 @@
   }
 }
 
-.game-start-strip-opacity-animate {
-  transform: translateX(-150vw);
-  animation: game-start-strip-opacity-animation 2.4s
-    cubic-bezier(.37,.96,1,-0.11);
-}
-
-
-@keyframes game-start-strip-opacity-animation {
-  0% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}

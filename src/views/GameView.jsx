@@ -39,13 +39,16 @@ import GameInfoMenu from '../components/menus/GameInfoMenu';
 // Avatar shape="circle" 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import { SwapPropmt } from '../components/swapcards/SwapCards';
-import PauseTimer from '../components/menus/PauseTimer';
 import { CardsRow } from '../components/playsets/PlaysetDisplay';
 import CardInfoMenu from '../components/menus/CardInfoMenu';
 import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
 import toast from 'react-hot-toast';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import { interpolateColor } from '../helpers/color';
+import { FaFlagCheckered } from 'react-icons/fa';
+import { PiPersonSimpleRunBold } from 'react-icons/pi';
+import { BsFillDoorOpenFill } from 'react-icons/bs';
+import RoundInfoMenu from '../components/menus/RoundsInfoMenu';
 
 
 
@@ -283,6 +286,14 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
     // menu
+    const handleCountdownClick = useCallback(() => {
+        console.log("lol")
+        setMenu2(
+            <RoundInfoMenu game={game} />
+        );
+    }, [game])
+
+
     function showInfoMenu() {
         setMenu2(
             <GameInfoMenu me={me} code={code} game={game} players={playerList} />
@@ -294,6 +305,9 @@ function ClientGame({ me, setMe, code, setScreen }) {
         if (!conn) return connectionErrorPrompt();
         conn.send({ intent: "player-fn", payload: { action, args } });
     }
+
+
+
 
 
     return (game ?
@@ -315,16 +329,17 @@ function ClientGame({ me, setMe, code, setScreen }) {
                     </div>
 
                 }
-                <div className='flex flex-col justify-center items-center absolute top-0 bottom-0 w-full'>
-                    <Countdown s={countdown} paused={game.paused} />
+                <div className='flex flex-col justify-center items-center absolute top-2 right-0 left-0 z-20'>
+                    <Countdown s={countdown} paused={game.paused} onClick={handleCountdownClick} />
                 </div>
                 <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
                     <AiOutlineInfoCircle />
                 </div>
 
 
-                <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {game?.round} / {game?.rounds?.length}
+                <div onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                    <MiniRoundDisplay game={game} />
+
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
@@ -859,13 +874,13 @@ function HostGame({ me, setMe, code, setScreen }) {
     }
 
 
-    function handleCountdownClick() {
+    const handleCountdownClick = useCallback(() => {
         setMenu2(
-            <PauseTimer paused={gameState.paused} onPause={gameState.paused ? handleTimerResume : handleTimerPause} onEndRound={() => {
+            <RoundInfoMenu game={gameState} paused={gameState.paused} onPause={gameState.paused ? handleTimerResume : handleTimerPause} onEndRound={() => {
                 setPrompt({ title: "End round?", text: "This action is irreversible.", onApprove: () => { endRound(); manuallyUpdateRef() } })
             }} onEndGame={endGame} />
         );
-    }
+    }, [gameState])
 
 
 
@@ -911,8 +926,8 @@ function HostGame({ me, setMe, code, setScreen }) {
                     <Countdown s={countdown} paused={gameState.paused} onClick={handleCountdownClick} />
                 </div>
 
-                <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {updatedRef !== false && game.current?.round} / {game.current?.rounds?.length}
+                <div onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                    <MiniRoundDisplay game={gameState}  />
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
@@ -949,10 +964,9 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     useEffect(() => {
         const interval = setInterval(() => {
-            
+
             if (!round?.current?.started_at || round?.current?.paused) return
             var ts = getHostTs();
-            console.log("🕒", ts)
             var tsInt = parseInt(ts);
 
             var startedAtInt = parseInt(round?.current?.started_at);
@@ -1163,7 +1177,6 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             setMenu(null)
             if (playerIdArray.length > 0) {
                 toast.success("Card revealed");
-                console.log(card)
                 execute("do-remote-card-reveal", [playerIdArray, { ...card, info: undefined, color: undefined }, me])
             }
         }
@@ -1212,7 +1225,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     return (
         <>
-            <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
+            <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide top-8">
                 {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{ animationDelay: "1s" }} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
                     <h2 className='text-title title-shadow-secondary-xs font-extrabold text-neutral text-xl absolute left-0 right-0 bottom-4'>You're first leader</h2>
                 </div>}
@@ -1266,6 +1279,35 @@ function AvatarMenu({ isHost, me, execute = () => { } }) {
 
 
 
+function MiniRoundDisplay({ game }) {
+
+
+    const { setMenu } = useContext(PageContext);
+
+    const { roundNumber, totlaRounds, nextHostageNumber } = useMemo(() => {
+        const roundNumber = game?.round;
+        const totlaRounds = game?.rounds?.length;
+        const nextHostageNumber = game?.rounds?.[roundNumber - 1]?.hostages;
+        return { roundNumber, totlaRounds, nextHostageNumber }
+    }, [game])
+
+    return (
+        <div className='w-fit px-2 py-1 bg-blue-800 text-white rounded flex items-center justify-center gap-2 text-base'>
+            <FaFlagCheckered className='text-white/70' />
+            <span>{roundNumber}/{totlaRounds}</span>
+            <span className='text-white/50'>|</span>
+            <div className='flex justify-start items-center'>
+                <PiPersonSimpleRunBold className='text-sm text-white/70' />
+                <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }}  className="text-white/70" />
+                <span className='ml-2'>{nextHostageNumber}</span>
+            </div>
+
+        </div>
+    )
+
+}
+
+
 
 
 
@@ -1304,7 +1346,7 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 }
 
 
-function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3}) {
+function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3 }) {
 
 
     const { text, color, shadowColor } = useMemo(() => {
@@ -1334,7 +1376,7 @@ function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3}) {
 }
 
 
-const DIMENSIONS_MULTIPLIER = 1.5;
+const DIMENSIONS_MULTIPLIER = 2;
 
 
 function TextBandsAnimation({ text, color, shadowColor, animationType = "opposite-lines", rotation = -45 }) {
@@ -1397,7 +1439,6 @@ function TextBandsAnimation({ text, color, shadowColor, animationType = "opposit
 
 
     const { countForWidth, countForHeight } = useMemo(() => {
-        console.log(textDimensions)
         if (textDimensions?.textWidth && textDimensions?.textWidth !== 0 && textDimensions?.textHeight && textDimensions?.textHeight !== 0) {
             return { countForWidth: Math.ceil(width / textDimensions?.textWidth * DIMENSIONS_MULTIPLIER), countForHeight: Math.ceil(height / textDimensions?.textHeight * DIMENSIONS_MULTIPLIER) }
         }
@@ -1412,7 +1453,7 @@ function TextBandsAnimation({ text, color, shadowColor, animationType = "opposit
 
 
     return (
-        <div style={{transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})`}} className={'h-full flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
+        <div style={{ transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})` }} className={'h-full flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
 
             {Array.from(Array(countForHeight).keys()).map(ih => {
 
@@ -1422,7 +1463,7 @@ function TextBandsAnimation({ text, color, shadowColor, animationType = "opposit
                 const inverted = ih % 2 === 0;
 
                 return (
-                    <div style={{animationDelay: `${200 + ((ih) * delayMultiplier)}ms`}} className={'w-full flex items-center justify-center ' + (inverted ? animationClass : animationClassInverted)}>
+                    <div style={{ animationDelay: `${200 + ((ih) * delayMultiplier)}ms` }} className={'w-full flex items-center justify-center ' + (inverted ? animationClass : animationClassInverted)}>
                         {Array.from(Array(countForWidth).keys()).map(iw => {
 
                             return (
