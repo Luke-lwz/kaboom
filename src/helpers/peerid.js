@@ -15,7 +15,7 @@ export function getPeerConfig() {
     port: 443,
     config: {
       iceServers: [
-        { url: "stun:matze-server.net:3478" },
+        { url: "stun:stun.l.google.com:19302" },
         {
           url: "turn:matze-server.net:3478",
           credential:
