@@ -524,7 +524,7 @@
         "primary": true,
         "backup_cards": [],
         "links": [],
-        "src": "",
+        "src": "/red/dragon.png",
         "info": "You are a primary character. Everyone in the same room as you at the end of the game gains the \"dead\" condition. The Red Team wins if the King gains the \"dead\" condition.\r\n\r\nNote: it is possible that the Dragon receives the \"dead\" condition before the end of the game. If this happens, then the Dragon does not breathe, failing to provide the \"dead\" condition to everyone in the same room at the end of the game.",
         "tags": "custom patch1 v2 friends primary",
         "color_name": "red",
@@ -536,10 +536,12 @@
         "description": "Only ever say yes or no",
         "backup_cards": [],
         "links": [],
-        "src": "",
+        "src": "/red/hoodie.png",
         "info": "You start with the \"introverted\" condition. People with the \"introverted\" condition may only ever say yes or no. They may not say anything else.\r\n\r\nNote: The \"introverted\" condition is a psych condition and can be cured by a Psychologist.",
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
-        "difficulty": 2
+        "difficulty": 2,
+        "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/TmRxmRi_how-to-draw-a-hoodie-easy-to-draw/"}
+
     }
 ]
