@@ -8,7 +8,7 @@ function Controls() {
             To reveal your color simply <b>swipe down on your card.</b> (Card face must be closed)<br />
             Disabled when less than 11 players. (Can be enabled by host)
             <br /><span className="text-secondary font-extrabold">See all cards in game:</span><br />
-            Click the <b>info icon</b> in the upper right corner of your screen.<br/>
+            Click the <b>cards icon</b> in the upper right corner of your screen.<br/>
             Now you can see all cards that are distributed among your friends
             <br /><span className="text-secondary font-extrabold">Swap cards:</span><br />
             Open your card face and <b>swipe up.</b><br/>
