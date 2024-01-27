@@ -385,6 +385,9 @@ function HostLobby({ me, code }) {
         setPeer(peer);
 
 
+        console.log(peer)
+
+
 
         peer.on("connection", (conn) => {
 

@@ -61,6 +61,8 @@ function HomeView({ }) {
 
     const [displayUseSafari, setDisplayUseSafari] = useState(false)
 
+    const [temp, setTemp] = useState("");
+
 
     // const testPeer = new Peer();
 
@@ -197,6 +199,8 @@ function HomeView({ }) {
 
         const connToRoom = joinPeer.connect(constructPeerID(code, "host"));
         console.log(connToRoom)
+
+        setTemp(connToRoom?.peer)
         setLoading(true);
         connToRoom?.on("open", () => {
             setPrompt({ element: <NamePrompt onEnter={setNameAndJoin} buttonValue="JOIN" /> })
@@ -206,7 +210,11 @@ function HomeView({ }) {
         })
 
 
+
+
         joinPeer.on("error", (err) => {
+            console.log(err)
+            setTemp(err)
             toast.error("Error");
             setPrompt(null);
             setLoading(false)
@@ -348,6 +356,8 @@ function HomeView({ }) {
             {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/20 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-lg place-items-center grid grid-cols-8  px-2">
                 <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
             </a>}
+
+            {temp}
 
             {devMode && <DevModeBanner />}
             <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full flex items-center justify-center">
