@@ -20,7 +20,7 @@ import { FiSend } from "react-icons/fi"
 
 
 
-import { TbPlayCard } from "react-icons/tb"
+import { TbCards, TbPlayCard } from "react-icons/tb"
 
 
 
@@ -333,7 +333,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
                     <Countdown s={countdown} paused={game.paused} onClick={handleCountdownClick} />
                 </div>
                 <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
-                    <AiOutlineInfoCircle />
+                    <TbCards />
                 </div>
 
 
@@ -919,7 +919,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
                 <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
-                    <AiOutlineInfoCircle />
+                    <TbCards />
                 </div>
 
                 <div className='flex flex-col justify-center items-center absolute top-2 right-0 left-0 z-20'>
@@ -1271,7 +1271,7 @@ function AvatarMenu({ isHost, me, execute = () => { } }) {
     return (
         <div className='bg-neutral rounded-lg p-4 text-neutral-content w-full flex flex-col justify-start items-start gap-2'>
             <h1 className='font-extrabold text text-title'>{me.name}</h1>
-            <button onClick={isHost ? closeRoom : leaveRoom} className='btn btn-primary w-44'>{isHost ? "CLOSE ROOM" : "LEAVE GAME"}</button>
+            <button onClick={isHost ? closeRoom : leaveRoom} className='btn btn-primary w-44'>{isHost ? "CLOSE GAME" : "LEAVE GAME"}</button>
             {isHost && <button className='btn btn-success w-44 text-success-content' onClick={() => toLobby()}>Back to lobby</button>}
         </div>
     )
@@ -1717,7 +1717,7 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
                 <div style={{ animationDelay: "3000ms" }} className='w-full flex flex-col items-center animate__animated animate__fadeInUp'>
 
                     {onLobby && <button onClick={onLobby} className='btn btn-wide btn-success text-title font-extrabold mt-6'>Return to lobby!</button>}
-                    {onClose && <button onClick={onClose} className='underline text-normal text-sm mt-4' >Close room</button>}
+                    {onClose && <button onClick={onClose} className='underline text-normal text-sm mt-4' >Close game</button>}
 
                 </div>
 

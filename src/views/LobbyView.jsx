@@ -669,7 +669,7 @@ function HostLobby({ me, code }) {
 
 
                 <button onClick={(devMode ? promptStartGame : startGame)} className={'w-full btn  text-title' + (startCondition ? " btn-primary  " : " btn-disabled ")} >Start game</button>
-                <button className='link font-bold clickable' onClick={() => closeRoom()}>Close room</button>
+                <button className='link font-bold clickable' onClick={() => closeRoom()}>Close game</button>
 
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>

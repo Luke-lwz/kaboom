@@ -342,7 +342,7 @@ function HomeView({ }) {
 
 
     return (
-        <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll pb-24">
+        <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll overflow-x-hidden pb-24">
 
             {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/20 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-lg place-items-center grid grid-cols-8  px-2">
                 <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
@@ -419,11 +419,11 @@ function HomeView({ }) {
 
             <div className="flex w-full flex-col items-center gap-8 scrollbar-hide">
                 <Box>
-                    <h1 className="text-2xl">Join Room</h1>
+                    <h1 className="text-2xl">Join Game</h1>
                     <input autoComplete="off" id="room-input" type="text" max={4} maxLength={4} className="input skew-reverse text-center font-extrabold text-xl text-normal tracking-widest text-black w-fit px-0 bg-accent-content" placeholder="&#x2022; &#x2022; &#x2022; &#x2022;" onChange={(e) => (e?.target?.value?.length <= 4 ? e.target.value = e.target.value.toUpperCase() : e.target.value = e.target.value.substring(0, 4))} />
                     <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
                     <div className="mx-12 max-w-sm my-2.5 py-[0.05rem] bg-neutral-content w-full rounded-full"></div>
-                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE ROOM</button>
+                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE GAME</button>
 
                 </Box>
             </div>
