@@ -12,7 +12,12 @@ export function getPeerConfig() {
   return {
     config: {
       iceServers: [
-        { url: "turn:matze-server.net:3478", credential: "5c4750c474320b5fdc63470be5d6a4a3c4b4a89ed67894b345b4e3515196d12d" },
+        { url: "stun:matze-server.net:3478" },
+        {
+          url: "turn:matze-server.net:3478",
+          credential:
+            "5c4750c474320b5fdc63470be5d6a4a3c4b4a89ed67894b345b4e3515196d12d",
+        },
       ],
     } /* Sample servers, please use appropriate ones */,
   };
