@@ -4,7 +4,7 @@
 
 .game-start-strip {
   transform: translateX(300vw);
-  animation: game-start-strip-animation 2.4s cubic-bezier(.37,.96,.91,-0.14);
+  animation: game-start-strip-animation 2.2s cubic-bezier(.37,.96,.91,-0.14);
 }
 
 @keyframes game-start-strip-animation {
@@ -18,7 +18,7 @@
 
 .game-start-strip-inverted {
   transform: translateX(-300vw);
-  animation: game-start-strip-inverted-animation 2.4s
+  animation: game-start-strip-inverted-animation 2.2s
     cubic-bezier(.37,.96,.91,-0.14);
 }
 

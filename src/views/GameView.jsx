@@ -1096,7 +1096,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} totalRounds={totalRounds} />)
         setTimeout(() => {
             setScreen(null);
-        }, 2.8 * 1000)
+        }, 2.6 * 1000)
     }
 
 
@@ -1376,7 +1376,7 @@ function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3 }) {
 }
 
 
-const DIMENSIONS_MULTIPLIER = 2;
+const DIMENSIONS_MULTIPLIER = 1.8;
 
 
 function TextBandsAnimation({ text, color, shadowColor, animationType = "opposite-lines", rotation = -45 }) {
