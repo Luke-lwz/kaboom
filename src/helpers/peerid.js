@@ -11,5 +11,7 @@ export function sendConstructor(myid, data, options = {}) {
 export function getPeerConfig() {
   return {
     secure: true,
+    host: "peerjs-kaboom-custom-server.onrender.com",
+    port: 443,
   };
 }
