@@ -9,6 +9,7 @@ export function sendConstructor(myid, data, options = {}) {
 }
 
 export function getPeerConfig() {
+  return undefined;
   return {
     secure: true,
     host: "peerjs-kaboom-custom-server.onrender.com",
