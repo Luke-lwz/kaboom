@@ -1096,7 +1096,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} totalRounds={totalRounds} />)
         setTimeout(() => {
             setScreen(null);
-        }, 2.6 * 1000)
+        }, 2.7 * 1000)
     }
 
 
