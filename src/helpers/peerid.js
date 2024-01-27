@@ -11,12 +11,14 @@ export function sendConstructor(myid, data, options = {}) {
 export function getPeerConfig() {
   return {
     config: {
-      iceServers: [
-        { url: "stun:stun.l.google.com:19302" },
-        { url: "turn:homeo@turn.bistri.com:80", credential: "homeo" },
-      ],
+      urls: [ 
+        "turn:eu-0.turn.peerjs.com:3478", 
+        "turn:us-0.turn.peerjs.com:3478", 
+      ], 
     } /* Sample servers, please use appropriate ones */,
   };
+
+  
   return undefined;
   return {
     secure: true,
