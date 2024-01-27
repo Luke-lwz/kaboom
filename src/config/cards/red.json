@@ -484,22 +484,24 @@
         "id": "r043",
         "description": "PUBLIC REVEAL >> FORCE ELECT LEADER",
         "links": [],
-        "src": "",
+        "src": "/red/election.png",
         "info": "You have the ELECTOR power: during any round but the last, you may publicly reveal your card and choose the new leader of a room. The new leader cannot be usurped during the same round in which they were elected. If 2 Electors use their power in the same room during the same round, whichever person was elected first remains the leader, the other Elector wasted their power.",
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
-        "difficulty": 1
+        "difficulty": 1,
+        "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/JmmhTm_which-candidate-should-be-the-new-mcla-president/"}
     },
     {
         "name": "DIRECTOR",
         "id": "r044",
         "description": "PUBLIC REVEAL >> CHANGE THE NUMBER OF HOSTAGES",
         "links": [],
-        "src": "",
+        "src": "/red/directors_chair.png",
         "info": "You have the DIRECTOR power: during any round, you may publicly reveal your card and increase or decrease the number of hostages sent this round by 1. You have to publicly announce this change to the room.\r\nYou can use this power once per game.\r\n\r\nNote: If the Blue DIRECTOR changed the Hostage count before you could, you are allowed to increase or decrease the new count and vice versa.\r\n\r\nNote: If the number of hostages is 0, you can't decrease it further.",
         "tags": "custom patch1 v2 friends",
         "color_name": "red",
-        "difficulty": 1
+        "difficulty": 1,
+        "credit": {"text": "Image from vectorportal.com", "link": "https://vectorportal.com/vector/directors-chair-vector-clip-art/14960"}
     },
     {
         "name": "Red Fist",
@@ -508,11 +510,12 @@
         "primary": true,
         "backup_cards": [],
         "links": [],
-        "src": "",
+        "src": "/red/red_fist.png",
         "info": "You are a primary character. The Red Team wins if you are not in the same room as the Blue Drone at the end of the game.",
         "tags": "custom patch1 v2 friends primary",
         "color_name": "red",
-        "difficulty": 7
+        "difficulty": 7,
+        "credit": {"text": "Image from kindpng.com", "link": "https://www.kindpng.com/imgv/TwioRh_area-symbol-circle-power-fist-hd-png-download/"}
     },
     {
         "name": "Dragon",
