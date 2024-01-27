@@ -15,16 +15,35 @@ export function getPeerConfig() {
     port: 443,
     key: "peerjs",
     allow_discovery: true,
-    // config: {
-    //   iceServers: [
-    //     // { url: "stun:matze-server.net:3478" },
-    //     {
-    //       url: "turn:matze-server.net:3478",
-    //       credential:
-    //         "5c4750c474320b5fdc63470be5d6a4a3c4b4a89ed67894b345b4e3515196d12d",
-    //     },
-    //   ],
-    // },
+    config: {
+      iceServers: [
+        {
+          url: "stun:global.stun.twilio.com:3478",
+          urls: "stun:global.stun.twilio.com:3478",
+        },
+        {
+          url: "turn:global.turn.twilio.com:3478?transport=udp",
+          username:
+            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
+          urls: "turn:global.turn.twilio.com:3478?transport=udp",
+          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
+        },
+        {
+          url: "turn:global.turn.twilio.com:3478?transport=tcp",
+          username:
+            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
+          urls: "turn:global.turn.twilio.com:3478?transport=tcp",
+          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
+        },
+        {
+          url: "turn:global.turn.twilio.com:443?transport=tcp",
+          username:
+            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
+          urls: "turn:global.turn.twilio.com:443?transport=tcp",
+          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
+        },
+      ],
+    },
   };
 
   return undefined;
