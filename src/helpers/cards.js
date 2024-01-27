@@ -328,22 +328,23 @@ export function getAllCards() {
 
 export function sortCards(cards, pairRB = false) {
   if (!cards?.[0]?.id) return cards;
-  var allSorted = cards.toSorted((a, b) => {
+  var allSorted = cards.filter(() => true);
+  allSorted.sort((a, b) => {
     return a.name === b.name ? 0 : a.name < b.name ? -1 : 1;
   });
 
 
   
-  allSorted = allSorted.toSorted((x, y) => {
+   allSorted.sort((x, y) => {
     return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0;
   });
-  allSorted = allSorted.toSorted((x, y) => {
+   allSorted.sort((x, y) => {
     return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0;
   });
-  allSorted = allSorted.toSorted((x, y) => {
+   allSorted.sort((x, y) => {
     return x.id == "r000" ? -1 : y.id == "r000" ? 1 : 0;
   }); // pushes certain elements to front
-  allSorted = allSorted.toSorted((x, y) => {
+   allSorted.sort((x, y) => {
     return x.id == "b000" ? -1 : y.id == "b000" ? 1 : 0;
   });
 
@@ -352,7 +353,7 @@ export function sortCards(cards, pairRB = false) {
 
   for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
     let colorName = CARD_COLOR_ORDER[i];
-    allSorted = allSorted.toSorted((x, y) => {
+    allSorted.sort((x, y) => {
       return x.color_name === colorName
         ? 1
         : y.color_name === colorName
@@ -364,7 +365,7 @@ export function sortCards(cards, pairRB = false) {
   }
 
   if (pairRB) {
-    allSorted = allSorted.toSorted((a, b) => {
+    allSorted.sort((a, b) => {
       // Compare by id first
 
       if (
