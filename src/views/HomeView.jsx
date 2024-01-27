@@ -196,7 +196,7 @@ function HomeView({ }) {
 
 
         const connToRoom = joinPeer.connect(constructPeerID(code, "host"));
-        console.log(connToRoom)
+        console.log(connToRoom?.id)
         setLoading(true);
         connToRoom?.on("open", () => {
             setPrompt({ element: <NamePrompt onEnter={setNameAndJoin} buttonValue="JOIN" /> })
