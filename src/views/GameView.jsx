@@ -1376,7 +1376,7 @@ function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3 }) {
 }
 
 
-const DIMENSIONS_MULTIPLIER = 1.8;
+const DIMENSIONS_MULTIPLIER = 2;
 
 
 function TextBandsAnimation({ text, color, shadowColor, animationType = "opposite-lines", rotation = -45 }) {
