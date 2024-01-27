@@ -34,7 +34,7 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
                         </TableCell>
                         <TableCell>
                             {onTimeChange ?
-                                <select name="Round time" onChange={(e) => onTimeChange(e.target.value, index)} className='text-base-content w-fit text-center'>
+                                <select name="Round time" onChange={(e) => onTimeChange(e.target.value, index)} className='text-base-content w-fit text-center h-6 bg-gray-200 rounded-full px-1'>
 
                                     {minuteArray.map(i => <option selected={i === round?.time} value={i}>{i} min</option>)}
 
@@ -46,7 +46,7 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
                         </TableCell>
                         <TableCell>
                             {onHostagesChange ?
-                                <select name="Hostages" onChange={(e) => onHostagesChange(e.target.value, index)} className='text-base-content w-fit'>
+                                <select name="Hostages" onChange={(e) => onHostagesChange(e.target.value, index)} className='text-base-content w-fit h-6 bg-gray-200 rounded-full px-1'>
 
                                     {hostagesArray.map(i => <option selected={i === round?.hostages} value={i}>{i}</option>)}
 

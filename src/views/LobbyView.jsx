@@ -237,7 +237,8 @@ function ClientLobby({ me, setMe, code }) {
                 <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
                 <PlaysetDisplay forceOpen selected playset={playset} />
             </div>
-            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
+            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start -mt-4'>
+                <h1 className='font-extrabold text-lg uppercase '>Round configuration <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
                 <RoundConfig
                     color={selectedRoundTabByHost?.color}
                     roundConfig={roundConfig} />
@@ -680,7 +681,7 @@ function HostLobby({ me, code }) {
 
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>ROUND OPTIONS<Info tooltip="Customize round times (advanced)" /></h1>
-                <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 '>
+                <div className=' flex items-center justify-center overflow-x-scroll scrollbar-hide w-full gap-2 mb-2 '>
                     {ROUND_TABS.map(tab => (
                         <SelectTab selected={selectedRoundTab?.value === tab?.value} onClick={() => onRoundTabClick(tab)} {...tab}>{tab?.name}</SelectTab>
                     ))}
