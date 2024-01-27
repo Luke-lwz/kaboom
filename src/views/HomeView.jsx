@@ -214,7 +214,7 @@ function HomeView({ }) {
 
         joinPeer.on("error", (err) => {
             console.log(err)
-            setTemp(err)
+            setTemp(JSON.stringify(err))
             toast.error("Error");
             setPrompt(null);
             setLoading(false)
