@@ -466,5 +466,17 @@
         "tags": "custom patch1 v2 friends",
         "color_name": "grey",
         "difficulty": 6
+    },
+    {
+        "name": "MASTERMIND 2.0",
+        "id": "g042",
+        "description": "NAME ALL CARD COLORS AT THE END",
+        "links": [],
+        "pausegamenr": 9,
+        "src": "",
+        "info": "You win if you can name all card colors at the end of the game. You have a pause game number of 9. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 8
     }
 ]
