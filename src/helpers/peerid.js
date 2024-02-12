@@ -16,33 +16,25 @@ export function getPeerConfig() {
     key: "peerjs",
     allow_discovery: true,
     config: {
-      iceServers: [
-        {
-          url: "stun:global.stun.twilio.com:3478",
-          urls: "stun:global.stun.twilio.com:3478",
-        },
-        {
-          url: "turn:global.turn.twilio.com:3478?transport=udp",
-          username:
-            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
-          urls: "turn:global.turn.twilio.com:3478?transport=udp",
-          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
-        },
-        {
-          url: "turn:global.turn.twilio.com:3478?transport=tcp",
-          username:
-            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
-          urls: "turn:global.turn.twilio.com:3478?transport=tcp",
-          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
-        },
-        {
-          url: "turn:global.turn.twilio.com:443?transport=tcp",
-          username:
-            "be0e259e8abbd8eb3b8f490af28eac7a21b3652f0adf5ab5f363a9bdd86bb030",
-          urls: "turn:global.turn.twilio.com:443?transport=tcp",
-          credential: "m3Fs3VNU6d776zO2ulIaHpbGnv9qDLQekhwucqiNHNM=",
-        },
-      ],
+      iceServers: [{
+        "url": "stun:global.stun.twilio.com:3478",
+        "urls": "stun:global.stun.twilio.com:3478"
+    }, {
+        "url": "turn:global.turn.twilio.com:3478?transport=udp",
+        "username": "3150ecd019ec7194358bb95cb0b8fd2c68a8c00075a242e2e3546eb8cb53fc3e",
+        "urls": "turn:global.turn.twilio.com:3478?transport=udp",
+        "credential": "jVsaIlUbQoJ14BO2utaGyo5DUDv+17d7t3SEpiTLthI="
+    }, {
+        "url": "turn:global.turn.twilio.com:3478?transport=tcp",
+        "username": "3150ecd019ec7194358bb95cb0b8fd2c68a8c00075a242e2e3546eb8cb53fc3e",
+        "urls": "turn:global.turn.twilio.com:3478?transport=tcp",
+        "credential": "jVsaIlUbQoJ14BO2utaGyo5DUDv+17d7t3SEpiTLthI="
+    }, {
+        "url": "turn:global.turn.twilio.com:443?transport=tcp",
+        "username": "3150ecd019ec7194358bb95cb0b8fd2c68a8c00075a242e2e3546eb8cb53fc3e",
+        "urls": "turn:global.turn.twilio.com:443?transport=tcp",
+        "credential": "jVsaIlUbQoJ14BO2utaGyo5DUDv+17d7t3SEpiTLthI="
+    }],
     },
   };
 
