@@ -18,7 +18,7 @@ function Menu2({ onCancel = () => { }, children }) {
                     <div onClick={onCancel} className="grow h-full " />
 
                     <motion.div
-                        className={'animate__animated animate__fadeInUpBig duration-150 animate__faster max-w-[50rem] shrink w-fit  max-h-[29rem] text-black rounded-lg flex flex-col justify-center items-center overflow-hidden transition-all '}
+                        className={'animate__animated animate__zoomIn duration-150 animate__faster max-w-[50rem] shrink w-fit  max-h-[29rem] text-black rounded-lg flex flex-col justify-center items-center overflow-hidden transition-all '}
                         drag="y"
                         dragElastic={{ top: 0, bottom: 0.5 }}
                         dragSnapToOrigin

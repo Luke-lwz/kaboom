@@ -150,8 +150,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, me?.id), getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, me?.id), await getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -239,8 +239,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
     }
 
-    function testConnection() {
-        const peer = new Peer(getPeerConfig());
+    async function testConnection() {
+        const peer = new Peer(await getPeerConfig());
 
         console.log("🌐")
         setConn(undefined); // undefined means loading
@@ -453,8 +453,8 @@ function HostGame({ me, setMe, code, setScreen }) {
         setMe(newMe);
     }
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, "host"), await getPeerConfig());
 
         setPeer(peer);
 
@@ -926,7 +926,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                     <Countdown s={countdown} paused={gameState.paused} onClick={handleCountdownClick} />
                 </div>
 
-                <div onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                <div style={{zIndex: 11}} onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
                     <MiniRoundDisplay game={gameState}  />
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}

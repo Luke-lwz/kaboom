@@ -35,7 +35,6 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     const { setMenu } = useContext(PageContext);
 
 
-    console.log(quickActions)
 
 
 
@@ -47,7 +46,6 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     const { cardCounts = [] } = useMemo(() => {
         if (!playset) return [];
         const cards = sortCards(allCardsInRow(playset));
-        console.log(cards)
         let arr = [];
 
         for (const card of cards) {

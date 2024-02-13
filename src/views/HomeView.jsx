@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useMemo } from "react";
+import { useContext, useState, useEffect, useMemo, useCallback } from "react";
 
 import { toast } from "react-hot-toast";
 
@@ -61,18 +61,28 @@ function HomeView({ }) {
 
     const [displayUseSafari, setDisplayUseSafari] = useState(false)
 
-    const [temp, setTemp] = useState("");
+
+    const [joinPeer, setJoinPeer] = useState();
+    const [createPeer, setCreatePeer] = useState();
 
 
     // const testPeer = new Peer();
 
-    const joinPeer = new Peer(getPeerConfig());
-    const createPeer = new Peer(getPeerConfig());
 
+
+    async function initPeers() {
+        const joinPeer = new Peer(await getPeerConfig());
+        const createPeer = new Peer(await getPeerConfig());
+        setJoinPeer(joinPeer);
+        setCreatePeer(createPeer);
+    }
 
 
 
     useEffect(() => {
+
+
+        initPeers();
 
 
         // safari
@@ -133,7 +143,6 @@ function HomeView({ }) {
         }
 
 
-
     }, [])
 
 
@@ -181,7 +190,7 @@ function HomeView({ }) {
 
 
 
-    function joinRoom() {
+    const joinRoom = useCallback(async () => {
         const code = document?.getElementById("room-input")?.value?.toUpperCase() || null;
 
 
@@ -199,8 +208,6 @@ function HomeView({ }) {
 
         const connToRoom = joinPeer.connect(constructPeerID(code, "host"));
         console.log(connToRoom)
-
-        setTemp(connToRoom?.peer)
         setLoading(true);
         connToRoom?.on("open", () => {
             setPrompt({ element: <NamePrompt onEnter={setNameAndJoin} buttonValue="JOIN" /> })
@@ -214,7 +221,6 @@ function HomeView({ }) {
 
         joinPeer.on("error", (err) => {
             console.log(err)
-            setTemp(JSON.stringify(err))
             toast.error("Error");
             setPrompt(null);
             setLoading(false)
@@ -257,17 +263,19 @@ function HomeView({ }) {
 
 
 
-    }
+    }, [joinPeer])
 
-    function createRoom() {
+    const createRoom = useCallback( async () => {
 
 
 
         setPrompt({ element: <NamePrompt onEnter={setNameAndCreate} buttonValue="CREATE" /> })
 
 
-        function setNameAndCreate(name) {
+        async function setNameAndCreate(name) {
             if (name === "") return setPrompt(null);
+
+
 
             const code = idGenAlphabet();
 
@@ -312,7 +320,7 @@ function HomeView({ }) {
         }
 
 
-    }
+    }, [createPeer])
 
 
 
@@ -356,8 +364,6 @@ function HomeView({ }) {
             {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/20 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-lg place-items-center grid grid-cols-8  px-2">
                 <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
             </a>}
-
-            {temp}
 
             {devMode && <DevModeBanner />}
             <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full flex items-center justify-center">
@@ -432,7 +438,7 @@ function HomeView({ }) {
                 <Box>
                     <h1 className="text-2xl">Join Game</h1>
                     <input autoComplete="off" id="room-input" type="text" max={4} maxLength={4} className="input skew-reverse text-center font-extrabold text-xl text-normal tracking-widest text-black w-fit px-0 bg-accent-content" placeholder="&#x2022; &#x2022; &#x2022; &#x2022;" onChange={(e) => (e?.target?.value?.length <= 4 ? e.target.value = e.target.value.toUpperCase() : e.target.value = e.target.value.substring(0, 4))} />
-                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
+                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 loading loading-spinner " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
                     <div className="mx-12 max-w-sm my-2.5 py-[0.05rem] bg-neutral-content w-full rounded-full"></div>
                     <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE GAME</button>
 
@@ -477,7 +483,7 @@ function HomeView({ }) {
             <div className="flex justify-center w-full items-center text-xs text-gray-500 py-4"><div className="text-center">This work is <a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank">licensed</a> under the<br /><a className="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons license BY-NC-SA 4.0.</a><br /><a href="/privacy" target="_blank" className="underline">Privacy</a></div></div>
 
 
-            
+
         </div>
     );
 }

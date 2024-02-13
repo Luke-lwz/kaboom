@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { PageContext } from '../components/PageContextProvider';
 
@@ -147,8 +147,8 @@ function ClientLobby({ me, setMe, code }) {
     }, [ready])
 
 
-    function startPeer() {
-        const peer = new Peer(getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(await getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -317,7 +317,6 @@ function HostLobby({ me, code }) {
 
 
     useEffect(() => {
-        console.log(roundConfig)
 
         if (selectedRoundTab?.value === "custom") {
             localStorage.setItem("lastCustomRoundConfig", JSON.stringify(roundConfig))
@@ -366,6 +365,8 @@ function HostLobby({ me, code }) {
         var offlinePlayers = players?.current?.filter(p => !p?.conn && p?.id !== "HOST") || [];
         setArePlayersOffline((offlinePlayers?.length > 0));
 
+        updateRecommendedRounds();
+
 
 
     }, [playersUpdated, playset])
@@ -377,19 +378,27 @@ function HostLobby({ me, code }) {
     }, [recommendBury])
 
 
+    const updateRecommendedRounds = useCallback(() => {
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
+        if (selectedRoundTab?.value === "recommended") {
+            setRoundConfig(generateDefaultRounds(playerState?.length || 1))
+        }
+        
+    }, [playerState, selectedRoundTab])
+
+
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, "host"), await getPeerConfig());
 
 
         setPeer(peer);
 
 
-        console.log(peer)
 
 
 
         peer.on("connection", (conn) => {
+
 
 
             conn.on("open", () => {
@@ -410,6 +419,7 @@ function HostLobby({ me, code }) {
                             conn.send({ intent: "joined_lobby", payload: { myId: playerID.value } })
 
                             updateAllClients();
+
 
 
                             break;
@@ -490,6 +500,7 @@ function HostLobby({ me, code }) {
         } else players.current.push({ id, name, conn })
 
 
+        updateRecommendedRounds();
 
 
         setPlayersUpdated([])
@@ -505,6 +516,9 @@ function HostLobby({ me, code }) {
         setPlayersUpdated([])
 
 
+        updateRecommendedRounds();
+
+
     }
 
 
@@ -512,6 +526,8 @@ function HostLobby({ me, code }) {
         const player = players.current.filter(p => p.id == id)[0];
         player?.conn?.send({ intent: "redirect", payload: { to: "/" } })
         removePlayer(id);
+
+        updateRecommendedRounds();
 
     }
 
