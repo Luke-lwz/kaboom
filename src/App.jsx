@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import toast, { ToastBar, Toaster } from 'react-hot-toast';
 
@@ -130,6 +130,17 @@ function App() {
   }
 
 
+  const checkAuthenticated = useCallback((func) => {
+    if (!user) {
+      showLoginMenu();
+      return false;
+    }
+    if (func) func();
+    return true;
+
+  }, [user])
+
+
   function allLocalStorage() {
 
     var values = [],
@@ -214,7 +225,7 @@ function App() {
         </Toaster>
 
 
-        <PageContextProvider value={{ user, setUser, getUser, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
+        <PageContextProvider value={{ user, setUser, getUser, checkAuthenticated, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
           {pageCover && <PageCover {...pageCover} />}
           {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
           {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
