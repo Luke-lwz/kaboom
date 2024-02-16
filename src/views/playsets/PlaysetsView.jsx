@@ -5,6 +5,7 @@ import { PageContext } from "../../components/PageContextProvider";
 import PlaysetsFilter from "../../components/playsets/PlaysetsFilter";
 import { BsCassetteFill } from "react-icons/bs";
 import { TitleBar } from "./WorkbenchView";
+import { BigAbsoluteMakeButton } from "../../components/MegaButtons";
 
 
 export default function PlaysetsView({ onClick = () => { } }) {
@@ -22,6 +23,7 @@ export default function PlaysetsView({ onClick = () => { } }) {
                 </>
             } />
             <PlaysetsFilter onPlaysetClick={(playset) => smoothNavigate(`/playsets/${playset.id}`)} />
+            <BigAbsoluteMakeButton onClick={() => smoothNavigate("/workbench")} />
         </div>
     );
 }

@@ -13,7 +13,7 @@ import { TfiReload } from "react-icons/tfi"
 
 
 import LinkedCardsContainer from "../../components/LinkedCardsContainer";
-import { getAllCards, getCardFromId, getCardsForPlayset, getLinkedCardsPaired, getLinkedCardsPairedById } from "../../helpers/cards";
+import { getAllCards, getCardFromId, getCardsForPlayset, getLinkedCardsPaired, getLinkedCardsPairedById, pairUpCards } from "../../helpers/cards";
 import { avgFromCards, getDifficultyDataFromValue } from "../../helpers/difficulty";
 import { PageContext } from "../../components/PageContextProvider";
 import CardInfoMenu from "../../components/menus/CardInfoMenu";
@@ -31,6 +31,9 @@ import Info from "../../components/Info";
 import supabase from "../../supabase";
 import toast from "react-hot-toast";
 import { minimizePlayset } from "../../helpers/playsets";
+import { useParams } from "react-router-dom";
+import RedirectView, { RedirectLoadingView } from "./workbenchComponents/RedirectView";
+import { BsPencilFill, BsStars } from "react-icons/bs";
 
 
 
@@ -49,30 +52,83 @@ const MAX = {
 
 
 
-export default function WorkbenchView(props) {
+export default function WorkbenchView({ editMode = false, remixMode = false, startingPlayset = null }) {
+
+    console.log(editMode)
 
     const { setMenu, setMenu2, setPageCover, devMode, user, showLoginMenu, smoothNavigate } = useContext(PageContext);
 
-    const [primaries, setPrimaries] = useState([
-        ["b001", "r001"]
-    ])
-    const [generalCards, setGeneralCards] = useState([
-        ["b014", "r014"]
-    ])
-    const [oddCard, setOddCard] = useState("g008"); // nullable
-    const [defaultCards, setDefaultCards] = useState([
-        ["b000", "r000"]
-    ])
+    const { playsetId } = useParams();
+
+
+    const [rendered, setRendered] = useState(false);
+
+
+    const [primaries, setPrimaries] = useState(getStartingValues("primaries", startingPlayset))
+    const [generalCards, setGeneralCards] = useState(getStartingValues("generalCards", startingPlayset))
+    const [oddCard, setOddCard] = useState(getStartingValues("oddCard", startingPlayset)); // nullable
+    const [defaultCards, setDefaultCards] = useState(getStartingValues("defaultCards", startingPlayset))
+
+
+    function getStartingValues(type, startingPlayset) {
+        switch (type) {
+            case "primaries":
+                if (startingPlayset?.primaries) {
+                    return pairUpCards(startingPlayset?.primaries)?.map(cardPair => cardPair?.map(c => c?.id))
+                } else {
+                    return [
+                        ["b001", "r001"]
+                    ]
+                }
+
+            case "generalCards":
+                if (startingPlayset?.cards) {
+                    return pairUpCards(startingPlayset?.cards)?.map(cardPair => cardPair?.map(c => c?.id))
+                } else {
+                    return [
+                        ["b014", "r014"]
+                    ]
+                }
+
+            case "oddCard":
+                if (startingPlayset?.oddCard) {
+                    return startingPlayset?.oddCard?.id
+                } else {
+                    return "g008"
+                }
+
+            case "defaultCards":
+                if (startingPlayset?.defaultCards) {
+                    return pairUpCards(startingPlayset?.defaultCards)?.map(cardPair => cardPair?.map(c => c?.id))
+                } else {
+                    return [
+                        ["b000", "r000"]
+                    ]
+                }
+
+            default:
+                break;
+        }
+    }
+
+
+    useEffect(() => {
+        setRendered(true);
+    }, [])
+    useEffect(() => {
+        if (rendered && !user) return showLoginMenu()
+
+    }, [])
 
 
     // Form 
-    const [emoji, setEmoji] = useState("🎲");
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [shuffle, setShuffle] = useState(true);
-    const [minPlayers, setMinPlayers] = useState(6);
-    const [maxPlayers, setMaxPlayers] = useState(30);
-    const [buryOption, setBuryOption] = useState("auto");
+    const [emoji, setEmoji] = useState(startingPlayset?.emoji || "🎲");
+    const [name, setName] = useState(startingPlayset?.name || "");
+    const [description, setDescription] = useState(startingPlayset?.description || "");
+    const [shuffle, setShuffle] = useState(startingPlayset ? startingPlayset?.shuffle || true : true);
+    const [minPlayers, setMinPlayers] = useState(startingPlayset?.min_players || 6);
+    const [maxPlayers, setMaxPlayers] = useState(startingPlayset?.max_players || 30);
+    const [buryOption, setBuryOption] = useState(startingPlayset ? startingPlayset?.no_bury ? "never" : startingPlayset?.force_bury ? "always" : "auto" : "auto");
 
     const [loading, setLoading] = useState(false);
 
@@ -100,20 +156,32 @@ export default function WorkbenchView(props) {
 
 
 
-    const playset = useMemo(() => ({
-        name,
-        description,
-        players: `${minPlayers}-${maxPlayers}`,
-        emoji,
-        primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
-        cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
-        default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
-        odd_card: oddCard ? getCardFromId(oddCard) : null,
-        shuffle: shuffle,
-        no_bury: (buryOption === "never"),
-        force_bury: (buryOption === "always"),
-        difficulty: getDifficultyDataFromValue(avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid))))?.difficulty
-    }), [primaries, generalCards, oddCard, defaultCards, emoji, name, description, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption])
+    const playset = useMemo(() => {
+
+        const playset = {
+            name,
+            description,
+            players: `${minPlayers}-${maxPlayers}`,
+            emoji,
+            primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
+            cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
+            default_cards: crackOpenPairs(defaultCards).map((cid) => getCardFromId(cid)),
+            odd_card: oddCard ? getCardFromId(oddCard) : null,
+            shuffle: shuffle,
+            no_bury: (buryOption === "never"),
+            force_bury: (buryOption === "always"),
+            difficulty: getDifficultyDataFromValue(avgFromCards(allCardsInPlaysetInRowId.map(cid => getCardFromId(cid))))?.difficulty
+        }
+        if (remixMode) {
+            playset.remixed_from = startingPlayset?.id;
+        }
+        if (editMode) {
+            playset.id = startingPlayset?.id;
+        }
+
+        return playset
+
+    }, [primaries, generalCards, oddCard, defaultCards, emoji, name, description, shuffle, minPlayers, maxPlayers, allCardsInPlaysetInRowId, buryOption, startingPlayset, remixMode, editMode])
 
 
 
@@ -138,6 +206,8 @@ export default function WorkbenchView(props) {
     }
 
 
+    
+
 
 
 
@@ -146,6 +216,11 @@ export default function WorkbenchView(props) {
     const publishPlayset = useCallback(async () => {
         if (loading) return
         if (!user) return showLoginMenu()
+
+        if (remixMode && startingPlayset?.name?.toLowerCase() === playset?.name.toLowerCase()) {
+            toast.error("You can't remix a playset with the same name")
+            return
+        }
 
         const playsetCopy = minimizePlayset(playset)
 
@@ -167,10 +242,10 @@ export default function WorkbenchView(props) {
         console.log(data)
 
         if (data?.id) {
-            toast.success("Published!")
+            toast.success("Saved!")
             smoothNavigate(`/playsets/${data?.id}`)
         }
-        else toast.error("Error while publishing")
+        else toast.error("Error while saving")
 
         console.log(error)
 
@@ -178,7 +253,9 @@ export default function WorkbenchView(props) {
 
 
 
-    }, [playset, user, minPlayers, maxPlayers, loading])
+    }, [playset, user, minPlayers, maxPlayers, loading, remixMode, startingPlayset])
+
+
 
 
 
@@ -249,7 +326,7 @@ export default function WorkbenchView(props) {
             onClose: () => setPageCover(null)
         })
 
-        
+
 
 
         function replaceOrAddCard(card) {
@@ -285,7 +362,7 @@ export default function WorkbenchView(props) {
         }
     }
 
-    function promptCardInfoBeforeSelect(card, replaceOrAddCard = () => {}) {
+    function promptCardInfoBeforeSelect(card, replaceOrAddCard = () => { }) {
         setMenu(
             <CardInfoMenu card={card} color={card?.color} onSelect={(card) => handleSelect(card)} />
         )
@@ -295,8 +372,6 @@ export default function WorkbenchView(props) {
             setTimeout(() => setMenu(null), 10)
         }
     }
-    
-
 
 
     return (
@@ -307,7 +382,17 @@ export default function WorkbenchView(props) {
 
 
                 <div className="shadow-xl shadow-base-100">
-                    <TitleBar titleElement={
+                    <TitleBar titleElement={editMode ?
+                        <div style={{color: "#7e22ce"}} className="flex items-center justify-start gap-3 ">
+                            <BsPencilFill />
+                            <h1>Editing</h1>
+                        </div>
+                        : remixMode ?
+                        <div style={{color: "#fad623"}} className="flex items-center justify-start gap-3 ">
+                            <BsStars />
+                            <h1>Remixing</h1>
+                        </div>
+                        :
                         <>
                             <FaTools />
                             <h1>Workbench</h1>
@@ -391,11 +476,15 @@ export default function WorkbenchView(props) {
 
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide gap-4 flex flex-col items-center">
-                <div className="w-full h-fit -mb-8">
+                <div className="w-full h-fit -mb-16">
                     <PlaysetDisplay key={playset?.name} playset={playset} forceOpen quickActions={null} />
 
                 </div>
-                <div className="flex flex-col w-full items-center gap-2">
+                <div className="w-full text-left">
+                    Cards: {allCardsInPlaysetInRowId?.length || 0}
+
+                </div>
+                <div className="flex flex-col w-full items-center gap-2 ">
                     <div className="w-full flex items-center gap-2 text-center">
                         <div className="dropdown input border-2 p-0 rounded-md">
                             <label tabIndex={0} className="w-16 h-full flex items-center justify-center">{playset?.emoji}</label>
@@ -403,10 +492,10 @@ export default function WorkbenchView(props) {
                                 <Picker onEmojiClick={(data) => setEmoji(data?.emoji || "🎲")} emojiStyle="native" categories={["smileys_people", "animals_nature", "food_drink", "travel_places", "activities", "objects", "symbols"]} />
                             </div>
                         </div>
-                        <input type="text" placeholder="Name *" className="input border-2 w-full rounded-md" onChange={(e) => setName(e?.target?.value || "")} />
+                        <input type="text" placeholder="Name *" defaultValue={name} className="input border-2 w-full rounded-md" onChange={(e) => setName(e?.target?.value || "")} />
                     </div>
                     <div className="w-full -mb-1.5">
-                        <textarea name="" onChange={(e) => setDescription(e?.target?.value || "")} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
+                        <textarea name="" defaultValue={description} onChange={(e) => setDescription(e?.target?.value || "")} className="textarea w-full border-2 border-neutral " rows="3" placeholder="Description" id="" cols="30"></textarea>
                     </div>
                     <div className="w-full">
                         <ToggleButton full checked={!shuffle} onChange={() => setShuffle(shuffle => !shuffle)} recommended={false}>
@@ -434,7 +523,7 @@ export default function WorkbenchView(props) {
                             <option value="never" selected={buryOption === "never"}>Never bury</option>
                         </select>
                     </div>
-                    <button className="btn btn-success w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : "Publish playset!"}</button>
+                    <button style={{backgroundColor: editMode ? "#7e22ce": remixMode ? "#fad623" : ""}} className="btn btn-secondary border-none w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : remixMode ?  "Save remix!" : "Save playset!"}</button>
 
 
                 </div>
@@ -468,7 +557,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
     const cardsPlusSober = useMemo(() => ([...cards, soberCard]), [cards, soberCard])
 
-    
+
 
     const buriedCard = useMemo(() => {
         return (playWithBury ? cards[playerCount] || null : null)
@@ -484,7 +573,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
     useEffect(() => {
         setPlayWithBury(recommendBury)
     }, [recommendBury])
-    
+
 
 
 
@@ -607,7 +696,7 @@ export function TitleBar({ titleElement, fixed }) {
             <button onClick={() => smoothNavigate("/")} className="flex items-center justify-end text-primary mr-4 h-full cursor-pointer">
                 <FaBomb className="mr-4 sm:hidden block" size={25} />
                 <h1 className="hidden sm:inline-block pr-4 ">KABOOM</h1>
-                <VerticalDivider />
+                {titleElement && <VerticalDivider />}
             </button>
             <div className="flex items-center justify-start gap-3 text-secondary">
                 {titleElement}

@@ -44,6 +44,7 @@ import ProfileView from './views/ProfileView';
 import PlaysetsView from './views/playsets/PlaysetsView';
 import CookieConsent from 'react-cookie-consent';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import WorkbenchRedirectView from './views/playsets/workbenchComponents/RedirectView';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -234,7 +235,10 @@ function App() {
 
             <Route path="/playsets" element={<PlaysetsView />} />
             <Route path="/playsets/:id" element={<PlaysetView />} />
-            <Route path="/workbench" element={<WorkbenchView />} />
+            <Route path="/workbench" element={<WorkbenchRedirectView />} />
+            <Route path="/workbench/:playsetId" element={<WorkbenchRedirectView />} />
+            <Route path="/workbench/:playsetId/edit" element={<WorkbenchRedirectView editMode={true} />} />
+            <Route path="/workbench/:playsetId/remix" element={<WorkbenchRedirectView remixMode={true} />} />
 
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/profile/:id" element={<ProfileView />} />

@@ -19,7 +19,7 @@ export default function RangeCounter({ value, onChange = () => { }, min = 0, max
 
     return (
         <div className="w-fit flex items-center justify-center">
-            <div onClick={() => onChange((value - 1 < min ? value : value - 1))} className="bg-base-100 border border-neutral rounded-l w-8 h-8 flex items-center justify-center text-xl font-extrabold clickable">
+            <div onClick={() => onChange((value - 1 < min ? value : value - 1))} className="bg-base-100 border-2 border-neutral rounded-l w-8 h-8 flex items-center justify-center text-xl font-extrabold clickable">
                 <BiMinus />
             </div>
             {manual ?
@@ -30,7 +30,7 @@ export default function RangeCounter({ value, onChange = () => { }, min = 0, max
                 </div>
 
             }
-            <div onClick={() => onChange((value + 1 > max ? value : value + 1))} className="bg-base-100 border border-neutral rounded-r w-8 h-8 flex items-center justify-center text-xl font-extrabold clickable">
+            <div onClick={() => onChange((value + 1 > max ? value : value + 1))} className="bg-base-100 border-2 border-neutral rounded-r w-8 h-8 flex items-center justify-center text-xl font-extrabold clickable">
                 <BiPlus />
             </div>
         </div>

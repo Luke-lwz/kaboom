@@ -2,13 +2,13 @@ import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 import { useEffect, useState, useCallback } from "react";
 import { BsPencilFill, BsStars } from "react-icons/bs";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 
 
-export default function MegaButton({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip, fill = false, onClick = () => { }, title }) {
+export default function MegaButton({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip, fill = false, onClick = () => { }, title, className }) {
     return (
         <>
-            <button onClick={onClick} title={title} className={'rounded-md w-fit tooltip clickable ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ") + (fill ? " w-full " : " w-fit ")} data-tip={tooltip}>
+            <button onClick={onClick} title={title} className={'rounded-md w-fit tooltip clickable group ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ") + (fill ? " w-full " : " w-fit ") + " " + className} data-tip={tooltip}>
                 <div style={{ backgroundColor: textColor, color: "#ffffff" }} className={'text-md h-14  rounded-md px-4 min-w-[2rem] py-2 flex items-center justify-center font-extrabold gap-3 ' + (fill ? " w-full " : " w-fit ")}>
                     {Icon && <div className='text-xl flex items-center justify-center'>
                         {Icon}
@@ -41,7 +41,7 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 
     return (
         <MegaButton title="Bookmark" Icon={marked ? <IoBookmark /> : <IoBookmarkOutline />} fill textColor={"#72c4ff"} onClick={() => handleChange()}>
-            <div className="hidden sm:block">Bookmark{marked ? "ed" : ""}</div>
+            <div className="">Bookmark{marked ? "ed" : ""}</div>
         </MegaButton>
     )
 }
@@ -51,7 +51,7 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 export function RemixButton({ onClick = () => { } }) {
     return (
         <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#fad623" onClick={() => onClick()}>
-            <div className="hidden sm:block">Remix</div>
+            <div className="">Remix</div>
         </MegaButton>
     )
 }
@@ -60,7 +60,7 @@ export function RemixButton({ onClick = () => { } }) {
 export function EditPlaysetButton({ onClick = () => { } }) {
     return (
         <MegaButton title="Edit" Icon={<BsPencilFill className="text-lg" />} fill textColor="#7e22ce" onClick={() => onClick()}>
-            <div className="hidden sm:block">Edit</div>
+            <div className="">Edit</div>
         </MegaButton>
     )
 }
@@ -69,7 +69,17 @@ export function EditPlaysetButton({ onClick = () => { } }) {
 export function DeletePlaysetButton({ onClick = () => { } }) {
     return (
         <MegaButton title="Delete" Icon={<FaTrash className="text-lg" />} fill textColor={"#fc021b"} onClick={() => onClick()}>
-            <div className="hidden sm:block">Delete</div>
+            <div className="">Delete</div>
+        </MegaButton>
+    )
+}
+
+
+
+export function BigAbsoluteMakeButton({ onClick = () => { } }) {
+    return (
+        <MegaButton title="Make" Icon={<FaPlus className="text-lg" />} textColor={"#fc021b"} className={" drop-shadow-2xl absolute bottom-4 right-4 z-10"} onClick={() => onClick()}>
+            <div className="hidden sm:block">Make</div>
         </MegaButton>
     )
 }

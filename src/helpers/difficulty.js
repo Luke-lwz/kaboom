@@ -65,9 +65,27 @@ export function avg(numbers = []) {
 export function avgFromCards(cards) {
     if (cards.length <= 1) return cards?.[0]?.difficulty || 4;
 
-    const sum = cards.map(c => c.difficulty).reduce((acc, cur) => acc + cur);
-    const average = sum / cards.length;
-    return average;
+
+    const numberArray = cards.map(c => c?.difficulty);
+
+    const median = findMedian(numberArray);
+
+    return median;
+
+    // const sum = cards.map(c => c.difficulty).reduce((acc, cur) => acc + cur);
+    // const average = sum / cards.length;
+    // return average;
+}
+
+function findMedian(arr) {
+    arr.sort((a, b) => a - b);
+    const middleIndex = Math.floor(arr.length / 2);
+
+    if (arr.length % 2 === 0) {
+        return (arr[middleIndex - 1] + arr[middleIndex]) / 2;
+    } else {
+        return arr[middleIndex];
+    }
 }
 
 

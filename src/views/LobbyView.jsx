@@ -211,7 +211,7 @@ function ClientLobby({ me, setMe, code }) {
 
     async function getPlayset(id) {
         if (id) {
-            const playset = await getPlaysetById(id) || await getPlaysetById("t0001");
+            const playset = await getPlaysetById(id, null, {refreshInBackground: true}) || await getPlaysetById("t0001");
             setPlayset(maximizePlayset(playset))
 
         }
@@ -618,7 +618,7 @@ function HostLobby({ me, code }) {
         setPageCover(null)
         setPlayset(null);
 
-        const playset = await getPlaysetById(id) || await getPlaysetById("t0001");
+        const playset = await getPlaysetById(id, null, {refreshInBackground: true}) || await getPlaysetById("t0001");
 
         playsetRef.current = playset;
 

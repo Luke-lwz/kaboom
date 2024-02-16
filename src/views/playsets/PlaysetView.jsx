@@ -8,13 +8,13 @@ import PlaysetDisplay from "../../components/playsets/PlaysetDisplay";
 
 //icons
 import { BsCassetteFill } from "react-icons/bs"
-import { BookmarkMegaButton, DeletePlaysetButton, EditPlaysetButton, RemixButton } from "../../components/MegaButtons";
+import { BigAbsoluteMakeButton, BookmarkMegaButton, DeletePlaysetButton, EditPlaysetButton, RemixButton } from "../../components/MegaButtons";
 
 function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { smoothNavigate } = useContext(PageContext)
+    const { smoothNavigate, user } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
@@ -32,7 +32,7 @@ function PlaysetView({ }) {
     }, [id])
 
     async function getPlayset(id) {
-        const playset = await getPlaysetById(id);
+        const playset = await getPlaysetById(id, user?.id, { ignoreCache: true });
 
 
         setPlayset(playset)
@@ -44,6 +44,7 @@ function PlaysetView({ }) {
     return (
         <div className="flex flex-col lg:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide pb-64">
 
+            <BigAbsoluteMakeButton onClick={() => smoothNavigate("/workbench")} />
 
             <div className="w-full lg:max-w-3xl flex flex-col items-center justify-start border-neutral/10 lg:border-r">  {/* Left Bar With linked cards box */}
 
@@ -58,9 +59,9 @@ function PlaysetView({ }) {
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
                     {playsetMaximized && <PlaysetDisplay quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
                     <div className="w-full grid grid-cols-2 gap-2 mt-2">
-                        <RemixButton />
+                        <RemixButton onClick={() => smoothNavigate(`/workbench/${playset?.id}/remix`)} />
                         <BookmarkMegaButton />
-                        <EditPlaysetButton />
+                        <EditPlaysetButton onClick={() => smoothNavigate(`/workbench/${playset?.id}/edit`)} />
                         <DeletePlaysetButton />
                     </div>
                     {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
