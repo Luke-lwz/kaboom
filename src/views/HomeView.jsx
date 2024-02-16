@@ -35,8 +35,10 @@ import ContributeLinks from "../components/ContributeLinks";
 import { UserAvatar } from "../components/UserAvatars";
 import supabase from "../supabase";
 import MegaButton from "../components/MegaButtons";
-import { IoPersonCircleOutline } from "react-icons/io5";
+import { IoPersonCircleOutline, IoPhonePortraitOutline } from "react-icons/io5";
 import { TbCardsFilled } from "react-icons/tb";
+import { CgCardDiamonds } from "react-icons/cg";
+import { FaTools } from "react-icons/fa";
 
 
 
@@ -50,7 +52,7 @@ function HomeView({ }) {
 
 
 
-    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate } = useContext(PageContext)
+    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate,checkAuthenticated } = useContext(PageContext)
 
     const [loading, setLoading] = useState(false);
     const [clicksToDev, setClicksToDev] = useState(0);
@@ -265,7 +267,7 @@ function HomeView({ }) {
 
     }, [joinPeer])
 
-    const createRoom = useCallback( async () => {
+    const createRoom = useCallback(async () => {
 
 
 
@@ -337,15 +339,7 @@ function HomeView({ }) {
     }
 
 
-    async function logout() {
-        try {
-            const { error } = await supabase.auth.signOut()
-            console.log(error)
-        } catch (e) {
-
-        }
-        window.location.href = "/"
-    }
+    
 
 
     async function supatest() {
@@ -377,24 +371,33 @@ function HomeView({ }) {
 
 
                 {/* Login */}
-                <div className="top-0 right-0 p-4 pt-0 text-2xl md:text-3xl flex items-center justify-center absolute clickable">
-                    {!user?.id ?
-                        <IoPersonCircleOutline onClick={() => showLoginMenu()} />
-                        :
-                        <div className="dropdown dropdown-end" >
-                            <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8 md:h-10 w-8 md:w-10"} /></label>
-                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal">
-                                <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
-                                <li><button onClick={() => logout()}>Logout</button></li>
-                            </ul>
-                        </div>
-                    }
+                <div className="top-0 right-0 z-50 p-4 pt-0 text-2xl md:text-3xl flex items-center justify-center absolute clickable">
+                    <ProfilePictureAndMenu />
                 </div>
 
             </div>
 
 
 
+
+
+            <div onClick={() => checkAuthenticated(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
+                <h1 className="absolute -top-3 right-1 z-10 rotate-12 font-extrabold text-xl text-title text-secondary animate-pulse">NEW</h1>
+
+                <div className="border-2 border-neutral rounded-box flex justify-between items-center w-full h-16 overflow-hidden pl-4 pr-2">
+                    <div className="flex flex-col  items-start justify-center">
+                        <div className="flex items-center justify-start gap-3 text-secondary text-title text -mb-1">
+                            <FaTools />
+                            <h1>Workbench</h1>
+                        </div>
+                        <p>Create your own playsets 🎉</p>
+                    </div>
+
+                    <button className="btn btn-xl btn-primary noskew">Try it</button>
+
+                </div>
+
+            </div>
 
 
             {lastGame && <NeutralBlankBannerBox onClick={() => redirect("/game/" + lastGame.code)}>
@@ -473,7 +476,13 @@ function HomeView({ }) {
 
 
 
+
+
+
                 <LinkToTwoRoomsBox />
+
+                <h2 className="font-bold flex flex-wrap w-full max-w-2xl px-4 items-center justify-center text-center text-lg mb-12">This game is meant to be played in person, with your phones <IoPhonePortraitOutline /> = <CgCardDiamonds /></h2>
+
 
 
 
@@ -486,6 +495,34 @@ function HomeView({ }) {
 
         </div>
     );
+}
+
+
+export function ProfilePictureAndMenu() {
+
+    const { user, logout, showLoginMenu,smoothNavigate } = useContext(PageContext);
+
+    
+    return (
+        <div className="text-3xl flex items-center justify-center clickable text-primary">
+            {!user?.id ?
+                        <IoPersonCircleOutline onClick={() => showLoginMenu()} />
+                        :
+                        <div className="dropdown dropdown-end z-[1000]" >
+                            <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8  w-8"} /></label>
+                            <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
+                                <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
+                                <li><button onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.nativeEvent.stopImmediatePropagation();
+                                    e.nativeEvent.stopPropagation();
+                                    logout()
+                                }}>Logout</button></li>
+                            </ul>
+                        </div>
+                    }
+        </div>
+    )
 }
 
 

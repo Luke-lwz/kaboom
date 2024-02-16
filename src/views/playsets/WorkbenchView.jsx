@@ -34,6 +34,7 @@ import { minimizePlayset } from "../../helpers/playsets";
 import { useParams } from "react-router-dom";
 import RedirectView, { RedirectLoadingView } from "./workbenchComponents/RedirectView";
 import { BsPencilFill, BsStars } from "react-icons/bs";
+import { ProfilePictureAndMenu } from "../HomeView";
 
 
 
@@ -206,7 +207,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
     }
 
 
-    
+
 
 
 
@@ -381,22 +382,22 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
             <div className="w-full md:max-w-md xl:max-w-xl flex flex-col items-start justify-start grow border-neutral/10 border-b md:border-r">  {/* Left Bar With linked cards box */}
 
 
-                <div className="shadow-xl shadow-base-100">
+                <div className="shadow-xl shadow-base-100 w-full">
                     <TitleBar titleElement={editMode ?
-                        <div style={{color: "#7e22ce"}} className="flex items-center justify-start gap-3 ">
+                        <div style={{ color: "#7e22ce" }} className="flex items-center justify-start gap-3 ">
                             <BsPencilFill />
                             <h1>Editing</h1>
                         </div>
                         : remixMode ?
-                        <div style={{color: "#fad623"}} className="flex items-center justify-start gap-3 ">
-                            <BsStars />
-                            <h1>Remixing</h1>
-                        </div>
-                        :
-                        <>
-                            <FaTools />
-                            <h1>Workbench</h1>
-                        </>
+                            <div style={{ color: "#fad623" }} className="flex items-center justify-start gap-3 ">
+                                <BsStars />
+                                <h1>Remixing</h1>
+                            </div>
+                            :
+                            <>
+                                <FaTools />
+                                <h1>Workbench</h1>
+                            </>
                     } />
                 </div>
                 <div className="w-full md:overflow-x-hidden md:overflow-y-scroll gap-4 p-4 md:pb-20 flex flex-col">
@@ -523,7 +524,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
                             <option value="never" selected={buryOption === "never"}>Never bury</option>
                         </select>
                     </div>
-                    <button style={{backgroundColor: editMode ? "#7e22ce": remixMode ? "#fad623" : ""}} className="btn btn-secondary border-none w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : remixMode ?  "Save remix!" : "Save playset!"}</button>
+                    <button style={{ backgroundColor: editMode ? "#7e22ce" : remixMode ? "#fad623" : "" }} className="btn btn-secondary border-none w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : remixMode ? "Save remix!" : "Save playset!"}</button>
 
 
                 </div>
@@ -692,15 +693,23 @@ export function TitleBar({ titleElement, fixed }) {
     const { smoothNavigate } = useContext(PageContext);
 
     return (
-        <div className={"flex items-center h-14 p-4 z-10 justify-start w-full text-xl md:text-2xl font-extrabold text-title transition-all " + (fixed && " fixed top-0 left-0 right-0 ")}>
-            <button onClick={() => smoothNavigate("/")} className="flex items-center justify-end text-primary mr-4 h-full cursor-pointer">
-                <FaBomb className="mr-4 sm:hidden block" size={25} />
-                <h1 className="hidden sm:inline-block pr-4 ">KABOOM</h1>
-                {titleElement && <VerticalDivider />}
-            </button>
-            <div className="flex items-center justify-start gap-3 text-secondary">
-                {titleElement}
+        <div className={"flex items-center h-14 p-4 z-10 relative justify-between w-full text-xl md:text-2xl font-extrabold text-title transition-all " + (fixed && " fixed top-0 left-0 right-0 ")}>
+            <div className="flex items-center h-full">
+                <button onClick={() => smoothNavigate("/")} className="flex items-center justify-end text-primary mr-4 h-full cursor-pointer">
+                    <FaBomb className="mr-4 sm:hidden block" size={25} />
+                    <h1 className="hidden sm:inline-block pr-4 ">KABOOM</h1>
+                    {titleElement && <VerticalDivider />}
+                </button>
+                <div className="flex items-center justify-start gap-3 text-secondary">
+                    {titleElement}
+                </div>
             </div>
+
+            <div className=" z-50 flex items-center justify-center ">
+                <ProfilePictureAndMenu />
+            </div>
+
+
         </div>
     )
 
