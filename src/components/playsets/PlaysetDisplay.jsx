@@ -22,6 +22,7 @@ import { BsStars } from "react-icons/bs"
 import { FiExternalLink } from "react-icons/fi";
 import { UserAvatar } from "../UserAvatars";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
+import { FaGhost } from "react-icons/fa";
 
 
 
@@ -54,7 +55,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         interaction: interactions_array,
         max_players,
         min_players,
-        playset_metadata = {},
+        playsets_metadata = {},
         remixed_from,
         shuffle,
         user_id,
@@ -67,7 +68,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         verified = false,
         official = false,
         hidden = false,
-    } = playset_metadata || {};
+    } = playsets_metadata || {};
 
 
 
@@ -109,7 +110,6 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
             0,
         )
 
-        console.log(heightArray, height)
         return height;
     }, [playset, open, forceOpen, showPills, quickActions])
 
@@ -145,8 +145,8 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
     return (
-        <div style={{ height: `${height}rem` }} className={"w-full transition-all overflow-y-hidden scrollbar-hide flex flex-col items-center justify-start "}>
-            <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
+        <div style={{ height: `${height}rem` }} className={"w-full transition-all overflow-y-hidden scrollbar-hide flex flex-col items-center justify-start " + (hidden ? " opacity-50 " : " opacity-100 ")}>
+            <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from, hidden }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
 
             <div style={{height: open ? `${CARDS_BLOCK_HEIGHT + GAP}rem` : 0}} className="w-full overflow-hidden transition-all">
                 {open && <CardsBlock {...{ difficulty, cards, primaries, odd_card, default_cards }} />}
@@ -162,7 +162,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
 // blocks 
-function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_from, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
+function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_from, hidden, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
 
     // const DOT = () => <div className="w-1 h-1 bg-white/50 rounded-full"></div>
 
@@ -174,7 +174,8 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
                     <div className="h-full w-14 tooltip tooltip-right relative" data-tip={name}>
                         <EmojiHighlight emoji={emoji && emoji !== "" ? emoji : undefined} />
                         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-30 translate-x-3 translate-y-2 text-lg">
-                            {remixed_from && <BsStars color="#fad623" className=" text-shadow rotate-3"/>}
+                            {remixed_from && !hidden && <BsStars color="#fad623" className=" text-shadow rotate-3"/>}
+                            {hidden && <FaGhost color="#bdfcff" className=" text-shadow rotate-3"/>}
                         </div>
                     </div>
 
