@@ -47,7 +47,7 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
     }, [user])
 
     return (
-        <div className="w-full flex flex-col items-center justify-start">
+        <div className="w-full flex flex-col items-center justify-start gap-2">
             {playsets?.map(playset => (
                 <PlaysetDisplay playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
             ))}

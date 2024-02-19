@@ -15,7 +15,7 @@ export default function PlaysetsView({ onClick = () => { } }) {
 
 
     return (
-        <div className="w-full flex flex-col items-center h-screen  overflow-y-scroll">
+        <div className="w-full flex flex-col items-center h-full  overflow-y-scroll">
             <TitleBar titleElement={ 
                 <>
                     <BsCassetteFill className="text-2xl md:text-3xl" />
