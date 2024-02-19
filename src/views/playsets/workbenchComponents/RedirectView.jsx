@@ -116,7 +116,7 @@ export function RedirectOptionsView({ children, text, playset }) {
             <TitleBar />
             <div className="  animate__animated animate__fadeIn w-full h-full p-4 flex flex-col max-w-lg items-center justify-center  transition-all gap-1">
                 <h1 className="-mt-28 text-2xl font-extrabold text-title text-center">{text}</h1>
-                <PlaysetDisplay playset={playset} showClosedPills quickActions={null} />
+                <PlaysetDisplay playset={playset} showPills quickActions={null} />
                 <div className="flex w-full items-center justify-center gap-2">
                     {children}
                 </div>

@@ -49,7 +49,7 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
     return (
         <div className="w-full flex flex-col items-center justify-start">
             {playsets?.map(playset => (
-                <PlaysetDisplay playset={playset} onClick={() => onPlaysetClick(playset)} showClosedPills />
+                <PlaysetDisplay playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
             ))}
         </div>
     )

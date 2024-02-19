@@ -42,7 +42,7 @@ export function PlaysetDisplayArea({areaId, children}) {
     const area = useMemo(() => getPlaysetArea(areaId || "odd") || getPlaysetArea("odd"), [areaId]);
 
     return (
-        <div style={{ backgroundColor: area?.colors?.bg, color: area?.colors?.primary }} className="p-3 pl-10 rounded-md w-fit pr-5 flex items-center gap-6 relative">
+        <div style={{ backgroundColor: area?.colors?.bg, color: area?.colors?.primary }} className="p-2.5 pl-10 rounded-md w-fit pr-5 flex items-center gap-6 relative">
             <div className="absolute flex-col flex top-0 left-0 p-2 h-full bottom-0">
                 <area.icon />
                 

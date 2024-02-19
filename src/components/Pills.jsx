@@ -7,7 +7,7 @@ import { BsFillCheckSquareFill, BsAt } from "react-icons/bs"
 export default function Pill({ Icon, children, textColor, bgColor, bgBaseify = false, tooltip, border = false, borderColor, onClick = () => { }, className = "", style = {} }) {
     return (
         <>
-            <button onClick={onClick} className={'rounded-full w-fit h-fit tooltip ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
+            <button onClick={onClick} className={'rounded-full w-fit h-fit tooltip z-50 tooltip-right ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ")} data-tip={tooltip}>
                 <div style={{ backgroundColor: bgColor || textColor + "15", color: textColor, borderColor: borderColor || textColor, borderWidth: (border ? "2px" : "0px"), ...style }} className={'text-xs h-6 font bold whitespace-nowrap  rounded-full px-3 min-w-[2rem] w-fit py-1 flex items-center justify-center font-bold gap-2 transition-all ' + className}>
                     {Icon && <div className='-mx-1 text-sm flex items-center justify-center'>
                         {Icon}
@@ -68,7 +68,7 @@ export function SmallRadialProgress({ value = 30, color, text = "" }) {
 
 export function LargeRadialProgress({ value = 30, color, text = "" }) {
     return (
-        <div className="radial-progress text-sm" style={{ "--value": value, "--size": "3.2rem", "--thickness": "0.35rem", color }}>{text}</div>
+        <div className="radial-progress text-sm translate-y-1" style={{ "--value": value, "--size": "3.2rem", "--thickness": "0.35rem", color }}>{text}</div>
     )
 }
 

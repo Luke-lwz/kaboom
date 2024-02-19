@@ -435,22 +435,6 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
                     </WorkbenchPlaysetArea>
 
                     <WorkbenchPlaysetArea
-                        areaId="odd"
-                        min={MIN.oddCard}
-                        max={MAX.oddCard}
-                        cardCount={oddCard ? 1 : 0}
-                        onAdd={() => onOddCardClick()}>
-
-                        {oddCard && <WorkbenchLinkedCards
-                            onX={() => setOddCard(null)}
-                            onClick={() => onOddCardClick()}
-                            onInfo={onCardSetInfo}
-                            key={"odd-card"}
-                            id={oddCard} />}
-
-                    </WorkbenchPlaysetArea>
-
-                    <WorkbenchPlaysetArea
                         areaId="default"
                         min={MIN.defaultCards}
                         max={MAX.defaultCards}
@@ -466,6 +450,22 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
 
                     </WorkbenchPlaysetArea>
 
+                    <WorkbenchPlaysetArea
+                        areaId="odd"
+                        min={MIN.oddCard}
+                        max={MAX.oddCard}
+                        cardCount={oddCard ? 1 : 0}
+                        onAdd={() => onOddCardClick()}>
+
+                        {oddCard && <WorkbenchLinkedCards
+                            onX={() => setOddCard(null)}
+                            onClick={() => onOddCardClick()}
+                            onInfo={onCardSetInfo}
+                            key={"odd-card"}
+                            id={oddCard} />}
+
+                    </WorkbenchPlaysetArea>
+
 
                 </div>
 
@@ -477,7 +477,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
 
 
             <div className="p-4 grow md:overflow-x-hidden md:overflow-y-scroll scrollbar-hide gap-4 flex flex-col items-center">
-                <div className="w-full h-fit -mb-16">
+                <div className="w-full h-fit">
                     <PlaysetDisplay key={playset?.name} playset={playset} forceOpen quickActions={null} />
 
                 </div>
