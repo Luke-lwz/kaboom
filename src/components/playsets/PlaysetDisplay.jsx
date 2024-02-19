@@ -146,7 +146,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
     return (
         <div style={{ height: `${height}rem` }} className={"w-full transition-all overflow-y-hidden scrollbar-hide flex flex-col items-center justify-start "}>
-            <TitleBlock {...{ name, max_players, min_players, emoji, color }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
+            <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
 
             <div style={{height: open ? `${CARDS_BLOCK_HEIGHT + GAP}rem` : 0}} className="w-full overflow-hidden transition-all">
                 {open && <CardsBlock {...{ difficulty, cards, primaries, odd_card, default_cards }} />}
@@ -162,7 +162,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
 // blocks 
-function TitleBlock({ name, emoji = "🎲", min_players, max_players, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
+function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_from, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
 
     // const DOT = () => <div className="w-1 h-1 bg-white/50 rounded-full"></div>
 
@@ -171,8 +171,11 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, forceOpen 
             <div style={{ background: `linear-gradient(65deg, #00000000, ${color || "#c342ff"}63, ${color || "#c342ff"}ab)` }} className="playset-gradient w-full absolute inset-0 opacity-50" />
             <div className="h-14 flex items-center absolute top-0 left-0 right-0 z-10">
                 <div onClick={onClick} className="flex items-center w-full h-14 pr-4">
-                    <div className="h-full w-14 tooltip tooltip-right" data-tip={name}>
+                    <div className="h-full w-14 tooltip tooltip-right relative" data-tip={name}>
                         <EmojiHighlight emoji={emoji && emoji !== "" ? emoji : undefined} />
+                        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-30 translate-x-3 translate-y-2 text-lg">
+                            {remixed_from && <BsStars color="#fad623" className=" text-shadow rotate-3"/>}
+                        </div>
                     </div>
 
                     <div className={"flex w-full shrink " + (forceOpen || noOpen ? " flex-row items-center justify-between text-lg " : " flex-col text-sm ")}>

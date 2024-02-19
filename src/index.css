@@ -32,6 +32,10 @@ body {
 } */
 
 
+.text-shadow{
+  text-shadow: 0 0 50px hsla(0,0%,0%,.4);
+}
+
 .btn {
     @apply rounded-md transition-all no-animation clickable
     
