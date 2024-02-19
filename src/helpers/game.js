@@ -17,7 +17,7 @@ export function generateGame(playerCount) {
 
 
 export function generateDefaultRounds(playerCount) {
-    if (playerCount >= 2) {
+    if (playerCount >= 22) {
         return [
             {
                 time: 5, // minutes
