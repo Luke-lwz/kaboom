@@ -142,8 +142,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, me?.id), getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, me?.id), await getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -220,8 +220,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
     }
 
-    function testConnection() {
-        const peer = new Peer(getPeerConfig());
+    async function testConnection() {
+        const peer = new Peer(await getPeerConfig());
 
         console.log("🌐")
         setConn(undefined); // undefined means loading
@@ -424,8 +424,8 @@ function HostGame({ me, setMe, code, setScreen }) {
         setMe(newMe);
     }
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, "host"), await getPeerConfig());
 
         setPeer(peer);
 

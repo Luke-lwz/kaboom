@@ -116,8 +116,8 @@ function ClientLobby({ me, setMe, code }) {
     }, [ready])
 
 
-    function startPeer() {
-        const peer = new Peer(getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(await getPeerConfig());
 
         peer.on("open", () => {
             var conn = peer.connect(constructPeerID(code, "host"));
@@ -289,8 +289,8 @@ function HostLobby({ me, code }) {
 
 
 
-    function startPeer() {
-        const peer = new Peer(constructPeerID(code, "host"), getPeerConfig());
+    async function startPeer() {
+        const peer = new Peer(constructPeerID(code, "host"), await getPeerConfig());
 
 
         setPeer(peer);
