@@ -71,11 +71,9 @@ export async function getPlaysetById(id, user_id, options = {}) {
   if (!playset || ignoreCache) {
     // supabase + cache after
 
-
     playset = await fetchAndCachePlayset(id, user_id);
 
-    console.log(playset)
-
+    console.log(playset);
   }
 
   if (refreshInBackground) fetchAndCachePlayset();
@@ -84,16 +82,20 @@ export async function getPlaysetById(id, user_id, options = {}) {
 async function fetchAndCachePlayset(id, user_id) {
   let { data: playsetData, error } = await supabase
     .from("playsets")
-    .select(`*,playsets_metadata(*),interactions(*)`) // ,user:users_id(*)
+    .select(
+      `*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`
+    ) // ,user:users_id(*)
     .eq(
-      "interactions.user_id",
+      "interaction.user_id",
       user_id || "00000000-0000-0000-0000-000000000000"
     )
+    .eq("upvote_count.upvote", true)
+    .eq("downvote_count.upvote", false)
     .single()
     .limit(1)
     .eq("id", id);
 
-//   console.log(error, playsetData);
+  //   console.log(error, playsetData);
 
   if (playsetData) {
     const playset = playsetData;

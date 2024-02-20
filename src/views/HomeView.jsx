@@ -52,7 +52,7 @@ function HomeView({ }) {
 
 
 
-    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate,checkAuthenticated } = useContext(PageContext)
+    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate,checkAuth } = useContext(PageContext)
 
     const [loading, setLoading] = useState(false);
     const [clicksToDev, setClicksToDev] = useState(0);
@@ -381,7 +381,7 @@ function HomeView({ }) {
 
 
 
-            <div onClick={() => checkAuthenticated(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
+            <div onClick={() => checkAuth(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
                 <h1 className="absolute -top-3 right-1 z-10 rotate-12 font-extrabold text-xl text-title text-secondary animate-pulse">NEW</h1>
 
                 <div className="border-2 border-neutral rounded-box flex justify-between items-center w-full h-16 overflow-hidden pl-4 pr-2">

@@ -26,25 +26,19 @@ export default function MegaButton({ Icon, children, textColor, bgColor, bgBasei
 
 
 export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } }) {
-    const {checkAuthenticated} = useContext(PageContext);
+    const {checkAuth} = useContext(PageContext);
 
 
-    const [marked, setMarked] = useState(bookmarked);
-
-    useEffect(() => {
-        setMarked(bookmarked);
-    }, [bookmarked])
 
 
     const handleChange = useCallback(() => {
-        setMarked(!marked);
-        onChange(!marked);
-    }, [marked, onChange]);
+        onChange(!bookmarked);
+    }, [bookmarked, onChange]);
 
 
     return (
-        <MegaButton title="Bookmark" Icon={marked ? <IoBookmark /> : <IoBookmarkOutline />} fill textColor={"#72c4ff"} onClick={() => checkAuthenticated(() => handleChange())}>
-            <div className="">Bookmark{marked ? "ed" : ""}</div>
+        <MegaButton title="Bookmark" Icon={bookmarked ? <IoBookmark /> : <IoBookmarkOutline />} fill textColor={"#72c4ff"} onClick={() => checkAuth(() => handleChange())}>
+            <div className="">Bookmark{bookmarked ? "ed" : ""}</div>
         </MegaButton>
     )
 }
@@ -52,9 +46,9 @@ export function BookmarkMegaButton({ bookmarked = false, onChange = () => { } })
 
 
 export function RemixButton({ onClick = () => { } }) {
-    const {checkAuthenticated} = useContext(PageContext);
+    const {checkAuth} = useContext(PageContext);
     return (
-        <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#fad623" onClick={() => checkAuthenticated(() => onClick())}>
+        <MegaButton title="Remix" Icon={<BsStars />} fill textColor="#fad623" onClick={() => checkAuth(() => onClick())}>
             <div className="">Remix</div>
         </MegaButton>
     )
@@ -62,9 +56,9 @@ export function RemixButton({ onClick = () => { } }) {
 
 
 export function EditPlaysetButton({ onClick = () => { } }) {
-    const {checkAuthenticated} = useContext(PageContext);
+    const {checkAuth} = useContext(PageContext);
     return (
-        <MegaButton title="Edit" Icon={<BsPencilFill className="text-lg" />} fill textColor="#7e22ce" onClick={() => checkAuthenticated(() => onClick())}>
+        <MegaButton title="Edit" Icon={<BsPencilFill className="text-lg" />} fill textColor="#7e22ce" onClick={() => checkAuth(() => onClick())}>
             <div className="">Edit</div>
         </MegaButton>
     )
@@ -72,10 +66,10 @@ export function EditPlaysetButton({ onClick = () => { } }) {
 
 
 export function DeletePlaysetButton({ onClick = () => { } }) {
-    const {checkAuthenticated} = useContext(PageContext);
+    const {checkAuth} = useContext(PageContext);
 
     return (
-        <MegaButton title="Delete" Icon={<FaTrash className="text-lg" />} fill textColor={"#fc021b"} onClick={() => checkAuthenticated(() => onClick())}>
+        <MegaButton title="Delete" Icon={<FaTrash className="text-lg" />} fill textColor={"#fc021b"} onClick={() => checkAuth(() => onClick())}>
             <div className="">Delete</div>
         </MegaButton>
     )
@@ -84,10 +78,10 @@ export function DeletePlaysetButton({ onClick = () => { } }) {
 
 
 export function BigAbsoluteMakeButton({ onClick = () => { } }) {
-    const {checkAuthenticated} = useContext(PageContext);
+    const {checkAuth} = useContext(PageContext);
 
     return (
-        <MegaButton title="Make" Icon={<FaPlus className="text-lg" />} textColor={"#fc021b"} className={" drop-shadow-2xl absolute bottom-4 right-4 z-10"} onClick={() => checkAuthenticated(() => onClick())}>
+        <MegaButton title="Make" Icon={<FaPlus className="text-lg" />} textColor={"#fc021b"} className={" drop-shadow-2xl absolute bottom-4 right-4 z-10"} onClick={() => checkAuth(() => onClick())}>
             <div className="hidden sm:block">Make</div>
         </MegaButton>
     )

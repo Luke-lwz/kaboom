@@ -23,6 +23,8 @@ import { FiExternalLink } from "react-icons/fi";
 import { UserAvatar } from "../UserAvatars";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { FaGhost, FaTools } from "react-icons/fa";
+import supabase from "../../supabase";
+import toast from "react-hot-toast";
 
 
 
@@ -32,9 +34,10 @@ const CARDS_BLOCK_HEIGHT = 5.25;
 const PILLS_BLOCK_HEIGHT = 1.5;
 const INTERACTION_ROW_BOCK_HEIGHT = 2 - GAP; // because row has no gap applied
 
-function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false, showPills = false, quickActions = { vote: true, workbench: true, open: true, bookmark: true, profile: true } }) {
+function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false, showPills = false, autoFetchInteractions = false, quickActions = { vote: true, workbench: true, open: true, bookmark: true, profile: true } }) {
 
 
+    const { user, checkAuth } = useContext(PageContext);
     const {
         cards,
         default_cards,
@@ -71,29 +74,69 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     } = playsets_metadata || {};
 
 
+    const [fetchedInteractions, setFetchedInteractions] = useState(false);
 
-    const { votes, myVote = 0, bookmarked = false } = useMemo(() => {
+    useEffect(() => {
+        if (user?.id, id, autoFetchInteractions) {
+            fetchInteractions(user.id, id);
+        }
+    }, [user, id, autoFetchInteractions])
+
+    async function fetchInteractions(user_id, playset_id) {
+        const { data, error } = await supabase
+            .from("interactions")
+            .select("*")
+            .eq("user_id", user_id)
+            .eq("playset_id", playset_id)
+            .limit(1)
+            .single();
+        if (error || !data) {
+            toast.error("Error while fetching votes");
+        } else {
+            console.log(data);
+            setFetchedInteractions(data);
+        }
+
+
+    }
+
+
+    const { votes, myVote_default = 0, bookmarked_default = false } = useMemo(() => {
         if (!playset) return {};
         const downvote_count = downvote_count_object?.[0]?.count || 0;
         const upvote_count = upvote_count_object?.[0]?.count || 0;
-        const votes = upvote_count - downvote_count;
 
         const interaction = interactions_array?.[0] || {};
 
         const {
             bookmark: bookmarked,
             upvote = null
-        } = interaction;
+        } = fetchedInteractions || interaction;
 
-        let myVote = (upvote === null ? 0 : upvote ? 1 : -1);
+        let myVote = (upvote);
+
+
+        const votes = upvote_count - downvote_count + (myVote === null ? 0 : myVote ? -1 : 1);
 
 
 
-        return { votes, myVote, bookmarked };
-    }, [playset, downvote_count_object, upvote_count_object, interactions_array])
+
+        return { votes, myVote_default: myVote, bookmarked_default: bookmarked };
+    }, [playset, downvote_count_object, upvote_count_object, interactions_array, fetchedInteractions])
 
 
     const [open, setOpen] = useState(forceOpen || false);
+
+    const [bookmarked, setBookmarked] = useState(bookmarked_default || false);
+    const [myVote, setMyVote] = useState(myVote_default);
+
+    useEffect(() => {
+        setMyVote(myVote_default);
+    }, [myVote_default])
+
+    useEffect(() => {
+        setBookmarked(bookmarked_default);
+    }, [bookmarked_default])
 
     const height = useMemo(() => { // in rem
         if (!playset) return 0;
@@ -143,20 +186,70 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
 
+    const handleVote = useCallback(async (vote) => {
+        if (!user) return toast.error("You need to be logged in to vote");
+
+        // optimistic
+        var initalValue = vote;
+        setBookmarked(v => {initalValue = v; return vote});
+
+        const { data, error } = await supabase
+            .from("interactions")
+            .upsert({
+                playset_id: id,
+                user_id: user?.id,
+                upvote: vote,
+            })
+            .select();
+
+        if (error || !data?.[0]) {
+            toast.error("Something went wrong");
+            setMyVote(initalValue)
+            return;
+        } else {
+            setMyVote(vote);
+        }
+    }, [id, user])
+
+
+    const handleBookmark = useCallback(async (mark) => {
+        if (!user) return toast.error("You need to be logged in to bookmark");
+
+        // optimistic
+        var initalValue = mark;
+        setBookmarked(b => {initalValue = b; return mark});
+
+        const { data, error } = await supabase
+            .from("interactions")
+            .upsert({
+                playset_id: id,
+                user_id: user?.id,
+                bookmark: mark,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            toast.error("Something went wrong");
+            setBookmarked(initalValue);
+            return;
+        } else {
+            setBookmarked(mark);
+        }
+    }, [id, user])
+
 
     return (
         <div style={{ height: `${height}rem` }} className={"w-full transition-all overflow-y-hidden scrollbar-hide flex flex-col items-center justify-start " + (hidden ? " opacity-50 " : " opacity-100 ")}>
             <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from, hidden }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
 
-            <div style={{height: open ? `${CARDS_BLOCK_HEIGHT + GAP}rem` : 0}} className="w-full overflow-hidden transition-all">
+            <div style={{ height: open ? `${CARDS_BLOCK_HEIGHT + GAP}rem` : 0 }} className="w-full overflow-hidden transition-all">
                 {open && <CardsBlock {...{ difficulty, cards, primaries, odd_card, default_cards }} />}
             </div>
             {showPills && <PillsBlock {...{ difficulty, verified, official, cardCounts }} />}
-            {quickActions && <InteractionRowBlock {...{ id, quickActions, votes, myVote, bookmarked }} />}
+            {quickActions && <InteractionRowBlock {...{ id, quickActions, votes, myVote, bookmarked }} onBookmarkedChange={(...arr) => checkAuth(() => handleBookmark(...arr))} onVoteChange={(...arr) => checkAuth(() => handleVote(...arr))} />}
         </div>
     )
 
-    
+
 }
 
 
@@ -174,8 +267,8 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
                     <div className="h-full w-14 tooltip tooltip-right relative" data-tip={name}>
                         <EmojiHighlight emoji={emoji && emoji !== "" ? emoji : undefined} />
                         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-30 translate-x-3 translate-y-2 text-lg">
-                            {remixed_from && !hidden && <BsStars color="#fad623" className=" text-shadow rotate-3"/>}
-                            {hidden && <FaGhost color="#bdfcff" className=" text-shadow rotate-3"/>}
+                            {remixed_from && !hidden && <BsStars color="#fad623" className=" text-shadow rotate-3" />}
+                            {hidden && <FaGhost color="#bdfcff" className=" text-shadow rotate-3" />}
                         </div>
                     </div>
 
@@ -239,18 +332,18 @@ function CardsBlock({ difficulty, cards, primaries, odd_card, default_cards }) {
     )
 }
 
-function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookmarked }) {
+function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookmarked, onBookmarkedChange = () => { }, onVoteChange = () => { } }) {
 
-    const {smoothNavigate} = useContext(PageContext);
+    const { smoothNavigate } = useContext(PageContext);
 
     var profile = {}; // temp
     return (
         <div className="flex items-center gap-2 px-4 justify-between w-full h-8 text-lg sm:text-base -translate-y-1">
-            {quickActions?.vote && <VoteComponent upvote={null} countWithoutMyVote={votes + myVote} />}
+            {quickActions?.vote && <VoteComponent upvote={myVote} onChange={onVoteChange} count={votes + (myVote === null ? 0 : (myVote ? 1 : -1))} />}
             {quickActions?.workbench && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 
-            {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={() => { }} />}
+            {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={onBookmarkedChange} />}
             {quickActions?.profile && <button className="clickable flex gap-2 items-center group">
                 <UserAvatar profile={{ name: "lukas" }} className={"w-5 h-5 md:w-6 md:h-6 text-base"} />
                 {!profile && <p className="hidden md:block text-xs font-bold group-hover:underline max-w-[5rem] truncate">@{profile?.name || profile?.id}lukas</p>}
@@ -377,37 +470,22 @@ export function PlayWithBuryToggle({ bury, recommendBury, onChange = () => true,
 
 
 
-export function VoteComponent({ upvote = null, countWithoutMyVote = 0, onChange = () => { } }) {
+export function VoteComponent({ upvote = null, count = 0, onChange = () => { } }) {
 
 
-    const [vote, setVote] = useState(upvote);
-
-    const count = useMemo(() => {
-        var count = countWithoutMyVote;
-        if (vote === true) count++;
-        if (vote === false) count--;
-        if (count < 0) count = 0;
-        return count;
-    }, [countWithoutMyVote, vote])
-
-    useEffect(() => {
-        setVote(upvote);
-    }, [upvote])
 
 
     const onUpVote = useCallback(() => {
         var newVote = true
-        if (vote === true) newVote = null;
+        if (upvote === true) newVote = null;
         onChange(newVote);
-        setVote(newVote)
-    }, [vote])
+    }, [upvote])
 
     const onDownVote = useCallback(() => {
         var newVote = false
-        if (vote === false) newVote = null;
+        if (upvote === false) newVote = null;
         onChange(newVote);
-        setVote(newVote)
-    }, [vote])
+    }, [upvote])
 
 
     return (
@@ -415,17 +493,17 @@ export function VoteComponent({ upvote = null, countWithoutMyVote = 0, onChange 
             <div className="flex items-center justify-between w-16">
                 <button onClick={() => onUpVote()} className="clickable hover:scale-105">
                     {
-                        vote === true ?
+                        upvote === true ?
                             <BiSolidUpvote color="#fc021b" />
                             :
                             <BiUpvote className="text-accent" />
                     }
 
                 </button>
-                {!count ? <p className="text-accent font-bold">{"\u2022"}</p> : <p className="text-xs font-bold">{count}</p>}
+                {!count || count <= 0 ? <p className="text-accent font-bold">{"\u2022"}</p> : <p className="text-xs font-bold">{count}</p>}
                 <button onClick={() => onDownVote()} className="clickable hover:scale-105">
                     {
-                        vote === false ?
+                        upvote === false ?
                             <BiSolidDownvote color="#0019fd" />
                             :
                             <BiDownvote className="text-accent" />
@@ -439,21 +517,14 @@ export function VoteComponent({ upvote = null, countWithoutMyVote = 0, onChange 
 
 
 function BookmarkComponent({ bookmarked, onChange }) {
-    const [marked, setMarked] = useState(bookmarked);
 
-    useEffect(() => {
-        setMarked(bookmarked);
-    }, [bookmarked])
-
-    return (marked ?
+    return (bookmarked ?
         <IoBookmark className="text-info hover:scale-105" onClick={() => {
-            setMarked(!marked);
-            onChange(!marked);
+            onChange(!bookmarked);
         }} />
         :
         <IoBookmarkOutline className="hover:scale-105" onClick={() => {
-            setMarked(!marked);
-            onChange(!marked);
+            onChange(!bookmarked);
         }} />
     )
 }

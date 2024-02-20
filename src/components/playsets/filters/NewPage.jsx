@@ -17,7 +17,7 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
     const getPlaysets = useCallback(async (user) => {
 
-        console.log(user)
+
 
         const { data, error } = await supabase
             .from('playsets')
@@ -43,7 +43,8 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
 
     useEffect(() => {
-        getPlaysets(user)
+        if (!user?.id) return;
+        query?.refetch()
     }, [user])
 
     return (

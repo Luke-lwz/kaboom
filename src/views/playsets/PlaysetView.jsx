@@ -17,12 +17,21 @@ function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { smoothNavigate, user, setPrompt, checkAuthenticated } = useContext(PageContext)
+    const { smoothNavigate, user, setPrompt, checkAuth } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
 
     const [playset, setPlayset] = useState(null);
+
+    const [bookmarked, setBookmarked] = useState(false);
+
+    useEffect(() => {
+        if (playset) {
+            const interaction = playset?.interaction?.[0] || {};
+            setBookmarked(interaction?.bookmark || false);
+        }
+    }, [playset])
 
 
     const playsetMaximized = useMemo(() => {
@@ -31,12 +40,13 @@ function PlaysetView({ }) {
 
 
     useEffect(() => {
-        getPlayset(id)
-    }, [id])
+        getPlayset(id, user?.id)
+    }, [id, user])
 
-    async function getPlayset(id) {
-        const playset = await getPlaysetById(id, user?.id, { ignoreCache: true });
+    async function getPlayset(id, user_id) {
+        const playset = await getPlaysetById(id, user_id, { ignoreCache: true });
 
+    
 
         setPlayset(playset)
         console.log(playset)
@@ -72,6 +82,30 @@ function PlaysetView({ }) {
         })
     }, [id])
 
+    const handleBookmark = useCallback(async (mark) => {
+        if (!user) return toast.error("You need to be logged in to bookmark");
+
+        // optimistic
+        var initalValue = mark;
+        setBookmarked(b => {initalValue = b; return mark});
+
+        const { data, error } = await supabase
+            .from("interactions")
+            .upsert({
+                playset_id: id,
+                user_id: user?.id,
+                bookmark: mark,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            toast.error("Something went wrong");
+            setBookmarked(initalValue);
+            return;
+        } else {
+            setBookmarked(mark);
+        }
+    }, [id, user])
+
 
     return (
         <div className="flex flex-col lg:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide pb-64">
@@ -89,13 +123,13 @@ function PlaysetView({ }) {
 
 
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
-                    {playsetMaximized && <PlaysetDisplay quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
+                    {playsetMaximized && <PlaysetDisplay key={user?.id + "'s playset"} autoFetchInteractions quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
                     <div className="w-full grid grid-cols-2 gap-2 mt-2">
-                        <RemixButton onClick={() => checkAuthenticated(() => smoothNavigate(`/workbench/${playset?.id}/remix`))} />
-                        <BookmarkMegaButton />
+                        <RemixButton onClick={() => checkAuth(() => smoothNavigate(`/workbench/${playset?.id}/remix`))} />
+                        <BookmarkMegaButton bookmarked={bookmarked} onChange={(...arr) => checkAuth(() => handleBookmark(...arr))} />
                         {playset?.user_id === user?.id && <>
-                            <EditPlaysetButton onClick={() => checkAuthenticated(() => smoothNavigate(`/workbench/${playset?.id}/edit`))} />
-                            <DeletePlaysetButton onClick={() => checkAuthenticated(() => deletePlayset())} />
+                            <EditPlaysetButton onClick={() => checkAuth(() => smoothNavigate(`/workbench/${playset?.id}/edit`))} />
+                            <DeletePlaysetButton onClick={() => checkAuth(() => deletePlayset())} />
                         </>}
                     </div>
                     {playset?.description && <div className=" text-base-content py-4 w-full mt-2">
