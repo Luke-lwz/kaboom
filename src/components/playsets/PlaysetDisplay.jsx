@@ -32,7 +32,7 @@ const CARDS_BLOCK_HEIGHT = 5.25;
 const PILLS_BLOCK_HEIGHT = 1.5;
 const INTERACTION_ROW_BOCK_HEIGHT = 2 - GAP; // because row has no gap applied
 
-function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false, showPills = false, quickActions = { vote: true, remix: true, open: true, bookmark: true, profile: true } }) {
+function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceOpen = false, noOpen = false, showPills = false, quickActions = { vote: true, workbench: true, open: true, bookmark: true, profile: true } }) {
 
 
     const {
@@ -247,7 +247,7 @@ function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookma
     return (
         <div className="flex items-center gap-2 px-4 justify-between w-full h-8 text-lg sm:text-base -translate-y-1">
             {quickActions?.vote && <VoteComponent upvote={null} countWithoutMyVote={votes + myVote} />}
-            {quickActions?.remix && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
+            {quickActions?.workbench && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 
             {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={() => { }} />}
