@@ -433,21 +433,4 @@ export function pairUpCards(allCards) {
   }
 
   return pairedCards;
-  var alreadyIncludedCardIds = [];
-  var pairedCards = [];
-  for (let i = 0; i < allCards.length; i++) {
-    let card = allCards[i];
-
-    let cardPair = getLinkedCardsPaired(card);
-
-    if (!alreadyIncludedCardIds.includes(cardPair?.[0]?.id)) {
-      alreadyIncludedCardIds = [
-        ...alreadyIncludedCardIds,
-        ...cardPair.map((c) => c.id),
-      ];
-      pairedCards.push(cardPair);
-    }
-  }
-
-  return pairedCards;
 }
