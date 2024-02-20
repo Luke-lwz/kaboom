@@ -527,7 +527,7 @@
         "backup_cards": [],
         "links": [],
         "src": "/blue/king.png",
-        "info": "You are a primary character. Blue Team wins if you do not gain the \"dead\" condition.",
+        "info": "You are a primary character. Blue Team wins if you do not gain the \"toast\" condition.",
         "tags": "custom patch1 v2 friends primary",
         "color_name": "blue",
         "difficulty": 7
