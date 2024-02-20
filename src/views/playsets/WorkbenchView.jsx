@@ -92,15 +92,15 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
                 }
 
             case "oddCard":
-                if (startingPlayset?.oddCard) {
-                    return startingPlayset?.oddCard?.id
+                if (startingPlayset?.odd_card) {
+                    return startingPlayset?.odd_card?.id
                 } else {
                     return "g008"
                 }
 
             case "defaultCards":
-                if (startingPlayset?.defaultCards) {
-                    return pairUpCards(startingPlayset?.defaultCards)?.map(cardPair => cardPair?.map(c => c?.id))
+                if (startingPlayset?.default_cards) {
+                    return pairUpCards(startingPlayset?.default_cards)?.map(cardPair => cardPair?.map(c => c?.id))
                 } else {
                     return [
                         ["b000", "r000"]

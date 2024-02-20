@@ -25,12 +25,7 @@ export const CARD_COLOR_ORDER = [
   "dark",
 ];
 
-export const CARD_COLOR_FILTER_OPTIONS = [
-  "blue",
-  "red",
-  "grey",
-  "green",
-];
+export const CARD_COLOR_FILTER_OPTIONS = ["blue", "red", "grey", "green"];
 
 export const CARD_COLOR_NAMES = {
   red: "r",
@@ -333,23 +328,18 @@ export function sortCards(cards, pairRB = false) {
     return a.name === b.name ? 0 : a.name < b.name ? -1 : 1;
   });
 
-
-  
-   allSorted.sort((x, y) => {
+  allSorted.sort((x, y) => {
     return x.id == "r001" ? -1 : y.id == "r001" ? 1 : 0;
   });
-   allSorted.sort((x, y) => {
+  allSorted.sort((x, y) => {
     return x.id == "b001" ? -1 : y.id == "b001" ? 1 : 0;
   });
-   allSorted.sort((x, y) => {
+  allSorted.sort((x, y) => {
     return x.id == "r000" ? -1 : y.id == "r000" ? 1 : 0;
   }); // pushes certain elements to front
-   allSorted.sort((x, y) => {
+  allSorted.sort((x, y) => {
     return x.id == "b000" ? -1 : y.id == "b000" ? 1 : 0;
   });
-
-
-  
 
   for (let i = 0; i < CARD_COLOR_ORDER.length; i++) {
     let colorName = CARD_COLOR_ORDER[i];
@@ -360,8 +350,6 @@ export function sortCards(cards, pairRB = false) {
         ? -1
         : 0;
     });
-
-    
   }
 
   if (pairRB) {
@@ -428,6 +416,23 @@ export function getLinkedCardsPairedById(id, sort = true) {
 }
 
 export function pairUpCards(allCards) {
+  var cardsLeft = [...allCards];
+  var pairedCards = [];
+
+  while (cardsLeft.length > 0) {
+    let card = cardsLeft[0];
+    let cardPair = getLinkedCardsPaired(card);
+
+    for (let i = 0; i < cardPair.length; i++) {
+      let c = cardPair[i];
+      const index = cardsLeft.findIndex((c) => c.id === c?.id);
+      if (index > -1) cardsLeft.splice(index, 1);
+    }
+
+    pairedCards.push(cardPair);
+  }
+
+  return pairedCards;
   var alreadyIncludedCardIds = [];
   var pairedCards = [];
   for (let i = 0; i < allCards.length; i++) {
