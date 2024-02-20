@@ -22,7 +22,7 @@ import { BsStars } from "react-icons/bs"
 import { FiExternalLink } from "react-icons/fi";
 import { UserAvatar } from "../UserAvatars";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { FaGhost } from "react-icons/fa";
+import { FaGhost, FaTools } from "react-icons/fa";
 
 
 
@@ -241,11 +241,13 @@ function CardsBlock({ difficulty, cards, primaries, odd_card, default_cards }) {
 
 function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookmarked }) {
 
+    const {smoothNavigate} = useContext(PageContext);
+
     var profile = {}; // temp
     return (
         <div className="flex items-center gap-2 px-4 justify-between w-full h-8 -translate-y-1">
             {quickActions?.vote && <VoteComponent upvote={null} countWithoutMyVote={votes + myVote} />}
-            {quickActions?.remix && <BsStars className="clickable hover:scale-105 hover:text-yellow-400 hover:rotate-[-365deg]" title="Remix" />}
+            {quickActions?.remix && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-105 text-xs hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 
             {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={() => { }} />}
