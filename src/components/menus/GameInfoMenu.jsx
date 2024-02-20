@@ -239,7 +239,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             <div className='w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-hide pt-3'>
 
                 <div className='w-full px-4 py-2 -mb-4'>
-                    <PlaysetDisplay noOpen playset={playset} quickActions={{vote: true, open: true, bookmark: true, profile: true}} />
+                    <PlaysetDisplay autoFetchInteractions noOpen playset={playset} quickActions={{vote: true, open: true, bookmark: true, profile: true}} />
                 </div>
 
                 <div className='pt-0 flex flex-col justify-start items-start w-full shrink bg-base-100'>

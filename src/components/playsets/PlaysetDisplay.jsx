@@ -65,7 +65,9 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     } = playset || {};
 
 
-
+    const noQuickActions = useMemo(() => {
+        return id?.length < 10
+    }, [quickActions, id])
 
     const {
         verified = false,
@@ -77,10 +79,10 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     const [fetchedInteractions, setFetchedInteractions] = useState(false);
 
     useEffect(() => {
-        if (user?.id, id, autoFetchInteractions) {
+        if (user?.id && id && autoFetchInteractions && !noQuickActions) {
             fetchInteractions(user.id, id);
         }
-    }, [user, id, autoFetchInteractions])
+    }, [user, id, autoFetchInteractions, noQuickActions])
 
     async function fetchInteractions(user_id, playset_id) {
         const { data, error } = await supabase
@@ -90,11 +92,12 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
             .eq("playset_id", playset_id)
             .limit(1)
             .single();
-        if (error || !data) {
+        if (error) {
+            console.log(error)
             toast.error("Error while fetching votes");
         } else {
             console.log(data);
-            setFetchedInteractions(data);
+            setFetchedInteractions(data || null);
         }
 
 
@@ -146,7 +149,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
         if (open || forceOpen) heightArray.push(CARDS_BLOCK_HEIGHT);
         if (showPills) heightArray.push(PILLS_BLOCK_HEIGHT);
-        if (quickActions) heightArray.push(INTERACTION_ROW_BOCK_HEIGHT);
+        if (quickActions && !noQuickActions) heightArray.push(INTERACTION_ROW_BOCK_HEIGHT);
 
         const height = heightArray.reduce(
             (accumulator, currentValue, currentIndex) => accumulator + currentValue + (currentIndex < heightArray.length - 1 ? GAP : 0),
@@ -154,7 +157,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         )
 
         return height;
-    }, [playset, open, forceOpen, showPills, quickActions])
+    }, [playset, open, forceOpen, showPills, quickActions, noQuickActions])
 
     const { cardCounts = [] } = useMemo(() => {
         if (!playset) return [];
@@ -191,7 +194,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
         // optimistic
         var initalValue = vote;
-        setBookmarked(v => {initalValue = v; return vote});
+        setMyVote(v => { initalValue = v; return vote });
 
         const { data, error } = await supabase
             .from("interactions")
@@ -217,7 +220,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
         // optimistic
         var initalValue = mark;
-        setBookmarked(b => {initalValue = b; return mark});
+        setBookmarked(b => { initalValue = b; return mark });
 
         const { data, error } = await supabase
             .from("interactions")
@@ -245,7 +248,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                 {open && <CardsBlock {...{ difficulty, cards, primaries, odd_card, default_cards }} />}
             </div>
             {showPills && <PillsBlock {...{ difficulty, verified, official, cardCounts }} />}
-            {quickActions && <InteractionRowBlock {...{ id, quickActions, votes, myVote, bookmarked }} onBookmarkedChange={(...arr) => checkAuth(() => handleBookmark(...arr))} onVoteChange={(...arr) => checkAuth(() => handleVote(...arr))} />}
+            {quickActions && !noQuickActions && <InteractionRowBlock {...{ id, quickActions, votes, myVote, bookmarked }} onBookmarkedChange={(...arr) => checkAuth(() => handleBookmark(...arr))} onVoteChange={(...arr) => checkAuth(() => handleVote(...arr), user)} />}
         </div>
     )
 
@@ -340,7 +343,7 @@ function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookma
     return (
         <div className="flex items-center gap-2 px-4 justify-between w-full h-8 text-lg sm:text-base -translate-y-1">
             {quickActions?.vote && <VoteComponent upvote={myVote} onChange={onVoteChange} count={votes + (myVote === null ? 0 : (myVote ? 1 : -1))} />}
-            {quickActions?.workbench && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
+            {quickActions?.workbench && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 
             {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={onBookmarkedChange} />}

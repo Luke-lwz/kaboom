@@ -235,7 +235,7 @@ function ClientLobby({ me, setMe, code }) {
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
-                <PlaysetDisplay forceOpen selected playset={playset} />
+                <PlaysetDisplay autoFetchInteractions forceOpen selected playset={playset} />
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start -mt-4'>
                 <h1 className='font-extrabold text-lg uppercase '>Round configuration <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
@@ -636,7 +636,7 @@ function HostLobby({ me, code }) {
     function showAllPlaysets() {
         setPageCover({
             title: "PLAYSETS",
-            element: <PlaysetsFilter onPlaysetClick={(playset) => getPlayset(playset?.id)} />,
+            element: <PlaysetsFilter onPlaysetClick={(playset) => getPlayset(playset?.id, null, {refreshInBackground: true})} />,
             onClose: () => setPageCover(null)
         })
     }
@@ -694,7 +694,7 @@ function HostLobby({ me, code }) {
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
-                <PlaysetDisplay forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
+                <PlaysetDisplay autoFetchInteractions forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
                 <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={playset?.no_bury || playset?.force_bury} />
             </div>
 

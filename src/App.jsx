@@ -130,8 +130,8 @@ function App() {
   }
 
 
-  const checkAuth = useCallback((func) => {
-    if (!user) {
+  const checkAuth = useCallback((func, parsedUser) => {
+    if (!user && !parsedUser) {
       showLoginMenu();
       return false;
     }
