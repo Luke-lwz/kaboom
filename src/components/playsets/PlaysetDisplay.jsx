@@ -245,9 +245,9 @@ function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookma
 
     var profile = {}; // temp
     return (
-        <div className="flex items-center gap-2 px-4 justify-between w-full h-8 -translate-y-1">
+        <div className="flex items-center gap-2 px-4 justify-between w-full h-8 text-lg sm:text-base -translate-y-1">
             {quickActions?.vote && <VoteComponent upvote={null} countWithoutMyVote={votes + myVote} />}
-            {quickActions?.remix && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-105 text-xs hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
+            {quickActions?.remix && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[-365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 
             {quickActions?.bookmark && <BookmarkComponent bookmarked={bookmarked} onChange={() => { }} />}
