@@ -204,7 +204,7 @@
         "description": "\"FOOLISH\" +  DON'T CARD SHARE WITH THE PRIMARIES",
         "links": [],
         "src": "/grey/nuke.png",
-        "info": "At the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if at least one of them did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
+        "info": "At the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if at least one of them did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 6
