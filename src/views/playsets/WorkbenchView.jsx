@@ -92,8 +92,12 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
                 }
 
             case "oddCard":
-                if (startingPlayset?.odd_card) {
-                    return startingPlayset?.odd_card?.id
+                if (startingPlayset) {
+                    if (startingPlayset?.odd_card) {
+                        return startingPlayset?.odd_card?.id
+                    } else {
+                        return null
+                    }
                 } else {
                     return "g008"
                 }

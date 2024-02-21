@@ -90,14 +90,12 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
             .select("*")
             .eq("user_id", user_id)
             .eq("playset_id", playset_id)
-            .limit(1)
-            .single();
         if (error) {
             console.log(error)
             toast.error("Error while fetching votes");
         } else {
-            console.log(data);
-            setFetchedInteractions(data || null);
+            console.log(data?.[0]);
+            setFetchedInteractions(data?.[0] || null);
         }
 
 
