@@ -45,7 +45,7 @@ const MIN = {
     defaultCards: 2
 }
 const MAX = {
-    primaries: 3,
+    primaries: 1000,
     generalCards: 1000,
     oddCard: 1,
     defaultCards: 2
@@ -612,10 +612,10 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
                 {playset?.primaries?.map((card, i) => <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(card?.id)} key={card?.id + i} card={card} areaId="primaries" />)}
                 {playset?.cards?.map((card, i) => <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(card?.id)} key={card?.id + i} card={card} areaId="general" />)}
-                {playset?.odd_card && <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(playset?.odd_card?.id)} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
                 {playset?.default_cards?.map((card, i) => <ShuffledInCardDummy disabled={(cardsPlusSober?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => cs?.id === card?.id)?.length)) < 1} key={card?.id + i} card={card} areaId="default">
                     {(cardsPlusSober?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => (cs?.id || cs) === card?.id)?.length)) > 1 && <ActionCircle inverted icon={<p className="font-extrabold">{(cards?.filter(c => card?.id === c)?.length - (playset?.cards?.filter(cs => (cs?.id || cs) === card?.id)?.length))}</p>} />}
                 </ShuffledInCardDummy>)}
+                {playset?.odd_card && <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(playset?.odd_card?.id)} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
             </div>
             <p className="w-full text-sm -mt-4">Cards in game: {cards?.length}</p>
             <div className="grid grid-cols-2 gap-2 w-full">

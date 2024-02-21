@@ -58,7 +58,7 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
                 <div className='absolute flex justify-start items-center'>
                     <div name="linked" className='rounded-full h-12 w-12 bg-base-100 m-4 flex justify-center items-center'><FiLink color={color.primary} size={24} /></div>
                     {linkedCards.map(card =>
-                        (card ? <div key={card.id} onClick={() => setMenu(<CardInfoMenu card={card} color={card.color} />)} className='card relative scale-[20%] -m-24'><CardFront card={card} color={card?.color} /></div> : "")
+                        (card ? <div key={card.id} onClick={() => setMenu(<CardInfoMenu card={card} color={card.color} onSelect={onSelect} />)} className='card relative scale-[20%] -m-24'><CardFront card={card} color={card?.color} /></div> : "")
                     )}
                 </div>
             </div>}
