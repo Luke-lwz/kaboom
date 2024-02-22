@@ -139,7 +139,7 @@
         "description": "CARD SHARE >> \"FOOLISH\"",
         "links": [],
         "src": "/blue/drugman.png",
-        "info": "You have the DEALER power: any player that card shares with you\r\ngains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a\r\ncontradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would\r\ncancel one another, leaving the player with neither condition.",
+        "info": "You have the DEALER power: any player that card shares with you gains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 4
