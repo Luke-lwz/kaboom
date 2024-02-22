@@ -40,7 +40,7 @@
         "description": "WALK FREELY BETWEEN THE ROOMS",
         "links": [],
         "src": "/blue/car.png",
-        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
+        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18 players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
