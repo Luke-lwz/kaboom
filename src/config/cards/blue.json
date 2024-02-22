@@ -106,7 +106,7 @@
         "description": "ONLY COLOR SHARE BECAUSE YOU'RE \"COY\"",
         "links": [],
         "src": "/blue/mask.png",
-        "info": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a\r\nPsychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the\r\n\"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
+        "info": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the \"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
