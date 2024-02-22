@@ -128,7 +128,7 @@
         "description": "MAKE 2 PLAYERS \"IN LOVE\" ONCE PER GAME",
         "links": [],
         "src": "/red/heart.png",
-        "info": "You have the CUPID power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You are in love with each other.\" Those 2 players gain the \"in love\"\r\ncondition. Players with the \"in love\" condition replace their original win objective with the following win objective: Be in the same room with the player with whom you are \"in love\" at the end of the game or fail to win. The CUPID power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in love\" condition were to acquire the \"in hate\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
+        "info": "You have the CUPID power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You are in love with each other.\" Those 2 players gain the \"in love\" condition. Players with the \"in love\" condition replace their original win objective with the following win objective: Be in the same room with the player with whom you are \"in love\" at the end of the game or fail to win. \r\n\r\nThe CUPID power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in love\" condition were to acquire the \"in hate\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 6
