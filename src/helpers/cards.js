@@ -162,9 +162,9 @@ export function getCardsForPlayset(game_data) {
     let pairedCardsRow = pairUpCards(unincludedCards);
 
     if (odd_card) pairedCardsRow.push([odd_card]);
-    pairedCardsRow.push(
-      default_cards || [getCardFromId("b000"), getCardFromId("r000")]
-    );
+    // pairedCardsRow.push( // ❌ could be a bug
+    //   default_cards || [getCardFromId("b000"), getCardFromId("r000")]
+    // );
 
     let targetValue = length - includedCards?.length; // playercount(+bury) - prinaries
     let combinations = findIndexCombinations(
