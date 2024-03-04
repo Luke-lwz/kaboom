@@ -5,7 +5,7 @@
         "description": "KEEP THE PRESIDENT AWAY FROM THE BOMBER",
         "links": [],
         "src": "/blue/wing.png",
-        "info": "You are on the Blue Team.\nYou win If the President does not gain the\r\n\"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be on the Blue Team (except spies).",
+        "info": "You are on the Blue Team.\nYou win if the President does not gain the \"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be on the Blue Team (except spies).",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 1
@@ -40,7 +40,7 @@
         "description": "WALK FREELY BETWEEN THE ROOMS",
         "links": [],
         "src": "/blue/car.png",
-        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
+        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18 players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
@@ -73,7 +73,7 @@
         "description": "KICK AN EXTRA PLAYER OUT",
         "links": [],
         "src": "/blue/bouncer.png",
-        "info": "You have the BOUNCER power: if you are in a room that has more players than the other room, you may privately reveal your card to any player and verbally tell them, \"Get out!\" When you do, that player must immediately change rooms. The BOUNCER power does not work during the last round or between rounds. This can only be done once per round",
+        "info": "You have the BOUNCER power: if you are in a room that has more players than the other room, you may privately reveal your card to any player and verbally tell them, \"Get out!\" When you do, that player must immediately change rooms. The BOUNCER power does not work during the last round or between rounds. This can only be done once per round.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 5
@@ -106,7 +106,7 @@
         "description": "ONLY COLOR SHARE BECAUSE YOU'RE \"COY\"",
         "links": [],
         "src": "/blue/mask.png",
-        "info": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a\r\nPsychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the\r\n\"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
+        "info": "You begin with the \"coy\" condition. Players with the \"coy\" condition may ONLY color share unless a character's power forces otherwise.\r\n\r\nNote: The \"coy\" condition is a psych condition and can be cured by a Psychologist.\r\n\r\nAnother Note: If a player with the \"coy\" condition were to acquire the \"foolish\" condition, the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
@@ -128,7 +128,7 @@
         "description": "MAKE 2 PLAYERS \"IN HATE\" ONCE PER GAME",
         "links": [],
         "src": "/blue/heart.png",
-        "info": "You have the ERIS power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You hate each other.\" Those 2 players gain the \"in hate\" condition.\r\n\r\nPlayers with the \"in hate\" condition replace their original win objective with the following win objective: be in the opposite room of the player with whom you are \"in hate\" at the end of the game or fail to win.\r\n\r\nYou cannot use this power on yourself.\r\n\r\nNote: If a player with the \"in hate\" condition were to acquire the \"in love\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
+        "info": "You have the ERIS power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You hate each other.\" Those 2 players gain the \"in hate\" condition.\r\n\r\nPlayers with the \"in hate\" condition replace their original win objective with the following win objective: be in the opposite room of the player with whom you are \"in hate\" at the end of the game or fail to win.\r\n\r\nThe ERIS power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in hate\" condition were to acquire the \"in love\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 6
@@ -139,7 +139,7 @@
         "description": "CARD SHARE >> \"FOOLISH\"",
         "links": [],
         "src": "/blue/drugman.png",
-        "info": "You have the DEALER power: any player that card shares with you\r\ngains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a\r\ncontradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would\r\ncancel one another, leaving the player with neither condition.",
+        "info": "You have the DEALER power: any player that card shares with you gains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 4
@@ -162,7 +162,7 @@
         "backup_cards": ["b024"],
         "links": [],
         "src": "/blue/medicine.png",
-        "info": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with Poison, additional rules apply",
+        "info": "When playing with the Doctor, the Blue Team has the following additional win condition: the President must card share with the Doctor before the end of the game or the Blue Team loses. At the end of the game, the President will be asked if he/she card shared with the Doctor. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the President or Bomber character ever switches player control (perhaps due to the Hot Potato), then the new President/Bomber must card share with the Doctor/Engineer to prevent losing.\r\n\r\nNote: When playing with Poison, additional rules apply.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 5 
@@ -207,7 +207,7 @@
         "links": [],
         "backup_for": "b001",
         "src": "/blue/girl.png",
-        "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President.\r\n\r\nYou are the heir, a huge deal if the President card is buried.",
+        "info": "You are the backup character for the President. If the President card is buried you must carry out all responsibilities associated with the President (i.e. card sharing with the Doctor, etc.).\r\n\r\nYou are the heir, a huge deal if the President card is buried.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
@@ -218,7 +218,7 @@
         "description": "PUBLIC REVEAL >> 2 VOTES TO USURP IN EVEN ROOM",
         "links": [],
         "src": "/blue/vote.png",
-        "info": "If your room has an even number of players, you may publicly reveal\r\nyour card when attempting to usurp a leader. Your vote to usurp counts\r\nas 2 votes instead of 1 unless the opposing Mayor also publicly reveals\r\ntheir card.",
+        "info": "If your room has an even number of players, you may publicly reveal your card when attempting to usurp a leader. Your vote to usurp counts as 2 votes instead of 1 unless the opposing Mayor also publicly reveals their card.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 5
@@ -262,7 +262,7 @@
         "description": "YOU CAN ONLY CARD SHARE BECAUSE YOU'RE \"SAVVY\"",
         "links": [],
         "src": "/blue/telephone.png",
-        "info": "You begin with the \"savvy\" condition. Players with the \"savvy\" condition may only card share. You may not publicly, privately, or color share.\r\n\r\nNote: It is possible for \"savvy\" players to acquire conditions that prevent card sharing (e.g. the \"coy\"\r\nor \"shy\" condition). If this happens, then the \"savvy\" player can't do anything with their card.",
+        "info": "You begin with the \"savvy\" condition. Players with the \"savvy\" condition may only card share. You may not publicly, privately, or color share.\r\n\r\nNote: It is possible for \"savvy\" players to acquire conditions that prevent card sharing (e.g. the \"coy\" or \"shy\" condition). If this happens, then the \"savvy\" player can't do anything with their card.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 3
@@ -318,7 +318,7 @@
         "description": "PERMANENT PUBLIC REVEAL >> TACKLE A PLAYER",
         "links": [],
         "src": "/blue/flashlight.png",
-        "info": "You have the TACKLE power: publicly reveal your card, immediately\r\npick any player in the room (besides yourself), then verbally tell them,\r\n\"You're going nowhere.\" However, your card must permanently remain\r\npublicly revealed for the rest of the game. This means that you can only\r\nuse this power once. The target of your TACKLE power can't leave as a hostage this round.",
+        "info": "You have the TACKLE power: you may publicly reveal your card, immediately pick any player in the room (besides yourself), then verbally tell them,\"You're going nowhere.\" However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. The target of your TACKLE power can't leave as a hostage this round.",
         "tags": "v1 official",
         "color_name": "blue",
         "difficulty": 5

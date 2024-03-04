@@ -40,7 +40,7 @@
         "description": "WALK FREELY BETWEEN THE ROOMS",
         "links": [],
         "src": "/red/car.png",
-        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
+        "info": "As soon as you are dealt your card, announce \"I am an Ambassador!\" Your card is permanently publicly revealed. You have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions. Ambassadors can walk freely between the 2 rooms. Ambassadors are never considered a part of a room's population. Therefore, Ambassadors can never take part in any vote, be hostages, be leaders, and they can never be targeted by abilities.\r\n\r\nNote: Ambassadors don't count towards the player count in the game. This means if you have 18 players including the Ambassadors, you should be playing a 16 player game. Ambassadors don't count for or against Team Zombie's win objective.",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 3
@@ -128,7 +128,7 @@
         "description": "MAKE 2 PLAYERS \"IN LOVE\" ONCE PER GAME",
         "links": [],
         "src": "/red/heart.png",
-        "info": "You have the CUPID power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You are in love with each other.\" Those 2 players gain the \"in love\"\r\ncondition. Players with the \"in love\" condition replace their original win objective with the following win objective: Be in the same room with the player with whom you are \"in love\" at the end of the game or fail to win. The CUPID power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in love\" condition were to acquire the \"in hate\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
+        "info": "You have the CUPID power: once per game, you may privately reveal your card to 2 players. You must verbally tell your target players, \"You are in love with each other.\" Those 2 players gain the \"in love\" condition. Players with the \"in love\" condition replace their original win objective with the following win objective: Be in the same room with the player with whom you are \"in love\" at the end of the game or fail to win. \r\n\r\nThe CUPID power cannot be used on yourself.\r\n\r\nNote: If a player with the \"in love\" condition were to acquire the \"in hate\" condition, the 2 conditions would cancel one another, leaving that specific player with neither condition.",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 6
@@ -139,7 +139,7 @@
         "description": "CARD SHARE >> \"FOOLISH\"",
         "links": [],
         "src": "/red/drugman.png",
-        "info": "You have the DEALER power: any player that card shares with you\r\ngains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a\r\ncontradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would\r\ncancel one another, leaving the player with neither condition.",
+        "info": "You have the DEALER power: any player that card shares with you gains the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or \"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
         "tags": "v1 official",
         "color_name": "red",
         "difficulty": 4
