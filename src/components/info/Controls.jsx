@@ -12,10 +12,10 @@ function Controls() {
             Now you can see all cards that are distributed among your friends
             <br /><span className="text-secondary font-extrabold">Swap cards:</span><br />
             Open your card face and <b>swipe up.</b><br/>
-            Select a player with whom you want to swap cards and wait for them to accept or deny the request
+            Select a player with whom you want to swap cards and wait for them to accept the request
             <br /><span className="text-secondary font-extrabold">Timer menu:</span><br />
             <b>Click the timer</b> to open the menu.<br />
-            You can now see all rounds and their settings.<br />
+            You can now see all rounds and settings.<br />
             <span className="text-primary">Host</span> has the following options:
             <ul className="list-disc pl-8">
                 <li><b>Pause/Resume</b> game</li>
