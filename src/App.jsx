@@ -298,7 +298,7 @@ function App() {
 
           </CookieConsent>
         </PageContextProvider>
-        {isBeta && <BetaBanner />}
+{/*         {isBeta && <BetaBanner />} */}
 
       </div>
     </QueryClientProvider>
