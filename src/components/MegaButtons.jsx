@@ -81,7 +81,7 @@ export function BigAbsoluteMakeButton({ onClick = () => { } }) {
     const {checkAuth} = useContext(PageContext);
 
     return (
-        <MegaButton title="Make" Icon={<FaPlus className="text-lg" />} textColor={"#fc021b"} className={" drop-shadow-2xl absolute bottom-4 right-4 z-10"} onClick={() => checkAuth(() => onClick())}>
+        <MegaButton title="Make" Icon={<FaPlus className="text-lg" />} textColor={"#fc021b"} className={" drop-shadow-2xl fixed bottom-4 right-4 z-10"} onClick={() => checkAuth(() => onClick())}>
             <div className="hidden sm:block">Make</div>
         </MegaButton>
     )
