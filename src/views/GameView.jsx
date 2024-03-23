@@ -49,6 +49,7 @@ import { FaFlagCheckered } from 'react-icons/fa';
 import { PiPersonSimpleRunBold } from 'react-icons/pi';
 import { BsFillDoorOpenFill } from 'react-icons/bs';
 import RoundInfoMenu from '../components/menus/RoundsInfoMenu';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -344,7 +345,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
 
-            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} hostTimeDifference={hostTimeDifference} />
+            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} hostTimeDifference={hostTimeDifference} code={code} />
 
         </div>
 
@@ -926,14 +927,14 @@ function HostGame({ me, setMe, code, setScreen }) {
                     <Countdown s={countdown} paused={gameState.paused} onClick={handleCountdownClick} />
                 </div>
 
-                <div style={{zIndex: 11}} onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
-                    <MiniRoundDisplay game={gameState}  />
+                <div style={{ zIndex: 11 }} onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                    <MiniRoundDisplay game={gameState} />
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
 
 
-            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => players.current} game={gameState} endRound={endRound} nextRound={nextRound} />
+            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => players.current} game={gameState} endRound={endRound} nextRound={nextRound} code={code} />
 
 
         </div>
@@ -942,7 +943,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, hostTimeDifference = 0, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
+function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, hostTimeDifference = 0, endRound = () => { }, nextRound = () => { }, code }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
 
     const [card, setCard] = useState(null);
 
@@ -1223,8 +1224,15 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
+
     return (
         <>
+
+            <Helmet>
+                <title>Kaboom • Game • {code?.toUpperCase() || ""}</title>
+                <meta name="title" content="Kaboom" />
+                <meta name="description" content={`Kaboom: Join ${game?.players?.[0]?.name ? game.players[0].name + "'s " : ""} game (${code?.toUpperCase()}) for an explosive time with your friends`} />
+            </Helmet>
             <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide top-8">
                 {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{ animationDelay: "1s" }} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
                     <h2 className='text-title title-shadow-secondary-xs font-extrabold text-neutral text-xl absolute left-0 right-0 bottom-4'>You're first leader</h2>
@@ -1298,7 +1306,7 @@ function MiniRoundDisplay({ game }) {
             <span className='text-white/50'>|</span>
             <div className='flex justify-start items-center'>
                 <PiPersonSimpleRunBold className='text-sm text-white/70' />
-                <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }}  className="text-white/70" />
+                <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }} className="text-white/70" />
                 <span className='ml-2'>{nextHostageNumber}</span>
             </div>
 
