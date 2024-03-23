@@ -263,7 +263,7 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
     return (
         <div className={"bg-black w-full relative h-14 pb-1 overflow-hidden rounded-xl transition-all grow flex-1 "}>
             <div style={{ background: `linear-gradient(65deg, #00000000, ${color || "#c342ff"}63, ${color || "#c342ff"}ab)` }} className="playset-gradient w-full absolute inset-0 opacity-50" />
-            <div className="h-14 flex items-center absolute top-0 left-0 right-0 z-10">
+            <div className="h-14 flex items-center absolute top-0 left-0 right-0">
                 <div onClick={onClick} className="flex items-center w-full h-14 pr-4">
                     <div className="h-full w-14 tooltip tooltip-right relative" data-tip={name}>
                         <EmojiHighlight emoji={emoji && emoji !== "" ? emoji : undefined} />
