@@ -287,7 +287,7 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
                 </div>
 
 
-                {!forceOpen && !noOpen && <div onClick={() => toggleOpen()} className="absolute top-0 right-0 bottom-0 w-14 flex items-center justify-center z-20">
+                {!forceOpen && !noOpen && <div onClick={() => toggleOpen()} className="absolute top-0 right-0 bottom-0 w-14 flex items-center justify-center ">
                     <div className={"text-white text-2xl transition-all " + (!open ? " rotate-0 " : " rotate-180 ")}>
                         <IoIosArrowDown />
                     </div>
