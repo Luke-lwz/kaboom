@@ -43,7 +43,7 @@ export default function LoginMenu() {
             <p className="text-xs font-light text-neutral/60 w-full text-center px-4">
                 By logging in, you agree to our <a href="/privacy" className="underline">Privacy Policy</a> and <a href="/terms" className="underline">Terms of Service</a>
                 <br />
-                We dont use any cookies!
+                We only use essential cookies!
             </p>
         </div >
     );
