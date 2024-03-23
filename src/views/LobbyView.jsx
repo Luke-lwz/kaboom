@@ -38,6 +38,7 @@ import { FaThumbsUp } from 'react-icons/fa';
 import { generateDefaultRounds } from '../helpers/game';
 import toast from 'react-hot-toast';
 import RoundConfig from '../components/RoundConfig';
+import { Helmet } from 'react-helmet';
 
 const ROUND_TABS = [
     {
@@ -211,7 +212,7 @@ function ClientLobby({ me, setMe, code }) {
 
     async function getPlayset(id) {
         if (id) {
-            const playset = await getPlaysetById(id, null, {refreshInBackground: true}) || await getPlaysetById("t0001");
+            const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("t0001");
             setPlayset(maximizePlayset(playset))
 
         }
@@ -227,7 +228,7 @@ function ClientLobby({ me, setMe, code }) {
     return (!loading ?
         <div className='flex flex-col justify-start items-center w-full'>
 
-            <Lobby me={me} players={playerList} />
+            <Lobby me={me} players={playerList} code={code} />
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
                 <button className={'w-full btn text-title text-primary-content' + (ready ? " btn-success " : " btn-accent ")} onClick={() => setReady(!ready)}>{ready ? "Ready!" : "Ready up!"}</button>
                 <button className={'w-full btn text-title btn-ghost text-neutral'} onClick={() => changeName()}>change name</button>
@@ -383,7 +384,7 @@ function HostLobby({ me, code }) {
         if (selectedRoundTab?.value === "recommended") {
             setRoundConfig(generateDefaultRounds(playerState?.length || 1))
         }
-        
+
     }, [playerState, selectedRoundTab])
 
 
@@ -618,7 +619,7 @@ function HostLobby({ me, code }) {
         setPageCover(null)
         setPlayset(null);
 
-        const playset = await getPlaysetById(id, null, {refreshInBackground: true}) || await getPlaysetById("t0001");
+        const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("t0001");
 
         playsetRef.current = playset;
 
@@ -636,7 +637,7 @@ function HostLobby({ me, code }) {
     function showAllPlaysets() {
         setPageCover({
             title: "PLAYSETS",
-            element: <PlaysetsFilter onPlaysetClick={(playset) => getPlayset(playset?.id, null, {refreshInBackground: true})} />,
+            element: <PlaysetsFilter onPlaysetClick={(playset) => getPlayset(playset?.id, null, { refreshInBackground: true })} />,
             onClose: () => setPageCover(null)
         })
     }
@@ -665,7 +666,8 @@ function HostLobby({ me, code }) {
 
     return (
         <div className='flex flex-col justify-start items-center w-full pb-24'>
-            <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} />
+
+            <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} code={code} />
             {devMode && <h1 className='bg-warning/50 w-full p-2 text-center text-warning-content text-title'>DEV MODE IS ENABLED</h1>}
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
 
@@ -770,11 +772,17 @@ function SelectTab({ className, style, selected, children, color, onClick = () =
 
 
 
-function Lobby({ me, players = [], amHost, kickPlayer, arePlayersOffline }) { // playersUpdated is a work around to update players which are really a state
+function Lobby({ me, players = [], amHost, kickPlayer, arePlayersOffline, code }) { // playersUpdated is a work around to update players which are really a state
 
 
     return (
+
         <div className='w-full flex flex-col justify-start items-center'>
+            <Helmet>
+                <title>Kaboom • Lobby • {code?.toUpperCase() || ""}</title>
+                <meta name="title" content="Kaboom" />
+                <meta name="description" content={`Kaboom: Join ${players?.[0]?.name ? players[0]?.name + "'s " : ""} game (${code?.toUpperCase()}) for an explosive time with your friends`} />
+            </Helmet>
             <div className='bg-neutral flex items-center justify-center w-full'>
                 <div className='w-full max-w-2xl p-4 gap-4 flex flex-col justify-start items-center'>
                     {players.map((player, i) => <PlayerRow showOnline={me?.id === "HOST"} showId={me?.id === "HOST" || player?.id === "HOST"} me={me} {...player} key={i} amHost={amHost} element={me?.id === "HOST" && !player.host &&

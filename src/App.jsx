@@ -45,6 +45,7 @@ import PlaysetsView from './views/playsets/PlaysetsView';
 import CookieConsent from 'react-cookie-consent';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import WorkbenchRedirectView from './views/playsets/workbenchComponents/RedirectView';
+import { Helmet } from 'react-helmet';
 
 const isBeta = import.meta.env.VITE_BETA || false;
 
@@ -182,19 +183,29 @@ function App() {
 
   async function logout() {
     try {
-        const { error } = await supabase.auth.signOut()
-        console.log(error)
+      const { error } = await supabase.auth.signOut()
+      console.log(error)
     } catch (e) {
 
     }
     window.location.href = "/"
-}
+  }
 
 
   return (
 
     <QueryClientProvider client={queryClient}>
       <div className="App absolute inset-0 overflow-hidden scrollbar-hide">
+
+        <Helmet>
+
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Kaboom • Online 2 Rooms and a Boom</title>
+          <meta name="title" content="Kaboom" />
+          <meta name="description" content="Kaboom, a Two Rooms and a Boom online web app adaptation. Play kaboom card game online for free." />
+          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        </Helmet>
         <Toaster
           position="top-left"
           reverseOrder={false}
@@ -298,7 +309,7 @@ function App() {
 
           </CookieConsent>
         </PageContextProvider>
-{/*         {isBeta && <BetaBanner />} */}
+        {/*         {isBeta && <BetaBanner />} */}
 
       </div>
     </QueryClientProvider>
