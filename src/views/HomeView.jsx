@@ -39,6 +39,7 @@ import { IoPersonCircleOutline, IoPhonePortraitOutline } from "react-icons/io5";
 import { TbCardsFilled } from "react-icons/tb";
 import { CgCardDiamonds } from "react-icons/cg";
 import { FaTools } from "react-icons/fa";
+import BringJesusIntoIt from "../components/BringJesusIntoIt";
 
 
 
@@ -52,7 +53,7 @@ function HomeView({ }) {
 
 
 
-    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate,checkAuth } = useContext(PageContext)
+    const { redirect, allLocalStorage, setPrompt, devMode, setDevMode, showLoginMenu, user, getUser, smoothNavigate, checkAuth } = useContext(PageContext)
 
     const [loading, setLoading] = useState(false);
     const [clicksToDev, setClicksToDev] = useState(0);
@@ -339,7 +340,7 @@ function HomeView({ }) {
     }
 
 
-    
+
 
 
     async function supatest() {
@@ -483,7 +484,7 @@ function HomeView({ }) {
 
                 <h2 className="font-bold flex flex-wrap w-full max-w-2xl px-4 items-center justify-center text-center text-lg mb-12">This game is meant to be played in person, with your phones <IoPhonePortraitOutline /> = <CgCardDiamonds /></h2>
 
-
+                <div className="px-4 w-full"><BringJesusIntoIt /></div>
 
 
                 <ContributeLinks />
@@ -500,27 +501,27 @@ function HomeView({ }) {
 
 export function ProfilePictureAndMenu() {
 
-    const { user, logout, showLoginMenu,smoothNavigate } = useContext(PageContext);
+    const { user, logout, showLoginMenu, smoothNavigate } = useContext(PageContext);
 
-    
+
     return (
         <div className="text-3xl flex items-center justify-center clickable text-primary">
             {!user?.id ?
-                        <IoPersonCircleOutline onClick={() => showLoginMenu()} />
-                        :
-                        <div className="dropdown dropdown-end z-[1000]" >
-                            <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8  w-8"} /></label>
-                            <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
-                                <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
-                                <li><button onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.nativeEvent.stopImmediatePropagation();
-                                    e.nativeEvent.stopPropagation();
-                                    logout()
-                                }}>Logout</button></li>
-                            </ul>
-                        </div>
-                    }
+                <IoPersonCircleOutline onClick={() => showLoginMenu()} />
+                :
+                <div className="dropdown dropdown-end z-[1000]" >
+                    <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8  w-8"} /></label>
+                    <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
+                        <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
+                        <li><button onClick={(e) => {
+                            e.stopPropagation();
+                            e.nativeEvent.stopImmediatePropagation();
+                            e.nativeEvent.stopPropagation();
+                            logout()
+                        }}>Logout</button></li>
+                    </ul>
+                </div>
+            }
         </div>
     )
 }
