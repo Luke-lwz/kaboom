@@ -249,14 +249,6 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
             toast.error(`You need at most ${MAX.defaultCards} default cards`)
             return
         }
-        if (oddCard && oddCard?.length < MIN.oddCard) {
-            toast.error(`You need at least ${MIN.oddCard} odd card`)
-            return
-        }
-        if (oddCard && oddCard?.length > MAX.oddCard) {
-            toast.error(`You need at most ${MAX.oddCard} odd card`)
-            return
-        }
 
         if (remixMode && startingPlayset?.name?.toLowerCase() === playset?.name.toLowerCase()) {
             toast.error("You can't remix a playset with the same name")
