@@ -222,6 +222,42 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
         if (loading) return
         if (!user) return showLoginMenu()
 
+        const primariesFlat = crackOpenPairs(primaries);
+        const generalCardsFlat = crackOpenPairs(generalCards);
+        const defaultCardsFlat = crackOpenPairs(defaultCards);
+        if (primariesFlat.length < MIN.primaries) {
+            toast.error(`You need at least ${MIN.primaries} primary cards`)
+            return
+        }
+        if (primariesFlat.length > MAX.primaries) {
+            toast.error(`You need at most ${MAX.primaries} general cards`)
+            return
+        }
+        if (generalCardsFlat.length < MIN.generalCards) {
+            toast.error(`You need at least ${MIN.generalCards} general cards`)
+            return
+        }
+        if (generalCardsFlat.length > MAX.generalCards) {
+            toast.error(`You need at most ${MAX.generalCards} general cards`)
+            return
+        }
+        if (defaultCardsFlat.length < MIN.defaultCards) {
+            toast.error(`You need at least ${MIN.defaultCards} default cards`)
+            return
+        }
+        if (defaultCardsFlat.length > MAX.defaultCards) {
+            toast.error(`You need at most ${MAX.defaultCards} default cards`)
+            return
+        }
+        if (oddCard && oddCard?.length < MIN.oddCard) {
+            toast.error(`You need at least ${MIN.oddCard} odd card`)
+            return
+        }
+        if (oddCard && oddCard?.length > MAX.oddCard) {
+            toast.error(`You need at most ${MAX.oddCard} odd card`)
+            return
+        }
+
         if (remixMode && startingPlayset?.name?.toLowerCase() === playset?.name.toLowerCase()) {
             toast.error("You can't remix a playset with the same name")
             return
