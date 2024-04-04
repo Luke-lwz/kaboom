@@ -28,7 +28,7 @@ function BringJesusIntoIt(props) {
                 I went from being someone with a lot of burden from everything that I did wrong, to someone who can now stand and say that <B>I've been forgiven!</B>
                 <br/>
                 <div className="mt-2"></div>
-                <B>My sins are forgiven in an act of grace on the cross</B>, because even though I deserved to be hung on that cross, he gave himself so I wouldn't have to suffer. 
+                <B>My sins are forgiven by an act of grace on the cross</B>, because even though I deserved to be hung on that cross, he gave himself so I wouldn't have to suffer. 
                 <br/>
                 <div className="mt-2"></div>
                 My advice for everyone who feels the same as I did: Give yourself to Jesus Christ and receive <B className="font-extrabold text-yellow-300">LIFE!</B>
