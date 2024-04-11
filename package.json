@@ -31,7 +31,8 @@
     "react-nice-avatar-vite-prod-fork": "^1.6.0",
     "react-qrcode": "^0.3.6",
     "react-router-dom": "^6.8.1",
-    "react-window": "^1.8.10"
+    "react-window": "^1.8.10",
+    "use-local-storage": "^3.0.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",

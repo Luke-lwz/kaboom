@@ -40,6 +40,7 @@ import { TbCardsFilled } from "react-icons/tb";
 import { CgCardDiamonds } from "react-icons/cg";
 import { FaTools } from "react-icons/fa";
 import BringJesusIntoIt from "../components/BringJesusIntoIt";
+import PaymentInfo from "../components/PaymentInfo";
 
 
 
@@ -485,6 +486,7 @@ function HomeView({ }) {
                 <h2 className="font-bold flex flex-wrap w-full max-w-2xl px-4 items-center justify-center text-center text-lg mb-12">This game is meant to be played in person, with your phones <IoPhonePortraitOutline /> = <CgCardDiamonds /></h2>
 
                 <div className="px-4 w-full"><BringJesusIntoIt /></div>
+                <div className="px-4 w-full"><PaymentInfo /></div>
 
 
                 <ContributeLinks />

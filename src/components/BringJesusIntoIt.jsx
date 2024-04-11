@@ -7,9 +7,9 @@ function BringJesusIntoIt(props) {
                 <div className="h-12 w-12 rounded-md overflow-hidden">
                     <img src="/lukas.jpg" alt="" className={" block h-0 min-h-full object-cover w-full object-center overflow-hidden "} />
                 </div>
-                <b className="text-xl font-bold">Hi, Lukas here! 👋</b>
+                <b className="text-3xl font-extrabold">Hi, Lukas here! 👋</b>
             </div>
-            <div className=" pt-2 relative">
+            <div className=" pt-2 relative tracking-tight">
                 I'm {moment().diff("2004-03-18", "years")} years old and I'm from Germany.
                 <br/>
                 I made this website to <B>bring people together.</B>
@@ -31,13 +31,13 @@ function BringJesusIntoIt(props) {
                 <B>My sins are forgiven by an act of grace on the cross</B>, because even though I deserved to be hung on that cross, he gave himself so I wouldn't have to suffer. 
                 <br/>
                 <div className="mt-2"></div>
-                My advice for everyone who feels the same as I did: Give yourself to Jesus Christ and receive <B className="font-extrabold text-yellow-300">LIFE!</B>
+                My advice for everyone who feels the same as I did: Give yourself to Jesus Christ and receive <B className="font-extrabold text-[#fd0]">LIFE!</B>
                 <br/>
                 <div className="mt-4"></div>
                 Also, thank you for coming to my site. Glad you're here!
 
             </div>
-            <a href="https://www.gotquestions.org/" target="_blank" style={{backgroundColor: "rgb(253,224,71)"}} className={"rounded cursor-pointer text-white font-extrabold py-2 w-full mt-2 flex items-center justify-center"}>Got questions?</a>
+            <a href="https://www.gotquestions.org/" target="_blank" style={{backgroundColor: "#ffdd00"}} className={"rounded cursor-pointer text-white font-extrabold border-none py-2 w-full mt-2 btn noskew flex items-center justify-center"}>Got questions?</a>
         </div>
     );
 }
