@@ -10,7 +10,7 @@ export default function PageCover({ title, element, onClose = () => {} }) {
                     <h1>{title}</h1>
                     <BsXLg />
                 </div>
-                <div className='overflow-y-scroll scrollbar-hide grow w-full flex flex-col items-center p-2'>
+                <div className='overflow-y-scroll scrollbar-hide grow w-full flex flex-col items-center p-2 overflow-x-hidden'>
                     {element}
                 </div>
             </div>

@@ -74,7 +74,7 @@ export default function WorkbenchRedirectView({ editMode = false, remixMode = fa
                 :
                 <RedirectOptionsView playset={playset} text={"Someone else made this playset:"}>
                     <RemixButton onClick={() => smoothNavigate(`/workbench/${playset.id}/remix`)} />
-                    <MegaButton title="Open playset" Icon={<FiExternalLink />} fill textColor={"#72c4ff"} onClick={() => smoothNavigate(`/playsets/${playset.id}`)}>
+                    <MegaButton title="Open playset" Icon={<FiExternalLink />} fill color={"#72c4ff"} onClick={() => smoothNavigate(`/playsets/${playset.id}`)}>
                         <div className="">Open</div>
                     </MegaButton>
                 </RedirectOptionsView>
@@ -95,10 +95,10 @@ function Workbench404() {
                 </div>
 
                 <div className="flex w-full items-center justify-center gap-2">
-                    <MegaButton title="Go back" Icon={<FaArrowLeft className="group-hover:-translate-x-1 transition-all" />} fill textColor={"#0019fd"} onClick={() => window.history.back()}>
+                    <MegaButton title="Go back" Icon={<FaArrowLeft className="group-hover:-translate-x-1 transition-all" />} fill color={"#0019fd"} onClick={() => window.history.back()}>
                         Go back
                     </MegaButton>
-                    <MegaButton title="Make playset" Icon={<FaPlus className="group-hover:-rotate-180 transition-all" />} fill textColor={"#fc021b"} onClick={() => smoothNavigate("/workbench")}>
+                    <MegaButton title="Make playset" Icon={<FaPlus className="group-hover:-rotate-180 transition-all" />} fill color={"#fc021b"} onClick={() => smoothNavigate("/workbench")}>
                         Playset
                     </MegaButton>
                 </div>

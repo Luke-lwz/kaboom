@@ -619,7 +619,7 @@ function HostLobby({ me, code }) {
         setPageCover(null)
         setPlayset(null);
 
-        const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("t0001");
+        const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("00000000-0000-0000-0000-000000000000") || await getPlaysetById("t0001");
 
         playsetRef.current = playset;
 

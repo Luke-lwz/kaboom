@@ -37,7 +37,7 @@ function BringJesusIntoIt(props) {
                 Also, thank you for coming to my site. Glad you're here!
 
             </div>
-            <a href="https://www.gotquestions.org/" target="_blank" style={{backgroundColor: "#ffdd00"}} className={"rounded cursor-pointer text-white font-extrabold border-none py-2 w-full mt-2 btn noskew flex items-center justify-center"}>Got questions?</a>
+            <a href="https://www.gotquestions.org/" target="_blank" style={{backgroundColor: "#ffdd00"}} className={"rounded cursor-pointer text-white font-extrabold  py-2 w-full mt-2 btn noskew flex items-center justify-center"}>Got questions?</a>
         </div>
     );
 }

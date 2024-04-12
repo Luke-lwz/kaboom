@@ -386,7 +386,7 @@ function HomeView({ }) {
             <div onClick={() => checkAuth(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
                 <h1 className="absolute -top-3 right-1 z-10 rotate-12 font-extrabold text-xl text-title text-secondary animate-pulse">NEW</h1>
 
-                <div className="border-2 border-neutral rounded-box flex justify-between items-center w-full h-16 overflow-hidden pl-4 pr-2">
+                <div className="border-2 border-neutral rounded-xl flex justify-between items-center w-full h-16 overflow-hidden pl-4 pr-2">
                     <div className="flex flex-col  items-start justify-center">
                         <div className="flex items-center justify-start gap-3 text-secondary text-title text -mb-1">
                             <FaTools />
@@ -455,22 +455,22 @@ function HomeView({ }) {
                 <div className="grid grid-cols-2 w-full gap-2 px-4">
                     <MegaButton onClick={() => {
                         smoothNavigate("/playsets")
-                    }} Icon={<BsCassetteFill />} fill textColor={"#c342ff"}>
+                    }} Icon={<BsCassetteFill />} fill color={"#c342ff"}>
                         Playsets
                     </MegaButton>
                     <MegaButton onClick={() => {
                         smoothNavigate("/cards")
-                    }} Icon={<TbCardsFilled />} fill textColor={"#3b82f6"}>
+                    }} Icon={<TbCardsFilled />} fill color={"#3b82f6"}>
                         Cards
                     </MegaButton>
                     <MegaButton onClick={() => {
                         window.location.href = "TwoRooms_Rulebook_v3.pdf";
-                    }} Icon={<BsBook />} fill textColor={"#27d62a"}>
+                    }} Icon={<BsBook />} fill color={"#27d62a"}>
                         Rules
                     </MegaButton>
                     <MegaButton onClick={() => {
                         smoothNavigate("/")
-                    }} Icon={<IoPersonCircleOutline />} fill textColor={"#ff0000"}>
+                    }} Icon={<IoPersonCircleOutline />} fill color={"#ff0000"}>
                         Profile
                     </MegaButton>
                 </div>
@@ -511,8 +511,8 @@ export function ProfilePictureAndMenu() {
             {!user?.id ?
                 <IoPersonCircleOutline onClick={() => showLoginMenu()} />
                 :
-                <div className="dropdown dropdown-end z-[1000]" >
-                    <label tabIndex={0} className="rounded-full"><UserAvatar profile={user} className={"h-8  w-8"} /></label>
+                <div className="dropdown dropdown-end z-[1000]  " >
+                    <label tabIndex={0} className="rounded-full "><UserAvatar profile={user} className={"h-8  w-8 border-2 border-neutral"} /></label>
                     <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
                         <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
                         <li><button onClick={(e) => {
@@ -563,7 +563,7 @@ function NamePrompt({ onEnter, buttonValue }) {
     return (
         <div className="w-full flex flex-col justify-start items-center gap-4">
 
-            {name && name != "" ? <Avatar style={{ height: "3rem", width: "3rem" }} {...avaConfig} /> : <h1 className="text-title text-2xl font-extrabold h-12 flex items-center">Name</h1>}
+            {name && name != "" ? <Avatar style={{ height: "3rem", width: "3rem" }} className="border-2 border-neutral" {...avaConfig} /> : <h1 className="text-title text-2xl font-extrabold h-12 flex items-center">Name</h1>}
             <input autoFocus={true} id="name-input-element" type="text" placeholder="Name" className="skew input text-center font-extrabold text-xl text-normal text-accent-content w-fit px-0 bg-neutral " onChange={(e) => { e.target.value = e.target.value.trimStart(); setName(e.target.value.trimStart()) }} />
             <div className="flex justify-end items-center w-full gap-1">
                 <button onClick={() => setPrompt(null)} className={"btn  text-title scale-50 " + (loading ? " hidden " : " btn-ghost ")}>CANCEL</button>

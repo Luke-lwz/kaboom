@@ -37,8 +37,21 @@ body {
 }
 
 .btn {
-    @apply rounded-md transition-all no-animation clickable
+    @apply rounded-md transition-all no-animation clickable border-2 border-neutral
     
+}
+
+.btn:hover {
+    @apply border-neutral
+}
+
+.btn-disabled {
+    @apply border-gray-500/50
+
+}
+
+.btn-ghost {
+  @apply border-none
 }
 
 .btn {
