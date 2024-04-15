@@ -1652,7 +1652,8 @@ function PauseGameNumberScreen({ meId, onClick = () => { }, player }) {
                             <Avatar className="w-full h-full" {...playerData?.avaConfig} />
                         </div>
                         <h1 className=' truncate text-3xl'>{playerData?.name}</h1>
-                        <h2 className='text-lg text-normal -mt-2'>is presenting their card</h2>
+                        <h2 className='text-lg text-normal -mt-2'>...is presenting their card</h2>
+                        <p className='text-lg text-normal'>🚫 Do not reveal your card to anyone yet.</p>
 
 
 
