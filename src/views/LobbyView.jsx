@@ -212,7 +212,7 @@ function ClientLobby({ me, setMe, code }) {
 
     async function getPlayset(id) {
         if (id) {
-            const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("t0001");
+            const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("00000000-0000-0000-0000-000000000000") || await getPlaysetById("t0001");
             setPlayset(maximizePlayset(playset))
 
         }
@@ -334,7 +334,7 @@ function HostLobby({ me, code }) {
     useEffect(() => {
         if (localStorage.getItem(`game-${code}`) && JSON.parse(localStorage.getItem(`game-${code}`))?.game) return redirect(`/game/${code}`)
         startPeer();
-        getPlayset(localStorage.getItem("lastSelectedPlayset") || "t0001")
+        getPlayset(localStorage.getItem("lastSelectedPlayset") || "00000000-0000-0000-0000-000000000000")
     }, [])
 
 

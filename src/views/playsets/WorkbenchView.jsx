@@ -556,7 +556,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
                             <option value="never" selected={buryOption === "never"}>Never bury</option>
                         </select>
                     </div>
-                    <button style={{ backgroundColor: editMode ? "#7e22ce" : remixMode ? "#fad623" : "" }} className="btn btn-secondary w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : remixMode ? "Save remix!" : "Save playset!"}</button>
+                    <button style={{ backgroundColor: editMode ? "#7e22ce" : remixMode ? "#fad623" : "" }} className="btn btn-secondary border-none w-full text-title text-base-100 noskew" onClick={() => publishPlayset()}>{loading ? <div className="loading loading-spinner text-white" /> : remixMode ? "Save remix!" : "Save playset!"}</button>
 
 
                 </div>
