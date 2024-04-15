@@ -37,11 +37,11 @@ body {
 }
 
 .btn {
-    @apply rounded-md transition-all no-animation clickable border-2 border-neutral
+    @apply rounded-md transition-all no-animation clickable
     
 }
 
-.btn:hover {
+/* .btn:hover {
     @apply border-neutral
 }
 
@@ -52,7 +52,7 @@ body {
 
 .btn-ghost {
   @apply border-none
-}
+} */
 
 .btn {
   transform: skewX(-10deg);

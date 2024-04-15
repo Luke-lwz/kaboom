@@ -10,13 +10,13 @@ function RoundInfoMenu({ game, paused, onPause, onEndRound, onEndGame }) {
             {onPause && onEndRound && onEndGame ? <div className="w-full p-4 gap-2 bg-blue-800 text-white box-shadow-xl">
                 <h1 className="text-title text-lg w-full font-extrabold mb-2">Timer options</h1>
                 <div className="flex items-center justify-center gap-2 w-full">
-                    <MegaButton onClick={onPause} fill color={"#031759"} noBorder>
+                    <MegaButton onClick={onPause} fill color={"#031759"}>
                         {paused ? <FaPlay /> : <FaPause />}
                     </MegaButton>
-                    <MegaButton onClick={onEndRound} fill color={"#031759"} noBorder>
+                    <MegaButton onClick={onEndRound} fill color={"#031759"}>
                         <FaForward />
                     </MegaButton>
-                    <MegaButton onClick={onEndGame} fill color={"#031759"} noBorder>
+                    <MegaButton onClick={onEndGame} fill color={"#031759"}>
                         <FaFlagCheckered />
                     </MegaButton>
                 </div>

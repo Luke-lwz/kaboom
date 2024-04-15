@@ -6,11 +6,11 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import { PageContext } from "./PageContextProvider";
 
 
-export default function MegaButton({ Icon, children, color, bgBaseify = false, tooltip, fill = false, onClick = () => { }, title, className, noBorder = false}) {
+export default function MegaButton({ Icon, children, color, bgBaseify = false, tooltip, fill = false, onClick = () => { }, title, className}) {
     return (
         <>
             <button onClick={onClick} title={title} className={'rounded-md w-fit tooltip clickable group ' + (bgBaseify ? " bg-base-100 " : " bg-transparent ") + (tooltip ? "  " : "  ") + (fill ? " w-full " : " w-fit ") + " " + className} data-tip={tooltip}>
-                <div style={{ backgroundColor: color, color: "#ffffff" }} className={'text-md h-14 tracking-tighter   rounded-md px-4 min-w-[2rem] py-2 flex items-center justify-center font-extrabold gap-3 ' + (fill ? " w-full " : " w-fit ") + (noBorder ? "  " : " border-2 border-neutral ")}>
+                <div style={{ backgroundColor: color, color: "#ffffff" }} className={'text-md h-14 tracking-tighter   rounded-md px-4 min-w-[2rem] py-2 flex items-center justify-center font-extrabold gap-3 ' + (fill ? " w-full " : " w-fit ")}>
                     {Icon && <div className='text-xl flex items-center justify-center'>
                         {Icon}
                     </div>}

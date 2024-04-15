@@ -512,7 +512,7 @@ export function ProfilePictureAndMenu() {
                 <IoPersonCircleOutline onClick={() => showLoginMenu()} />
                 :
                 <div className="dropdown dropdown-end z-[1000]  " >
-                    <label tabIndex={0} className="rounded-full "><UserAvatar profile={user} className={"h-8  w-8 border-2 border-neutral"} /></label>
+                    <label tabIndex={0} className="rounded-full "><UserAvatar profile={user} className={"h-8  w-8 "} /></label>
                     <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
                         <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
                         <li><button onClick={(e) => {
@@ -563,7 +563,7 @@ function NamePrompt({ onEnter, buttonValue }) {
     return (
         <div className="w-full flex flex-col justify-start items-center gap-4">
 
-            {name && name != "" ? <Avatar style={{ height: "3rem", width: "3rem" }} className="border-2 border-neutral" {...avaConfig} /> : <h1 className="text-title text-2xl font-extrabold h-12 flex items-center">Name</h1>}
+            {name && name != "" ? <Avatar style={{ height: "3rem", width: "3rem" }} className="" {...avaConfig} /> : <h1 className="text-title text-2xl font-extrabold h-12 flex items-center">Name</h1>}
             <input autoFocus={true} id="name-input-element" type="text" placeholder="Name" className="skew input text-center font-extrabold text-xl text-normal text-accent-content w-fit px-0 bg-neutral " onChange={(e) => { e.target.value = e.target.value.trimStart(); setName(e.target.value.trimStart()) }} />
             <div className="flex justify-end items-center w-full gap-1">
                 <button onClick={() => setPrompt(null)} className={"btn  text-title scale-50 " + (loading ? " hidden " : " btn-ghost ")}>CANCEL</button>
