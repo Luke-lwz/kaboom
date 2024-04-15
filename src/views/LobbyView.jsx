@@ -39,6 +39,7 @@ import { generateDefaultRounds } from '../helpers/game';
 import toast from 'react-hot-toast';
 import RoundConfig from '../components/RoundConfig';
 import { Helmet } from 'react-helmet';
+import { ToggleButton } from '../components/menus/GameInfoMenu';
 
 const ROUND_TABS = [
     {
@@ -697,7 +698,14 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
                 <PlaysetDisplay autoFetchInteractions forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
-                <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={playset?.no_bury || playset?.force_bury} />
+                <ToggleButton full checked={(playWithBury) && !playset?.no_bury} onChange={a => setPlayWithBury(bury => !bury)} recommended={recommendBury} disabled={playset?.no_bury || playset?.force_bury}>
+                    <div className="flex items-center gap-1">
+
+                        <h1 className={"font-bold text uppercase "}>Play with Card Burying </h1>
+                        <Info tooltip="(Rulebook page 12)" />
+                    </div>
+                </ToggleButton>
+                {/* <PlayWithBuryToggle recommendBury={recommendBury} bury={(playWithBury) && !playset?.no_bury} onChange={bury => setPlayWithBury(bury)} disabled={playset?.no_bury || playset?.force_bury} /> */}
             </div>
 
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
