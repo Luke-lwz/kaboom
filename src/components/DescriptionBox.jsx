@@ -31,7 +31,7 @@ function DescriptionBox({ description }) {
     }
 
     return (description && description.length > 0) && (
-        <div className="w-full flex flex-wrap text-sm">
+        <div className="w-full flex flex-wrap text-sm" onClick={() => setMore(m => !m)}>
             <div className={"mr-1 " + (more ? "  " : " two-line-ellipsis ")} ref={ellipsisRef}>
                 <span className="font-bold">Description: </span>
                 {description}
