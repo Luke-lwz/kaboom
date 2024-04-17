@@ -76,7 +76,7 @@ export async function getPlaysetById(id, user_id, options = {}) {
     console.log(playset);
   }
 
-  if (refreshInBackground) fetchAndCachePlayset();
+  if (refreshInBackground) fetchAndCachePlayset(id, user_id);
   return playset || null;
 }
 async function fetchAndCachePlayset(id, user_id) {
@@ -87,7 +87,7 @@ async function fetchAndCachePlayset(id, user_id) {
     ) // ,user:users_id(*)
     .eq(
       "interaction.user_id",
-      user_id || "00000000-0000-0000-0000-000000000000"
+      user_id?.length > 4 ? user_id :  "00000000-0000-0000-0000-000000000000"
     )
     .eq("upvote_count.upvote", true)
     .eq("downvote_count.upvote", false)

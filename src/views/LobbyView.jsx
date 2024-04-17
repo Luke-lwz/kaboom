@@ -40,6 +40,7 @@ import toast from 'react-hot-toast';
 import RoundConfig from '../components/RoundConfig';
 import { Helmet } from 'react-helmet';
 import { ToggleButton } from '../components/menus/GameInfoMenu';
+import DescriptionBox from '../components/DescriptionBox';
 
 const ROUND_TABS = [
     {
@@ -213,7 +214,7 @@ function ClientLobby({ me, setMe, code }) {
 
     async function getPlayset(id) {
         if (id) {
-            const playset = await getPlaysetById(id, null, { refreshInBackground: true }) || await getPlaysetById("00000000-0000-0000-0000-000000000000") || await getPlaysetById("t0001");
+            const playset = await getPlaysetById(id, null) || await getPlaysetById("00000000-0000-0000-0000-000000000000", null) || await getPlaysetById("t0001", null);
             setPlayset(maximizePlayset(playset))
 
         }
@@ -235,9 +236,10 @@ function ClientLobby({ me, setMe, code }) {
                 <button className={'w-full btn text-title btn-ghost text-neutral'} onClick={() => changeName()}>change name</button>
                 <button className='link font-bold clickable' onClick={() => { conn?.send({ intent: "leave", payload: { id: me?.id } }); redirect("/") }}>Leave</button>
             </div>
-            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start'>
+            <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start mb-4'>
                 <h1 className='font-extrabold text-lg uppercase '>Selected Playset <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
                 <PlaysetDisplay autoFetchInteractions forceOpen selected playset={playset} />
+                <DescriptionBox description={playset?.description} />
             </div>
             <div className=' w-full max-w-2xl p-4 py-2 flex flex-col items-start -mt-4'>
                 <h1 className='font-extrabold text-lg uppercase '>Round configuration <span className=' font-extralight text-sm normal-case'>(by HOST)</span></h1>
@@ -698,6 +700,8 @@ function HostLobby({ me, code }) {
                 <h1 className='font-extrabold text-lg uppercase flex items-center gap-2'>Selected Playset <Info tooltip="Playsets are predetermined decks of cards, that will be distributed among players. They often change the feel of the entire game, so choose wisely." /></h1>
                 {wrongPlayerNumber && <WrongPlayerNumberPlayset />}
                 <PlaysetDisplay autoFetchInteractions forceOpen selected onClick={() => showAllPlaysets()} playset={playset} />
+                <DescriptionBox description={playset?.description} />
+                <div className='mt-2' />
                 <ToggleButton full checked={(playWithBury) && !playset?.no_bury} onChange={a => setPlayWithBury(bury => !bury)} recommended={recommendBury} disabled={playset?.no_bury || playset?.force_bury}>
                     <div className="flex items-center gap-1">
 
