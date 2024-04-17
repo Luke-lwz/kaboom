@@ -221,6 +221,9 @@ function PlaysetView({ }) {
                 </div>
 
 
+{/* 
+This needs role "playset_mod"
+*/}
                 {false && <>
                     <h1 className="font-extrabold tracking-tighter ">Mod options</h1>
                     <div className="w-full flex justify-between items-center p-4 gap-2">
