@@ -224,7 +224,7 @@ function PlaysetView({ }) {
 {/* 
 This needs role "playset_mod"
 */}
-                {false && <>
+                {true && <>
                     <h1 className="font-extrabold tracking-tighter ">Mod options</h1>
                     <div className="w-full flex justify-between items-center p-4 gap-2">
                         <MegaButton color={"#1c96e8" + (verified ? "" : "60")} fill className={"text-2xl"} onClick={() => handleVerify(!verified)} showDot={verified} >
