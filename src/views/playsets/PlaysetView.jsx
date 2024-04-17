@@ -14,13 +14,17 @@ import toast from "react-hot-toast";
 import { promiser } from "../../helpers/promiser";
 import DescriptionBox from "../../components/DescriptionBox";
 import { VscVerified, VscVerifiedFilled } from "react-icons/vsc";
-import { FaGhost } from "react-icons/fa";
+import { FaGhost, FaPlay } from "react-icons/fa";
+import Peer from "peerjs";
+import { constructPeerID, getPeerConfig } from "../../helpers/peerid";
+import { NamePrompt } from "../HomeView";
+import { idGenAlphabet } from "../../helpers/idgen";
 
 function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { smoothNavigate, user, setPrompt, checkAuth } = useContext(PageContext)
+    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
@@ -32,6 +36,20 @@ function PlaysetView({ }) {
     const [verified, setVerified] = useState(false);
     const [official, setOfficial] = useState(false);
     const [ghost, setGhost] = useState(false);
+
+    const [createPeer, setCreatePeer] = useState();
+
+
+
+
+    async function initPeers() {
+        const createPeer = new Peer(await getPeerConfig());
+        setCreatePeer(createPeer);
+    }
+
+    useEffect(() => {
+        initPeers();
+    }, [])
 
     useEffect(() => {
         if (playset) {
@@ -113,6 +131,64 @@ function PlaysetView({ }) {
             setBookmarked(mark);
         }
     }, [id, user])
+
+
+    const createRoom = useCallback(async (playset_id) => {
+
+
+
+        setPrompt({ element: <NamePrompt onEnter={setNameAndCreate} buttonValue="CREATE ROOM" /> })
+
+
+        async function setNameAndCreate(name) {
+            if (name === "") return setPrompt(null);
+
+
+
+            const code = idGenAlphabet();
+
+
+
+            const connToRoom = createPeer.connect(constructPeerID(code, "board"));
+            connToRoom.on("open", () => {
+                toast.error("Error");
+                setPrompt(null);
+                connToRoom.close();
+            })
+
+
+            createPeer.on("error", (err) => {
+
+                // removes all host-{code} from localStorage
+                const all = allLocalStorage();
+                for (let i = 0; i < all.length; i++) {
+                    const element = all[i];
+                    if (element.key.startsWith("game-")) {
+                        localStorage.removeItem(element.key)
+                        // remove host player info
+                        const code = element.key.split("-")[1];
+                        localStorage.removeItem(`player-${code?.toUpperCase()}`)
+
+                    }
+
+
+                }
+
+
+                localStorage.setItem(`game-${code}`, "{}");
+                localStorage.setItem(`player-${code}`, JSON.stringify({
+                    name,
+                    id: "HOST"
+                }));
+                if (playset_id) localStorage.setItem("lastSelectedPlayset", playset_id);
+                setPrompt(null);
+                redirect(`/lobby/${code}`, { replace: true });
+            })
+
+        }
+
+
+    }, [createPeer])
 
 
     const handleVerify = useCallback(async (mark) => {
@@ -218,6 +294,9 @@ function PlaysetView({ }) {
                             <DeletePlaysetButton onClick={() => checkAuth(() => deletePlayset())} />
                         </>}
                     </div>
+                    <MegaButton Icon={<FaPlay className="text-sm" />} color={"#0019fd"} fill className={"mt-2"} onClick={() => createRoom(id)}>
+                        Play
+                    </MegaButton>
                 </div>
 
 

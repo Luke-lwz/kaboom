@@ -541,7 +541,7 @@ function Box({ children }) {
 
 
 
-function NamePrompt({ onEnter, buttonValue }) {
+export function NamePrompt({ onEnter, buttonValue }) {
     const { setPrompt } = useContext(PageContext);
 
     const [loading, setLoading] = useState(false);
