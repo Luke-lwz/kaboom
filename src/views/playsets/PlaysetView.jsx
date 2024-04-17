@@ -137,7 +137,7 @@ function PlaysetView({ }) {
 
 
 
-        setPrompt({ element: <NamePrompt onEnter={setNameAndCreate} buttonValue="CREATE ROOM" /> })
+        setPrompt({ element: <NamePrompt onEnter={setNameAndCreate} buttonValue="CREATE GAME" /> })
 
 
         async function setNameAndCreate(name) {
