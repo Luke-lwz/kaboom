@@ -41,6 +41,7 @@ import RoundConfig from '../components/RoundConfig';
 import { Helmet } from 'react-helmet';
 import { ToggleButton } from '../components/menus/GameInfoMenu';
 import DescriptionBox from '../components/DescriptionBox';
+import { DevModeBanner } from './HomeView';
 
 const ROUND_TABS = [
     {
@@ -671,8 +672,10 @@ function HostLobby({ me, code }) {
         <div className='flex flex-col justify-start items-center w-full pb-24'>
 
             <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} code={code} />
-            {devMode && <h1 className='bg-warning/50 w-full p-2 text-center text-warning-content text-title'>DEV MODE IS ENABLED</h1>}
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
+            {devMode && <div className='pb-2 w-full'>
+                <DevModeBanner size="sm" />
+                </div>}
 
 
 

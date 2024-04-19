@@ -41,6 +41,8 @@ import { CgCardDiamonds } from "react-icons/cg";
 import { FaTools } from "react-icons/fa";
 import BringJesusIntoIt from "../components/BringJesusIntoIt";
 import PaymentInfo from "../components/PaymentInfo";
+import InfoBanner from "../components/InfoBanner";
+import { FiExternalLink } from "react-icons/fi";
 
 
 
@@ -357,11 +359,12 @@ function HomeView({ }) {
     return (
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll overflow-x-hidden pb-24">
 
-            {displayUseSafari && <a href={`x-web-search://?playkaboom.com`} className="bg-info/20 text-info-content py-2 -mb-4 w-full gap-4  text-center font-extrabold text-lg place-items-center grid grid-cols-8  px-2">
-                <div className="w-8 h-8 "><img src="/safari.png" className="h-full w-full object-cover" alt="" /></div><div className="truncate col-span-6">Use safari for a better experience</div><div className="flex items-center justify-center"><HiOutlineExternalLink /></div>
-            </a>}
+            {(displayUseSafari || devMode) && <div className="w-full max-w-2xl p-4 gap-4 flex flex-col items-center pb-0">
+                {displayUseSafari && <UseSafariBanner />}
+                {devMode && <DevModeBanner />}
+            </div>}
 
-            {devMode && <DevModeBanner />}
+
             <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full flex items-center justify-center">
                 <div className="flex flex-col items-center relative" onClick={clickDev}>
                     KABOOM
@@ -575,8 +578,33 @@ export function NamePrompt({ onEnter, buttonValue }) {
 
 
 
-export function DevModeBanner() {
+export function DevModeBanner({ size, noButton = false }) {
+    return (
+        <InfoBanner size={size} className={" dev-mode-stripes !p-1.5"}>
+            <div className="bg-amber-400 w-full flex items-center h-full p-2 pl-3 rounded-lg justify-between">
+                <div>
+                    Dev mode enabled
+
+                </div>
+                {!noButton && <a href="/?dev=false" className="noskew btn bg-black btn-xs border-none">
+                    Turn off
+                </a>}
+            </div>
+        </InfoBanner>
+    )
     return (<div className="w-full p-3 bg-warning/30 border-warning text-warning-content font-bold flex justify-between items-center text-xl text-title pl-5 "><h1>Development Mode</h1><a className="btn-warning clickable p-2 px-3 rounded-lg text-normal text-base font-bold" href="/?dev=false">Turn off</a></div>)
+}
+
+
+export function UseSafariBanner() {
+    return (
+        <InfoBanner className={"bg-info relative"} endElement={<FiExternalLink color="#ffffff" />} onClick={() => window.open('x-web-search://?playkaboom.com', '_blank')}>
+            <img src="/safari.png" className="h-32 w-32 object-cover absolute -left-16 -top-10" alt="" /><div className="z-[1] text-sm pl-14 tracking-tighter break-words flex flex-col w-full overflow-hidden justify-center">
+                <p>Use safari</p>
+                <p className="text-sm -mt-1 text-normal">For a better experience</p>
+            </div>
+        </InfoBanner>
+    )
 }
 
 export default HomeView;

@@ -426,3 +426,15 @@ html {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+
+.dev-mode-stripes {
+  background: repeating-linear-gradient(
+  45deg,
+  theme('colors.amber.400'),
+  theme('colors.amber.400') 10px,
+  #000000 10px,
+  #000000 20px
+);
+}
