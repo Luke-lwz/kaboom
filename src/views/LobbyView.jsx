@@ -674,7 +674,7 @@ function HostLobby({ me, code }) {
             <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} code={code} />
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
             {devMode && <div className='pb-2 w-full'>
-                <DevModeBanner size="sm" />
+                <DevModeBanner size="sm" noButton />
                 </div>}
 
 
