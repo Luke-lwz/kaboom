@@ -19,18 +19,18 @@ import Peer from "peerjs";
 import { constructPeerID, getPeerConfig } from "../../helpers/peerid";
 import { NamePrompt } from "../HomeView";
 import { idGenAlphabet } from "../../helpers/idgen";
+import { useQuery } from "@tanstack/react-query";
 
 function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage } = useContext(PageContext)
+    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage, hasPermission } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
 
-    const [playset, setPlayset] = useState(null);
-
+    const { data: playset, isLoading, refetch } = useQuery({ queryKey: ["playset", id, user?.id], queryFn: fetchPlayset })
     const [bookmarked, setBookmarked] = useState(false);
 
     const [verified, setVerified] = useState(false);
@@ -38,6 +38,17 @@ function PlaysetView({ }) {
     const [ghost, setGhost] = useState(false);
 
     const [createPeer, setCreatePeer] = useState();
+
+
+    function fetchPlayset({ queryKey }) {
+        const [, id, user_id] = queryKey;
+        const playset = getPlaysetById(id, user_id, { ignoreCache: true });
+
+        if (id && !playset) smoothNavigate("/playsets")
+
+        return playset;
+    }
+
 
 
 
@@ -53,8 +64,16 @@ function PlaysetView({ }) {
 
     useEffect(() => {
         if (playset) {
+            console.log(playset, "üüü")
             const interaction = playset?.interaction?.[0] || {};
             setBookmarked(interaction?.bookmark || false);
+
+            if (playset?.playsets_metadata) {
+                const { verified, official, hidden, hiddenReason } = playset?.playsets_metadata;
+                setVerified(verified);
+                setOfficial(official);
+                setGhost(hidden);
+            }
         }
     }, [playset])
 
@@ -65,19 +84,6 @@ function PlaysetView({ }) {
     }, [playset])
 
 
-    useEffect(() => {
-        getPlayset(id, user?.id)
-    }, [id, user])
-
-    async function getPlayset(id, user_id) {
-        const playset = await getPlaysetById(id, user_id, { ignoreCache: true });
-
-
-
-        setPlayset(playset)
-        console.log(playset)
-        if (id && !playset) smoothNavigate("/playsets")
-    }
 
 
     const deletePlayset = useCallback(() => {
@@ -200,21 +206,23 @@ function PlaysetView({ }) {
         setOfficial(false)
 
 
-        // const { data, error } = await supabase
-        //     .from("interactions")
-        //     .upsert({
-        //         playset_id: id,
-        //         user_id: user?.id,
-        //         bookmark: mark,
-        //     })
-        //     .select();
-        // if (error || !data?.[0]) {
-        //     toast.error("Something went wrong");
-        //     setBookmarked(initalValue);
-        //     return;
-        // } else {
-        //     setBookmarked(mark);
-        // }
+        const { data, error } = await supabase
+            .from("playsets_metadata")
+            .upsert({
+                id,
+                verified: mark,
+                official: false,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            console.log(error)
+            toast.error("Something went wrong");
+            setVerified(initalValue);
+            return;
+        } else {
+            setVerified(mark);
+            refetch();
+        }
     }, [id, user])
 
 
@@ -226,21 +234,23 @@ function PlaysetView({ }) {
         setOfficial(b => { initalValue = b; return mark });
         setVerified(false)
 
-        // const { data, error } = await supabase
-        //     .from("interactions")
-        //     .upsert({
-        //         playset_id: id,
-        //         user_id: user?.id,
-        //         bookmark: mark,
-        //     })
-        //     .select();
-        // if (error || !data?.[0]) {
-        //     toast.error("Something went wrong");
-        //     setBookmarked(initalValue);
-        //     return;
-        // } else {
-        //     setBookmarked(mark);
-        // }
+        const { data, error } = await supabase
+            .from("playsets_metadata")
+            .upsert({
+                id,
+                official: mark,
+                verified: false,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            console.log(error)
+            toast.error("Something went wrong");
+            setOfficial(initalValue);
+            return;
+        } else {
+            setOfficial(mark);
+            refetch();
+        }
     }, [id, user])
 
     const handleGhost = useCallback(async (mark) => {
@@ -250,23 +260,35 @@ function PlaysetView({ }) {
         var initalValue = mark;
         setGhost(b => { initalValue = b; return mark });
 
-        // const { data, error } = await supabase
-        //     .from("interactions")
-        //     .upsert({
-        //         playset_id: id,
-        //         user_id: user?.id,
-        //         bookmark: mark,
-        //     })
-        //     .select();
-        // if (error || !data?.[0]) {
-        //     toast.error("Something went wrong");
-        //     setBookmarked(initalValue);
-        //     return;
-        // } else {
-        //     setBookmarked(mark);
-        // }
+        const { data, error } = await supabase
+            .from("playsets_metadata")
+            .upsert({
+                id,
+                hidden: mark,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            console.log(error)
+            toast.error("Something went wrong");
+            setGhost(initalValue);
+            return;
+        } else {
+            setGhost(mark);
+            refetch();
+        }
     }, [id, user])
 
+
+    if (isLoading) return <div className="w-full flex flex-col">
+        <TitleBar titleElement={
+            <>
+                <BsCassetteFill className="text-2xl md:text-3xl" />
+                <h1 onClick={() => smoothNavigate("/playsets")}>Playsets</h1>
+            </>
+        } />
+
+        <div className="loading loading-spinner" />
+    </div>
 
     return (
         <div className="flex flex-col lg:flex-row w-full h-full overflow-x-hidden overflow-y-scroll scrollbar-hide pb-64">
@@ -300,12 +322,9 @@ function PlaysetView({ }) {
                 </div>
 
 
-{/* 
-This needs role "playset_mod"
-*/}
-                {false && <>
+                {hasPermission("playset_mod") && <>
                     <h1 className="font-extrabold tracking-tighter ">Mod options</h1>
-                    <div className="w-full flex justify-between items-center p-4 gap-2">
+                    <div className="w-full flex justify-between items-center p-4 gap-2 max-w-2xl">
                         <MegaButton color={"#1c96e8" + (verified ? "" : "60")} fill className={"text-2xl"} onClick={() => handleVerify(!verified)} showDot={verified} >
                             <VscVerifiedFilled />
                         </MegaButton>

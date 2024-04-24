@@ -581,12 +581,12 @@ export function NamePrompt({ onEnter, buttonValue }) {
 export function DevModeBanner({ size, noButton = false }) {
     return (
         <InfoBanner size={size} className={" dev-mode-stripes !p-1.5"}>
-            <div className="bg-amber-400 w-full flex items-center h-full p-2 pl-3 rounded-lg justify-between">
+            <div className="bg-amber-400 w-full flex items-center h-full p-2 pl-3 text-black rounded-lg justify-between">
                 <div>
                     Dev mode enabled
 
                 </div>
-                {!noButton && <a href="/?dev=false" className="noskew btn bg-black btn-xs border-none">
+                {!noButton && <a href="/?dev=false" className="noskew btn bg-black text-amber-400 btn-xs border-none">
                     Turn off
                 </a>}
             </div>

@@ -99,7 +99,24 @@ function App() {
     try {
 
       const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+
+
+      if (user?.id) {
+
+        let { data: user_roles, error } = await supabase
+          .from('user_roles')
+          .select('roles')
+          .eq('user_id', user.id)
+
+        if (user_roles?.[0]?.roles) {
+          user.roles = user_roles[0].roles
+        } else {
+          user.roles = []
+        } 
+
+        setUser(user)
+
+      }
 
     } catch (e) {
 
@@ -107,6 +124,15 @@ function App() {
 
 
   }
+
+
+  const hasPermission = useCallback((...roles) => {
+    if (!roles) roles = [];
+    if (!user) return false;
+    if (user.roles.includes("admin")) return true;
+    return roles.some(r => user.roles.includes(r));
+  }, [user])
+
 
 
 
@@ -246,7 +272,7 @@ function App() {
         </Toaster>
 
 
-        <PageContextProvider value={{ user, setUser, getUser, checkAuth, logout, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
+        <PageContextProvider value={{ user, setUser, getUser, hasPermission, checkAuth, logout, smoothNavigate, redirect, allLocalStorage, theme, switchTheme, setPrompt, connectionErrorPrompt, menu, setMenu, setOnMenuHide, menu2, setMenu2, setOnMenuHide2, showLoginMenu, pageCover, setPageCover, devMode, setDevMode }}>
           {pageCover && <PageCover {...pageCover} />}
           {prompt && <Prompt noCancel={prompt?.noCancel} onApprove={promptApprove} onCancel={promptCancel} title={prompt?.title} text={prompt?.text} element={prompt?.element} />}
           {menu2 && <Menu2 onCancel={menuHide2}>{menu2}</Menu2>}
