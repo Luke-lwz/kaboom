@@ -434,9 +434,12 @@ function PlaysetView({ }) {
 
                         {editHiddenReason && <form onSubmit={(e) => {
                             e.preventDefault();
-                            handleReason(hiddenReason);
+                            const textArea = document.getElementById("hidden-reason-admin-text");
+                            const text = textArea?.value;
+                            console.log("text", text)
+                            handleReason(text);
                         }} className="w-full flex flex-col">
-                            <textarea value={hiddenReason || ""} onChange={(e) => setHiddenReason(e?.target?.value || "")} className="border-2 border-neutral rounded-xl p-2 text-sm" />
+                            <textarea autoFocus id="hidden-reason-admin-text" defaultValue={hiddenReason || ""}  className="border-2 border-neutral rounded-xl p-2 text-sm" />
                             <div className="w-full flex items-center gap-2 justify-between text-normal mt-2">
                                 <button className="btn btn-ghost noskew btn-sm" onClick={() => handleReason(null)}><FaTrash className="skew text-error" /></button>
 
