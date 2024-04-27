@@ -410,7 +410,7 @@ function PlaysetView({ }) {
                         </MegaButton>
 
 
-                        <MegaButton fill className={"text-xl " + (dev ? " dev-mode-stripes " : " bg-amber-400/60 ")} onClick={() => handleDev(!dev)} showDot={dev} >
+                        <MegaButton fill className={"text-xl " + (dev ? " dev-mode-stripes " : " !bg-amber-400/60 ")} onClick={() => handleDev(!dev)} showDot={dev} >
                             <MdConstruction />
                         </MegaButton>
 
