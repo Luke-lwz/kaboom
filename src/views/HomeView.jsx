@@ -365,7 +365,7 @@ function HomeView({ }) {
             </div>}
 
 
-            <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full flex items-center justify-center">
+            <div className="text-title font-bold text-3xl sm:text-4xl md:text-6xl my-4 pt-4 text-primary relative w-full max-w-2xl flex items-center justify-center">
                 <div className="flex flex-col items-center relative" onClick={clickDev}>
                     KABOOM
                     <span className="text-neutral text-normal text-xs font-light">Adaptation of Two Rooms and a Boom&trade;</span>
@@ -405,41 +405,6 @@ function HomeView({ }) {
             </div>
 
 
-            {lastGame && <NeutralBlankBannerBox onClick={() => redirect("/game/" + lastGame.code)}>
-                <div className="h-full w-full flex flex-col text-title p-1 font-extrabold">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-1.5">RECENT GAME: <span className="text-secondary">{lastGame.code}</span><span className="text-normal"><Info tooltip="The last game you hosted. Click to re-enter and play or close." /></span></div>
-                        {lastGame.game?.players && <div className="flex items-center gap-1 text-primary">
-                            {lastGame.game?.players?.length} <HiUsers size={22} />
-                        </div>}
-                    </div>
-                    <div className="flex py-4 gap-6 px-2.5 text-normal overflow-hidden overflow-x-scroll scrollbar-hide">
-
-                        <CardsRow cards={lastGame?.game?.game?.cardsInGame?.map(c => getCardFromId(c)) || []} />
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                        <div className=" h-6 w-6">
-                            <Avatar className="w-full h-full" {...lastGame.avaConfig} />
-                        </div>
-                        <p className="text-normal font-bold">{lastGame?.player?.name}</p>
-                    </div>
-
-                </div>
-            </NeutralBlankBannerBox>}
-
-
-
-            {lastPlayer && <NeutralBlankBannerBox onClick={() => redirect("/game/" + lastPlayer.code)}>
-                <div className="w-full h-full  flex justify-start items-center">
-                    <div className=" h-16 w-16">
-                        <Avatar className="w-full h-full border-2 border-base-100" {...lastPlayer.avaConfig} />
-                    </div>
-                    <div className="grow h-full flex flex-col items-start justify-center px-3 text-title font-extrabold">
-                        <div className="flex gap-1.5 items-center">REJOIN <span className="text-secondary">{lastPlayer.code}</span><span className="text-normal"><Info tooltip="The last game you joined is still live. Click to join again." /></span></div>
-                        <h1 className="text-normal ">{lastPlayer.player.name}</h1>
-                    </div>
-                </div>
-            </NeutralBlankBannerBox>}
 
 
             <div className="flex w-full flex-col items-center gap-8 scrollbar-hide">

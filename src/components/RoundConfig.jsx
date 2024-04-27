@@ -1,5 +1,5 @@
-import { BsFillDoorOpenFill, BsPlus, BsStopwatch } from "react-icons/bs";
-import { IoRemoveCircle } from "react-icons/io5";
+import { BsFillDoorOpenFill, BsStopwatch } from "react-icons/bs";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { PiPersonSimpleRunBold } from "react-icons/pi";
 
 
@@ -12,8 +12,8 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
 
 
 
-            <TableCell onClick={() => onRowDelete(roundConfig?.length -1 || 0) }>
-                <IoRemoveCircle className='text-2xl text-neutral/70' />
+            <TableCell >
+                {/* <IoRemoveCircle className='text-2xl text-neutral/70' /> */}
             </TableCell>
             <TableCell tooltip={"Round time"} >
                 <BsStopwatch className='text-2xl' />
@@ -30,10 +30,10 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
 
             {roundConfig?.map((round, index) => (
                 <>
-                    <TableCell onClick={() => onRowDelete(index)}>
+                    <TableCell highlight={index + 1 === highlightRound} onClick={() => onRowDelete(index)}>
                         <span className='text-base-content pr-1'>Round</span><span>{index + 1}</span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell highlight={index + 1 === highlightRound}>
                         {onTimeChange ?
                             <select name="Round time" onChange={(e) => onTimeChange(e.target.value, index)} className='text-base-content w-fit text-center h-6 bg-gray-200 rounded-full px-1'>
 
@@ -45,7 +45,7 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
                             <span className='text-base-content pr-1'>{round?.time} min</span>
                         }
                     </TableCell>
-                    <TableCell>
+                    <TableCell highlight={index + 1 === highlightRound}>
                         {onHostagesChange ?
                             <select name="Hostages" onChange={(e) => onHostagesChange(e.target.value, index)} className='text-base-content w-fit h-6 bg-gray-200 rounded-full px-1'>
 
@@ -62,10 +62,14 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
 
 
 
-            {onAddRound && <div className='w-full bg-base-100 p-3 flex items-center justify-center h-12 col-span-3'>
-                <div style={{ color }} className='font-bold text-sm gap-1 w-full '>
-                    <button onClick={onAddRound} className='w-full flex items-center justify-center gap-1 clickable'>
-                        <BsPlus size={24} /> Round
+            {onAddRound && <div className='w-full bg-base-100  flex items-center justify-center h-12 col-span-3'>
+                <div style={{ color }} className='font-bold text-sm h-full w-full flex items-center justify-center '>
+                    <button onClick={() => onRowDelete(roundConfig?.length -1 || 0) } className='w-full  h-full flex items-center justify-center gap-1 clickable '>
+                        <FaMinus /> Round
+                    </button>
+                    <div className="h-full border border-neutral"></div>
+                    <button onClick={onAddRound} className='w-full h-full flex items-center justify-center gap-1 clickable '>
+                        <FaPlus /> Round
                     </button>
                 </div>
             </div>}
@@ -74,10 +78,10 @@ export default function RoundConfig({ roundConfig, onRowDelete = () => { }, onTi
 }
 
 
-function TableCell({ children, tooltip, onClick = () => { } }) {
+function TableCell({ children, tooltip, onClick = () => { }, highlight = false }) {
     return (
         <div onClick={onClick} className='tooltip w-full' data-tip={tooltip}>
-            <div className='w-full bg-base-100 flex items-center justify-center h-12' >
+            <div className={'w-full bg-base-100 flex items-center justify-center h-12 ' + (highlight ? " bg-base-200 " : " bg-base-100 ")} >
                 {children}
             </div>
         </div>
