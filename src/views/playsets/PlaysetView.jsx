@@ -14,12 +14,14 @@ import toast from "react-hot-toast";
 import { promiser } from "../../helpers/promiser";
 import DescriptionBox from "../../components/DescriptionBox";
 import { VscVerified, VscVerifiedFilled } from "react-icons/vsc";
-import { FaGhost, FaPlay } from "react-icons/fa";
+import { FaGhost, FaPen, FaPlay, FaTrash } from "react-icons/fa";
 import Peer from "peerjs";
 import { constructPeerID, getPeerConfig } from "../../helpers/peerid";
-import { NamePrompt } from "../HomeView";
+import { DevModeBanner, NamePrompt } from "../HomeView";
 import { idGenAlphabet } from "../../helpers/idgen";
 import { useQuery } from "@tanstack/react-query";
+import { MdConstruction } from "react-icons/md";
+import InfoBanner from "../../components/InfoBanner";
 
 function PlaysetView({ }) {
 
@@ -36,6 +38,9 @@ function PlaysetView({ }) {
     const [verified, setVerified] = useState(false);
     const [official, setOfficial] = useState(false);
     const [ghost, setGhost] = useState(false);
+    const [dev, setDev] = useState(false);
+    const [hiddenReason, setHiddenReason] = useState(false);
+    const [editHiddenReason, setEditHiddenReason] = useState("");
 
     const [createPeer, setCreatePeer] = useState();
 
@@ -64,22 +69,22 @@ function PlaysetView({ }) {
 
     useEffect(() => {
         if (playset) {
-            console.log(playset, "üüü")
             const interaction = playset?.interaction?.[0] || {};
             setBookmarked(interaction?.bookmark || false);
 
             if (playset?.playsets_metadata) {
-                const { verified, official, hidden, hiddenReason } = playset?.playsets_metadata;
+                const { verified, official, hidden, hidden_reason, dev } = playset?.playsets_metadata;
                 setVerified(verified);
                 setOfficial(official);
                 setGhost(hidden);
+                setDev(dev);
+                setHiddenReason(hidden_reason);
             }
         }
     }, [playset])
 
 
     const playsetMaximized = useMemo(() => {
-        console.log(playset)
         return maximizePlayset(playset)
     }, [playset])
 
@@ -204,6 +209,7 @@ function PlaysetView({ }) {
         var initalValue = mark;
         setVerified(b => { initalValue = b; return mark });
         setOfficial(false)
+        setDev(false);
 
 
         const { data, error } = await supabase
@@ -212,6 +218,7 @@ function PlaysetView({ }) {
                 id,
                 verified: mark,
                 official: false,
+                dev: false,
             })
             .select();
         if (error || !data?.[0]) {
@@ -233,6 +240,8 @@ function PlaysetView({ }) {
         var initalValue = mark;
         setOfficial(b => { initalValue = b; return mark });
         setVerified(false)
+        setDev(false);
+
 
         const { data, error } = await supabase
             .from("playsets_metadata")
@@ -240,6 +249,7 @@ function PlaysetView({ }) {
                 id,
                 official: mark,
                 verified: false,
+                dev: false
             })
             .select();
         if (error || !data?.[0]) {
@@ -249,6 +259,35 @@ function PlaysetView({ }) {
             return;
         } else {
             setOfficial(mark);
+            refetch();
+        }
+    }, [id, user])
+
+    const handleDev = useCallback(async (mark) => {
+        if (!user) return toast.error("You need to be an admin to make this a dev playset");
+
+        // optimistic
+        var initalValue = mark;
+        setDev(b => { initalValue = b; return mark });
+        setOfficial(false);
+        setVerified(false)
+
+        const { data, error } = await supabase
+            .from("playsets_metadata")
+            .upsert({
+                id,
+                dev: mark,
+                verified: false,
+                official: false
+            })
+            .select();
+        if (error || !data?.[0]) {
+            console.log(error)
+            toast.error("Something went wrong");
+            setDev(initalValue);
+            return;
+        } else {
+            setDev(mark);
             refetch();
         }
     }, [id, user])
@@ -276,6 +315,32 @@ function PlaysetView({ }) {
             setGhost(mark);
             refetch();
         }
+    }, [id, user])
+
+    const handleReason = useCallback(async (reason) => {
+        if (!user) return toast.error("You need to be an admin to ghost");
+
+        // optimistic
+        var initalValue = reason;
+        setHiddenReason(b => { initalValue = b; return reason });
+
+        const { data, error } = await supabase
+            .from("playsets_metadata")
+            .upsert({
+                id,
+                hidden_reason: reason,
+            })
+            .select();
+        if (error || !data?.[0]) {
+            console.log(error)
+            toast.error("Something went wrong");
+            setHiddenReason(initalValue);
+            return;
+        } else {
+            setHiddenReason(reason);
+            refetch();
+        }
+        setEditHiddenReason(false)
     }, [id, user])
 
 
@@ -306,6 +371,15 @@ function PlaysetView({ }) {
 
 
                 <div className="w-full max-w-2xl p-4 flex flex-col items-center">
+                    <div className="flex flex-col gap-4 w-full max-w-2xl -translate-y-4">
+                        {!ghost && <>
+                            {dev && <DevModeBanner text="Development playset" noButton size={"sm"} />}
+                            {official && <OfficialPlaysetBanner />}
+                        </>}
+                        {ghost && <GhostPlaysetBanner />}
+
+                    </div>
+
                     {playsetMaximized && <PlaysetDisplay key={user?.id + "'s playset"} autoFetchInteractions quickActions={{ vote: true, profile: true }} forceOpen playset={playsetMaximized} />}
                     <DescriptionBox description={playset?.description} />
                     <div className="w-full grid grid-cols-2 gap-2 mt-2">
@@ -332,10 +406,45 @@ function PlaysetView({ }) {
                             <BsFillCheckSquareFill />
                         </MegaButton>
 
+
+                        <MegaButton fill className={"text-xl " + (dev ? " dev-mode-stripes " : " bg-amber-400/60 ")} onClick={() => handleDev(!dev)} showDot={dev} >
+                            <MdConstruction />
+                        </MegaButton>
+
                         <MegaButton color={"#0bcae3" + (ghost ? "" : "60")} fill className={"text-xl"} onClick={() => handleGhost(!ghost)} showDot={ghost} >
                             <FaGhost />
                         </MegaButton>
                     </div>
+                    {ghost && <div className="w-full max-w-2xl -mt-2 px-4 flex flex-col">
+                        {!editHiddenReason && <>
+                            {hiddenReason?.length > 2 ?
+                                <>
+                                    <DescriptionBox description={hiddenReason} prefixText="Reason" />
+                                    <p className="font-bold text-info hover:underline text-sm flex items-center gap-1" onClick={() => setEditHiddenReason(true)}>Edit <FaPen size={10} /></p>
+                                </>
+                                :
+                                <div className="cursor-pointer group" onClick={() => setEditHiddenReason(true)}>
+                                    Why did you hide this playset? <span className="font-bold text-info group-hover:underline">Add a reason!</span>
+                                </div>
+                            }
+                        </>}
+
+                        {editHiddenReason && <form onSubmit={(e) => {
+                            e.preventDefault();
+                            handleReason(hiddenReason);
+                        }} className="w-full flex flex-col">
+                            <textarea value={hiddenReason || ""} onChange={(e) => setHiddenReason(e?.target?.value || "")} className="border-2 border-neutral rounded-xl p-2 text-sm" />
+                            <div className="w-full flex items-center gap-2 justify-between text-normal mt-2">
+                                <button className="btn btn-ghost noskew btn-sm" onClick={() => handleReason(null)}><FaTrash className="skew text-error" /></button>
+
+                                <div className="flex">
+
+                                    <button onClick={() => setEditHiddenReason(false)} className="btn btn-ghost noskew btn-sm">Cancel</button>
+                                    <button type="submit" className="btn btn-secondary noskew btn-sm">save</button>
+                                </div>
+                            </div>
+                        </form>}
+                    </div>}
                 </>}
 
 
@@ -352,6 +461,31 @@ function PlaysetView({ }) {
 
         </div>
     );
+}
+
+
+
+function OfficialPlaysetBanner() {
+    return (
+        <InfoBanner className={"bg-black pl-3"} size="sm">
+            <BsFillCheckSquareFill size={20} className="mr-3" /> Official Kaboom playset
+        </InfoBanner>
+    )
+}
+
+
+function GhostPlaysetBanner() {
+    return (
+        <InfoBanner size="sm" style={{ backgroundColor: "#0bcae3" }} className={"pl-3 pr-2 text-normal"} endElement={
+            <button style={{ color: "#0bcae3" }} className="btn btn-xs  bg-white hover:bg-white border-none noskew">reason</button>
+        }>
+            <FaGhost color="#ffffff" size={20} />
+            <div className="flex flex-col justify-center tracking-tighter ml-3">
+                <h3 className="font-extrabold text-base text-normal">Your playset was hidden</h3>
+                <p className="text-xs text-normal -mt-1">It may have violated the <a href="/terms" className="underline">Terms of Service</a></p>
+            </div>
+        </InfoBanner>
+    )
 }
 
 export default PlaysetView;

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
-function DescriptionBox({ description }) {
+function DescriptionBox({ description, prefixText }) {
     const [more, setMore] = useState(false);
     const [ showMore, setShowMore ] = useState(false);
     const ellipsisRef = useRef(null);
@@ -33,7 +33,7 @@ function DescriptionBox({ description }) {
     return (description && description.length > 0) && (
         <div className="w-full flex flex-wrap text-sm" onClick={() => setMore(m => !m)}>
             <div className={"mr-1 " + (more ? "  " : " two-line-ellipsis ")} ref={ellipsisRef}>
-                <span className="font-bold">Description: </span>
+                <span className="font-bold">{`${prefixText || "Description"}: `}</span>
                 {description}
 
             </div>

@@ -26,6 +26,7 @@ import { FaGhost, FaTools } from "react-icons/fa";
 import supabase from "../../supabase";
 import toast from "react-hot-toast";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import { MdConstruction } from "react-icons/md";
 
 
 
@@ -74,13 +75,15 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         verified = false,
         official = false,
         hidden = false,
+        dev = false
     } = useMemo(() => playsets_metadata || {}, [playsets_metadata]);
 
     const color = useMemo(() => {
+        if (dev) return "#d1a32a";
         if (official) return "#dddddd";
         if (verified) return "#1681c9";
         return _color || "#c342ff";
-    }, [_color, official, verified])
+    }, [_color, official, verified, dev])
 
 
     const [fetchedInteractions, setFetchedInteractions] = useState(false);
@@ -247,7 +250,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
     return (
         <div style={{ height: `${height}rem` }} className={"w-full transition-all overflow-y-hidden scrollbar-hide flex flex-col items-center justify-start " + (hidden ? " opacity-50 " : " opacity-100 ")}>
-            <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from, hidden, verified, official }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
+            <TitleBlock {...{ name, max_players, min_players, emoji, color, remixed_from, hidden, verified, official, dev }} {...{ forceOpen, noOpen, open, onClick, toggleOpen }} />
 
             <div style={{ height: open ? `${CARDS_BLOCK_HEIGHT + GAP}rem` : 0 }} className="w-full overflow-hidden transition-all">
                 {open && <CardsBlock {...{ difficulty, cards, primaries, odd_card, default_cards }} />}
@@ -263,7 +266,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
 // blocks 
-function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_from, hidden, verified, official, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
+function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_from, hidden, verified, official, dev, forceOpen = false, noOpen = false, open = false, color, onClick = () => { }, toggleOpen = () => { } }) {
 
     // const DOT = () => <div className="w-1 h-1 bg-white/50 rounded-full"></div>
 
@@ -285,10 +288,12 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
                             {name}
                         </h1>
                         <div style={{ color: (color ? `${color}` : "#c342ff") }} className={"text-normal font-bold text-sm items-center gap-1 flex  " + (forceOpen || noOpen ? " -ml-56 " : " ml-0 ")}>
-                            {official ? 
-                                <BsFillCheckSquareFill color="#ffffff" className="text-xs mr-1.5" /> : verified ? 
-                            <VscVerifiedFilled color="#1c96e8" className="text-base mr-1" /> : ""}
-                            
+                            {dev ? <MdConstruction color="#fbbf24" /> :
+                                official ?
+                                    <BsFillCheckSquareFill color="#ffffff" className="text-xs mr-1.5" /> :
+                                    verified ?
+                                        <VscVerifiedFilled color="#1c96e8" className="text-base mr-1" /> : ""}
+
                             <BsFillPeopleFill />
                             <h1 className=" whitespace-nowrap font-extrabold">{min_players === max_players ? min_players : `${min_players}-${max_players}`}</h1>
                             {/* <DOT />
