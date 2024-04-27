@@ -5,7 +5,7 @@ function HiddenPlaysetReasonMenu({ reason }) {
         <div className=" w-full flex flex-col justify-center items-center text-left max-w-[24rem] overflow-hidden p-3 px-4 bg-base-100 text-base-content rounded-xl">
 
             <h1 className='w-full text-left font-extrabold text-title'>Reason</h1>
-            <p className='w-full pt-2 text-sm'>
+            <p className='w-full pt-2 text-sm overflow-y-scroll'>
                 {reason?.length > 2 ?
                     reason
                     :
