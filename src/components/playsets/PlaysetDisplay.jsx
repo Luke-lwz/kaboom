@@ -288,7 +288,7 @@ function TitleBlock({ name, emoji = "🎲", min_players, max_players, remixed_fr
                             {name}
                         </h1>
                         <div style={{ color: (color ? `${color}` : "#c342ff") }} className={"text-normal font-bold text-sm items-center gap-1 flex  " + (forceOpen || noOpen ? " -ml-56 " : " ml-0 ")}>
-                            {dev ? <MdConstruction color="#fbbf24" /> :
+                            {dev ? <MdConstruction color="#fbbf24" className="mr-1" /> :
                                 official ?
                                     <BsFillCheckSquareFill color="#ffffff" className="text-xs mr-1.5" /> :
                                     verified ?

@@ -28,7 +28,7 @@ function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage, hasPermission, setMenu } = useContext(PageContext)
+    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage, hasPermission, setMenu, devMode } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
