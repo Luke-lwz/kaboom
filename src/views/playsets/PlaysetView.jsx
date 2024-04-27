@@ -22,12 +22,13 @@ import { idGenAlphabet } from "../../helpers/idgen";
 import { useQuery } from "@tanstack/react-query";
 import { MdConstruction } from "react-icons/md";
 import InfoBanner from "../../components/InfoBanner";
+import HiddenPlaysetReasonMenu from "../../components/menus/HiddenPlaysetReasonMenu";
 
 function PlaysetView({ }) {
 
     const { id } = useParams();
 
-    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage, hasPermission } = useContext(PageContext)
+    const { redirect, smoothNavigate, user, setPrompt, checkAuth, allLocalStorage, hasPermission, setMenu } = useContext(PageContext)
 
     if (!id) smoothNavigate("/playsets")
 
@@ -376,7 +377,9 @@ function PlaysetView({ }) {
                             {dev && <DevModeBanner text="Development playset" noButton size={"sm"} />}
                             {official && <OfficialPlaysetBanner />}
                         </>}
-                        {ghost && <GhostPlaysetBanner />}
+                        {ghost && <GhostPlaysetBanner onClick={() => {
+                            setMenu(<HiddenPlaysetReasonMenu reason={hiddenReason}/>)
+                        }} />}
 
                     </div>
 
@@ -474,9 +477,9 @@ function OfficialPlaysetBanner() {
 }
 
 
-function GhostPlaysetBanner() {
+function GhostPlaysetBanner({onClick}) {
     return (
-        <InfoBanner size="sm" style={{ backgroundColor: "#0bcae3" }} className={"pl-3 pr-2 text-normal"} endElement={
+        <InfoBanner onClick={onClick} size="sm" style={{ backgroundColor: "#0bcae3" }} className={"pl-3 pr-2 text-normal"} endElement={
             <button style={{ color: "#0bcae3" }} className="btn btn-xs  bg-white hover:bg-white border-none noskew">reason</button>
         }>
             <FaGhost color="#ffffff" size={20} />
