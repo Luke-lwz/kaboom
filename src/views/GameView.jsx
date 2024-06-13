@@ -1523,7 +1523,31 @@ function RunningTextAnimation({ text, color, shadowColor }) {
     )
 }
 
+
 function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
+
+    return (
+        <div className='absolute inset-0 flex flex-col items-center justify-center gap-4'>
+            <div className='bg-blue-800 -z-10 w-[54vw] aspect-square absolute -top-[35vw] -left-[20vw] rotate-[57deg] ' />
+            <div className='bg-blue-800 -z-10 w-[120vw] aspect-[2/1] absolute -left  -rotate-[16deg] -right-[12vw] -bottom-[36vw]' />
+            <div className='bg-base-100 -z-20 w-[120vw] h-[100vh] absolute -left  rotate-[29deg] -right-[4vw] -bottom-[36vw]' />
+            <div className='bg-base-200 -z-30 w-[160vw] h-[100vh] absolute -left  -rotate-[20deg] -right-[34vw] -top-[4vw]' />
+
+
+            <div className='flex flex-col items-center justify-center gap-4 -translate-y-4'>
+                <h1 className='font-extrabold text-6xl text-blue-800 text-title'>{hostages}</h1>
+                <h2 className='font-extrabold text-3xl text-blue-800 uppercase tracking-tighter'>Hostages</h2>
+
+                <ReadyButton onReady={onReady} className='!bg-blue-800' />
+
+                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-blue-800 mt-2 cursor-pointer'>Force next round</div>}
+
+            </div>
+        </div>
+    )
+}
+
+function RoundEndScreenOld({ hostages, onReady = () => { }, onForceReady }) {
 
 
 
@@ -1563,7 +1587,7 @@ function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
 
 }
 
-function ReadyButton({ onReady }) {
+function ReadyButton({ onReady, className = "" }) {
     const [clicked, setClicked] = useState(false);
 
     function handleClick() {
@@ -1572,7 +1596,7 @@ function ReadyButton({ onReady }) {
     }
 
 
-    return (<button onClick={!clicked ? handleClick : () => { }} className={'btn btn-wide mt-4 ' + (clicked ? "opacity-50 " : "  ")}>{clicked ? "Waiting..." : "Ready!"}</button>)
+    return (<button onClick={!clicked ? handleClick : () => { }} className={'btn btn-wide mt-4 ' + (clicked ? "opacity-50 " : "  ") + className}>{clicked ? "Waiting..." : "Ready!"}</button>)
 }
 
 
