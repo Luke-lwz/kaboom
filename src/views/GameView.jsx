@@ -1524,7 +1524,7 @@ function RunningTextAnimation({ text, color, shadowColor }) {
 }
 
 
-function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
+function RoundEndScreenTest({ hostages, onReady = () => { }, onForceReady }) {
 
     return (
         <div className='absolute inset-0 flex flex-col items-center justify-center gap-4'>
@@ -1547,7 +1547,7 @@ function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
     )
 }
 
-function RoundEndScreenOld({ hostages, onReady = () => { }, onForceReady }) {
+function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
 
 
 

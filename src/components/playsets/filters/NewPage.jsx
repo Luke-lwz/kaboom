@@ -7,6 +7,7 @@ import { maximizePlayset } from "../../../helpers/playsets";
 
 import PlaysetDisplay from "../PlaysetDisplay";
 import { PageContext } from "../../PageContextProvider";
+import PlaysetQueryList from "./_components/PlaysetQueryList";
 
 
 export default function NewPage({ onPlaysetClick = (playset) => { } }) {
@@ -50,9 +51,10 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
     return (
         <div className="w-full flex flex-col items-center justify-start gap-2">
-            {playsets?.map(playset => (
+            <PlaysetQueryList name="new" />
+            {/* {playsets?.map(playset => (
                 <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
-            ))}
+            ))} */}
         </div>
     )
 }
