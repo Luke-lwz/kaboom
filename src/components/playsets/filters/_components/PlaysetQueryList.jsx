@@ -39,7 +39,7 @@ function PlaysetQueryList(props) {
     const { data } = useQuery({ 
         queryKey: [name, devMode, activeToggles?.playerNumber, ...activeTogglesArray], 
         queryFn: queryFn,
-        staleTime: devMode || hasPermission("playset_mod") ? 0 : 1000 * 60 * 5, // 5 minutes
+        staleTime: devMode ? 0 : 1000 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 5, // 5 minutes
         refetchOnMount: false,
         refetchOnWindowFocus: false,
