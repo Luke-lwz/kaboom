@@ -59,6 +59,7 @@ function FilterBar(props) {
 
 
     function openUserFilterMenu() {
+    console.log(activeToggles?.playerNumber)
         setMenu2(<PlayerNumberFilter
             onChange={(n) => handleValueClick("playerNumber", n)}
             onClear={() => handleValueClick("playerNumber", null)}

@@ -4,7 +4,8 @@ import React from 'react';
 import RangeCounter from '../../../../RangeCounter';
 import useLocalStorage from 'use-local-storage';
 
-function PlayerNumberFilter({ onClear = () => {}, onChange = () => {}}, currentValue = null) {
+function PlayerNumberFilter({ onClear = () => {}, onChange = () => {}, currentValue = null}) {
+    console.log(currentValue)
     const [number, setNumber] = useLocalStorage("player-number-filter", currentValue || 10);
     return (
         <div className={"bg-base-100 w-full p-4 flex flex-col items-start justify-center gap-4 rounded-lg"}>

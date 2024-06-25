@@ -1,7 +1,7 @@
 import React from 'react';
 import FilterBar from './FilterBar';
 import useLocalStorage from 'use-local-storage';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import supabase from '../../../../supabase';
 import { useContext, useMemo } from 'preact/hooks';
 import { PageContext } from '../../../PageContextProvider';
@@ -12,6 +12,8 @@ import { maximizePlayset } from '../../../../helpers/playsets';
 
 const METADATA_FIELDS = ['verified', 'hidden', 'official', 'dev'];
 
+const elementsPerPage = 10;
+
 
 
 function PlaysetQueryList(props) {
@@ -21,10 +23,10 @@ function PlaysetQueryList(props) {
         onPlaysetClick = (playset) => { },
     } = props;
 
-    const { devMode, hasPermission } = useContext(PageContext);
+    const { devMode, hasPermission, user } = useContext(PageContext);
 
 
-    const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-${name}`, {
+    const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-object-${name}`, {
         verified: false,
         hidden: false,
         official: false,
@@ -34,46 +36,68 @@ function PlaysetQueryList(props) {
 
     const activeTogglesArray = useMemo(() => Object.entries(activeToggles).filter(([key, value]) => !!value).map(([key, value]) => key), [activeToggles])
 
-    console.log(activeTogglesArray)
 
-    const { data } = useQuery({ 
-        queryKey: [name, devMode, activeToggles?.playerNumber, ...activeTogglesArray], 
+    const {
+        data,
+        fetchNextPage,
+    } = useInfiniteQuery({
+        queryKey: [name, user?.id, devMode, activeToggles?.playerNumber, ...activeTogglesArray],
         queryFn: queryFn,
-        staleTime: devMode ? 0 : 1000 * 60 * 5, // 5 minutes
+        staleTime: devMode ? 1000 * 15 : 1000 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 5, // 5 minutes
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
+        refetchOnMount: devMode,
+        refetchOnWindowFocus: devMode,
         refetchOnReconnect: false,
-     })
+
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+            return pages?.length * elementsPerPage;
+        },
+    })
 
 
-     const playsets = useMemo(() => {
-        const minimizedPlaysets = data?.data || [];
+    const playsets = useMemo(() => {
+        const concatenatedPlaysets = data?.pages?.map(page => page).flat() || [];
+        console.log(concatenatedPlaysets)
+        const minimizedPlaysets = concatenatedPlaysets || [];
         const maximizedPlaysets = minimizedPlaysets.map(playset => maximizePlayset(playset));
-        console.log(maximizedPlaysets)
-        return maximizedPlaysets; 
-     }, [data])
+        const filteredPlaysets = maximizedPlaysets.filter(playset => {
+            if (!devMode && playset?.playsets_metadata?.dev) return false;
+            return true
+        })
+        return filteredPlaysets;
+    }, [data])
 
 
-    async function queryFn({ queryKey }) {
-        const [name, devMode, playerNumber, ...activeToggles] = queryKey;
+    async function queryFn({ queryKey,pageParam }) {
+        const [name, userId, devMode, playerNumber, ...activeToggles] = queryKey;
+
+
+        const offset = pageParam || 0;
+        const limit = elementsPerPage;
 
         const query = supabase
             .from('playsets')
             .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`)
             .eq('upvote_count.upvote', true)
             .eq('downvote_count.upvote', false)
+            .eq('interaction.user_id', userId || "00000000-0000-0000-0000-000000000000")
+            
+
+            // add the limit and offset
+            .range(offset, offset + limit - 1)
 
 
 
-        if (!devMode) {
-            query.eq('playsets_metadata.dev', false)
-        }
+
 
 
 
 
         let addedMetadataExistsFilter = false;
+
+
+
 
         METADATA_FIELDS.forEach(field => {
             if (activeToggles.includes(field)) {
@@ -81,6 +105,8 @@ function PlaysetQueryList(props) {
                 if (!addedMetadataExistsFilter) { // adds the metadata exists filter if it does not exist yet
                     query.not('playsets_metadata', 'is', null)
                     addedMetadataExistsFilter = true;
+
+
 
                 }
 
@@ -95,8 +121,6 @@ function PlaysetQueryList(props) {
 
 
         if (playerNumber) {
-
-            console.log(playerNumber)
             query.lte('min_players', playerNumber)
             query.gte('max_players', playerNumber)
         }
@@ -124,10 +148,10 @@ function PlaysetQueryList(props) {
 
         const { data, error } = await query;
 
-        console.log(data, error);
+        if (error) throw Error(error);
 
 
-        return { data, error }
+        return data
     }
 
 
@@ -138,6 +162,7 @@ function PlaysetQueryList(props) {
             {playsets?.map(playset => (
                 <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
             ))}
+            <button onClick={() => {fetchNextPage()}}>next</button>
         </div>
     );
 }
