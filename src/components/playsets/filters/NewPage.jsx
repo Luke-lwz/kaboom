@@ -37,17 +37,18 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
 
     // useQuery
-    const query = useQuery({ queryKey: ['playsets-new'], queryFn: () => getPlaysets(user), })
-    const { data: playsets, error, isLoading, isError } = query
+    // const query = useQuery({ queryKey: ['playsets-new'], queryFn: () => getPlaysets(user), })
+    // const { data: playsets, error, isLoading, isError } = query
 
 
 
 
     useEffect(() => {
-        if (!user?.id) return () => {};
+        if (!user?.id) return () => { };
         query?.refetch()
 
-    }, [user, query])
+        // }, [user, query])
+    }, [user])
 
     return (
         <div className="w-full flex flex-col items-center justify-start gap-2">
