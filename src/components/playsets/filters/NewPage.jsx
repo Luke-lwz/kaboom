@@ -45,14 +45,14 @@ export default function NewPage({ onPlaysetClick = (playset) => { } }) {
 
     useEffect(() => {
         if (!user?.id) return () => { };
-        query?.refetch()
+        // query?.refetch()
 
         // }, [user, query])
     }, [user])
 
     return (
         <div className="w-full flex flex-col items-center justify-start gap-2">
-            <PlaysetQueryList name="new" />
+            <PlaysetQueryList name="new" onPlaysetClick={onPlaysetClick} />
             {/* {playsets?.map(playset => (
                 <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
             ))} */}
