@@ -17,6 +17,8 @@ import { IoArrowUp, IoBookmark, IoHome, IoPersonAddSharp, IoPersonCircleOutline 
 import { BiArrowBack } from "react-icons/bi";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import NewPage from "./filters/NewPage.jsx";
+import PlaysetQueryList from "./filters/_components/PlaysetQueryList.jsx";
+import useDebounce from "../../hooks/useDebounce.jsx";
 
 
 const TABS = [
@@ -114,6 +116,9 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
     const [search, setSearch] = useState(null);
 
 
+    const debouncedSearch = useDebounce(search, 1000);
+
+
     const searchInputRef = useRef(null);
 
 
@@ -151,7 +156,25 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
             <div id="divider-1" className=" w-full flex items-center justify-center">
                 <div className="w-full py-[1px] rounded-full bg-neutral/25" />
             </div>
-            {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />}
+            {search !== null && search?.length > 0 ?
+                (search !== debouncedSearch ? <div className="w-full flex py-4 items-center justify-center"><span className="loading loading-spinner "></span></div> :
+                    <PlaysetQueryList name={"search-" + debouncedSearch} mutateQuery={(query) => {
+
+                        // const searchSplit = (search || "").split(" ");
+
+                        // query.textSearch("description", `${searchSplit.map(s => `'${s}'`).join(" & ")}`, {
+                        //     config: "english",
+                        // });
+
+                        query.ilike("name", `%${search}%`)
+
+                        return query;
+                    }} onPlaysetClick={onPlaysetClick} />)
+                :
+                <>
+                    {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />}
+                </>
+            }
         </div>
     );
 }

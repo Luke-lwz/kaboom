@@ -22,6 +22,7 @@ function PlaysetQueryList(props) {
     const {
         name = "undefined",
         mutateQuery = (query) => query, // never do select() on the supabase query
+        overrideQuery,
         onPlaysetClick = (playset) => { },
     } = props;
 
@@ -30,40 +31,7 @@ function PlaysetQueryList(props) {
 
     const loaderRef = useRef(null);
 
-    useEffect(() => {
-        if (loaderRef.current) {
-            const inHandler = (entry, unobserve, targetEl) => {
-                // console.log('In viewport')
-                fetchNextPage()
-            }
 
-            // handler for when target is NOT in viewport
-            const outHandler = (entry, unobserve, targetEl) => console.log('')
-
-            const unobserve = observeElementInViewport(loaderRef.current, inHandler, outHandler, {
-                // set viewport
-                viewport: null,
-               
-                // decrease viewport top by 100px
-                // similar to this, modRight, modBottom and modLeft exist
-                modTop: '-100px',
-               
-                // threshold tells us when to trigger the handlers.
-                // a threshold of 90 means, trigger the inHandler when atleast 90%
-                // of target is visible. It triggers the outHandler when the amount of
-                // visible portion of the target falls below 90%.
-                // If this array has more than one value, the lowest threshold is what
-                // marks the target as having left the viewport
-                threshold: [90]
-              })
-
-        }
-
-        return (() => unobserve())
-
-
-
-    }, [loaderRef.current])
 
 
     const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-object-${name}`, {
@@ -98,7 +66,6 @@ function PlaysetQueryList(props) {
 
     const playsets = useMemo(() => {
         const concatenatedPlaysets = data?.pages?.map(page => page).flat() || [];
-        console.log(concatenatedPlaysets)
         const minimizedPlaysets = concatenatedPlaysets || [];
         const maximizedPlaysets = minimizedPlaysets.map(playset => maximizePlayset(playset));
         const filteredPlaysets = maximizedPlaysets.filter(playset => {
@@ -108,6 +75,42 @@ function PlaysetQueryList(props) {
         return filteredPlaysets;
     }, [data])
 
+    useEffect(() => {
+        if (loaderRef.current) {
+            const inHandler = (entry, unobserve, targetEl) => {
+                // console.log('In viewport')
+                if (playsets?.length % elementsPerPage !== 0 || playsets?.length <= 0) return;
+                fetchNextPage()
+            }
+
+            // handler for when target is NOT in viewport
+            const outHandler = (entry, unobserve, targetEl) => console.log('')
+
+            var unobserve = observeElementInViewport(loaderRef.current, inHandler, outHandler, {
+                // set viewport
+                viewport: null,
+
+                // decrease viewport top by 100px
+                // similar to this, modRight, modBottom and modLeft exist
+                modTop: '-100px',
+
+                // threshold tells us when to trigger the handlers.
+                // a threshold of 90 means, trigger the inHandler when atleast 90%
+                // of target is visible. It triggers the outHandler when the amount of
+                // visible portion of the target falls below 90%.
+                // If this array has more than one value, the lowest threshold is what
+                // marks the target as having left the viewport
+                threshold: [90]
+            })
+
+        }
+
+        return (() => unobserve())
+
+
+
+    }, [loaderRef.current, playsets, fetchNextPage])
+
 
     async function queryFn({ queryKey, pageParam }) {
         const [name, userId, devMode, playerNumber, ...activeToggles] = queryKey;
@@ -116,7 +119,7 @@ function PlaysetQueryList(props) {
         const offset = pageParam || 0;
         const limit = elementsPerPage;
 
-        const query = supabase
+        var query = supabase
             .from('playsets')
             .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`)
             .eq('upvote_count.upvote', true)
@@ -130,61 +133,68 @@ function PlaysetQueryList(props) {
 
 
 
+        if (overrideQuery) {
+            query = overrideQuery(query)
+        } else {
+
+
+
+            let addedMetadataExistsFilter = false;
 
 
 
 
-        let addedMetadataExistsFilter = false;
+            METADATA_FIELDS.forEach(field => {
+                if (activeToggles.includes(field)) {
+
+                    if (!addedMetadataExistsFilter) { // adds the metadata exists filter if it does not exist yet
+                        query.not('playsets_metadata', 'is', null)
+                        addedMetadataExistsFilter = true;
 
 
 
+                    }
 
-        METADATA_FIELDS.forEach(field => {
-            if (activeToggles.includes(field)) {
-
-                if (!addedMetadataExistsFilter) { // adds the metadata exists filter if it does not exist yet
-                    query.not('playsets_metadata', 'is', null)
-                    addedMetadataExistsFilter = true;
-
+                    if (field !== "dev" || devMode) query.eq(`playsets_metadata.${field}`, true);
 
 
                 }
+            })
 
-                if (field !== "dev" || devMode) query.eq(`playsets_metadata.${field}`, true);
 
 
+
+            // non boolean fields
+
+
+            if (playerNumber) {
+                query.lte('min_players', playerNumber)
+                query.gte('max_players', playerNumber)
             }
-        })
 
 
-        // non boolean fields
 
 
-        if (playerNumber) {
-            query.lte('min_players', playerNumber)
-            query.gte('max_players', playerNumber)
+
+
+
+
+
+
+
+            // check if metadata exists 
+
+
+
+
+            // if (activeToggles.includes('verified')) {
+            //     query.eq('playsets_metadata.verified', false)
+            // }
+
+
+            query = mutateQuery(query);
+
         }
-
-
-
-
-
-
-
-
-
-
-
-        // check if metadata exists 
-
-
-
-
-        // if (activeToggles.includes('verified')) {
-        //     query.eq('playsets_metadata.verified', false)
-        // }
-
-
 
         const { data, error } = await query;
 
