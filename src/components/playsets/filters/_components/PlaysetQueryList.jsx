@@ -34,7 +34,7 @@ function PlaysetQueryList(props) {
 
 
 
-    const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-object-${name}`, {
+    const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-object`, {
         verified: false,
         hidden: false,
         official: false,
