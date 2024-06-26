@@ -3,16 +3,18 @@ import FilterBar from './FilterBar';
 import useLocalStorage from 'use-local-storage';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import supabase from '../../../../supabase';
-import { useContext, useMemo } from 'preact/hooks';
+import { useContext, useEffect, useMemo, useRef } from 'preact/hooks';
 import { PageContext } from '../../../PageContextProvider';
 import PlaysetDisplay from '../../PlaysetDisplay';
 import { maximizePlayset } from '../../../../helpers/playsets';
+
+import { observeElementInViewport } from 'observe-element-in-viewport';
 
 
 
 const METADATA_FIELDS = ['verified', 'hidden', 'official', 'dev'];
 
-const elementsPerPage = 10;
+const elementsPerPage = 20;
 
 
 
@@ -24,6 +26,44 @@ function PlaysetQueryList(props) {
     } = props;
 
     const { devMode, hasPermission, user } = useContext(PageContext);
+
+
+    const loaderRef = useRef(null);
+
+    useEffect(() => {
+        if (loaderRef.current) {
+            const inHandler = (entry, unobserve, targetEl) => {
+                // console.log('In viewport')
+                fetchNextPage()
+            }
+
+            // handler for when target is NOT in viewport
+            const outHandler = (entry, unobserve, targetEl) => console.log('')
+
+            const unobserve = observeElementInViewport(loaderRef.current, inHandler, outHandler, {
+                // set viewport
+                viewport: null,
+               
+                // decrease viewport top by 100px
+                // similar to this, modRight, modBottom and modLeft exist
+                modTop: '-100px',
+               
+                // threshold tells us when to trigger the handlers.
+                // a threshold of 90 means, trigger the inHandler when atleast 90%
+                // of target is visible. It triggers the outHandler when the amount of
+                // visible portion of the target falls below 90%.
+                // If this array has more than one value, the lowest threshold is what
+                // marks the target as having left the viewport
+                threshold: [90]
+              })
+
+        }
+
+        return (() => unobserve())
+
+
+
+    }, [loaderRef.current])
 
 
     const [activeToggles, setActiveToggles] = useLocalStorage(`active-toggles-object-${name}`, {
@@ -69,7 +109,7 @@ function PlaysetQueryList(props) {
     }, [data])
 
 
-    async function queryFn({ queryKey,pageParam }) {
+    async function queryFn({ queryKey, pageParam }) {
         const [name, userId, devMode, playerNumber, ...activeToggles] = queryKey;
 
 
@@ -82,7 +122,7 @@ function PlaysetQueryList(props) {
             .eq('upvote_count.upvote', true)
             .eq('downvote_count.upvote', false)
             .eq('interaction.user_id', userId || "00000000-0000-0000-0000-000000000000")
-            
+
 
             // add the limit and offset
             .range(offset, offset + limit - 1)
@@ -156,13 +196,16 @@ function PlaysetQueryList(props) {
 
 
 
+
+
+
     return (
         <div className='w-full h-fit flex flex-col items-center justify-center gap-4'>
             <FilterBar name={name} activeToggles={activeToggles} setActiveToggles={setActiveToggles} />
             {playsets?.map(playset => (
                 <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
             ))}
-            <button onClick={() => {fetchNextPage()}}>next</button>
+            <button ref={loaderRef}></button>
         </div>
     );
 }
