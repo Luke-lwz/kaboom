@@ -19,6 +19,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import NewPage from "./filters/NewPage.jsx";
 import PlaysetQueryList from "./filters/_components/PlaysetQueryList.jsx";
 import useDebounce from "../../hooks/useDebounce.jsx";
+import moment from "moment";
 
 
 const TABS = [
@@ -27,13 +28,19 @@ const TABS = [
         value: "new",
         color: "#02f771",
         icon: <MdOutlineWbIridescent className="text-base" />,
-        component: NewPage,
+        filterFn: (query) => query.order("created_at", { ascending: false })
     },
     {
         name: "Hot",
         value: "hot",
         color: "#f72b02",
         icon: <GiFireBomb className="text-base" />,
+        filterFn: (query) => {
+            const startOfMonth = moment().startOf('month').toISOString(true);
+            return query
+            .gte('interactions.created_at', startOfMonth)
+            .order("", { ascending: false })
+        }
     },
     {
         name: "Top",
@@ -73,32 +80,32 @@ const TABS = [
             }
         ]
     },
-    {
-        name: "Profiles",
-        value: "profiles",
-        color: "#ff0000",
-        icon: <IoPersonCircleOutline className="text-base mr-0.5" />,
-        subTags: [
-            {
-                name: "Hot",
-                value: "profiles-hot",
-                color: "#ff0000",
-                icon: <GiFireBomb className="text-base" />,
-            },
-            {
-                name: "New",
-                value: "profiles-new",
-                color: "#ff0000",
-                icon: <MdOutlineWbIridescent className="text-base" />,
-            },
-            {
-                name: "Following",
-                value: "profiles-following",
-                color: "#ff0000",
-                icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
-            }
-        ]
-    },
+    // {
+    //     name: "Profiles",
+    //     value: "profiles",
+    //     color: "#ff0000",
+    //     icon: <IoPersonCircleOutline className="text-base mr-0.5" />,
+    //     subTags: [
+    //         {
+    //             name: "Hot",
+    //             value: "profiles-hot",
+    //             color: "#ff0000",
+    //             icon: <GiFireBomb className="text-base" />,
+    //         },
+    //         {
+    //             name: "New",
+    //             value: "profiles-new",
+    //             color: "#ff0000",
+    //             icon: <MdOutlineWbIridescent className="text-base" />,
+    //         },
+    //         {
+    //             name: "Following",
+    //             value: "profiles-following",
+    //             color: "#ff0000",
+    //             icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
+    //         }
+    //     ]
+    // },
 
 ]
 
@@ -172,7 +179,8 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
                     }} onPlaysetClick={onPlaysetClick} />)
                 :
                 <>
-                    {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />}
+                    {activeTab?.filterFn && <PlaysetQueryList name={activeTab?.value} mutateQuery={activeTab?.filterFn} onPlaysetClick={onPlaysetClick} />}
+                    {/* {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />} */}
                 </>
             }
         </div>

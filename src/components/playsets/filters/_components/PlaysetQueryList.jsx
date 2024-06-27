@@ -26,7 +26,7 @@ function PlaysetQueryList(props) {
         onPlaysetClick = (playset) => { },
     } = props;
 
-    const { devMode, hasPermission, user } = useContext(PageContext);
+    const { devMode, user } = useContext(PageContext);
 
 
     const loaderRef = useRef(null);
@@ -51,7 +51,7 @@ function PlaysetQueryList(props) {
     } = useInfiniteQuery({
         queryKey: [name, user?.id, devMode, activeToggles?.playerNumber, ...activeTogglesArray],
         queryFn: queryFn,
-        staleTime: devMode ? 1000 * 15 : 1000 * 60 * 5, // 5 minutes
+        staleTime: devMode ? 1000 * 5 : 1000 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 5, // 5 minutes
         refetchOnMount: devMode,
         refetchOnWindowFocus: devMode,
@@ -64,7 +64,7 @@ function PlaysetQueryList(props) {
     })
 
 
-    const playsets = useMemo(() => {
+    const {playsets, concatenatedPlaysets} = useMemo(() => {
         const concatenatedPlaysets = data?.pages?.map(page => page).flat() || [];
         const minimizedPlaysets = concatenatedPlaysets || [];
         const maximizedPlaysets = minimizedPlaysets.map(playset => maximizePlayset(playset));
@@ -72,14 +72,15 @@ function PlaysetQueryList(props) {
             if (!devMode && playset?.playsets_metadata?.dev) return false;
             return true
         })
-        return filteredPlaysets;
+        return {playsets: filteredPlaysets, concatenatedPlaysets};
     }, [data])
 
     useEffect(() => {
         if (loaderRef.current) {
             const inHandler = (entry, unobserve, targetEl) => {
                 // console.log('In viewport')
-                if (playsets?.length % elementsPerPage !== 0 || playsets?.length <= 0) return;
+                const length = concatenatedPlaysets?.length;
+                if (length % elementsPerPage !== 0 || length <= 0) return;
                 fetchNextPage()
             }
 
@@ -109,7 +110,7 @@ function PlaysetQueryList(props) {
 
 
 
-    }, [loaderRef.current, playsets, fetchNextPage])
+    }, [loaderRef.current, concatenatedPlaysets, fetchNextPage])
 
 
     async function queryFn({ queryKey, pageParam }) {
