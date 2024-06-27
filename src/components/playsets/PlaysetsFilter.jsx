@@ -21,6 +21,8 @@ import PlaysetQueryList from "./filters/_components/PlaysetQueryList.jsx";
 import useDebounce from "../../hooks/useDebounce.jsx";
 import moment from "moment";
 
+import {v4 as uuidv4} from "uuid";
+
 
 const TABS = [
     {
@@ -30,24 +32,38 @@ const TABS = [
         icon: <MdOutlineWbIridescent className="text-base" />,
         filterFn: (query) => query.order("created_at", { ascending: false })
     },
-    {
-        name: "Hot",
-        value: "hot",
-        color: "#f72b02",
-        icon: <GiFireBomb className="text-base" />,
-        filterFn: (query) => {
-            const startOfMonth = moment().startOf('month').toISOString(true);
-            return query
-            .gte('interactions.created_at', startOfMonth)
-            .order("", { ascending: false })
-        }
-    },
+    // {
+    //     name: "Hot",
+    //     value: "hot",
+    //     color: "#f72b02",
+    //     icon: <GiFireBomb className="text-base" />,
+    //     filterFn: (query) => {
+    //         const startOfMonth = moment().subtract(1, "month").startOf('day').toISOString(true);
+    //         return query
+    //         .gte('interactions.created_at', startOfMonth)
+    //         .eq('interactions.upvote', true)
+    //         .order("upvote_count", { ascending: false })
+    //     }
+    // },
     {
         name: "Top",
         value: "top",
         color: "#0019fd",
         icon: <IoArrowUp className="text-base" />,
+        filterFn: (query) => query.order("upvote_count->count", { ascending: false })
     },
+    // {
+    //     name: "Random",
+    //     value: "random",
+    //     color: "#cf03fc",
+    //     icon: <BsFillCheckSquareFill className="text-base" />,
+    //     filterFn: (query) => {
+    //         const uuid = uuidv4();
+    //         return query.gte("id", uuid).limit(1)
+    //     },
+    //     infinite: false,
+    //     refetchEveryTime: true
+    // },
     {
         name: "My Stuff",
         value: "my-stuff",
@@ -164,8 +180,7 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
                 <div className="w-full py-[1px] rounded-full bg-neutral/25" />
             </div>
             {search !== null && search?.length > 0 ?
-                (search !== debouncedSearch ? <div className="w-full flex py-4 items-center justify-center"><span className="loading loading-spinner "></span></div> :
-                    <PlaysetQueryList name={"search-" + debouncedSearch} mutateQuery={(query) => {
+                    <PlaysetQueryList name={"search-" + debouncedSearch} loading={search !== debouncedSearch} mutateQuery={(query) => {
 
                         // const searchSplit = (search || "").split(" ");
 
@@ -176,10 +191,11 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
                         query.ilike("name", `%${search}%`)
 
                         return query;
-                    }} onPlaysetClick={onPlaysetClick} />)
+                    }} onPlaysetClick={onPlaysetClick} />
                 :
                 <>
-                    {activeTab?.filterFn && <PlaysetQueryList name={activeTab?.value} mutateQuery={activeTab?.filterFn} onPlaysetClick={onPlaysetClick} />}
+                    {activeTab?.filterFn && <PlaysetQueryList name={activeTab?.value} mutateQuery={activeTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeTab?.infinite} refetchEveryTime={activeTab?.refetchEveryTime} />}
+                    {activeSubTab?.filterFn && <PlaysetQueryList name={activeSubTab?.value} mutateQuery={activeSubTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeSubTab?.infinite} refetchEveryTime={activeSubTab?.refetchEveryTime} />}
                     {/* {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />} */}
                 </>
             }

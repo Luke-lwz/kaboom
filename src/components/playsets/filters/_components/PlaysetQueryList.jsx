@@ -24,6 +24,9 @@ function PlaysetQueryList(props) {
         mutateQuery = (query) => query, // never do select() on the supabase query
         overrideQuery,
         onPlaysetClick = (playset) => { },
+        infinite = true,
+        refetchEveryTime = false,
+        loading: _loading,
     } = props;
 
     const { devMode, user } = useContext(PageContext);
@@ -48,14 +51,17 @@ function PlaysetQueryList(props) {
     const {
         data,
         fetchNextPage,
+        isLoading,
+        isError,
     } = useInfiniteQuery({
-        queryKey: [name, user?.id, devMode, activeToggles?.playerNumber, ...activeTogglesArray],
+        queryKey: [name, user?.id, devMode, activeToggles?.playerNumber, refetchEveryTime, ...activeTogglesArray],
         queryFn: queryFn,
-        staleTime: devMode ? 1000 * 5 : 1000 * 60 * 5, // 5 minutes
+        staleTime: devMode || refetchEveryTime ? 1000 * 0 : 1000 * 60 * 5, // 5 minutes
         cacheTime: 1000 * 60 * 5, // 5 minutes
-        refetchOnMount: devMode,
-        refetchOnWindowFocus: devMode,
+        refetchOnMount: devMode || refetchEveryTime,
+        refetchOnWindowFocus: devMode || refetchEveryTime,
         refetchOnReconnect: false,
+        retry: false,
 
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
@@ -63,8 +69,10 @@ function PlaysetQueryList(props) {
         },
     })
 
+    const loading = isLoading || _loading;
 
-    const {playsets, concatenatedPlaysets} = useMemo(() => {
+
+    const { playsets, concatenatedPlaysets } = useMemo(() => {
         const concatenatedPlaysets = data?.pages?.map(page => page).flat() || [];
         const minimizedPlaysets = concatenatedPlaysets || [];
         const maximizedPlaysets = minimizedPlaysets.map(playset => maximizePlayset(playset));
@@ -72,7 +80,7 @@ function PlaysetQueryList(props) {
             if (!devMode && playset?.playsets_metadata?.dev) return false;
             return true
         })
-        return {playsets: filteredPlaysets, concatenatedPlaysets};
+        return { playsets: filteredPlaysets, concatenatedPlaysets };
     }, [data])
 
     useEffect(() => {
@@ -80,7 +88,7 @@ function PlaysetQueryList(props) {
             const inHandler = (entry, unobserve, targetEl) => {
                 // console.log('In viewport')
                 const length = concatenatedPlaysets?.length;
-                if (length % elementsPerPage !== 0 || length <= 0) return;
+                if (length % elementsPerPage !== 0 || length <= 0 || !infinite) return;
                 fetchNextPage()
             }
 
@@ -106,15 +114,15 @@ function PlaysetQueryList(props) {
 
         }
 
-        return (() => unobserve())
+        return (() => unobserve?.())
 
 
 
-    }, [loaderRef.current, concatenatedPlaysets, fetchNextPage])
+    }, [loaderRef.current, concatenatedPlaysets, fetchNextPage, infinite])
 
 
     async function queryFn({ queryKey, pageParam }) {
-        const [name, userId, devMode, playerNumber, ...activeToggles] = queryKey;
+        const [name, userId, devMode, playerNumber, refetchEveryTime, ...activeToggles] = queryKey;
 
 
         const offset = pageParam || 0;
@@ -122,7 +130,7 @@ function PlaysetQueryList(props) {
 
         var query = supabase
             .from('playsets')
-            .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`)
+            .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count),i_count:interactions(upvote.count())`)
             .eq('upvote_count.upvote', true)
             .eq('downvote_count.upvote', false)
             .eq('interaction.user_id', userId || "00000000-0000-0000-0000-000000000000")
@@ -199,6 +207,8 @@ function PlaysetQueryList(props) {
 
         const { data, error } = await query;
 
+        console.log("error", error)
+
         if (error) throw Error(error);
 
 
@@ -213,10 +223,22 @@ function PlaysetQueryList(props) {
     return (
         <div className='w-full h-fit flex flex-col items-center justify-center gap-4'>
             <FilterBar name={name} activeToggles={activeToggles} setActiveToggles={setActiveToggles} />
-            {playsets?.map(playset => (
-                <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
-            ))}
-            <button ref={loaderRef}></button>
+            {isError ?
+                <div className="w-full flex py-4 items-center justify-center text-sm text-red-600/50">An error occurred</div>
+                :
+
+                loading ? <div className="w-full flex py-4 items-center justify-center"><span className="loading loading-spinner "></span></div>
+                    :
+                    playsets?.length === 0 ? <div className="w-full flex py-4 items-center justify-center text-sm text-base-300">No playsets found</div>
+                        :
+                        <>
+                            {playsets?.map(playset => (
+                                <PlaysetDisplay key={playset?.id} playset={playset} onClick={() => onPlaysetClick(playset)} showPills />
+                            ))}
+                            <button ref={loaderRef}></button>
+                        </>
+            }
+
         </div>
     );
 }
