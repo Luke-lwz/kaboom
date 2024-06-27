@@ -75,6 +75,7 @@ const TABS = [
                 value: "my-bookmarks",
                 color: "#eb34c0",
                 icon: <IoBookmark className="text-sm mr-0.5" />,
+                replaceQueryFn: ({queryKey}) => {}
             },
             {
                 name: "Recent",
