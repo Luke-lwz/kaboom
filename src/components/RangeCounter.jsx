@@ -6,12 +6,14 @@ export default function RangeCounter({ value, onChange = () => { }, min = 0, max
 
     const [manual, setManual] = useState(false)
 
-    function handleBlur(newVal) {
+    function handleBlur(_newVal) {
+        const newVal = parseInt(_newVal);
+        console.log(newVal)
         setManual(false)
         if (!newVal) return 
-        if (newVal > max) return onChange(max);
-        if (newVal < min) return onChange(min);
-        onChange(parseInt(newVal))
+        if (newVal > max) return onChange(parseInt(max));
+        if (newVal < min) return onChange(parseInt(min));
+        onChange(newVal)
     }
 
     useEffect(() => setManual(false), [value])
