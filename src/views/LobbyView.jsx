@@ -591,7 +591,7 @@ function HostLobby({ me, code }) {
             const player_ids = players?.current?.filter(p => p.userId)?.map(p => p.userId) || [];
 
 
-            const data = await supabase
+            if (user?.id) await supabase
             .from("games_played")
             .insert([{ 
                 user_id: user?.id,
