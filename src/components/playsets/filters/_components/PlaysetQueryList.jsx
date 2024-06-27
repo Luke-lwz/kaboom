@@ -31,7 +31,7 @@ function PlaysetQueryList(props) {
         needsLogin = false
     } = props;
 
-    const { devMode, user } = useContext(PageContext);
+    const { devMode, user, showLoginMenu } = useContext(PageContext);
 
 
     const loaderRef = useRef(null);
@@ -238,7 +238,7 @@ function PlaysetQueryList(props) {
         <div className='w-full h-fit flex flex-col items-center justify-center gap-4'>
             <FilterBar name={name} activeToggles={activeToggles} setActiveToggles={setActiveToggles} />
             {logInToUse ?
-                <button onClick={() => { }} className='btn btn-sm btn-secondary noskew'>Log in to see</button>
+                <button onClick={() => showLoginMenu()} className='btn btn-sm btn-secondary noskew'>Log in to see</button>
                 :
                 isError ?
                     <div className="w-full flex py-4 items-center justify-center text-sm text-red-600/50">An error occurred</div>
