@@ -42,6 +42,7 @@ import { Helmet } from 'react-helmet';
 import { ToggleButton } from '../components/menus/GameInfoMenu';
 import DescriptionBox from '../components/DescriptionBox';
 import { DevModeBanner } from './HomeView';
+import supabase from '../supabase';
 
 const ROUND_TABS = [
     {
@@ -110,7 +111,7 @@ function LobbyView(props) {
                 <h1 className='text-secondary text-4xl skew font-extrabold'>{code}</h1>
             </div>
             <div className='overflow-y-scroll overflow-x-hidden w-full scrollbar-hide flex flex-col items-center' >
-                {loading ? <div className='loading' /> : host ? <HostLobby me={me} code={code} /> : <ClientLobby me={me} setMe={setMe} code={code} />}
+                {loading ? <span className='loading loading-spinner' /> : host ? <HostLobby me={me} code={code} /> : <ClientLobby me={me} setMe={setMe} code={code} />}
             </div>
         </div>);
 }
@@ -158,7 +159,7 @@ function ClientLobby({ me, setMe, code }) {
             var conn = peer.connect(constructPeerID(code, "host"));
 
             conn.on("open", () => {
-                conn.send({ intent: "join", payload: { name: player_data.name, id: player_data?.id } })
+                conn.send({ intent: "join", payload: { name: player_data.name, id: player_data?.id, userId: player_data?.userId } })
                 setConn(conn);
             })
 
@@ -255,7 +256,7 @@ function ClientLobby({ me, setMe, code }) {
         :
 
         <div className='flex flex-col justify-start items-center w-full'>
-            <button className='btn btn-ghost btn-wide loading noskew'></button>
+            <span className='loading loading-spinner'></span>
             <a className='link font-bold clickable' href="/">Leave</a>
 
         </div>
@@ -267,7 +268,7 @@ function ClientLobby({ me, setMe, code }) {
 
 function HostLobby({ me, code }) {
 
-    const { redirect, devMode, setPrompt, connectionErrorPrompt, setPageCover } = useContext(PageContext);
+    const { redirect, devMode, setPrompt, connectionErrorPrompt, setPageCover, user } = useContext(PageContext);
 
 
     const player_data = JSON.parse(localStorage.getItem("player-" + code));
@@ -419,7 +420,9 @@ function HostLobby({ me, code }) {
 
                             if (data?.payload?.id) playerID.value = data?.payload?.id
 
-                            addPlayer(playerID.value, data?.payload?.name, conn)
+                            console.log(data?.payload)
+
+                            addPlayer(playerID.value, data?.payload?.name, conn, data?.payload?.userId)
 
                             conn.send({ intent: "joined_lobby", payload: { myId: playerID.value } })
 
@@ -498,11 +501,11 @@ function HostLobby({ me, code }) {
     }
 
 
-    function addPlayer(id, name, conn) {
+    function addPlayer(id, name, conn, userId) {
 
         if (players.current.filter(p => p?.id === id)[0]) {
             players.current = players.current.map(p => (p?.id === id ? { ...p, conn, name: (name ? name : p.name) } : p))
-        } else players.current.push({ id, name, conn })
+        } else players.current.push({ id, name, conn, userId })
 
 
         updateRecommendedRounds();
@@ -561,7 +564,7 @@ function HostLobby({ me, code }) {
 
 
 
-    function startGame() {
+    const startGame = useCallback(() => {
 
         if (arePlayersOffline) {
             setPrompt({
@@ -580,12 +583,28 @@ function HostLobby({ me, code }) {
 
 
 
-        function startIt() {
+        async function startIt() {
             setPrompt(null);
 
             localStorage.setItem(`game-${code}`, JSON.stringify({ rounds: roundConfig, playsetId: playset.id, players: players.current.map(p => ({ ...p, conn: undefined, ready: undefined })), playWithBury: ((playWithBury || playset?.force_bury) && !playset.no_bury), created_at: moment().format("x"), color_reveal: players?.current?.length > 10 }));
 
-            addLastPlayedPlaysets(playset.id)
+            const player_ids = players?.current?.filter(p => p.userId)?.map(p => p.userId) || [];
+
+
+            const data = await supabase
+            .from("games_played")
+            .insert([{ 
+                user_id: user?.id,
+                playset_id: playset.id,
+                player_count: players.current.length,
+                player_ids,
+                devmode: devMode,
+             }])
+
+
+
+
+            // addLastPlayedPlaysets(playset.id)
 
             redirectAllClients("/game/" + code)
 
@@ -598,7 +617,7 @@ function HostLobby({ me, code }) {
         }
 
 
-    }
+    }, [user?.id, devMode, playset, players.current, roundConfig, playWithBury, arePlayersOffline, wrongPlayerNumber])
 
 
     function promptStartGame() {

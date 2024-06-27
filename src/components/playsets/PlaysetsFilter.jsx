@@ -21,7 +21,8 @@ import PlaysetQueryList from "./filters/_components/PlaysetQueryList.jsx";
 import useDebounce from "../../hooks/useDebounce.jsx";
 import moment from "moment";
 
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
+import useLocalStorage from "use-local-storage";
 
 
 const TABS = [
@@ -75,26 +76,36 @@ const TABS = [
                 value: "my-bookmarks",
                 color: "#eb34c0",
                 icon: <IoBookmark className="text-sm mr-0.5" />,
-                replaceQueryFn: ({queryKey}) => {}
+                filterFn: (query) => query.eq("interaction.bookmark", true).not("interaction", "is", null),
+                needsLogin: true
             },
             {
                 name: "Recent",
                 value: "my-recent",
                 color: "#eb34c0",
                 icon: <MdHistory className="text-base mr-0.5" />,
+                extraSelect: ",games_played(id)",
+                filterFn: (query) => query.not("games_played", "is", null),
+                needsLogin: true
             },
             {
                 name: "My Playsets",
                 value: "my-playsets",
                 color: "#eb34c0",
                 icon: <BsCassetteFill className="text-sm mr-0.5" />,
+                filterFn: (query, queryKey) => {
+                    const [name, userId] = queryKey;
+                    return query.eq("user_id", userId)
+                },
+                needsLogin: true
+
             },
-            {
-                name: "Following",
-                value: "my-following",
-                color: "#eb34c0",
-                icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
-            }
+            // {
+            //     name: "Following",
+            //     value: "my-following",
+            //     color: "#eb34c0",
+            //     icon: <IoPersonAddSharp className="text-sm mr-0.5" />,
+            // }
         ]
     },
     // {
@@ -134,8 +145,18 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
 
     const [playsets, setplaysets] = useState([]);
 
-    const [activeTab, setActiveTab] = useState(TABS[0])
-    const [activeSubTab, setActiveSubTab] = useState("")
+
+
+    const lastActiveTabValue = localStorage.getItem("playsets-lastActiveTab")
+    const lastActiveSubTabValue = localStorage.getItem("playsets-lastActiveSubTab")
+
+    const lastActiveTab = TABS.find(tab => tab.value === lastActiveTabValue)
+    const lastActiveSubTab = lastActiveTab?.subTags?.find(tab => tab.value === lastActiveSubTabValue)
+
+    
+
+    const [activeTab, setActiveTab] = useState(lastActiveTab || TABS[0])
+    const [activeSubTab, setActiveSubTab] = useState(lastActiveSubTab || null)
 
     const [search, setSearch] = useState(null);
 
@@ -144,6 +165,12 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
 
 
     const searchInputRef = useRef(null);
+
+
+    useEffect(() => {
+        localStorage.setItem("playsets-lastActiveTab", activeTab?.value)
+        localStorage.setItem("playsets-lastActiveSubTab", activeSubTab?.value)
+    }, [activeTab, activeSubTab])
 
 
 
@@ -181,22 +208,22 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
                 <div className="w-full py-[1px] rounded-full bg-neutral/25" />
             </div>
             {search !== null && search?.length > 0 ?
-                    <PlaysetQueryList name={"search-" + debouncedSearch} loading={search !== debouncedSearch} mutateQuery={(query) => {
+                <PlaysetQueryList name={"search-" + debouncedSearch} loading={search !== debouncedSearch} mutateQuery={(query) => {
 
-                        // const searchSplit = (search || "").split(" ");
+                    // const searchSplit = (search || "").split(" ");
 
-                        // query.textSearch("description", `${searchSplit.map(s => `'${s}'`).join(" & ")}`, {
-                        //     config: "english",
-                        // });
+                    // query.textSearch("description", `${searchSplit.map(s => `'${s}'`).join(" & ")}`, {
+                    //     config: "english",
+                    // });
 
-                        query.ilike("name", `%${search}%`)
+                    query.ilike("name", `%${search}%`)
 
-                        return query;
-                    }} onPlaysetClick={onPlaysetClick} />
+                    return query;
+                }} onPlaysetClick={onPlaysetClick} />
                 :
                 <>
-                    {activeTab?.filterFn && <PlaysetQueryList name={activeTab?.value} mutateQuery={activeTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeTab?.infinite} refetchEveryTime={activeTab?.refetchEveryTime} />}
-                    {activeSubTab?.filterFn && <PlaysetQueryList name={activeSubTab?.value} mutateQuery={activeSubTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeSubTab?.infinite} refetchEveryTime={activeSubTab?.refetchEveryTime} />}
+                    {activeTab?.filterFn && <PlaysetQueryList name={activeTab?.value} mutateQuery={activeTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeTab?.infinite} refetchEveryTime={activeTab?.refetchEveryTime} extraSelect={activeTab?.extraSelect} needsLogin={activeTab?.needsLogin} />}
+                    {activeSubTab?.filterFn && <PlaysetQueryList name={activeSubTab?.value} mutateQuery={activeSubTab?.filterFn} onPlaysetClick={onPlaysetClick} infinite={activeSubTab?.infinite} refetchEveryTime={activeSubTab?.refetchEveryTime} extraSelect={activeSubTab?.extraSelect} needsLogin={activeSubTab?.needsLogin} />}
                     {/* {activeTab?.component && <activeTab.component key={activeTab?.value + (activeSubTab?.value || "")} onPlaysetClick={onPlaysetClick} />} */}
                 </>
             }

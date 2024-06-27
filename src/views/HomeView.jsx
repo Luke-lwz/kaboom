@@ -257,7 +257,8 @@ function HomeView({ }) {
 
             localStorage.setItem(`player-${code}`, JSON.stringify({
                 name,
-                id: playerData?.id
+                id: playerData?.id,
+                userId: user?.id
             }));
 
             setPrompt(null);
@@ -269,7 +270,7 @@ function HomeView({ }) {
 
 
 
-    }, [joinPeer])
+    }, [joinPeer, user?.id])
 
     const createRoom = useCallback(async () => {
 
@@ -360,7 +361,6 @@ function HomeView({ }) {
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll overflow-x-hidden pb-24">
 
             {(displayUseSafari || devMode) && <div className="w-full max-w-2xl p-4 gap-4 flex flex-col items-center pb-0">
-                <InfoBanner className={"bg-purple-400"}>Server Maintenance</InfoBanner>
                 {displayUseSafari && <UseSafariBanner />}
                 {devMode && <DevModeBanner />}
             </div>}
@@ -412,9 +412,9 @@ function HomeView({ }) {
                 <Box>
                     <h1 className="text-2xl">Join Game</h1>
                     <input autoComplete="off" id="room-input" type="text" max={4} maxLength={4} className="input skew-reverse text-center font-extrabold text-xl text-normal tracking-widest text-black w-fit px-0 bg-accent-content" placeholder="&#x2022; &#x2022; &#x2022; &#x2022;" onChange={(e) => (e?.target?.value?.length <= 4 ? e.target.value = e.target.value.toUpperCase() : e.target.value = e.target.value.substring(0, 4))} />
-                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 loading loading-spinner " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>JOIN</button>
+                    <button id="join_btn" className={"btn transition-all bg-secondary " + (loading ? " text-primary-content btn-wide opacity-75 outline-none border-none " : " btn-secondary opacity-100 btn-wide ")} onClick={() => joinRoom()}>{loading ? <span className="loading loading-spinner "></span> : "JOIN"}</button>
                     <div className="mx-12 max-w-sm my-2.5 py-[0.05rem] bg-neutral-content w-full rounded-full"></div>
-                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE GAME</button>
+                    <button type="button" className={"btn transition-all bg-primary " + (loading ? " bg-primary text-primary-content btn-wide outline-none border-none " : " btn-primary opacity-100 btn-wide ")} onClick={() => createRoom()}>CREATE GAME</button>
 
                 </Box>
             </div>
@@ -536,7 +536,7 @@ export function NamePrompt({ onEnter, buttonValue }) {
             <input autoFocus={true} id="name-input-element" type="text" placeholder="Name" className="skew input text-center font-extrabold text-xl text-normal text-accent-content w-fit px-0 bg-neutral " onChange={(e) => { e.target.value = e.target.value.trimStart(); setName(e.target.value.trimStart()) }} />
             <div className="flex justify-end items-center w-full gap-1">
                 <button onClick={() => setPrompt(null)} className={"btn  text-title scale-50 " + (loading ? " hidden " : " btn-ghost ")}>CANCEL</button>
-                <button className={"btn text-title scale-50 " + (loading ? " loading btn-disabled " : " btn-primary ")} onClick={() => click()} >{buttonValue}</button>
+                <button className={"btn text-title scale-50 " + (loading ? " btn-disabled " : " btn-primary ")} onClick={() => click()} >{loading ? <span className="loading loading-spinner"></span> : buttonValue}</button>
             </div>
         </div>
     )

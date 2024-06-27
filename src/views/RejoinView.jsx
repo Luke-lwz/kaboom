@@ -50,7 +50,7 @@ function RejoinView({ }) {
     }
 
     return (!manualInput ?
-        <button className="btn btn-ghost w-full noskew loading flex justify-center items-center"></button>
+        <button className="loading loading-spinner"></button>
         :
         <div>
             <h1 className="text-title w-full text-center p-4 text-primary text-2xl font-extrabold">KABOOM</h1>

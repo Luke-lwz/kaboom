@@ -345,7 +345,7 @@ function PlaysetView({ }) {
     }, [id, user])
 
 
-    if (isLoading) return <div className="w-full flex flex-col">
+    if (isLoading) return <div className="w-full flex flex-col items-center">
         <TitleBar titleElement={
             <>
                 <BsCassetteFill className="text-2xl md:text-3xl" />

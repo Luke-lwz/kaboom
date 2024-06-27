@@ -315,7 +315,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
         <div className='flex flex-col justify-start items-center w-full h-full scrollbar-hide '>
             <div className="flex flex-row justify-center items-center p-3 w-full relative h-[5.2rem]">
                 {!conn ? <div onClick={() => window.location.href = window.location.href} className="drop-shadow-sm clickable w-10 h-full absolute top-0 bottom-0 left-5 z-20 btn-base-100 flex items-center justify-center text-error text-3xl rounded-full  unskew font-bold">
-                    {conn === null ? <IoCloudOfflineOutline /> : <div className='btn btn-circle btn-ghost loading noskew text-neutral' />}
+                    {conn === null ? <IoCloudOfflineOutline /> : <span className='loading loading-spinner' />}
                 </div>
                     :
                     <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm dropdown z-20'>
@@ -352,7 +352,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
         :
 
         <div className='flex flex-col justify-start items-center w-full mt-64'>
-            <button className='btn btn-ghost btn-wide loading noskew'></button>
+            <span className='loading loading-spinner'></span>
             {/* <button className='btn mt-6' onClick={() => window.location.href = window.location.href}>Reload</button> */}
             <a className='btn btn-ghost link font-bold clickable' href="/">Leave</a>
 

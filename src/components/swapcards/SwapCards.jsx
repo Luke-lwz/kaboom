@@ -36,7 +36,7 @@ function Ava ({config, loading}) {
     return (
         <div className={'h-16 w-16 relative'}>
             <Avatar {...config} className="w-full h-full" />
-            {loading && <div style={{borderRadius: "9999px"}} className='absolute inset-0 btn btn-ghost btn-circle loading w-full h-full noskew bg-black/30 text-white font-extrabold '/>}
+            {loading && <div style={{borderRadius: "9999px"}} className='absolute inset-0 btn btn-ghost btn-circle  w-full h-full noskew bg-black/30 text-white font-extrabold '><span className='loading loading-spinner'/></div>}
         </div>
     )
 }
