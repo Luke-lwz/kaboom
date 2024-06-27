@@ -56,7 +56,7 @@ function PlaysetQueryList(props) {
 
 
     const queryFn = useCallback(async ({ queryKey, pageParam }) => {
-        console.log("querying 🚨")
+        console.log("querying 🚨", pageParam)
         const [name, userId, devMode, playerNumber, refetchEveryTime, extraSelect, ...activeToggles] = queryKey;
 
 
@@ -155,6 +155,7 @@ function PlaysetQueryList(props) {
     const {
         data,
         fetchNextPage,
+        hasNextPage,
         isLoading,
         isError,
         isFetching,
@@ -170,12 +171,15 @@ function PlaysetQueryList(props) {
 
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
+            if (lastPage?.length <= 0) return undefined;
             return pages?.length * elementsPerPage;
         },
         enabled: !logInToUse
     })
 
     const loading = isLoading || _loading;
+
+
 
 
     const { playsets, concatenatedPlaysets } = useMemo(() => {
@@ -194,7 +198,7 @@ function PlaysetQueryList(props) {
             const inHandler = (entry, unobserve, targetEl) => {
                 // console.log('In viewport')
                 const length = concatenatedPlaysets?.length;
-                if (length % elementsPerPage !== 0 || length <= 0 || !infinite || isFetching) return; // 🚨❌❌ needs change, isnt foolproof
+                if (!hasNextPage || length <= 0 || !infinite || isFetching) return; // 🚨❌❌ needs change, isnt foolproof
                 fetchNextPage()
             }
 
@@ -224,7 +228,7 @@ function PlaysetQueryList(props) {
 
 
 
-    }, [loaderRef.current, concatenatedPlaysets, fetchNextPage, infinite, isFetching])
+    }, [loaderRef.current, concatenatedPlaysets, fetchNextPage, infinite, isFetching, hasNextPage])
 
 
 
