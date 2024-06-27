@@ -360,6 +360,7 @@ function HomeView({ }) {
         <div className="flex flex-col justify-start items-center scrollbar-hide h-full w-full gap-4 overflow-y-scroll overflow-x-hidden pb-24">
 
             {(displayUseSafari || devMode) && <div className="w-full max-w-2xl p-4 gap-4 flex flex-col items-center pb-0">
+                <InfoBanner className={"bg-purple-400"}>Server Maintenance</InfoBanner>
                 {displayUseSafari && <UseSafariBanner />}
                 {devMode && <DevModeBanner />}
             </div>}
