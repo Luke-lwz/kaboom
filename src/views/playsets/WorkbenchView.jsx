@@ -587,10 +587,10 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
         console.log("lol")
         setReloading(true);
         setTimeout(() => setReloading(false), 500)
-        const cardsForPlayset =  getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury })
+        const cardsForPlayset =  getCardsForPlayset({ maximizedPlayset: playset, playerCount, playWithBury })
 
         console.log("ööö", cardsForPlayset)
-        return cardsForPlayset
+        return cardsForPlayset || { cards: [], soberCard: null }
     }, [playset, playerCount, playWithBury, reloader])
 
 

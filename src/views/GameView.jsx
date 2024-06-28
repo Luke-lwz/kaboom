@@ -557,10 +557,20 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         var gameData = generateGame(players.current.length);
 
+        console.log("ööö temp", game_data)
 
-        console.log(await getPlaysetById(game_data?.playsetId))
 
-        var { cards, soberCard } = getCardsForPlayset({ ...game_data, playset: maximizePlayset(await getPlaysetById(game_data?.playsetId)) });
+        const playset = await getPlaysetById(game_data?.playsetId)
+
+        if (!playset) {
+            toast.error("Playset not found.")
+            return closeRoom(true);
+        }
+
+        const playWithBury = game_data?.playWithBury || false;
+
+
+        var { cards, soberCard } = getCardsForPlayset({ playerCount: players?.current?.length, playset: maximizePlayset(playset), playWithBury });
 
         console.log(cards)
 
@@ -828,10 +838,10 @@ function HostGame({ me, setMe, code, setScreen }) {
     }
 
 
-    function closeRoom() {
+    function closeRoom(force = false) {
 
-
-        setPrompt({ title: "Are you sure?", text: "This will delete all progress and player connections.", onApprove: close })
+        if (force) close()
+        else setPrompt({ title: "Are you sure?", text: "This will delete all progress and player connections.", onApprove: close })
 
 
         function close() {

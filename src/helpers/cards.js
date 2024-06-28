@@ -91,7 +91,167 @@ export const CARD_COLORS = {
   },
 };
 
-export function getCardsForPlayset(game_data) {
+export function getCardsForPlayset({
+  playerCount: _playerCount,
+  maximizedPlayset,
+  playWithBury,
+}) {
+  if (!maximizedPlayset) return null;
+  const playerCount = _playerCount + (playWithBury ? 1 : 0); // bury is one extra player // buried card will be last in array
+
+  var { primaries, cards, odd_card, shuffle, default_cards } = maximizedPlayset;
+
+  var out_cards = primaries || [];
+
+  const cardsNeededCount = playerCount - out_cards.length; // minus the primaries
+
+
+  const allCards = [odd_card, ...cards]; // cards are maximized // important that gambler is in the beginning
+
+  let defaultCardsHowManyPairsToAdd = 0;
+  if (allCards.length < playerCount) {
+    // if there are more players than cards
+    const n =  playerCount - allCards?.length; // how many players more than cards
+    defaultCardsHowManyPairsToAdd = Math.ceil(n / 2); // how many pairs to add
+  }
+
+  if (defaultCardsHowManyPairsToAdd > 0) {
+    const defaultCards = default_cards || [
+      getCardFromId("b000"),
+      getCardFromId("r000"),
+    ];
+
+    for (let i = 0; i < defaultCardsHowManyPairsToAdd; i++) {
+      allCards.push(defaultCards[0]);
+      allCards.push(defaultCards[1]);
+    }
+  }
+
+
+  console.log("üüüüüüüüüüüüüüüüüüüü-------", allCards)
+
+
+
+
+  const allCardsPaired = pairUpCardsFromPool(allCards);
+
+  const cardPairsStats = [
+    /*
+    {
+      pairLength: 1,
+      count: 0,
+    },
+    ...
+    */
+  ];
+
+  allCardsPaired.forEach((pair) => {
+    const pairLength = pair.length;
+    var foundStat = false;
+    for (let i = 0; i < cardPairsStats.length; i++) {
+      const stat = cardPairsStats[i];
+      if (stat.pairLength === pairLength) {
+        foundStat = true;
+        stat.count++;
+      }
+    }
+    if (!foundStat) {
+      cardPairsStats.push({
+        pairLength,
+        count: 1,
+      });
+    }
+  });
+
+  const combinations = getAllPairCombinationsToReachPlayerCount(
+    cardPairsStats,
+    playerCount
+  );
+
+
+  // 🚨 hier weiter machen
+  console.log("üüüüü", cardPairsStats, playerCount, combinations);
+
+  
+
+  console.log("üüüü öö", allCardsPaired);
+}
+
+export function pairUpCardsFromPool(cards) {
+  var cardsLeft = [...cards];
+  var pairedCards = [];
+
+  while (cardsLeft.length > 0) {
+    let card = cardsLeft[0];
+    let links = card?.links || [];
+    if (card?.color_name === "red")
+      links = [card?.id?.replace("r", "b"), ...links];
+    if (card?.color_name === "blue")
+      links = [card?.id?.replace("b", "r"), ...links];
+
+    console.log("links üü", links);
+
+    const pickedFromIndexes = []; // indexes where the matching linked cards were first found
+    const linksMaximized = links
+      .map((l) => {
+        for (let i = 1; i < cardsLeft.length; i++) {
+          const card = cardsLeft[i];
+          if (card?.id === l) {
+            pickedFromIndexes.push(i);
+            return card;
+          }
+        }
+        return null;
+      })
+      ?.filter((c) => c); // removes nulls
+
+    pickedFromIndexes.forEach((i) => cardsLeft.splice(i, 1)); // removes the cards from the pool
+    cardsLeft.splice(0, 1); // removes the card from the pool
+
+    const cardPair = [card, ...linksMaximized];
+
+    console.log("üüüää", cardPair);
+
+    pairedCards.push(cardPair);
+  }
+
+  return pairedCards;
+}
+
+function getAllPairCombinationsToReachPlayerCount(
+  cardPairsStats,
+  playerCount
+) {
+  const results = [];
+
+  function findCombinations(currentCombination, currentCount, index, counts) {
+    if (currentCount === playerCount) {
+      results.push([...currentCombination]);
+      return;
+    }
+
+    if (currentCount > playerCount) {
+      return;
+    }
+
+    for (let i = index; i < cardPairsStats.length; i++) {
+      const { pairLength, count } = cardPairsStats[i];
+      if (counts[i] > 0) {
+        currentCombination.push(pairLength);
+        counts[i]--;
+        findCombinations(currentCombination, currentCount + pairLength, i, counts);
+        counts[i]++;
+        currentCombination.pop();
+      }
+    }
+  }
+
+  const initialCounts = cardPairsStats.map(stat => stat.count);
+  findCombinations([], 0, 0, initialCounts);
+  return results;
+}
+
+export function getCardsForPlaysetOld(game_data) {
   var { players, playset, playWithBury } = game_data;
 
   var { primaries, cards, odd_card, shuffle, default_cards } = playset;
@@ -224,8 +384,7 @@ export function getCardsForPlayset(game_data) {
     out_cards.push(cards[i]);
   }
 
-console.log("lol2")
-
+  console.log("lol2");
 
   // chooses buried cards
   if (playWithBury) {
@@ -423,7 +582,7 @@ export function pairUpCards(allCards) {
 
   while (cardsLeft.length > 0) {
     let card = cardsLeft[0];
-    let cardPair = getLinkedCardsPaired(card);
+    let cardPair = getLinkedCardsPaired(card, cards);
 
     for (let i = 0; i < cardPair.length; i++) {
       let c = cardPair[i];
