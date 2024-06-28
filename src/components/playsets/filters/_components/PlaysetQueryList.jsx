@@ -67,7 +67,7 @@ function PlaysetQueryList(props) {
         create or replace view
   public.all_playsets_view with(security_invoker=true) as
 select
-  p.id as playset_id,
+  p.id,
   p.created_at,
   p.updated_at,
   p.name,
@@ -83,7 +83,7 @@ select
   p.force_bury,
   p.difficulty,
   p.players,
-  p.user_id as playset_creator_id,
+  p.user_id,
   p.remixed_from,
   p.color,
   p.description,
