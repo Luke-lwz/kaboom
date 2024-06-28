@@ -141,7 +141,6 @@ export function getCardsForPlayset(game_data) {
     if (playWithBury && odd_card) cards.push(odd_card);
     else if (length % 2 === 1 && odd_card) cards.push(odd_card);
   }
-
   if (shuffle) {
     // shuffles in pairs
     var cards = [...cards.sort((a, b) => 0.5 - Math.random())];
@@ -224,6 +223,9 @@ export function getCardsForPlayset(game_data) {
   for (let i = 0; i < length; i++) {
     out_cards.push(cards[i]);
   }
+
+console.log("lol2")
+
 
   // chooses buried cards
   if (playWithBury) {

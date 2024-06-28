@@ -12,7 +12,7 @@ function PlayerNumberFilter({ onClear = () => {}, onChange = () => {}, currentVa
             <h1 className={"text-xl font-extrabold tracking-tighter"}>Filter player number</h1>
             <RangeCounter min={"6"} value={number} onChange={setNumber} />
             <div className='w-full flex items-center justify-end gap-2'>
-                <button onClick={() => onClear()} className={'btn ' + (!currentValue ? " btn-disabled " : "")}>Clear</button>
+                <button onClick={() => onClear()} className={'btn bg-black text-white ' + (!currentValue ? " btn-disabled " : " ")}>Clear</button>
                 <button onClick={() => onChange(parseInt(number))} className='btn btn-primary'>Apply</button>
             </div>
         </div>

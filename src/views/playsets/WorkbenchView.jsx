@@ -574,6 +574,8 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
 
 export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
+    const {devMode} = useContext(PageContext);
+
     const [playerCount, setPlayerCount] = useState(11);
     const [playWithBury, setPlayWithBury] = useState(false);
 
@@ -582,13 +584,17 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
     const [reloader, setRealoader] = useState([])
 
     const { cards, soberCard } = useMemo(() => {
+        console.log("lol")
         setReloading(true);
         setTimeout(() => setReloading(false), 500)
-        return getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury })
+        const cardsForPlayset =  getCardsForPlayset({ playset, players: Array(playerCount).fill(0), playWithBury })
+
+        console.log("ööö", cardsForPlayset)
+        return cardsForPlayset
     }, [playset, playerCount, playWithBury, reloader])
 
 
-    const cardsPlusSober = useMemo(() => ([...cards, soberCard]), [cards, soberCard])
+    const cardsPlusSober = useMemo(() => ([...cards, soberCard]?.filter(c => c)), [cards, soberCard])
 
 
 
@@ -645,6 +651,10 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
                 </ShuffledInCardDummy>)}
                 {playset?.odd_card && <ShuffledInCardDummy disabled={!cardsPlusSober?.includes(playset?.odd_card?.id)} key={playset?.odd_card?.id} card={playset?.odd_card} areaId="odd" />}
             </div>
+            {devMode && <div className="w-full flex flex-wrap gap-2 px-2.5 pb-4">
+                {cardsPlusSober?.map((card, i) => <ShuffledInCardDummy key={i} card={getCardFromId(card)} />)}
+            </div>}
+            
             <p className="w-full text-sm -mt-4">Cards in game: {cards?.length}</p>
             <div className="grid grid-cols-2 gap-2 w-full">
                 {buriedCard && <div className="flex flex-col w-full items-center justify-center gap-2 text-lg font-bold">

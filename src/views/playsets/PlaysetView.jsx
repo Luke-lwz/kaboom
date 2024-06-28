@@ -83,6 +83,7 @@ function PlaysetView({ }) {
 
 
     const playsetMaximized = useMemo(() => {
+        console.log(playset, "äää")
         return maximizePlayset(playset)
     }, [playset])
 
