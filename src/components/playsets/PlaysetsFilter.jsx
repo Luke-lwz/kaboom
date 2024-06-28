@@ -156,7 +156,7 @@ export default function PlaysetsFilter({ onPlaysetClick = (playset) => { } }) {
     const [activeTab, setActiveTab] = useState(lastActiveTab || TABS[0])
     const [activeSubTab, setActiveSubTab] = useState(lastActiveSubTab || null)
 
-    const [search, setSearch] = useState(null);
+    const [search, setSearch] = useLocalStorage("playsets-filter-search-string", null);
 
 
     const debouncedSearch = useDebounce(search, 1000);
