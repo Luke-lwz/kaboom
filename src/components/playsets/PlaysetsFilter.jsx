@@ -33,23 +33,23 @@ const TABS = [
         icon: <MdOutlineWbIridescent className="text-base" />,
         filterFn: (query) => query.order("created_at", { ascending: false })
     },
-    {
-        name: "Hot",
-        value: "hot",
-        color: "#f72b02",
-        icon: <GiFireBomb className="text-base" />,
-        filterFn: (query) => {
-            const startOfMonth = moment().subtract(1, "month").startOf('day').toISOString(true);
-            return query
-            .order("count", { ascending: false, referencedTable: "upvote_count" })
-        }
-    },
+    // {
+    //     name: "Hot",
+    //     value: "hot",
+    //     color: "#f72b02",
+    //     icon: <GiFireBomb className="text-base" />,
+    //     filterFn: (query) => {
+    //         const startOfMonth = moment().subtract(1, "month").startOf('day').toISOString(true);
+    //         return query
+    //         .order("count", { ascending: false, referencedTable: "upvote_count" })
+    //     }
+    // },
     {
         name: "Top",
         value: "top",
         color: "#0019fd",
         icon: <IoArrowUp className="text-base" />,
-        filterFn: (query) => query.order("upvote_count->count", { ascending: false })
+        filterFn: (query) => query.order("upvote_count", { ascending: false })
     },
     // {
     //     name: "Random",
@@ -74,7 +74,7 @@ const TABS = [
                 value: "my-bookmarks",
                 color: "#eb34c0",
                 icon: <IoBookmark className="text-sm mr-0.5" />,
-                filterFn: (query) => query.eq("interaction.bookmark", true).not("interaction", "is", null).order("updated_at", { ascending: false, referencedTable: "interaction" }),
+                filterFn: (query) => query.eq("user_bookmarked", true).order("user_interaction_updated_at", { ascending: false }),
                 needsLogin: true
             },
             {
