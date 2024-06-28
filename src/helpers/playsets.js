@@ -150,7 +150,11 @@ export function allCardsInRow(playset) {
   const primaries = playset?.primaries || [];
   const default_cards = playset?.default_cards || [];
 
-  return [...cards, ...primaries, odd_card, ...default_cards]
+  const allCardsInRow =  [...cards, ...primaries, odd_card, ...default_cards]
     .filter((c) => c !== null)
     .map((c) => getCardFromId(c?.id || c));
+
+    // console.log(JSON.stringify(allCardsInRow?.map(c => c?.id)))
+
+    return allCardsInRow;
 }
