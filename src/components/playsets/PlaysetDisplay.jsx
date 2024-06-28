@@ -40,30 +40,46 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
 
 
     const { user, checkAuth } = useContext(PageContext);
+
+
     const {
-        cards,
-        default_cards,
-        updated_at,
-        primaries,
-        odd_card,
-        color: _color,
-        created_at,
-        description,
-        difficulty,
-        downvote_count: downvote_count_object,
-        upvote_count: upvote_count_object,
-        emoji,
         id,
+        created_at,
+        updated_at,
         name,
-        force_bury,
-        no_bury,
-        interaction: interactions_array,
-        max_players,
+        odd_card,
         min_players,
-        playsets_metadata = {},
-        remixed_from,
-        shuffle,
+        max_players,
+        primaries = [
+            "b001",
+            "r001"
+        ],
+        cards,
+        default_cards = [
+            "b000",
+            "r000"
+        ],
+        emoji = "🎲",
+        shuffle = true,
+        no_bury = false,
+        force_bury = false, 
+        difficulty = 2,
+        players,
         user_id,
+        remixed_from,
+        color: _color,
+        description,
+        verified = false,
+        official = false,
+        hidden = false,
+        hidden_reason,
+        dev = false,
+        upvote_count = 0,
+        downvote_count = 0,
+        user_upvote,
+        user_bookmarked,
+        user_interaction_updated_at
+
     } = playset || {};
 
 
@@ -71,12 +87,6 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         return id?.length < 10
     }, [quickActions, id])
 
-    const {
-        verified = false,
-        official = false,
-        hidden = false,
-        dev = false
-    } = useMemo(() => playsets_metadata || {}, [playsets_metadata]);
 
     const color = useMemo(() => {
         if (dev) return "#d1a32a";
@@ -86,7 +96,17 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     }, [_color, official, verified, dev])
 
 
-    const [fetchedInteractions, setFetchedInteractions] = useState(false);
+    const [fetchedInteractions, setFetchedInteractions] = useState(null);
+
+    const {
+        bookmarked: _bookmarked,
+        upvote: _upvote,
+    } = useMemo(() => {
+        const bookmarked = fetchedInteractions?.bookmark || user_bookmarked;
+        const upvote = fetchedInteractions?.upvote || user_upvote;
+        return { bookmarked, upvote };
+    }, [fetchedInteractions, user_bookmarked, user_upvote])
+
 
     useEffect(() => {
         if (user?.id && id && autoFetchInteractions && !noQuickActions) {
@@ -112,42 +132,23 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
     }
 
 
-    const { votes, myVote_default = 0, bookmarked_default = false } = useMemo(() => {
-        if (!playset) return {};
-        const downvote_count = downvote_count_object?.[0]?.count || 0;
-        const upvote_count = upvote_count_object?.[0]?.count || 0;
-
-        const interaction = interactions_array?.[0] || {};
-
-        const {
-            bookmark: bookmarked,
-            upvote = null
-        } = fetchedInteractions || interaction;
-
-        let myVote = (upvote);
-
-
-        const votes = upvote_count - downvote_count + (myVote === null ? 0 : myVote ? -1 : 1);
-
-
-
-
-        return { votes, myVote_default: myVote, bookmarked_default: bookmarked };
-    }, [playset, downvote_count_object, upvote_count_object, interactions_array, fetchedInteractions])
-
-
     const [open, setOpen] = useState(forceOpen || false);
 
-    const [bookmarked, setBookmarked] = useState(bookmarked_default || false);
-    const [myVote, setMyVote] = useState(myVote_default);
+    const [bookmarked, setBookmarked] = useState(_bookmarked || false);
+    const [myVote, setMyVote] = useState(_upvote);
+
+    const votes = useMemo(() => {
+        if (user_upvote !== myVote) return upvote_count - downvote_count + (myVote === null ? 0 : myVote ? 1 : -1) - (user_upvote === null ? 0 : user_upvote ? 1 : -1);
+        return upvote_count - downvote_count;
+    }, [upvote_count, downvote_count, myVote, user_upvote])
 
     useEffect(() => {
-        setMyVote(myVote_default);
-    }, [myVote_default])
+        setMyVote(_upvote);
+    }, [_upvote])
 
     useEffect(() => {
-        setBookmarked(bookmarked_default);
-    }, [bookmarked_default])
+        setBookmarked(_bookmarked);
+    }, [_bookmarked])
 
     const height = useMemo(() => { // in rem
         if (!playset) return 0;
@@ -203,6 +204,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
         // optimistic
         var initalValue = vote;
         setMyVote(v => { initalValue = v; return vote });
+        
 
         const { data, error } = await supabase
             .from("interactions")
@@ -211,7 +213,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                 user_id: user?.id,
                 upvote: vote,
             })
-            .select();
+            .select("upvote");
 
         if (error || !data?.[0]) {
             toast.error("Something went wrong");
@@ -237,7 +239,7 @@ function PlaysetDisplay({ onClick = () => { }, playset, disabled = false, forceO
                 user_id: user?.id,
                 bookmark: mark,
             })
-            .select();
+            .select("bookmark");
         if (error || !data?.[0]) {
             toast.error("Something went wrong");
             setBookmarked(initalValue);
@@ -356,7 +358,7 @@ function InteractionRowBlock({ id = "t0001", quickActions, votes, myVote, bookma
     var profile = {}; // temp
     return (
         <div className="flex items-center gap-2 px-4 justify-between w-full h-8 text-lg sm:text-base -translate-y-1">
-            {quickActions?.vote && <VoteComponent upvote={myVote} onChange={onVoteChange} count={votes + (myVote === null ? 0 : (myVote ? 1 : -1))} />}
+            {quickActions?.vote && <VoteComponent upvote={myVote} onChange={onVoteChange} count={votes} />}
             {quickActions?.workbench && <FaTools onClick={() => smoothNavigate(`/workbench/${id}`)} className="clickable hover:scale-100 scale-[.80] hover:text-secondary hover:rotate-[365deg]" title="Workbench" />}
             {quickActions?.open && <a target="_blank" href={`/playsets/${id}`}><FiExternalLink className="clickable hover:scale-105 hover:text-purple-600 " title="Open" /></a>}
 

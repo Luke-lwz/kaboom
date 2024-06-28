@@ -66,7 +66,7 @@ export async function getPlaysetById(id, user_id, options = {}) {
   playset = internalPlaysets.filter((p) => p.id === id)?.[0] || null;
   if (!playset) {
     // local storage cache
-    playset = JSON.parse(localStorage.getItem("cached-playset-" + id));
+    playset = JSON.parse(localStorage.getItem("cached-playset-" + (user_id || "") + id));
   }
   if (!playset || ignoreCache) {
     // supabase + cache after
@@ -81,16 +81,8 @@ export async function getPlaysetById(id, user_id, options = {}) {
 }
 async function fetchAndCachePlayset(id, user_id) {
   let { data: playsetData, error } = await supabase
-    .from("playsets")
-    .select(
-      `*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count)`
-    ) // ,user:users_id(*)
-    .eq(
-      "interaction.user_id",
-      user_id?.length > 4 ? user_id :  "00000000-0000-0000-0000-000000000000"
-    )
-    .eq("upvote_count.upvote", true)
-    .eq("downvote_count.upvote", false)
+    .from("all_playsets_view")
+    .select(`*` + extraSelect)
     .single()
     .limit(1)
     .eq("id", id);
@@ -99,7 +91,7 @@ async function fetchAndCachePlayset(id, user_id) {
 
   if (playsetData) {
     const playset = playsetData;
-    localStorage.setItem("cached-playset-" + id, JSON.stringify(playset));
+    localStorage.setItem("cached-playset-" + (user_id || "") + id, JSON.stringify(playset));
   }
 
   return playsetData;

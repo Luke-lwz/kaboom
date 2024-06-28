@@ -33,19 +33,17 @@ const TABS = [
         icon: <MdOutlineWbIridescent className="text-base" />,
         filterFn: (query) => query.order("created_at", { ascending: false })
     },
-    // {
-    //     name: "Hot",
-    //     value: "hot",
-    //     color: "#f72b02",
-    //     icon: <GiFireBomb className="text-base" />,
-    //     filterFn: (query) => {
-    //         const startOfMonth = moment().subtract(1, "month").startOf('day').toISOString(true);
-    //         return query
-    //         .gte('interactions.created_at', startOfMonth)
-    //         .eq('interactions.upvote', true)
-    //         .order("upvote_count", { ascending: false })
-    //     }
-    // },
+    {
+        name: "Hot",
+        value: "hot",
+        color: "#f72b02",
+        icon: <GiFireBomb className="text-base" />,
+        filterFn: (query) => {
+            const startOfMonth = moment().subtract(1, "month").startOf('day').toISOString(true);
+            return query
+            .order("count", { ascending: false, referencedTable: "upvote_count" })
+        }
+    },
     {
         name: "Top",
         value: "top",
@@ -76,7 +74,7 @@ const TABS = [
                 value: "my-bookmarks",
                 color: "#eb34c0",
                 icon: <IoBookmark className="text-sm mr-0.5" />,
-                filterFn: (query) => query.eq("interaction.bookmark", true).not("interaction", "is", null),
+                filterFn: (query) => query.eq("interaction.bookmark", true).not("interaction", "is", null).order("updated_at", { ascending: false, referencedTable: "interaction" }),
                 needsLogin: true
             },
             {
@@ -84,8 +82,8 @@ const TABS = [
                 value: "my-recent",
                 color: "#eb34c0",
                 icon: <MdHistory className="text-base mr-0.5" />,
-                extraSelect: ",games_played(id)",
-                filterFn: (query) => query.not("games_played", "is", null),
+                extraSelect: ",games_played(id,created_at)",
+                filterFn: (query) => query.not("games_played", "is", null).order("created_at", { ascending: false, referencedTable: "games_played" }),
                 needsLogin: true
             },
             {
@@ -95,7 +93,7 @@ const TABS = [
                 icon: <BsCassetteFill className="text-sm mr-0.5" />,
                 filterFn: (query, queryKey) => {
                     const [name, userId] = queryKey;
-                    return query.eq("user_id", userId)
+                    return query.eq("user_id", userId).order("updated_at", { ascending: false })
                 },
                 needsLogin: true
 

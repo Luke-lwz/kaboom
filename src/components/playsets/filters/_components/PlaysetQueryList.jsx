@@ -63,12 +63,97 @@ function PlaysetQueryList(props) {
         const offset = pageParam || 0;
         const limit = elementsPerPage;
 
+        /* new view in postgres
+        create or replace view
+  public.all_playsets_view with(security_invoker=true) as
+select
+  p.id as playset_id,
+  p.created_at,
+  p.updated_at,
+  p.name,
+  p.odd_card,
+  p.min_players,
+  p.max_players,
+  p.primaries,
+  p.cards,
+  p.default_cards,
+  p.emoji,
+  p.shuffle,
+  p.no_bury,
+  p.force_bury,
+  p.difficulty,
+  p.players,
+  p.user_id as playset_creator_id,
+  p.remixed_from,
+  p.color,
+  p.description,
+  pm.verified,
+  pm.official,
+  pm.hidden,
+  pm.hidden_reason,
+  pm.dev,
+  (
+    select
+      count(*) as count
+    from
+      interactions
+    where
+      interactions.playset_id = p.id
+      and interactions.upvote = true
+  ) as upvote_count,
+  (
+    select
+      count(*) as count
+    from
+      interactions
+    where
+      interactions.playset_id = p.id
+      and interactions.upvote = false
+  ) as downvote_count,
+  (
+    select
+      interactions.upvote
+    from
+      interactions
+    where
+      interactions.playset_id = p.id
+      and interactions.user_id = auth.uid ()
+  ) as user_upvote,
+  (
+    select
+      interactions.bookmark
+    from
+      interactions
+    where
+      interactions.playset_id = p.id
+      and interactions.user_id = auth.uid ()
+  ) as user_bookmarked,
+  (
+    select
+      interactions.updated_at
+    from
+      interactions
+    where
+      interactions.playset_id = p.id
+      and interactions.user_id = auth.uid ()
+  ) as user_interaction_updated_at
+from
+  playsets p
+  left join playsets_metadata pm on p.id = pm.id
+
+
+        */
+
+
+//   const {data: view_data, error: view_error} = await supabase
+//     .from('all_playsets_view')
+//     .select(`*`)
+
+//     console.log("view_data  äää", view_data)
+
         var query = supabase
-            .from('playsets')
-            .select(`*,playsets_metadata(*),interaction:interactions(*),upvote_count:interactions(count),downvote_count:interactions(count),i_count:interactions(upvote.count())` + extraSelect)
-            .eq('upvote_count.upvote', true)
-            .eq('downvote_count.upvote', false)
-            .eq('interaction.user_id', userId || "00000000-0000-0000-0000-000000000000")
+            .from('all_playsets_view')
+            .select(`*` + extraSelect)
 
 
             // add the limit and offset

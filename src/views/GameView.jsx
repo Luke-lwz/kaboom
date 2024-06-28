@@ -1577,7 +1577,7 @@ function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
 
                 <ReadyButton onReady={onReady} />
 
-                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-black mt-2 cursor-pointer'>Force next round</div>}
+                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-white mt-2 cursor-pointer'>Force next round</div>}
             </div>
         </div>
     )
@@ -1601,7 +1601,7 @@ function ReadyButton({ onReady, className = "" }) {
 
 
 function Li({ children, title, delay = 0 }) {
-    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-black/90 p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
+    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-white text-black p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
         <h1 className='font-bold text-2xl'>{title}</h1>
         <p className='text-sm font-light -mt-1.5'>{children}</p>
     </div>)
