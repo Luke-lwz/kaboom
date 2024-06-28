@@ -61,7 +61,9 @@ export function getAllPlaysetsArray() {
 export async function getPlaysetById(id, user_id, options = {}) {
   const { refreshInBackground = false, ignoreCache = false } = options;
 
+
   var playset;
+  var hasFetchedAlready = false;
   const internalPlaysets = getAllPlaysetsArray();
   playset = internalPlaysets.filter((p) => p.id === id)?.[0] || null;
   if (!playset) {
@@ -73,21 +75,23 @@ export async function getPlaysetById(id, user_id, options = {}) {
 
     playset = await fetchAndCachePlayset(id, user_id);
 
-    console.log(playset);
+    if (playset) hasFetchedAlready = true;
+
   }
 
-  if (refreshInBackground) fetchAndCachePlayset(id, user_id);
+  if (refreshInBackground && !hasFetchedAlready) fetchAndCachePlayset(id, user_id);
   return playset || null;
 }
 async function fetchAndCachePlayset(id, user_id) {
   let { data: playsetData, error } = await supabase
     .from("all_playsets_view")
-    .select(`*` + extraSelect)
+    .select(`*`)
+    .eq("id", id)
     .single()
     .limit(1)
-    .eq("id", id);
 
   //   console.log(error, playsetData);
+
 
   if (playsetData) {
     const playset = playsetData;

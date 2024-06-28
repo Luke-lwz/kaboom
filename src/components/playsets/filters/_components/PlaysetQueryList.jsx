@@ -251,7 +251,7 @@ from
         cacheTime: 1000 * 60 * 5, // 5 minutes
         refetchOnMount: devMode || refetchEveryTime || user?.id,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
+        refetchOnReconnect: true,
         retry: false,
 
         initialPageParam: 0,

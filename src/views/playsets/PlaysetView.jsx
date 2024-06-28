@@ -33,7 +33,7 @@ function PlaysetView({ }) {
     if (!id) smoothNavigate("/playsets")
 
 
-    const { data: playset, isLoading, refetch } = useQuery({ queryKey: ["playset", id, user?.id], queryFn: fetchPlayset })
+    const { data: playset, isLoading, refetch } = useQuery({ queryKey: ["playset", id, user?.id], queryFn: fetchPlayset, refetchOnWindowFocus: false, retry: false})
     const [bookmarked, setBookmarked] = useState(false);
 
     const [verified, setVerified] = useState(false);
@@ -46,9 +46,9 @@ function PlaysetView({ }) {
     const [createPeer, setCreatePeer] = useState();
 
 
-    function fetchPlayset({ queryKey }) {
+    async function fetchPlayset({ queryKey }) {
         const [, id, user_id] = queryKey;
-        const playset = getPlaysetById(id, user_id, { ignoreCache: true });
+        const playset = await getPlaysetById(id, user_id, { ignoreCache: true });
 
         if (id && !playset) smoothNavigate("/playsets")
 
@@ -70,17 +70,14 @@ function PlaysetView({ }) {
 
     useEffect(() => {
         if (playset) {
-            const interaction = playset?.interaction?.[0] || {};
-            setBookmarked(interaction?.bookmark || false);
+            setBookmarked(playset?.user_bookmarked || false);
+            const { verified, official, hidden, hidden_reason, dev } = playset;
+            setVerified(verified);
+            setOfficial(official);
+            setGhost(hidden);
+            setDev(dev);
+            setHiddenReason(hidden_reason);
 
-            if (playset?.playsets_metadata) {
-                const { verified, official, hidden, hidden_reason, dev } = playset?.playsets_metadata;
-                setVerified(verified);
-                setOfficial(official);
-                setGhost(hidden);
-                setDev(dev);
-                setHiddenReason(hidden_reason);
-            }
         }
     }, [playset])
 
@@ -378,7 +375,7 @@ function PlaysetView({ }) {
                             {official && <OfficialPlaysetBanner />}
                         </>}
                         {ghost && <GhostPlaysetBanner onClick={() => {
-                            setMenu(<HiddenPlaysetReasonMenu reason={hiddenReason}/>)
+                            setMenu(<HiddenPlaysetReasonMenu reason={hiddenReason} />)
                         }} />}
 
                     </div>
@@ -436,10 +433,9 @@ function PlaysetView({ }) {
                             e.preventDefault();
                             const textArea = document.getElementById("hidden-reason-admin-text");
                             const text = textArea?.value;
-                            console.log("text", text)
                             handleReason(text);
                         }} className="w-full flex flex-col">
-                            <textarea autoFocus id="hidden-reason-admin-text" defaultValue={hiddenReason || ""}  className="border-2 border-neutral rounded-xl p-2 text-sm" />
+                            <textarea autoFocus id="hidden-reason-admin-text" defaultValue={hiddenReason || ""} className="border-2 border-neutral rounded-xl p-2 text-sm" />
                             <div className="w-full flex items-center gap-2 justify-between text-normal mt-2">
                                 <button className="btn btn-ghost noskew btn-sm" onClick={() => handleReason(null)}><FaTrash className="skew text-error" /></button>
 
@@ -480,7 +476,7 @@ function OfficialPlaysetBanner() {
 }
 
 
-function GhostPlaysetBanner({onClick}) {
+function GhostPlaysetBanner({ onClick }) {
     return (
         <InfoBanner onClick={onClick} size="sm" style={{ backgroundColor: "#0bcae3" }} className={"pl-3 pr-2 text-normal"} endElement={
             <button style={{ color: "#0bcae3" }} className="btn btn-xs  bg-white hover:bg-white border-none noskew">reason</button>
