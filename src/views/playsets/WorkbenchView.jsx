@@ -130,7 +130,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
     const [emoji, setEmoji] = useState(startingPlayset?.emoji || "🎲");
     const [name, setName] = useState(startingPlayset?.name || "");
     const [description, setDescription] = useState(startingPlayset?.description || "");
-    const [shuffle, setShuffle] = useState(startingPlayset ? startingPlayset?.shuffle || true : true);
+    const [shuffle, setShuffle] = useState(startingPlayset ? startingPlayset?.shuffle : true);
     const [minPlayers, setMinPlayers] = useState(startingPlayset?.min_players || 6);
     const [maxPlayers, setMaxPlayers] = useState(startingPlayset?.max_players || 30);
     const [buryOption, setBuryOption] = useState(startingPlayset ? startingPlayset?.no_bury ? "never" : startingPlayset?.force_bury ? "always" : "auto" : "auto");
@@ -167,6 +167,8 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
             name,
             description,
             players: `${minPlayers}-${maxPlayers}`,
+            min_players: minPlayers,
+            max_players: maxPlayers,
             emoji,
             primaries: crackOpenPairs(primaries).map((cid) => getCardFromId(cid)),
             cards: crackOpenPairs(generalCards).map((cid) => getCardFromId(cid)),
@@ -574,7 +576,7 @@ export default function WorkbenchView({ editMode = false, remixMode = false, sta
 
 export function PlaysetSimulator({ playset, buryOption = "auto" }) {
 
-    const {devMode} = useContext(PageContext);
+    const { devMode } = useContext(PageContext);
 
     const [playerCount, setPlayerCount] = useState(11);
     const [playWithBury, setPlayWithBury] = useState(false);
@@ -587,7 +589,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
         console.log("lol")
         setReloading(true);
         setTimeout(() => setReloading(false), 500)
-        const cardsForPlayset =  getCardsForPlayset({ maximizedPlayset: playset, playerCount, playWithBury })
+        const cardsForPlayset = getCardsForPlayset({ maximizedPlayset: playset, playerCount, playWithBury })
 
         console.log("ööö", cardsForPlayset)
         return cardsForPlayset || { cards: [], soberCard: null }
@@ -654,7 +656,7 @@ export function PlaysetSimulator({ playset, buryOption = "auto" }) {
             {devMode && <div className="w-full flex flex-wrap gap-2 px-2.5 pb-4">
                 {cardsPlusSober?.map((card, i) => <ShuffledInCardDummy key={i} card={getCardFromId(card)} />)}
             </div>}
-            
+
             <p className="w-full text-sm -mt-4">Cards in game: {cards?.length}</p>
             <div className="grid grid-cols-2 gap-2 w-full">
                 {buriedCard && <div className="flex flex-col w-full items-center justify-center gap-2 text-lg font-bold">

@@ -209,13 +209,13 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
         const row = rows[index];
         return (
             <div className='flex flex-row gap-2 justify-center' style={style}>
-                {row?.map(card => (paired ?
-                    <div className='flex flex-col gap-1' key={card?.[0]?.id}>
+                {row?.map((card,i) => (paired ?
+                    <div className='flex flex-col gap-1' key={card?.[0]?.id + "" + i}>
                         <LinkedCardsContainer cards={card} onClick={() => onClick(card[0])} />
                         {showDifficulty && <DifficultyPill difficulty={avgFromCards(card)} />}
                     </div>
                     :
-                    <div key={card?.id} className='flex flex-col gap-1 items-center'>
+                    <div key={card?.id + "" + i} className='flex flex-col gap-1 items-center'>
                         <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
                         {showDifficulty &&
                             <>
@@ -262,15 +262,15 @@ export default function CardsFilter({ defaultSearch = "", onSearchUpdate = () =>
                 </List>
                     :
                     (pairedCards?.[0] ?
-                        pairedCards.map(cardPair => (
-                            <div className='flex flex-col gap-1' key={cardPair?.[0]?.id}>
+                        pairedCards.map((cardPair, i) => (
+                            <div className='flex flex-col gap-1' key={cardPair?.[0]?.id + "" + i}>
                                 <LinkedCardsContainer cards={cardPair} onClick={() => onClick(cardPair[0])} />
                                 {showDifficulty && <DifficultyPill difficulty={avgFromCards(cardPair)} />}
                             </div>
                         ))
                         :
-                        visibleCards?.map(card => (
-                            <div key={card?.id} className='flex flex-col gap-1 items-center'>
+                        visibleCards?.map((card, i) => (
+                            <div key={card?.id + "" + i} className='flex flex-col gap-1 items-center'>
                                 <div onClick={() => onClick(card)} className='card relative scale-[25%] md:scale-[50%] -mx-24 md:-mx-16 -my-36 md:-m-24 '><CardFront card={card} color={card?.color} /></div>
                                 {showDifficulty &&
                                     <>
