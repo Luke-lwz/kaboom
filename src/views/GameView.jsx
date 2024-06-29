@@ -318,7 +318,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
                     {conn === null ? <IoCloudOfflineOutline /> : <span className='loading loading-spinner' />}
                 </div>
                     :
-                    <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm dropdown z-20'>
+                    <div className='absolute top-0 bottom-0 z-[100] h-full left-5 w-10 flex items-center justify-center drop-shadow-sm dropdown '>
                         <div className='dropdown'>
                             <label tabIndex={0}>
                                 <Avatar className=' rounded-full' style={{ height: "2.2rem", width: "2.2rem" }} {...avaConfig} />
@@ -333,7 +333,7 @@ function ClientGame({ me, setMe, code, setScreen }) {
                 <div className='flex flex-col justify-center items-center absolute top-2 right-0 left-0 z-20'>
                     <Countdown s={countdown} paused={game.paused} onClick={handleCountdownClick} />
                 </div>
-                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
+                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[100] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
                     <TbCards />
                 </div>
 
@@ -570,7 +570,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         const playWithBury = game_data?.playWithBury || false;
 
 
-        var { cards, soberCard } = getCardsForPlayset({ playerCount: players?.current?.length, playset: maximizePlayset(playset), playWithBury });
+        var { cards, soberCard } = getCardsForPlayset({ playerCount: players?.current?.length, maximizedPlayset: maximizePlayset(playset), playWithBury });
 
         console.log(cards)
 
@@ -747,7 +747,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         },
         "get-sober-card": () => {
             if (!game?.current?.soberCard) return;
-            players.current = players.current.map(p => (p?.card === "p001" ? { ...p, card: game?.current?.soberCard } : p))
+            players.current = players.current.map(p => (p?.card === "drunk" ? { ...p, card: game?.current?.soberCard } : p))
             manuallyUpdateRef();
         },
         "am-in-room": (id) => {
@@ -917,7 +917,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         <div className='flex flex-col justify-start items-center w-full h-full scrollbar-hide'>
             <div className="flex flex-row justify-center items-center p-3 w-full relative overflow-visible h-[5.2rem]">
 
-                <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm z-[22] overflow-visible'>
+                <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm z-[100] overflow-visible'>
                     <div className='dropdown'>
                         <label tabIndex={0}>
                             <Avatar className=' rounded-full' style={{ height: "2.2rem", width: "2.2rem" }} {...avaConfig} />
@@ -929,7 +929,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                 </div>
 
 
-                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
+                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[100] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
                     <TbCards />
                 </div>
 
@@ -1156,7 +1156,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
-    function showSendCard(card) {
+    const showSendCard = useCallback((card) => {
         const players = getPlayers();
         if (!players) return
 
@@ -1165,7 +1165,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             <SendCardMenu onCancel={() => setMenu(null)} card={card} me={me} getSoberCard={() => { execute("get-sober-card", [me?.id]); setMenu(null); setMenu2(null) }} lastRound={game.rounds.length === game.round} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
         )
 
-    }
+    }, [game, me]);
 
     function onRemoteCardReveal() {
 

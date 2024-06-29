@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { PageContext } from "../components/PageContextProvider";
-import Info from "../components/Info";
+import { TbCards } from "react-icons/tb";
 
 
 function RejoinView({ }) {
@@ -57,13 +57,13 @@ function RejoinView({ }) {
             <div className="w-full p-4 bg-neutral flex flex-col items-center gap-4 text-title">
                 <h1 className="text-xl text-neutral-content font-extrabold">3 letter player id</h1>
                 <input autoComplete="off" id="id-input" type="text" max={3} maxLength={3} className="input skew-reverse text-center font-extrabold text-xl text-normal tracking-widest text-black w-fit px-0 bg-accent-content" placeholder="&#x2022; &#x2022; &#x2022;" onChange={(e) => (e?.target?.value?.length <= 4 ? e.target.value = e.target.value.toUpperCase() : e.target.value = e.target.value.substring(0, 4))} />
-                <button id="join_btn" className={"btn btn-wide transition-all bg-secondary "} onClick={() => rejoin()}>Rejoin room</button>
+                <button id="join_btn" className={"btn btn-wide transition-all btn-secondary "} onClick={() => rejoin()}>Rejoin room</button>
 
             </div>
             <a className='link font-bold clickable w-full flex items-center justify-center mt-2 -mb-2' href="/">Leave</a>
 
             <div className="p-4 rounded-lg m-4 bg-info/30 text-info-content bold-child-info">
-                Your <b>3 LETTER ID</b> can be found by pressing the <Info /> <b>button</b> on your friends screen. <br />(The ID will be next to your username)
+                Your <b>3 LETTER ID</b> can be found by pressing the <b className="inline-block"><TbCards /></b> <b>button</b> on your friends screen. <br />(The ID will be next to your username)
             </div>
         </div>
     );
