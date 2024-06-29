@@ -131,8 +131,7 @@ export function getCardsForPlayset({
     ];
 
     for (let i = 0; i < defaultCardsHowManyPairsToAdd; i++) {
-      allCards.push(defaultCards[0]);
-      allCards.push(defaultCards[1]);
+      allCards.push(...defaultCards);
     }
   }
 

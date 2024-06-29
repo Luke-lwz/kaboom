@@ -57,12 +57,12 @@ const ROUND_TABS = [
         color: "#27d62a",
         icon: <BsGearFill className="text-base" />,
     },
-    {
-        name: "From playset",
-        value: "playset",
-        color: "#c342ff",
-        icon: <BsCassetteFill className="text-base" />,
-    },
+    // {
+    //     name: "From playset",
+    //     value: "playset",
+    //     color: "#c342ff",
+    //     icon: <BsCassetteFill className="text-base" />,
+    // },
 
 
 ]
