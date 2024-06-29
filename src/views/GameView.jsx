@@ -591,6 +591,19 @@ function HostGame({ me, setMe, code, setScreen }) {
         appendCard(cards);
 
 
+
+        // appendStartingRoom
+        var roomsLeft = Array.from({ length: players?.current?.length }, (_, i) => (i % 2) + 1)
+        players.current = players.current.map(p => {
+            const randomIndex = rng(0, roomsLeft.length - 1);
+            const startingRoom = roomsLeft[randomIndex];
+            roomsLeft.splice(randomIndex, 1);
+            return ({ ...p, startingRoom })
+        })
+
+
+
+
         // first leader
         const playersInRoom1 = players?.current?.filter(p => p?.startingRoom === 1);
         const playersInRoom2 = players?.current?.filter(p => p?.startingRoom === 2);
@@ -615,7 +628,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-            var startingRoom = ((unappendedPlayers.length % 2) + 1);
+            // var startingRoom = ((unappendedPlayers.length % 2) + 1);
 
             var index = rng(0, unappendedPlayers.length - 1);
 
@@ -623,7 +636,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
             if (!playerId) return connectionErrorPrompt();
 
-            players.current = players.current.map(p => (p.id === playerId ? { ...p, card: cards[0], startingRoom } : p))
+            players.current = players.current.map(p => (p.id === playerId ? { ...p, card: cards[0] } : p))
 
             cardsInGame.push(cards.shift());
             return appendCard(cards);
