@@ -25,8 +25,8 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
 
 
     return (
-        <>
-            <div style={{ backgroundColor: color.secondary, color: color.text }} className='w-full max-w-[23rem] h-fit rounded-2xl flex flex-col items-center overflow-hidden bg-base-100 transition-all p-4 gap-4'>
+        <div className='w-full h-full flex items-center justify-center flex-col' >
+            <div onClick={(e) => e.stopPropagation()} style={{ backgroundColor: color.secondary, color: color.text }} className='w-full max-w-[23rem] grow rounded-2xl flex flex-col items-center overflow-hidden bg-base-100 transition-all p-4 gap-4'>
                 <div className='h-24 flex justify-start items-center w-full relative'>
                     <div style={{ backgroundColor: color.primary }} className='w-[3.5rem] h-24 overflow-hidden flex flex-col-reverse items-center justify-start rounded-lg'>
                         {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
@@ -58,14 +58,14 @@ function CardInfoMenu({ card, color, onCancel, onSelect, hideLinkedCards = false
                 <div className='absolute flex justify-start items-center'>
                     <div name="linked" className='rounded-full h-12 w-12 bg-base-100 m-4 flex justify-center items-center'><FiLink color={color.primary} size={24} /></div>
                     {linkedCards.map(card =>
-                        (card ? <div key={card.id} onClick={() => setMenu(<CardInfoMenu card={card} color={card.color} onSelect={onSelect} />)} className='card relative scale-[20%] -m-24'><CardFront card={card} color={card?.color} /></div> : "")
+                        (card ? <div key={card.id} onClick={(e) => setMenu(<CardInfoMenu card={card} color={card.color} onSelect={onSelect} />)} className='card relative scale-[20%] -m-24'><CardFront card={card} color={card?.color} /></div> : "")
                     )}
                 </div>
             </div>}
             {onSelect && <div className='w-full flex items-center justify-center'>
                 <button onClick={() => onSelect(card)} className='btn btn-success btn-wide text-title mt-2 text-white'>SELECT</button>
             </div>}
-        </>
+        </div>
     );
 }
 

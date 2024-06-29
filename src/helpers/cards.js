@@ -97,25 +97,29 @@ export function getCardsForPlayset({
   playWithBury,
 }) {
   if (!maximizedPlayset) return null;
-  
+
   var { primaries, cards, odd_card, shuffle, default_cards } = maximizedPlayset;
+
   
-  
+  const defaultCards = default_cards || [
+    getCardFromId("b000"),
+    getCardFromId("r000"),
+  ];
+
   var out_cards = [...(primaries || [])];
-  
-  var allCards = [...cards, odd_card]; // cards are maximized 
-  
-  const drunkCard = allCards?.filter(c => c?.id === "drunk")?.[0];
+
+  var allCards = [...cards, odd_card]; // cards are maximized
+
+  const drunkCard = allCards?.filter((c) => c?.id === "drunk")?.[0];
   const playingWithDrunk = drunkCard ? true : false;
   if (drunkCard) {
-    allCards = allCards.filter(c => c?.id !== "drunk");
+    allCards = allCards.filter((c) => c?.id !== "drunk");
     out_cards.push(drunkCard);
   }
 
-  
-  const playerCount = _playerCount + (playWithBury ? 1 : 0) + (playingWithDrunk ? 1 : 0); // bury is one extra player // buried card will be last in array
+  const playerCount =
+    _playerCount + (playWithBury ? 1 : 0) + (playingWithDrunk ? 1 : 0); // bury is one extra player // buried card will be last in array
   const cardsNeededCount = playerCount - out_cards.length; // minus the primaries
-
 
   let defaultCardsHowManyPairsToAdd = 0;
   if (allCards.length < playerCount) {
@@ -125,10 +129,6 @@ export function getCardsForPlayset({
   }
 
   if (defaultCardsHowManyPairsToAdd > 0) {
-    const defaultCards = default_cards || [
-      getCardFromId("b000"),
-      getCardFromId("r000"),
-    ];
 
     for (let i = 0; i < defaultCardsHowManyPairsToAdd; i++) {
       allCards.push(...defaultCards);
@@ -136,7 +136,6 @@ export function getCardsForPlayset({
   }
 
   const allCardsPaired = pairUpCardsFromPool(allCards);
-
 
   const cardPairsStats = [
     /*
@@ -175,15 +174,27 @@ export function getCardsForPlayset({
   );
 
   if (shuffle) {
-    const shuffledCardPairsInStats = cardPairsStats.map((stat) => {
-      const shuffledPairs = stat.cardPairs.sort(() => 0.5 - Math.random());
+    const shuffledCardPairsInStats = cardPairsStats.map((stat) => { // shuffles only not default cards
+      // only suffle the pairs that are not the defaultCards
+      const cardPairs = [...stat.cardPairs];
+      const defaultCardPairs = stat?.pairLength !== defaultCards?.length ? [] : cardPairs.splice(cardPairs?.length - defaultCardsHowManyPairsToAdd, defaultCardsHowManyPairsToAdd);
+      defaultCardPairs.forEach((pair) => { // everything that is not a default card pair will be pushed back into cardPairs, tht then will be shuffled
+        const isADefaultCardPair = pair.filter((c) => defaultCards.filter((dc) => dc?.id === c?.id)?.[0]).length === pair.length;
+        if (!isADefaultCardPair) cardPairs.push(pair);
+      });
+      console.log("cardPairs", cardPairs, defaultCardPairs)
+      cardPairs.sort(() => 0.5 - Math.random());
+      
+      const shuffledPairs = [...cardPairs, ...defaultCardPairs];
       return {
         ...stat,
         cardPairs: shuffledPairs,
       };
     });
+    const sampleCombination = allCardsPaired.map((pair) => pair.length);
     const randomCombinationIndex = rng(0, combinations.length - 1);
-    const randomCombination = combinations[randomCombinationIndex];
+    var randomCombination = combinations[randomCombinationIndex];
+    if (!randomCombination) randomCombination = sampleCombination; // if no combinations found
     const cardPairs = randomCombination.map((pairLength, i) => {
       const stat = shuffledCardPairsInStats.find(
         (stat) => stat.pairLength === pairLength
@@ -238,7 +249,6 @@ export function getCardsForPlayset({
             adaptedCombination[i] = adaptedCombination[index];
             adaptedCombination[index] = temp;
           }
-        
         }
       }
       return adaptedCombination;
@@ -247,8 +257,8 @@ export function getCardsForPlayset({
     const sampleCombination = allCardsPaired.map((pair) => pair.length);
 
     var bestCombinationScore = 0;
-    var bestCombination
-    for (let i = 1; i < combinations.length; i++) {
+    var bestCombination = null;
+    for (let i = 0; i < combinations.length; i++) {
       const adaptedCombination = adaptCombinationToSample(
         combinations[i],
         sampleCombination
@@ -259,6 +269,8 @@ export function getCardsForPlayset({
         bestCombination = adaptedCombination;
       }
     }
+
+    if (!bestCombination) bestCombination = sampleCombination;
 
     console.log(
       "ääää",
@@ -289,17 +301,22 @@ export function getCardsForPlayset({
   const indexOfSoberCard = (() => {
     function getSoberCardIndexRecursively() {
       const index = rng(0, out_cards?.length - 1);
-      if (out_cards[index]?.id === "drunk") return getSoberCardIndexRecursively();
+      if (out_cards[index]?.id === "drunk")
+        return getSoberCardIndexRecursively();
       return index;
     }
     return getSoberCardIndexRecursively();
   })();
-  console.log("indexOfSoberCard", indexOfSoberCard, out_cards?.filter(c => c?.id !== "drunk")?.length)
+  console.log(
+    "indexOfSoberCard",
+    indexOfSoberCard,
+    out_cards?.filter((c) => c?.id !== "drunk")?.length
+  );
   const soberCard = (() => {
     if (playingWithDrunk) {
       const card = out_cards[indexOfSoberCard];
       out_cards[indexOfSoberCard] = null;
-      out_cards = out_cards.filter(c => c);
+      out_cards = out_cards.filter((c) => c);
       return card;
     }
     return null;
@@ -519,7 +536,6 @@ export function getCardsForPlaysetOld(game_data) {
   for (let i = 0; i < length; i++) {
     out_cards.push(cards[i]);
   }
-
 
   // chooses buried cards
   if (playWithBury) {
