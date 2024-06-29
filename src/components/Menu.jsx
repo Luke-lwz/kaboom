@@ -16,7 +16,7 @@ function Menu({ onCancel = () => { }, children }) {
                             e.stopPropagation();
                             e.preventDefault();
                         }}
-                        className={'animate__animated animate__zoomIn  duration-150 animate__faster max-w-[50rem] shrink w-full  max-h-[32rem] rounded-lg flex flex-col justify-center items-center overflow-hidden transition-all '}
+                        className={'animate__animated animate__zoomIn  duration-150 animate__faster max-w-[50rem] shrink w-fit min-w-[20rem] max-h-[32rem] rounded-lg flex flex-col justify-center items-center overflow-hidden transition-all '}
                         drag="y"
                         dragElastic={{ top: 0, bottom: 0.5 }}
                         dragSnapToOrigin
