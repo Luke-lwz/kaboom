@@ -1,0 +1,25 @@
+[
+    {
+        "name": "Team Garden",
+        "id": "ga000",
+        "description": "KEEP THE PRESIDENT AWAY FROM THE BOMBER",
+        "links": [],
+        "src": "",
+        "info": "You are on the Blue Team.\nYou win if the President does not gain the \"dead\" condition.\r\n\r\nNote: Any character card that has the star icon on it is considered to be on the Blue Team (except spies).",
+        "tags": "v3 official",
+        "color_name": "garden",
+        "difficulty": 1
+    },
+    {
+        "name": "Gardener",
+        "id": "ga001",
+        "description": "Avoid the Bomber",
+        "primary": true,
+        "links": [],
+        "src": "",
+        "info": "You are a primary character. Team Garden wins if you do not gain the \"dead\" condition.",
+        "tags": "v3 official primary",
+        "color_name": "garden",
+        "difficulty": 8
+    }
+]

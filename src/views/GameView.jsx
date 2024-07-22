@@ -602,6 +602,8 @@ function HostGame({ me, setMe, code, setScreen }) {
         })
 
 
+        console.log(players.current)
+
 
 
         // first leader

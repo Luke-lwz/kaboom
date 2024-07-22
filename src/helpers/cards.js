@@ -5,11 +5,12 @@ import GreyCards from "../config/cards/grey.json";
 import GreenCards from "../config/cards/green.json";
 import PurpleCards from "../config/cards/purple.json";
 import SpecialCards from "../config/cards/special.json";
+import GardenCards from "../config/cards/garden.json";
 
 // icons
 import { FaBomb, FaTheaterMasks } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
-import { GiBrain, GiBottleCap, GiThrownKnife } from "react-icons/gi";
+import { GiBrain, GiBottleCap, GiThrownKnife, GiTreeBranch } from "react-icons/gi";
 import { MdDarkMode } from "react-icons/md";
 import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
@@ -23,19 +24,11 @@ export const CARD_COLOR_ORDER = [
   "green",
   "drunk",
   "dark",
+  "garden",
 ];
 
 export const CARD_COLOR_FILTER_OPTIONS = ["blue", "red", "grey", "green"];
 
-export const CARD_COLOR_NAMES = {
-  red: "r",
-  blue: "b",
-  grey: "g",
-  green: "e",
-  purple: "p",
-  dark: "d",
-  yellow: "y",
-};
 
 export const CARD_COLORS = {
   red: {
@@ -89,6 +82,13 @@ export const CARD_COLORS = {
     title: "Yellow Team",
     icon: GiThrownKnife,
   },
+  garden: {
+    primary: "#eba0c4",
+    secondary: "#4d3e2e",
+    text: "#ffffff",
+    title: "Team Garden",
+    icon: GiTreeBranch,
+  }
 };
 
 export function getCardsForPlayset({
