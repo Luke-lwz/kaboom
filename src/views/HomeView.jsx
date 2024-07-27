@@ -370,9 +370,9 @@ function HomeView({ }) {
                 <div className="flex flex-col items-center relative" onClick={clickDev}>
                     KABOOM
                     <span className="text-neutral text-normal text-xs font-light">Adaptation of Two Rooms and a Boom&trade;</span>
-                    {isBeta && <div className="absolute text-sm md:text-base text-secondary-content bg-secondary rounded-lg px-3 md:px-4 py-1.5 md:py-2 -rotate-12 right-2 sm:right-0 md:-right-4 bottom-0 animate-pulse">
+                    {/* {isBeta && <div className="absolute text-sm md:text-base text-secondary-content bg-secondary rounded-lg px-3 md:px-4 py-1.5 md:py-2 -rotate-12 right-2 sm:right-0 md:-right-4 bottom-0 animate-pulse">
                         BETA
-                    </div>}
+                    </div>} */}
                 </div>
 
 
@@ -387,7 +387,7 @@ function HomeView({ }) {
 
 
 
-            <div onClick={() => checkAuth(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
+            {/* <div onClick={() => checkAuth(() => smoothNavigate("/workbench"))} className="relative w-full flex items-center justify-start max-w-2xl px-4">
                 <h1 className="absolute -top-3 right-1 z-10 rotate-12 font-extrabold text-xl text-title text-secondary animate-pulse">NEW</h1>
 
                 <div className="border-2 border-neutral rounded-xl flex justify-between items-center w-full h-16 overflow-hidden pl-4 pr-2">
@@ -403,7 +403,7 @@ function HomeView({ }) {
 
                 </div>
 
-            </div>
+            </div> */}
 
 
 
@@ -450,11 +450,13 @@ function HomeView({ }) {
 
 
 
-                <LinkToTwoRoomsBox />
 
                 <h2 className="font-bold flex flex-wrap w-full max-w-2xl px-4 items-center justify-center text-center text-lg mb-12">This game is meant to be played in person, with your phones <IoPhonePortraitOutline /> = <CgCardDiamonds /></h2>
 
+                <LinkToTwoRoomsBox />
+
                 <div className="px-4 w-full"><BringJesusIntoIt /></div>
+
                 <div className="px-4 w-full"><PaymentInfo /></div>
 
 
