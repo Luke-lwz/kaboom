@@ -232,7 +232,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
 export function C({ onClick = () => { }, color = { primary: "#888888", secondary: "#888888" }, children }) {
 
     return (
-        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary, color: color.text || "#ffffff" }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shadow drop-shadow-xl'}>
+        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary, color: color.text || "#ffffff" }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shado  drop-shadow-xl'}>
             {children}
         </div>
     )

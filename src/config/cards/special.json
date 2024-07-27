@@ -20,5 +20,16 @@
         "tags": "special necroboomicon",
         "color_name": "dark",
         "difficulty": 7
+    },
+    {
+        "name": "THE WHITE",
+        "id": "s002",
+        "description": "COLOR SHARE INSTANT WIN CARD >> INSTANT WIN CARD LOSES",
+        "links": [],
+        "src": "",
+        "info": "When the 'instant win, and everyone else loses' cards, card or color share with you, they lose. You win when you shared with all 'instant win, and everyone else loses' cards",
+        "tags": "v2 special necroboomicon",
+        "color_name": "light",
+        "difficulty": 7
     }
 ]

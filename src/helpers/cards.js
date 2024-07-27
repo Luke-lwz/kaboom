@@ -11,7 +11,7 @@ import GardenCards from "../config/cards/garden.json";
 import { FaBomb, FaTheaterMasks } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { GiBrain, GiBottleCap, GiThrownKnife, GiTreeBranch } from "react-icons/gi";
-import { MdDarkMode } from "react-icons/md";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { getPlaysetById } from "./playsets";
 import { rng } from "./idgen";
 import { findIndexCombinations } from "./arrays";
@@ -24,6 +24,7 @@ export const CARD_COLOR_ORDER = [
   "green",
   "drunk",
   "dark",
+  "light",
   "garden",
 ];
 
@@ -74,6 +75,14 @@ export const CARD_COLORS = {
     text: "#000000",
     title: "Black Team",
     icon: MdDarkMode,
+  },
+  light: {
+    // d = dark
+    primary: "#ffffff",
+    secondary: "#ffffff",
+    text: "#ffffff",
+    title: "White Team",
+    icon: MdLightMode,
   },
   yellow: {
     primary: "#ffde26",
