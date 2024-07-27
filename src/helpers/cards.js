@@ -122,7 +122,7 @@ export function getCardsForPlayset({
   const cardsNeededCount = playerCount - out_cards.length; // minus the primaries
 
   let defaultCardsHowManyPairsToAdd = 0;
-  if (allCards.length < playerCount) {
+  if (allCards.length + primaries?.length < playerCount) {
     // if there are more players than cards
     const n = playerCount - allCards?.length; // how many players more than cards
     defaultCardsHowManyPairsToAdd = Math.ceil(n / 2); // how many pairs to add
