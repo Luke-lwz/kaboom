@@ -20,6 +20,7 @@
     "emoji-picker-react": "^4.5.2",
     "framer-motion": "^10.12.2",
     "moment": "^2.29.4",
+    "npm": "^10.8.2",
     "observe-element-in-viewport": "^0.0.15",
     "peerjs": "^1.4.7",
     "preact": "^10.14.0",
