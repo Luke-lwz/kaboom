@@ -3,6 +3,8 @@ import { useContext, useMemo, useState, useEffect } from "react"
 import { PageContext } from "../components/PageContextProvider";
 
 import supabase from "../supabase";
+import { TitleBar } from "./playsets/WorkbenchView";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 
 export default function ProfileView({ }) {
@@ -26,17 +28,38 @@ export default function ProfileView({ }) {
             .select("*")
             .eq('id', id || user?.id || "")
 
-            console.log(profiles, error)
+        console.log(profiles, error)
 
-            setProfile(profiles?.[0] || null)
-            // else smoothNavigate("/")
+        if (!profiles?.[0]) smoothNavigate("/")
+        setProfile(profiles?.[0] || null)
 
 
     }
 
-    return (
-        <div>
+    if (!profile) return <div className="w-full flex flex-col items-center">
+        <TitleBar titleElement={
+            <>
+                <IoPersonCircleOutline className="text-2xl md:text-3xl text-orange-500" />
+                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFIE</h1>
+            </>
+        } />
+
+        <div className="loading loading-spinner" />
+    </div>
+
+    return <div className="w-full flex flex-col items-center">
+        <TitleBar titleElement={
+            <>
+                <IoPersonCircleOutline className="text-2xl md:text-3xl text-orange-500" />
+                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFIE</h1>
+            </>
+        } />
+
+        <div className="w-full max-w-md flex flex-col items-center">
+            profile
 
         </div>
-    );
+    </div>
+
+
 }

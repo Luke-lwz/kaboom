@@ -485,7 +485,7 @@ export function ProfilePictureAndMenu() {
                 <div className="dropdown dropdown-end z-[1000]  " >
                     <label tabIndex={0} className="rounded-full "><UserAvatar profile={user} className={"h-8  w-8 "} /></label>
                     <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
-                        <li><button onClick={() => smoothNavigate(`/users/${user?.id}`)}>Profile</button></li>
+                        <li><button onClick={() => smoothNavigate(`/profile/${user?.id}`)}>Profile</button></li>
                         <li><button onClick={(e) => {
                             e.stopPropagation();
                             e.nativeEvent.stopImmediatePropagation();
@@ -553,7 +553,7 @@ export function DevModeBanner({ size, noButton = false, text }) {
                 <div>
                     {text || "Dev mode enabled"}
                 </div>
-                {!noButton && <a href="/?dev=false" className="noskew btn bg-black text-amber-400 btn-xs border-none">
+                {!noButton && <a href="/?dev=false" className="noskew btn bg-black hover:bg-black text-amber-400 btn-xs border-none">
                     Turn off
                 </a>}
             </div>
