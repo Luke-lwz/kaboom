@@ -40,7 +40,7 @@ export default function ProfileView({ }) {
         <TitleBar titleElement={
             <>
                 <IoPersonCircleOutline className="text-2xl md:text-3xl text-orange-500" />
-                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFIE</h1>
+                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFILE</h1>
             </>
         } />
 
@@ -51,7 +51,7 @@ export default function ProfileView({ }) {
         <TitleBar titleElement={
             <>
                 <IoPersonCircleOutline className="text-2xl md:text-3xl text-orange-500" />
-                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFIE</h1>
+                <h1 onClick={() => smoothNavigate("/playsets")} className="text-orange-500">PROFILE</h1>
             </>
         } />
 
