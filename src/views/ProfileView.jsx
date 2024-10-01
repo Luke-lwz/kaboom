@@ -15,6 +15,11 @@ export default function ProfileView({ }) {
     const [profile, setProfile] = useState(null);
 
 
+    const isMe = useMemo(() => {
+        return user?.id === profile?.id
+    }, [user, profile])
+
+
 
     useEffect(() => {
         getProfile();
@@ -35,6 +40,10 @@ export default function ProfileView({ }) {
 
 
     }
+
+
+    // make update profiles function
+
 
     if (!profile) return <div className="w-full flex flex-col items-center">
         <TitleBar titleElement={
