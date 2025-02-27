@@ -38,7 +38,7 @@ import MegaButton from "../components/MegaButtons";
 import { IoPersonCircleOutline, IoPhonePortraitOutline } from "react-icons/io5";
 import { TbCardsFilled } from "react-icons/tb";
 import { CgCardDiamonds } from "react-icons/cg";
-import { FaTools } from "react-icons/fa";
+import { FaMoneyBill, FaTools } from "react-icons/fa";
 import BringJesusIntoIt from "../components/BringJesusIntoIt";
 import PaymentInfo from "../components/PaymentInfo";
 import InfoBanner from "../components/InfoBanner";
@@ -437,11 +437,17 @@ function HomeView({ }) {
                     }} Icon={<BsBook />} fill color={"#27d62a"}>
                         Rules
                     </MegaButton>
-                    <MegaButton onClick={() => {
+                    {/* <MegaButton onClick={() => {
                         smoothNavigate("/")
                     }} Icon={<IoPersonCircleOutline />} fill color={"#ff0000"}>
                         Profile
-                    </MegaButton>
+                    </MegaButton> */}
+                    <a target="_blank" href="https://www.buymeacoffee.com/lukas.fish">
+                        <MegaButton onClick={() => {
+                        }} Icon={<FaMoneyBill />} fill color={"#ff0000"}>
+                            Donate
+                        </MegaButton>
+                    </a>
                 </div>
 
 
@@ -457,7 +463,7 @@ function HomeView({ }) {
 
                 <div className="px-4 w-full"><BringJesusIntoIt /></div>
 
-                <div className="px-4 w-full"><PaymentInfo /></div>
+                {/* <div className="px-4 w-full"><PaymentInfo /></div> */}
 
 
                 <ContributeLinks />
@@ -485,7 +491,7 @@ export function ProfilePictureAndMenu() {
                 <div className="dropdown dropdown-end z-[1000]  " >
                     <label tabIndex={0} className="rounded-full "><UserAvatar profile={user} className={"h-8  w-8 "} /></label>
                     <ul tabIndex={0} className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-52 text-base font-normal text-base-content text-normal" >
-                        <li><button onClick={() => smoothNavigate(`/profile/${user?.id}`)}>Profile</button></li>
+                        {/* <li><button onClick={() => smoothNavigate(`/profile/${user?.id}`)}>Profile</button></li> */}
                         <li><button onClick={(e) => {
                             e.stopPropagation();
                             e.nativeEvent.stopImmediatePropagation();
