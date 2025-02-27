@@ -303,7 +303,7 @@ function HostLobby({ me, code }) {
 
 
 
-    function onRoundTabClick(tab) {
+    const onRoundTabClick = useCallback((tab) => {
         setSelectedRoundTab(tab);
 
         localStorage.setItem("lastSelectedRoundTab", tab?.value);
@@ -319,7 +319,7 @@ function HostLobby({ me, code }) {
         if (tab?.value === "playset") {
             // wip
         }
-    }
+    }, [setSelectedRoundTab])
 
 
     useEffect(() => {
@@ -349,6 +349,17 @@ function HostLobby({ me, code }) {
     }, [playset])
 
 
+    const updateRecommendedRounds = useCallback(() => {
+
+        console.log("ö", selectedRoundTab?.value, playerState?.length)
+
+        if (selectedRoundTab?.value === "recommended") {
+            setRoundConfig(generateDefaultRounds(playerState?.length || 1))
+        }
+
+    }, [playerState, selectedRoundTab])
+
+
 
     useEffect(() => {
         let ok = true;
@@ -375,7 +386,7 @@ function HostLobby({ me, code }) {
 
 
 
-    }, [playersUpdated, playset])
+    }, [playersUpdated, playset, devMode, updateRecommendedRounds])
 
 
 
@@ -384,13 +395,6 @@ function HostLobby({ me, code }) {
     }, [recommendBury])
 
 
-    const updateRecommendedRounds = useCallback(() => {
-
-        if (selectedRoundTab?.value === "recommended") {
-            setRoundConfig(generateDefaultRounds(playerState?.length || 1))
-        }
-
-    }, [playerState, selectedRoundTab])
 
 
     async function startPeer() {
@@ -501,7 +505,7 @@ function HostLobby({ me, code }) {
     }
 
 
-    function addPlayer(id, name, conn, userId) {
+    const addPlayer = useCallback((id, name, conn, userId) => {
 
         if (players.current.filter(p => p?.id === id)[0]) {
             players.current = players.current.map(p => (p?.id === id ? { ...p, conn, name: (name ? name : p.name) } : p))
@@ -514,9 +518,9 @@ function HostLobby({ me, code }) {
         setPlayersUpdated([])
 
         return players.current
-    }
+    }, [playersUpdated, updateRecommendedRounds])
 
-    function removePlayer(id) {
+    const removePlayer = useCallback((id) => {
         const newPlayers = players.current.filter(p => p.id !== id);
 
         players.current = newPlayers
@@ -527,17 +531,17 @@ function HostLobby({ me, code }) {
         updateRecommendedRounds();
 
 
-    }
+    }, [playersUpdated, updateRecommendedRounds])
 
 
-    function kickPlayer(id) {
+    const kickPlayer = useCallback((id) => {
         const player = players.current.filter(p => p.id == id)[0];
         player?.conn?.send({ intent: "redirect", payload: { to: "/" } })
         removePlayer(id);
 
         updateRecommendedRounds();
 
-    }
+    }, [playersUpdated, updateRecommendedRounds])
 
 
 
@@ -592,14 +596,14 @@ function HostLobby({ me, code }) {
 
 
             if (user?.id) await supabase
-            .from("games_played")
-            .insert([{ 
-                user_id: user?.id,
-                playset_id: playset.id,
-                player_count: players.current.length,
-                player_ids,
-                devmode: devMode,
-             }])
+                .from("games_played")
+                .insert([{
+                    user_id: user?.id,
+                    playset_id: playset.id,
+                    player_count: players.current.length,
+                    player_ids,
+                    devmode: devMode,
+                }])
 
 
 
@@ -692,8 +696,8 @@ function HostLobby({ me, code }) {
 
             <Lobby me={me} kickPlayer={kickPlayer} amHost players={playerState} arePlayersOffline={arePlayersOffline} code={code} />
             <div className='w-full max-w-2xl p-4 gap-2 flex flex-col justify-start items-center'>
-            {devMode && <div className='pb-2 w-full'>
-                <DevModeBanner size="sm" noButton />
+                {devMode && <div className='pb-2 w-full'>
+                    <DevModeBanner size="sm" noButton />
                 </div>}
 
 
