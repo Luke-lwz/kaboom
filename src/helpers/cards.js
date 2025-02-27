@@ -217,12 +217,6 @@ export function getCardsForPlayset({
       return cardPair;
     });
 
-    console.log(
-      "ää",
-      randomCombination,
-      combinations,
-      shuffledCardPairsInStats
-    );
 
     for (let i = 0; i < cardPairs.length; i++) {
       out_cards = [...out_cards, ...cardPairs[i]];

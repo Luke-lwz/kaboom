@@ -351,7 +351,7 @@ function HostLobby({ me, code }) {
 
     const updateRecommendedRounds = useCallback(() => {
 
-        console.log("ö", selectedRoundTab?.value, playerState?.length)
+
 
         if (selectedRoundTab?.value === "recommended") {
             setRoundConfig(generateDefaultRounds(playerState?.length || 1))
