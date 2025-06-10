@@ -17,7 +17,7 @@ export function sendConstructor(myid, data, options = {}) {
 export async function getPeerConfig() {
 
 
-  const ice_result = await fetch("https://personal-api-hip9.onrender.com/get-turn-config", {
+  const ice_result = await fetch("https://personal-api-xecora.fly.dev/get-turn-config", {
     headers: {
       "Access-Control-Allow-Origin": "*",
       'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
