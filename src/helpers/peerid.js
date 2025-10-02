@@ -28,7 +28,7 @@ export async function getPeerConfig() {
 
   return {
     secure: true,
-    host: "peerjs-kaboom-custom-server.onrender.com",
+    host: "peerjs-server-1759387413.fly.dev",
     port: 443,
     key: "peerjs",
     allow_discovery: true,
