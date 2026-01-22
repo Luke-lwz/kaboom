@@ -3,12 +3,12 @@ import { PageContext } from '../PageContextProvider';
 import { Section } from './ChoosePlaysetMenu';
 import PlayerList from '../PlayerList';
 import PlaysetDisplay, { CardsRow } from '../playsets/PlaysetDisplay';
-import { getPlaysetById } from '../../helpers/playsets';
 import { getCardFromId } from '../../helpers/cards';
 import Info from '../Info';
 
 import { TbNotification } from "react-icons/tb";
 import Controls from '../info/Controls';
+import { getPlaysetById, maximizePlayset } from '../../helpers/playsets';
 
 
 function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, endRound = () => { }, execute = () => { } }) {
@@ -23,6 +23,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
     const [playWithColorReveal, setPlayWithColorReveal] = useState(game?.color_reveal)
     const [remoteMode, setRemoteMode] = useState(game?.remote_mode)
 
+    const [playset, setPlayset] = useState(null);
+
 
 
 
@@ -34,6 +36,16 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
         setCardsInGame(game.cardsInGame?.sort((a, b) => a?.id - b?.id).sort((a, b) => a?.[0] > b?.[0] ? 1 : -1)?.map(c => getCardFromId(c)) || [])
 
     }, [])
+
+    useEffect(() => {
+        getPlayset();
+    }, [game])
+
+
+    async function getPlayset() {
+        const playset = await getPlaysetById(game?.playsetId);
+        setPlayset(maximizePlayset(playset))
+    }
 
 
 
@@ -211,7 +223,7 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
     function changeRemoteMode() {
-        
+
         if (!isHost) return
         execute("change-remote-mode", [!remoteMode])
         setRemoteMode(!remoteMode);
@@ -226,8 +238,8 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
             <h1 className='text-title font-extrabold text-2xl py-4 text-secondary shadow-2xl shadow-base-100 bg-base-200 w-full text-center '>{code}</h1>
             <div className='w-full h-full overflow-y-scroll overflow-x-hidden scrollbar-hide pt-3'>
 
-                <div className='w-full px-4 py-2'>
-                    <PlaysetDisplay noOpen playset={getPlaysetById(game.playsetId)} />
+                <div className='w-full px-4 py-2 -mb-4'>
+                    <PlaysetDisplay autoFetchInteractions noOpen playset={playset} quickActions={{vote: true, open: true, bookmark: true, profile: true}} />
                 </div>
 
                 <div className='pt-0 flex flex-col justify-start items-start w-full shrink bg-base-100'>
@@ -307,14 +319,14 @@ function GameInfoMenu({ code, game, players, isHost, me, nextRound = () => { }, 
 
 
 
-function ToggleButton({ checked, onChange = () => {}, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false }) {
+export function ToggleButton({ checked, onChange = () => { }, children, recommended, full = false, toggleClassName = "", customText, customTextClassName = "", hideReccomended = false, disabled = false }) {
     return (
-        <div onClick={onChange} className={'whitespace-nowrap btn-base-100 border-2 border-neutral uppercase cursor-pointer flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 ' + (full ? " w-full " : " w-fit ")}>
+        <div onClick={disabled ? () => { } : onChange} className={'whitespace-nowrap btn-base-100 text-base-content border-2 border-neutral uppercase flex justify-between items-center h-12 px-4 text-sm font-semibold rounded-md gap-4 transition-all ' + (full ? " w-full " : " w-fit ") + (disabled ? " opacity-40 cursor-not-allowed " : " opacity-100 cursor-pointer ")}>
             <div className='flex flex-col justify-center'>
                 <h4>{children}</h4>
-                <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>
+                <p className={'text-xs text-error transition-all whitespace-break-spaces ' + (!hideReccomended && !disabled && recommended !== undefined && checked !== recommended ? " opacity-100 h-4 " : " opacity-0 h-0 ") + (customText ? customTextClassName : "")}>{customText || `Recommended: ${recommended ? "on" : "off"}`}</p>
             </div>
-            <input type="checkbox" className={"toggle toggle-primary " + toggleClassName} checked={checked} />
+            <input type="checkbox" disabled={disabled} className={"toggle toggle-primary " + toggleClassName} checked={checked} />
         </div>
     )
 }

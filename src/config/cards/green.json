@@ -6,7 +6,7 @@
         "links": [],
         "src": "/green/cloverleaf.png",
         "info": "You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share. You also have the LEPRECHAUN power: Any player that card shares or even color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. At the end of the game, the Leprechaun wins. A single player can only ever be the Leprechaun once per game. If a player is about to become the Leprechaun character for the second time, they must communicate that they can't receive the Leprechaun card.\r\n\r\nNote: Due to the cleanse rule, any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card.\r\n\r\nAnother Note: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.\r\n\r\nWorks well with the Privacy Promise rule variant.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "green",
         "difficulty": 2
     },
@@ -17,7 +17,7 @@
         "links": [],
         "src": "/green/brain.png",
         "info": "You begin with the \"zombie\" condition. The \"zombie\" condition provides a replacement win condition. Players with the \"zombie\" condition win if Team Zombie wins. Team Zombie wins if all players without the \"dead\" condition at the end of the game are on Team Zombie. Any player that card shares or color shares with a player that has the \"zombie\" condition gains the \"zombie\" condition.\r\n\r\nNote: \"zombie\" players without a Zombie character card must indicate to players with whom they card share or color share that they now also have the \"zombie\" condition. Typically this is done by saying something like, \"I'm a Zombie, and now so are you.\"\r\n\r\nWorks well with the Privacy Promise rule variant.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "green",
         "difficulty": 3
     },
@@ -28,7 +28,7 @@
         "links": [],
         "src": "/green/tentacle.png",
         "info": "You win if any player color or card shares with you.\r\n\r\nIf you win, all other players lose.",
-        "tags": "necroboomicon",
+        "tags": "necroboomicon instant-win",
         "color_name": "green",
         "difficulty": 10
     },
@@ -39,7 +39,7 @@
         "links": [],
         "src": "/green/eye.png",
         "info": "Before the game begins, but after character cards have been dealt, you must publicly announce \"I am the Beholder!\" and keep your card permanently publicly revealed for the rest of game.\r\n\r\nDo your best to make sure there are no private conversations. You may try to be as intrusive as possible, including looking over players' shoulders at their cards, and even getting on the ground to see the bottoms of cards being passed between players.\r\n\r\nYou can't physically manipulate other players, nor should they try to physically manipulate you.\r\n\r\nIf playing with the Privacy Promise rule variant, you ignore the rule.\r\n\r\nYou have the \"immune\" condition. Players with the \"immune\" condition are immune to all powers and conditions without exception.\r\n\r\nThe Beholder can walk freely between the two rooms.\r\n\r\nThe Beholder can never take part in any vote (e.g. voting to nominate or usurp a leader).\r\n\r\nThe Beholder can never be picked by leaders to be transferred into another room (or by other characters with such powers) as they are never actually counted as part of a room's population.\r\n\r\nWin Objective: if you see any part of a player's card face (color or character), audibly and loudly declare what you've seen right there and then to win the game. If you win, all other players lose. Guessing is not allowed. If you publicly declare a color or card that you've seen and you are wrong, then you instantly lose.\r\n\r\nNote: because the Beholder is never considered a part of a room's population, they don't count towards the player count in the game and they don't count for or against Team Zombie's win objective. This means if you have 16 players including the Beholder, you should be playing a 15 player game.",
-        "tags": "patch1",
+        "tags": "patch1 v2 instant-win",
         "color_name": "green",
         "difficulty": 7
     }

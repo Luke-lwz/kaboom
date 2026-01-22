@@ -15,7 +15,7 @@ import { TbPlayCard } from "react-icons/tb"
 
 
 
-function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal }) {
+function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onRemoteColorReveal, onRemoteCardReveal, nomotion = true }) {
 
 
     const [cardInfo, setCardInfo] = useState(card || null);
@@ -56,9 +56,11 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
         )
     }
 
+    const DIV = nomotion ? "div" : motion.div;
+
 
     return (
-        <motion.div
+        <DIV
             className="scrollbar-hide"
             drag="y"
             dragElastic={{ top: 0.5, bottom: 0 }}
@@ -114,7 +116,7 @@ function Card({ card, hide, setHide, sendCard, allowColorReveal, remoteMode, onR
             </div>
 
 
-        </motion.div>
+        </DIV>
     );
 }
 
@@ -127,7 +129,7 @@ export function CardFront({ onClick = () => { }, color, card }) {
         <C onClick={onClick} color={color} >
             <div className="absolute inset-0 rounded-xl overflow-hidden flex flex-col justify-start z-30">
                 <div className="flex flex-row justify-start items-center w-full h-5/6">
-                    <div style={{ backgroundColor: color.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
+                    <div style={{ backgroundColor: color?.primary }} className="w-9/12 h-full flex flex-col-reverse items-center">
                         {card?.src && card.src !== "" && <img src={`/cards${card.src}`} alt="" className="w-full " />}
                     </div>
                     <div className="upright-text flex flex-col justify-start items-start w-3/12 h-full p-1.5 pt-2.5">
@@ -139,11 +141,11 @@ export function CardFront({ onClick = () => { }, color, card }) {
                     </div>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center h-1/6">
-                    <h1 className="text-title h-full w-9/12 flex justify-center items-center p-2 text-2xl font-extrabold uppercase">
-                        {color.title}
+                    <h1 className={"text-title h-full w-9/12 flex justify-center items-center p-2 font-extrabold uppercase " + (color?.title?.length < 10 ? " text-2xl " : " text-xl ")}>
+                        {color?.title}
                     </h1>
                     <div className="w-3/12 flex items-center justify-center text-2xl">
-                        {color.icon && <color.icon color={color?.primary || ""} />}
+                        {color?.icon && <color.icon color={color?.primary || ""} />}
                     </div>
                 </div>
             </div>
@@ -202,7 +204,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
                     }
                 }
                 onDragEnd={() => setTimeout(() => setDrag(0), 500)}
-                className="h-full w-full flex items-center justify-center overflow-hidden rounded-xl bg-accent absolute inset-0"
+                className="h-full w-full flex items-center justify-center overflow-hidden rounded-xl bg-[#4a4a4a] absolute inset-0"
                 drag="y"
                 dragElastic={{ top: 0, bottom: 0.5 }}
                 dragSnapToOrigin
@@ -210,7 +212,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
                     top: 0.1,
                     bottom: 0,
                 }}>
-                <div className='text-title text-base-100 text-5xl scale-[150%] h-full w-full flex justify-center items-center overflow-hidden -rotate-[5deg] relative '>
+                <div className='text-title text-white text-5xl scale-[150%] h-full w-full flex justify-center items-center overflow-hidden -rotate-[5deg] relative '>
                     <div className="scrolling-image w-full h-full overflow-hidden" />
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center rotate-[5deg] text-title text-xl overflow-hidden ">
                         <h1 className="logo-gradient-neutral w-full h-1/2 flex items-center justify-center overflow-hidden">KABOOM</h1>
@@ -230,7 +232,7 @@ export function CardBack({ onClick = () => { }, color, allowColorReveal }) {
 export function C({ onClick = () => { }, color = { primary: "#888888", secondary: "#888888" }, children }) {
 
     return (
-        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary, color: color.text || "#ffffff" }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shadow drop-shadow-xl'}>
+        <div onClick={onClick} style={{ width: "16rem", height: "24rem", backgroundColor: color.secondary, color: color.text || "#ffffff" }} className={' d3   rounded-xl flex flex-col justify-center items-center inner-shado  drop-shadow-xl'}>
             {children}
         </div>
     )

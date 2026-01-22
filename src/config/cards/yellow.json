@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Yellow Team",
+        "id": "y000",
+        "description": "Help the Assassin",
+        "links": [],
+        "src": "/yellow/sword.png",
+        "info": "You are on the Yellow Team.\nYou win if the President is in the same Room as the Assassin but the Bomber is not\r\n\r\nNote: Any character card that has the dagger icon on it is considered to be on the Yellow Team (except spies).",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 1
+    },
+    {
+        "name": "ASSASSIN",
+        "id": "y001",
+        "primary": true,
+        "backup_cards": ["placeholder"],
+        "description": "Be with the President but not the Bomber",
+        "links": [],
+        "src": "/yellow/hood.png",
+        "info": "You are on the Yellow Team. If the President does not gain the \"dead\" condition and you are in the same room as the President Yellow Team wins, but Blue & Red Team lose. If the the President, Bomber, and you all end in the same room, then the Yellow Team, Blue Team, and even Red Team lose.\r\n\r\nNote: Only when playing without any additional \"Yellow Team\" characters, you also have YELLOW power. Any player that card or color shares with you joins the Yellow Team. New members of Yellow Team maintain their powers and conditions, but their allegiance (and therefore win condition) changes to Yellow Team. However, the YELLOW power does not work on primary characters (e.g. President, Bomber).",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/anonymous-in-a-hood-red-concept-vector_6109862.html"},
+        "tags": "custom patch1 v2 friends primary",
+        "color_name": "yellow",
+        "difficulty": 4
+    },
+    {
+        "name": "WEAPONSMITH",
+        "id": "y003",
+        "description": "Be with the President but not the Bomber",
+        "backup_cards": ["placeholder"],
+        "links": [],
+        "src": "/yellow/smith.png",
+        "info": "When playing with the Weaponsmith, the Yellow Team has the following additional win condition: the Assasin must card share with the Weaponsmith before the end of the game or the Yellow Team loses. At the end of the game, the Assasin will be asked if he/she card shared with the Weaponsmith. At that time both players will verify or deny having card shared.\r\n\r\nNote: remember that if the Assasin character ever switches player control (perhaps due to the Hot Potato), then the new Assasin must card share with the Weaponsmith to prevent losing.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 5
+    },
+    {
+        "name": "BLUE SPY",
+        "id": "blueyellowspy",
+        "description": "YOU LOOK LIKE YOU ARE YELLOW",
+        "links": ["yellowbluespy"],
+        "src": "/yellow/wing.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the blue Spy has an allegiance to the Blue Team, but their card is yellow.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 7
+    },
+    {
+        "name": "RED SPY",
+        "id": "redyellowspy",
+        "description": "YOU LOOK LIKE YOU ARE YELLOW",
+        "links": ["yellowredspy"],
+        "src": "/yellow/staff.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the red Spy has an allegiance to the Red Team, but their card is yellow.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 7
+    },
+    {
+        "name": "YELLOW SPY",
+        "id": "yellowbluespy",
+        "description": "YOU LOOK LIKE YOU ARE BLUE",
+        "links": ["blueyellowspy"],
+        "src": "/blue/sword.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the yellow Spy has an allegiance to the Yellow Team, but their card is blue.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "blue",
+        "difficulty": 7
+    },
+    {
+        "name": "YELLOW SPY",
+        "id": "yellowredspy",
+        "description": "YOU LOOK LIKE YOU ARE RED",
+        "links": ["redyellowspy"],
+        "src": "/red/sword.png",
+        "info": "This is a special character card that is the color of an opposing team. This means that the yellow Spy has an allegiance to the Yellow Team, but their card is red.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "red",
+        "difficulty": 7
+    },
+    {
+        "name": "USURPER",
+        "id": "y004",
+        "description": "PERMANENT PUBLIC REVEAL >> BECOME LEADER",
+        "links": [],
+        "src": "/yellow/crown.png",
+        "info": "You have the USURPER power: during any round but the last, you may publicly reveal your card and become the leader. However, your card must permanently remain publicly revealed for the rest of the game. This means that you can only use this power once. You cannot be usurped during the same round in which you used your USURPER power, not even by another Usurper. If 2 Usurpers use their power in the same room during the same round, whichever Usurper used their power first remains the leader, the other Usurper wasted their power.",
+        "tags": "v1 official",
+        "color_name": "yellow",
+        "difficulty": 6
+    }
+]

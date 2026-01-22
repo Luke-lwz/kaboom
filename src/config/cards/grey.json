@@ -6,7 +6,7 @@
         "links": [],
         "src": "/grey/shed.png",
         "info": "You win as long as you never leave your initial room.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 8
     },
@@ -19,7 +19,7 @@
         ],
         "src": "/grey/harpoon.png",
         "info": "You win if Moby is in the same room as the Bomber at the end of the game and you are not.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 5
     },
@@ -30,7 +30,7 @@
         "links": [],
         "src": "/grey/a.png",
         "info": "You win if your vote helped successfully usurp a leader during a majority of the rounds. For example, in a 3 round game, you must have usurped a leader 2 of the 3 rounds.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 7
     },
@@ -41,7 +41,7 @@
         "links": [],
         "src": "/grey/robot.png",
         "info": "You win if you are in the same room as the Bomber but the President is not.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -54,7 +54,7 @@
         ],
         "src": "/grey/butler.png",
         "info": "You win if you are in the same room as the Maid and the President at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -65,7 +65,7 @@
         "links": [],
         "src": "/grey/clone.png",
         "info": "You win if the first player with whom you card share or color share wins. If you fail to share with any player by the end of the game, you lose.\r\n\r\nNote: if the first person with whom you share is the Robot, and the Robot's first share was with you…\r\nyou both lose.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -79,7 +79,7 @@
         ],
         "src": "/grey/dummy.png",
         "info": "You win if the Sniper shoots you at the end of the last round.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 6
     },
@@ -91,7 +91,7 @@
         "src": "/grey/card.png",
         "pausegamenr": 10,
         "info": "At the end of the last round, before all players reveal their cards, you must publicly announce which team ( Red Team, Blue Team, or neither) you think won the game. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 10. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -102,7 +102,7 @@
         "links": [],
         "src": "/grey/grenade.png",
         "info": "You have the HOT POTATO power: any player that card shares or color shares with you immediately trades cards with you. Both you and the other player assume the powers and the allegiance of the newly acquired cards. The Hot Potato loses at the end of the game.\r\n\r\nNote: Due to the cleanse rule, any previously acquired conditions (e.g. \"cursed\") are lost when receiving a new character card.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 2
     },
@@ -113,7 +113,7 @@
         "links": [],
         "src": "/grey/legs.png",
         "info": "You win if you are in the same room as the President at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -126,7 +126,7 @@
         ],
         "src": "/grey/hand.png",
         "info": "You win if you are in the same room as Romeo and the Bomber at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -139,7 +139,7 @@
         ],
         "src": "/grey/maid.png",
         "info": "You win if you are in the same room as the Butler and the President at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -150,7 +150,7 @@
         "links": [],
         "src": "/grey/monocle.png",
         "info": "You win if you are a room's leader at the end AND you were the leader of the opposing room at some point during the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 8
     },
@@ -161,7 +161,7 @@
         "links": [],
         "src": "/grey/glass.png",
         "info": "You win if you card share with the Bomber and the President before the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -172,7 +172,7 @@
         "links": [],
         "src": "/grey/derek.png",
         "info": "You win if a leader is never usurped in the same room as you.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 8
     },
@@ -183,7 +183,7 @@
         "links": ["g029"],
         "src": "/grey/kiss.png",
         "info": "You win if you are in the same room as the President at the end of the game and the Wife is not.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 5
     },
@@ -194,7 +194,7 @@
         "links": ["g002"],
         "src": "/grey/whale.png",
         "info": "You win if Ahab is in the same room as the Bomber at the end of the game and you are not.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 5
     },
@@ -204,8 +204,8 @@
         "description": "\"FOOLISH\" +  DON'T CARD SHARE WITH THE PRIMARIES",
         "links": [],
         "src": "/grey/nuke.png",
-        "info": "At the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if the President and the Bomber did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
-        "tags": "",
+        "info": "At the end of the game, you are asked if you shared your card with both the President and the Bomber.\r\n\r\nYou win if at least one of them did not card share with you by the end of the game. If you win, all other players lose. You begin with the \"foolish\" condition. Players with the \"foolish\" condition can never turn down an offer to card or color share.\r\n\r\nNote: If a player with the \"foolish\" condition were to acquire a contradictory condition (e.g. \"shy\" or\r\n\"coy\"), the 2 conditions would cancel one another, leaving the player with neither condition.",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 6
     },
@@ -217,7 +217,7 @@
         "src": "/grey/mag.png",
         "pausegamenr": 5,
         "info": "At the end of the last round, before all players reveal their character cards, you must publicly announce the identity of the buried card. Win only if you are correct.\r\n\r\nNote: You have a pause game number of 5. Only pause the game and make your announcement after all characters with a lower pause game number have finished their announcements.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 9
     },
@@ -228,7 +228,7 @@
         "links": [],
         "src": "/grey/crown.png",
         "info": "You win if you are NOT in the same room as the President or the Bomber at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -239,7 +239,7 @@
         "links": [],
         "src": "/grey/suit.png",
         "info": "You win if you are NOT in the same room as the President at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -250,7 +250,7 @@
         "links": [],
         "src": "/grey/android.png",
         "info": "You win if the first player with whom you card share or color share fails to achieve all of their win objectives. If you fail to share with any players by the end of the game, then you lose.\r\n\r\nNote: if the first person with whom you share is the Clone, and the Clone's first share was with you…\r\nyou both lose.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -261,7 +261,7 @@
         "links": ["g011"],
         "src": "/grey/rose.png",
         "info": "You win if you are in the same room as Juliet and the same room as the Bomber at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 4
     },
@@ -273,7 +273,7 @@
         "src": "/grey/scope.png",
         "pausegamenr": 15,
         "info": "At the end of the last round, before all players reveal their character cards, you must publicly announce which player you are shooting. The selected player does not have to be in the same room as you. You win if the player you selected is the Target.\r\n\r\nNote: You have a pause game number of 15. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 6
     },
@@ -284,7 +284,7 @@
         "links": [],
         "src": "/grey/tools.png",
         "info": "You win if you are NOT in the same room as the Bomber at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -295,7 +295,7 @@
         "links": ["g024", "g007"],
         "src": "/grey/target.png",
         "info": "You win if the Sniper does not shoot you at the end of the last round.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -306,7 +306,7 @@
         "links": [],
         "src": "/grey/bag.png",
         "info": "You win if you are sent to a different room as a hostage at the end of MOST rounds. For example, in a 3 round game, you must change rooms twice to win.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 6
     },
@@ -317,7 +317,7 @@
         "links": [],
         "src": "/grey/victim.png",
         "info": "You win if you are in the same room as the Bomber at the end of the game.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 3
     },
@@ -328,8 +328,155 @@
         "links": ["g016"],
         "src": "/grey/ring.png",
         "info": "You win if you are in the same room as the President at the end of the game and the Mistress is not.",
-        "tags": "",
+        "tags": "v1 official",
         "color_name": "grey",
         "difficulty": 5
+    },
+    {
+        "name": "TELEPATH",
+        "id": "g030",
+        "description": "GUESS THE LAST HOSTAGE >> WIN",
+        "links": [],
+        "src": "/grey/telepath_meme_i.png",
+        "info": "You win if you correctly predict the player (not character) that will be the hostage coming into your room at the end of the last round. To formalize your prediction, you must publicly reveal your card during the last round of the game and verbally name (or adequately describe) your prediction. Note: your prediction can't be the hostage leaving your current room. You must predict the hostage that will be coming INTO your room.",
+        "tags": "patch1 v2",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "HORSE",
+        "id": "g031",
+        "description": "DONT LEAVE WITHOUT YOUR CARRIAGE",
+        "links": ["g032"],
+        "src": "/grey/horse.png",
+        "info": "You win as soon as you leave a room as a hostage together with the carriage.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "CARRIAGE",
+        "id": "g032",
+        "description": "DONT LEAVE WITHOUT YOUR HORSE",
+        "links": ["g031"],
+        "src": "/grey/carriage.png",
+        "info": "You win as soon as you leave a room as a hostage together with the horse.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "ROCK",
+        "id": "g033",
+        "description": "BE WITH SCISSORS, AVOID PAPER",
+        "links": ["g034", "g035"],
+        "src": "/grey/rock_hand.png",
+        "info": "You win if you are in the same room as the Scissors, but not in the same room as the Paper",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "PAPER",
+        "id": "g034",
+        "description": "BE WITH ROCK, AVOID SCISSORS",
+        "links": ["g035", "g033"],
+        "src": "/grey/paper_hand.png",
+        "info": "You win if you are in the same room as the Rock, but not in the same room as the Scissors",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "SCISSORS",
+        "id": "g035",
+        "description": "BE WITH PAPER, AVOID ROCK",
+        "links": ["g033", "g034"],
+        "src": "/grey/scissors_hand.png",
+        "info": "You win if you are in the same room as the Paper, but not in the same room as the Rock",
+        "credit": {"text": "Image from pngtree.com", "link": "https://pngtree.com/freepng/rock-paper-scissors_1347145.html"},
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 5
+    },
+    {
+        "name": "GREY TRAITOR",
+        "id": "g036",
+        "description": "YOU WANT THE GREYS TO LOSE",
+        "links": [],
+        "src": "/grey/knife_behind_back_wide.png",
+        "info": "You win if everyone on the grey Team loses.\r\n\r\nNote: if you ever switch teams/alliances, your win objective changes to: \"You win if your team loses\". E.g. You become a member of Team Zombie, then you only win if Team Zombie loses.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 8
+    },
+    {
+        "name": "VIKING",
+        "id": "g037",
+        "description": "YOU WANT EVERYONE TO LOSE",
+        "links": [],
+        "src": "/grey/viking_boat.png",
+        "info": "You only win if everyone else loses. Good luck!",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 10
+    },
+    {
+        "name": "MASTER",
+        "id": "g038",
+        "description": "CARD SHARE WITH THE APPRENTICE MOST ROUNDS",
+        "links": ["g039"],
+        "src": "",
+        "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 3
+    },
+    {
+        "name": "APPRENTICE",
+        "id": "g039",
+        "description": "CARD SHARE WITH THE MASTER MOST ROUNDS",
+        "links": ["g038"],
+        "src": "",
+        "info": "You win if you card share with the APPRENTICE in the majority of rounds. (e.g. When playing 4 rounds you both have to card share in at least 3 rounds.)",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 3
+    },
+    {
+        "name": "DICTATOR",
+        "id": "g040",
+        "description": "BECOME A LEADER",
+        "links": [],
+        "src": "",
+        "info": "If you become a leader during any round you will instantly win and everyone else loses.",
+        "tags": "custom patch1 v2 friends instant-win",
+        "color_name": "grey",
+        "difficulty": 6
+    },
+    {
+        "name": "CONSPIRATOR",
+        "id": "g041",
+        "description": "BECOME A LEADER & EXPOSE THE PRIMARIES",
+        "links": [],
+        "src": "",
+        "info": "During any round, when you become a leader, you must publicly reveal your card which forces everyone in your room to public reveal as well. You win if you have forced all primaries to publicly reveal their card at least once.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 6
+    },
+    {
+        "name": "MASTERMIND 2.0",
+        "id": "g042",
+        "description": "NAME ALL CARD COLORS AT THE END",
+        "links": [],
+        "pausegamenr": 9,
+        "src": "",
+        "info": "You win if you can name all card colors at the end of the game. You have a pause game number of 9. Only pause the game and make your announcement after all characters with a lower pause game number (e.g. Private Eye) have finished their announcements.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "grey",
+        "difficulty": 8
     }
 ]

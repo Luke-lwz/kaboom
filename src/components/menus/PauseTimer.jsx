@@ -1,5 +1,5 @@
 
-function PauseTimer({paused, onPause, onEndRound, onEndGame}) {
+function PauseTimer({game, paused, onPause, onEndRound, onEndGame}) {
     return (
         <div className=" w-full flex flex-col justify-center items-center text-center max-w-[24rem] overflow-hidden bg-white rounded-lg p-4 gap-2">
             <h1 className="text-title text-lg w-full font-extrabold mb-2">Timer options</h1>

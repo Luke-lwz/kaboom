@@ -36,7 +36,7 @@ function PlayerSelectMenu({ players, onSelect = () => { }, titleElement, preSele
                             <div className=" h-20 w-20">
                                 <Avatar className="w-full h-full" {...avaConfig} />
                             </div>
-                            <h3 className="truncate text-title font-extrabold w-full pt-2 text-center">{player?.name}</h3>
+                            <h3 className="truncate text-title font-extrabold w-full pt-2 text-center text-base-content">{player?.name}</h3>
                         </div>
 
                     </SelectGridBox>)

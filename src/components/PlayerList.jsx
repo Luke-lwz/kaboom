@@ -21,7 +21,7 @@ export function PlayerRow({ name, id, onClick, element, conn, me, showId, showOn
     }, [name, id])
 
     return (
-        <div onClick={onClick ? () => onClick(id) : () => { }} className={'bg-base-100 overflow-hidden rounded-md h-12 skew p-2 pl-6 text-title font-extrabold text-sm w-full flex justify-between items-center' + (onClick ? " clickable " : "")}>
+        <div onClick={onClick ? () => onClick(id) : () => { }} className={'bg-base-100 text-base-content overflow-hidden rounded-md h-12 skew p-2 pl-6 text-title font-extrabold text-sm w-full flex justify-between items-center' + (onClick ? " clickable " : "")}>
             <div className='flex items-center gap-2 w-full'>
                 <Avatar shape="square" className='skew' style={{ height: "3rem", width: "3rem", borderRadius: "0px", marginLeft: "-1.55rem", marginRight: "0.25rem" }} {...avaConfig} />
                 <h1 className="font-extrabold truncate">{name}</h1>

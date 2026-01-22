@@ -43,6 +43,80 @@ module.exports = {
 
           "warning": "#FBBD23",
 
+          "error": "#fc021b",
+        },
+      },
+      {
+        christmas: {
+
+          "primary": "#b11e28",
+
+          "primary-content": "#ffffff",
+
+          "secondary": "#457d23",
+
+          "secondary-content": "#ffffff",
+
+          "accent": "#512026",
+          
+          "accent-content": "#ffffff",
+
+          "accent-100": "#858585",
+          
+          "accent-100-content": "#ffffff",
+
+          "neutral": "#2c1114",
+
+          "neutral-content": "#ffffff",
+
+          "base-100": "#FFFFFF",
+
+          "base-content": "#000000",
+
+          "info": "#72c4ff",
+
+          "success": "#28df20",
+
+          "warning": "#FBBD23",
+
+          "error": "#F87272",
+        },
+      },
+      {
+        dark: {
+
+          "primary": "#fc021b",
+
+          "primary-content": "#ffffff",
+
+          "secondary": "#0019fd",
+
+          "secondary-content": "#ffffff",
+
+          "accent": "#e0e0e0",
+          
+          "accent-content": "#000000",
+
+          "accent-100": "#858585",
+          
+          "accent-100-content": "#ffffff",
+
+          "neutral": "#ffffff",
+
+          "neutral-content": "#000000",
+
+          "base-100": "#212121",
+          "base-200": "#424242",
+          "base-300": "#616161",
+
+          "base-content": "#ffffff",
+
+          "info": "#72c4ff",
+
+          "success": "#28df20",
+
+          "warning": "#FBBD23",
+
           "error": "#F87272",
         },
       },

@@ -1,13 +1,15 @@
-import React from 'react';
+import {useMemo} from 'react';
 
 function Countdown({ s, paused, onClick }) {
 
 
 
 
+    const {m: minutes,s: seconds} = useMemo(() => convert(s), [s]);
+
     function convert(totalSeconds) {
+
         var h = Math.floor(totalSeconds / 3600);
-        totalSeconds %= 3600;
         var m = Math.floor(totalSeconds / 60);
         var s = totalSeconds % 60;
 
@@ -19,11 +21,11 @@ function Countdown({ s, paused, onClick }) {
 
             {!paused ? <>
                 <span className='countdown'>
-                    <span style={{ "--value": convert(s).m }}></span>
+                    <span data-lol={minutes} style={{ "--value": JSON.stringify(minutes) }}></span>
                 </span>
                 <span style={{ transition: "all 1s cubic-bezier(1, 0, 0, 1)" }} >:</span>
                 <span className='countdown'>
-                    <span style={{ "--value": convert(s).s }}></span>
+                    <span style={{ "--value": seconds }}></span>
                 </span>
             </>
                 :

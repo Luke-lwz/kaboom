@@ -1,0 +1,26 @@
+[
+    {
+        "name": "RECRUIT",
+        "id": "y002",
+        "description": "IF THERE IS NO ASSASSIN, BE THE ASSASSIN",
+        "links": [],
+        "backup_for": "y001",
+        "src": "",
+        "info": "You are the backup character for the Assassin. If the Assassin card is buried you must carry out all responsibilities associated with the Assassin. You also gain all his initial powers.\r\n\r\nYou are his student, the next in command and only a huge deal if the Assassin card is buried.",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 5
+    },
+    {
+        "name": "YOUNGLING",
+        "id": "y004",
+        "description": "IF THERE IS NO WEAPONSMITH, BE THE WEAPONSMITH",
+        "links": [],
+        "backup_for": "y003",
+        "src": "",
+        "info": "You are the backup character for the Weaponsmith. If the Weaponsmith card is buried, you must carry out Weaponsmith responsibilities (i.e. card sharing with the Assassin).",
+        "tags": "custom patch1 v2 friends",
+        "color_name": "yellow",
+        "difficulty": 5
+    }
+]

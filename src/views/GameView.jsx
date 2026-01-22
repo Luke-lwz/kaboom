@@ -1,5 +1,6 @@
 import 'animate.css';
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import '../game.css';
+import { useContext, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { redirect, useParams } from "react-router-dom";
 
 // components
@@ -19,7 +20,7 @@ import { FiSend } from "react-icons/fi"
 
 
 
-import { TbPlayCard } from "react-icons/tb"
+import { TbCards, TbPlayCard } from "react-icons/tb"
 
 
 
@@ -30,7 +31,7 @@ import Card, { CardFront } from "../components/Card";
 import { constructPeerID, getPeerConfig } from "../helpers/peerid";
 import { idGenAlphabet, rng } from "../helpers/idgen";
 import SendCardMenu from '../components/menus/SendCardMenu';
-import { getPlaysetById } from '../helpers/playsets';
+import { getPlaysetById, maximizePlayset } from '../helpers/playsets';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import GameInfoMenu from '../components/menus/GameInfoMenu';
 
@@ -38,11 +39,17 @@ import GameInfoMenu from '../components/menus/GameInfoMenu';
 // Avatar shape="circle" 
 import Avatar, { genConfig } from 'react-nice-avatar-vite-prod-fork'
 import { SwapPropmt } from '../components/swapcards/SwapCards';
-import PauseTimer from '../components/menus/PauseTimer';
 import { CardsRow } from '../components/playsets/PlaysetDisplay';
 import CardInfoMenu from '../components/menus/CardInfoMenu';
 import PlayerSelectMenu from '../components/menus/PlayerSelectMenu';
 import toast from 'react-hot-toast';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+import { interpolateColor } from '../helpers/color';
+import { FaFlagCheckered } from 'react-icons/fa';
+import { PiPersonSimpleRunBold } from 'react-icons/pi';
+import { BsFillDoorOpenFill } from 'react-icons/bs';
+import RoundInfoMenu from '../components/menus/RoundsInfoMenu';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -111,6 +118,8 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
     const [conn, setConn] = useState(null);
 
+    const [hostTimeDifference, setHostTimeDifference] = useState(0);
+
 
 
     const avaConfig = useMemo(() => {
@@ -163,9 +172,20 @@ function ClientGame({ me, setMe, code, setScreen }) {
                         setGame(data?.payload?.game);
                         setPlayerList(data?.payload?.players)
                         setConn(conn)
+                        var hostRN = data?.payload?.hostTimeUnixRN;
+                        if (hostRN) {
+                            var clientRN = moment().format("X");
+                            setHostTimeDifference(clientRN - hostRN);
+
+                        }
                         break;
                     case "game_data": // update game data
                         setGame(data?.payload?.game);
+                        var hostRN = data?.payload?.hostTimeUnixRN;
+                        if (hostRN) {
+                            var clientRN = moment().format("X");
+                            setHostTimeDifference(clientRN - hostRN);
+                        }
                         break;
                     case "remove_screen":
                         setScreen(null);
@@ -261,15 +281,20 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    function send(msg) {
-        if (conn) conn.send(msg)
-    }
 
 
 
 
 
     // menu
+    const handleCountdownClick = useCallback(() => {
+        console.log("lol")
+        setMenu2(
+            <RoundInfoMenu game={game} />
+        );
+    }, [game])
+
+
     function showInfoMenu() {
         setMenu2(
             <GameInfoMenu me={me} code={code} game={game} players={playerList} />
@@ -283,14 +308,17 @@ function ClientGame({ me, setMe, code, setScreen }) {
     }
 
 
+
+
+
     return (game ?
         <div className='flex flex-col justify-start items-center w-full h-full scrollbar-hide '>
             <div className="flex flex-row justify-center items-center p-3 w-full relative h-[5.2rem]">
                 {!conn ? <div onClick={() => window.location.href = window.location.href} className="drop-shadow-sm clickable w-10 h-full absolute top-0 bottom-0 left-5 z-20 btn-base-100 flex items-center justify-center text-error text-3xl rounded-full  unskew font-bold">
-                    {conn === null ? <IoCloudOfflineOutline /> : <div className='btn btn-circle btn-ghost loading noskew text-neutral' />}
+                    {conn === null ? <IoCloudOfflineOutline /> : <span className='loading loading-spinner' />}
                 </div>
                     :
-                    <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm dropdown z-20'>
+                    <div className='absolute top-0 bottom-0 z-[100] h-full left-5 w-10 flex items-center justify-center drop-shadow-sm dropdown '>
                         <div className='dropdown'>
                             <label tabIndex={0}>
                                 <Avatar className=' rounded-full' style={{ height: "2.2rem", width: "2.2rem" }} {...avaConfig} />
@@ -302,28 +330,29 @@ function ClientGame({ me, setMe, code, setScreen }) {
                     </div>
 
                 }
-                <div className='flex flex-col justify-center items-center absolute top-0 bottom-0 w-full'>
-                    <Countdown s={countdown} paused={game.paused} />
+                <div className='flex flex-col justify-center items-center absolute top-2 right-0 left-0 z-20'>
+                    <Countdown s={countdown} paused={game.paused} onClick={handleCountdownClick} />
                 </div>
-                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
-                    <AiOutlineInfoCircle />
+                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[100] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
+                    <TbCards />
                 </div>
 
 
-                <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {game?.round} / {game?.rounds?.length}
+                <div onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                    <MiniRoundDisplay game={game} />
+
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
 
-            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} />
+            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => playerList} game={game} hostTimeDifference={hostTimeDifference} code={code} />
 
         </div>
 
         :
 
         <div className='flex flex-col justify-start items-center w-full mt-64'>
-            <button className='btn btn-ghost btn-wide loading noskew'></button>
+            <span className='loading loading-spinner'></span>
             {/* <button className='btn mt-6' onClick={() => window.location.href = window.location.href}>Reload</button> */}
             <a className='btn btn-ghost link font-bold clickable' href="/">Leave</a>
 
@@ -353,6 +382,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
+
     const players = useRef(game_data?.players || []);
     const game = useRef(game_data?.game || null);
 
@@ -379,7 +409,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         setPlayerState([...players.current.map(p => (p?.conn ? { ...p, conn: true } : { ...p, conn: false }))])
         setGameState({ ...game.current })
         storeGame();
-        sendToAll({ intent: "game_data", payload: { game: game.current } })
+        sendToAll({ intent: "game_data", payload: { game: game.current, hostTimeUnixRN: moment().format("X") } })
         sendToAll({ intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })) } })
         updateMe();
     }, [updatedRef])
@@ -408,7 +438,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         updateMe();
         for (let id of playerIds) {
             if (id.toUpperCase() !== "HOST") {
-                sendTo(id, { intent: "game_data", payload: { game: game.current } })
+                sendTo(id, { intent: "game_data", payload: { game: game.current, hostTimeUnixRN: moment().format("X") } })
                 sendTo(id, { intent: "player_list", payload: { players: players.current.map(p => ({ ...p, conn: undefined })) } })
             }
         }
@@ -451,7 +481,7 @@ function HostGame({ me, setMe, code, setScreen }) {
                             let newPlayers = players.current.map(p => (p.id === data?.payload?.id ? { ...p, conn } : p))
                             players.current = newPlayers;
                             updateGameFor([])
-                            if (game) conn.send({ intent: "connected", payload: { game: game.current, players: players.current.map(p => ({ ...p, conn: undefined })) } })
+                            if (game) conn.send({ intent: "connected", payload: { game: game.current, players: players.current.map(p => ({ ...p, conn: undefined })), hostTimeUnixRN: moment().format("X") } })
                             break;
                         case "player-fn":
                             if (data?.payload) {
@@ -522,12 +552,27 @@ function HostGame({ me, setMe, code, setScreen }) {
 
     // setup game
 
-    function setupGame() {
+    async function setupGame() {
         if (game?.current || !players?.current) return; // in case of reload
 
         var gameData = generateGame(players.current.length);
 
-        var { cards, soberCard } = getCardsForPlayset(game_data);
+        console.log("ööö temp", game_data)
+
+
+        const playset = await getPlaysetById(game_data?.playsetId)
+
+        if (!playset) {
+            toast.error("Playset not found.")
+            return closeRoom(true);
+        }
+
+        const playWithBury = game_data?.playWithBury || false;
+
+
+        var { cards, soberCard } = getCardsForPlayset({ playerCount: players?.current?.length, maximizedPlayset: maximizePlayset(playset), playWithBury });
+
+        console.log(cards)
 
 
 
@@ -544,6 +589,38 @@ function HostGame({ me, setMe, code, setScreen }) {
 
         // distribute cards
         appendCard(cards);
+
+
+
+        // appendStartingRoom
+        var roomsLeft = Array.from({ length: players?.current?.length }, (_, i) => (i % 2) + 1)
+        players.current = players.current.map(p => {
+            const randomIndex = rng(0, roomsLeft.length - 1);
+            const startingRoom = roomsLeft[randomIndex];
+            roomsLeft.splice(randomIndex, 1);
+            return ({ ...p, startingRoom })
+        })
+
+
+        console.log(players.current)
+
+
+
+        // first leader
+        const playersInRoom1 = players?.current?.filter(p => p?.startingRoom === 1);
+        const playersInRoom2 = players?.current?.filter(p => p?.startingRoom === 2);
+
+        const firstLeader1 = playersInRoom1?.[rng(0, playersInRoom1.length - 1)];
+        const firstLeader2 = playersInRoom2?.[rng(0, playersInRoom2.length - 1)];
+
+
+        players.current = players.current.map((p) => {
+            let firstLeader = (p?.id === firstLeader1?.id || p?.id === firstLeader2?.id ? true : false);
+            p.firstLeader = firstLeader
+            return p;
+        })
+
+
         function appendCard(cards) {
             var unappendedPlayers = players?.current?.filter(p => !p.card)
             if (!cards[0]) return; // if no cards are left
@@ -552,7 +629,8 @@ function HostGame({ me, setMe, code, setScreen }) {
             if (!unappendedPlayers[0]) return buriedCard = cards[0];
 
 
-            var startingRoom = ((unappendedPlayers.length % 2) + 1);
+
+            // var startingRoom = ((unappendedPlayers.length % 2) + 1);
 
             var index = rng(0, unappendedPlayers.length - 1);
 
@@ -560,7 +638,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
             if (!playerId) return connectionErrorPrompt();
 
-            players.current = players.current.map(p => (p.id === playerId ? { ...p, card: cards[0], startingRoom } : p))
+            players.current = players.current.map(p => (p.id === playerId ? { ...p, card: cards[0] } : p))
 
             cardsInGame.push(cards.shift());
             return appendCard(cards);
@@ -684,7 +762,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         },
         "get-sober-card": () => {
             if (!game?.current?.soberCard) return;
-            players.current = players.current.map(p => (p?.card === "p001" ? { ...p, card: game?.current?.soberCard } : p))
+            players.current = players.current.map(p => (p?.card === "drunk" ? { ...p, card: game?.current?.soberCard } : p))
             manuallyUpdateRef();
         },
         "am-in-room": (id) => {
@@ -767,7 +845,6 @@ function HostGame({ me, setMe, code, setScreen }) {
                 const player = getPlayerFromId(playerId)
                 const color = getCardColorFromColorName(card?.color_name);
                 if (!player || !card || !color || !from_player) return
-                console.log(card, player)
 
                 if (playerId?.toUpperCase() === "HOST") toast(<CardRevealToast card={{ ...card, color }} player={from_player} />, { id: "card:" + from_player?.id, duration: 5000, position: "top-left", style: { backgroundColor: "transparent", padding: "0px", boxShadow: "none" }, className: "p-0 -mx-3 bg-red-500 w-full max-w-md shadow-none drop-shadow-none" })
                 else sendTo(playerId, { intent: "remote-card-reveal", payload: { card, player: { ...player, conn: undefined }, from_player } })
@@ -776,10 +853,10 @@ function HostGame({ me, setMe, code, setScreen }) {
     }
 
 
-    function closeRoom() {
+    function closeRoom(force = false) {
 
-
-        setPrompt({ title: "Are you sure?", text: "This will delete all progress and player connections.", onApprove: close })
+        if (force) close()
+        else setPrompt({ title: "Are you sure?", text: "This will delete all progress and player connections.", onApprove: close })
 
 
         function close() {
@@ -823,13 +900,13 @@ function HostGame({ me, setMe, code, setScreen }) {
     }
 
 
-    function handleCountdownClick() {
+    const handleCountdownClick = useCallback(() => {
         setMenu2(
-            <PauseTimer paused={gameState.paused} onPause={gameState.paused ? handleTimerResume : handleTimerPause} onEndRound={() => {
+            <RoundInfoMenu game={gameState} paused={gameState.paused} onPause={gameState.paused ? handleTimerResume : handleTimerPause} onEndRound={() => {
                 setPrompt({ title: "End round?", text: "This action is irreversible.", onApprove: () => { endRound(); manuallyUpdateRef() } })
             }} onEndGame={endGame} />
         );
-    }
+    }, [gameState])
 
 
 
@@ -855,7 +932,7 @@ function HostGame({ me, setMe, code, setScreen }) {
         <div className='flex flex-col justify-start items-center w-full h-full scrollbar-hide'>
             <div className="flex flex-row justify-center items-center p-3 w-full relative overflow-visible h-[5.2rem]">
 
-                <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm z-[22] overflow-visible'>
+                <div className='absolute top-0 bottom-0 h-full left-5 w-10 flex items-center justify-center drop-shadow-sm z-[100] overflow-visible'>
                     <div className='dropdown'>
                         <label tabIndex={0}>
                             <Avatar className=' rounded-full' style={{ height: "2.2rem", width: "2.2rem" }} {...avaConfig} />
@@ -867,22 +944,22 @@ function HostGame({ me, setMe, code, setScreen }) {
                 </div>
 
 
-                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[90] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
-                    <AiOutlineInfoCircle />
+                <div onClick={() => showInfoMenu()} className="drop-shadow-sm clickable w-10 absolute top-0 bottom-0 h-full right-5 z-[100] btn-base-100 flex items-center justify-center text-neutral text-3xl rounded-full  unskew font-bold">
+                    <TbCards />
                 </div>
 
                 <div className='flex flex-col justify-center items-center absolute top-2 right-0 left-0 z-20'>
                     <Countdown s={countdown} paused={gameState.paused} onClick={handleCountdownClick} />
                 </div>
 
-                <div className='absolute -bottom-1 left-0 right-0 text-title text-secondary/70 text-center text-lg font-extrabold'>
-                    ROUND {updatedRef !== false && game.current?.round} / {game.current?.rounds?.length}
+                <div style={{ zIndex: 11 }} onClick={handleCountdownClick} className='absolute -bottom-4 left-2 right-0 text-title text-secondary/70 text-center text-lg font-extrabold flex items-center justify-center'>
+                    <MiniRoundDisplay game={gameState} />
                 </div>
                 {/* <button className="clickable w-10 h-10 absolute top-3 right-3 btn-accent rounded-full text-base-100 unskew font-bold text-xl">?</button> */}
             </div>
 
 
-            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => players.current} game={gameState} endRound={endRound} nextRound={nextRound} />
+            <Game setCountdown={setCountdown} setScreen={setScreen} execute={execute} me={me} getPlayers={() => players.current} game={gameState} endRound={endRound} nextRound={nextRound} code={code} />
 
 
         </div>
@@ -891,7 +968,7 @@ function HostGame({ me, setMe, code, setScreen }) {
 
 
 
-function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, endRound = () => { }, nextRound = () => { } }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
+function Game({ me, getPlayers = () => null, game, execute = () => { }, setScreen, setCountdown, hostTimeDifference = 0, endRound = () => { }, nextRound = () => { }, code }) { // execute == function that executes PlayerFunctions from peer at host or by host at host
 
     const [card, setCard] = useState(null);
 
@@ -905,10 +982,17 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     const round = useRef(game?.rounds?.[game?.round - 1 || 0]);
 
 
+    const getHostTs = useCallback(() => {
+        return JSON.stringify(moment().format("X") - hostTimeDifference);
+    }, [hostTimeDifference]);
+
+
+
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
+
             if (!round?.current?.started_at || round?.current?.paused) return
-            var ts = moment().format("X");
+            var ts = getHostTs();
             var tsInt = parseInt(ts);
 
             var startedAtInt = parseInt(round?.current?.started_at);
@@ -923,7 +1007,6 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
             let lastTime = startedAtInt + (tsInt - startedAtInt);
 
-            var tsInt = Math.floor(new Date() / 1000);
             if (tsInt >= lastTime) { // newSecond
                 var secondsLeft = ends_at - lastTime;
 
@@ -934,6 +1017,9 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             }
 
         }, 250)
+
+
+        return () => clearInterval(interval);
     }, [])
 
 
@@ -1030,13 +1116,13 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
-    function announceRoundStart(roundName) {
+    function announceRoundStart(roundName, roundNumber, totalRounds = 3) {
         setMenu(null);
         setMenu2(null);
-        setScreen(<RoundStartScreen roundName={roundName} />)
+        setScreen(<RoundStartScreen roundName={roundName} roundNumber={roundNumber} totalRounds={totalRounds} />)
         setTimeout(() => {
             setScreen(null);
-        }, 3 * 1000)
+        }, 2.7 * 1000)
     }
 
 
@@ -1059,7 +1145,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
 
     function updateCountdown(game) {
         if (!game || game?.paused) return;
-        var ts = moment().format("X");
+        var ts = getHostTs();
         var tsInt = parseInt(ts);
         var round = game?.rounds?.[game?.round - 1 || 0] || { time: 3, hostages: 2, started_at: "12" }; // 💥 started_at: Seconds (not ms)
         if (round?.paused) return;
@@ -1071,7 +1157,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
         var ends_at = (startedAtInt) + roundTime + extra3secs;
 
 
-        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game));
+        if (tsInt < (startedAtInt) + extra3secs) announceRoundStart(getRoundName(game), game?.round, game?.rounds?.length);
         else if (tsInt >= ends_at) return setCountdown(0);
 
 
@@ -1085,7 +1171,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
-    function showSendCard(card) {
+    const showSendCard = useCallback((card) => {
         const players = getPlayers();
         if (!players) return
 
@@ -1094,7 +1180,7 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             <SendCardMenu onCancel={() => setMenu(null)} card={card} me={me} getSoberCard={() => { execute("get-sober-card", [me?.id]); setMenu(null); setMenu2(null) }} lastRound={game.rounds.length === game.round} players={players.filter(p => p.id !== me.id)} onClick={(id) => { execute("request-swap-card", [me?.id, id]); setMenu(null); setMenu2(null) }} />
         )
 
-    }
+    }, [game, me]);
 
     function onRemoteCardReveal() {
 
@@ -1117,7 +1203,6 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
             setMenu(null)
             if (playerIdArray.length > 0) {
                 toast.success("Card revealed");
-                console.log(card)
                 execute("do-remote-card-reveal", [playerIdArray, { ...card, info: undefined, color: undefined }, me])
             }
         }
@@ -1164,10 +1249,20 @@ function Game({ me, getPlayers = () => null, game, execute = () => { }, setScree
     }
 
 
+
     return (
         <>
-            <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide">
-                {card && <Card remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
+
+            <Helmet>
+                <title>Kaboom • Game • {code?.toUpperCase() || ""}</title>
+                <meta name="title" content="Kaboom" />
+                <meta name="description" content={`Kaboom: Join ${game?.players?.[0]?.name ? game.players[0].name + "'s " : ""} game (${code?.toUpperCase()}) for an explosive time with your friends`} />
+            </Helmet>
+            <div className="absolute inset-0 flex flex-col justify-center items-center z-10 scrollbar-hide top-8">
+                {me?.firstLeader && game?.phase === "rounds" && game?.round === 1 && <div style={{ animationDelay: "1s" }} className='w-full h-0 relative text-center animate__animated animate__fadeIn'>
+                    <h2 className='text-title title-shadow-secondary-xs font-extrabold text-neutral text-xl absolute left-0 right-0 bottom-4'>You're first leader</h2>
+                </div>}
+                {card && <Card nomotion={false} remoteMode={game?.remote_mode} onRemoteColorReveal={onRemoteColorReveal} onRemoteCardReveal={onRemoteCardReveal} allowColorReveal={game?.color_reveal} hide={hideCard} setHide={setHideCard} card={card} sendCard={showSendCard} />}
             </div>
 
 
@@ -1209,12 +1304,41 @@ function AvatarMenu({ isHost, me, execute = () => { } }) {
     return (
         <div className='bg-neutral rounded-lg p-4 text-neutral-content w-full flex flex-col justify-start items-start gap-2'>
             <h1 className='font-extrabold text text-title'>{me.name}</h1>
-            <button onClick={isHost ? closeRoom : leaveRoom} className='btn btn-primary w-44'>{isHost ? "CLOSE ROOM" : "LEAVE GAME"}</button>
+            <button onClick={isHost ? closeRoom : leaveRoom} className='btn btn-primary w-44'>{isHost ? "CLOSE GAME" : "LEAVE GAME"}</button>
             {isHost && <button className='btn btn-success w-44 text-success-content' onClick={() => toLobby()}>Back to lobby</button>}
         </div>
     )
 }
 
+
+
+function MiniRoundDisplay({ game }) {
+
+
+    const { setMenu } = useContext(PageContext);
+
+    const { roundNumber, totlaRounds, nextHostageNumber } = useMemo(() => {
+        const roundNumber = game?.round;
+        const totlaRounds = game?.rounds?.length;
+        const nextHostageNumber = game?.rounds?.[roundNumber - 1]?.hostages;
+        return { roundNumber, totlaRounds, nextHostageNumber }
+    }, [game])
+
+    return (
+        <div className='w-fit px-2 py-1 bg-blue-800 text-white rounded flex items-center justify-center gap-2 text-base'>
+            <FaFlagCheckered className='text-white/70' />
+            <span>{roundNumber}/{totlaRounds}</span>
+            <span className='text-white/50'>|</span>
+            <div className='flex justify-start items-center'>
+                <PiPersonSimpleRunBold className='text-sm text-white/70' />
+                <BsFillDoorOpenFill style={{ transform: "scaleX(-1)" }} className="text-white/70" />
+                <span className='ml-2'>{nextHostageNumber}</span>
+            </div>
+
+        </div>
+    )
+
+}
 
 
 
@@ -1242,7 +1366,7 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
                 <div className={"uppercase font-extrabold text-title text-5xl mb-8 animate__animated animate__bounceInRight" + (roomNr == 1 ? " text-secondary " : " text-primary ")}>
                     ROOM {roomNr}
                 </div>
-                <button className={"btn btn-wide btn-accent text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
+                <button className={"btn btn-wide btn-neutral text-title " + (clicked ? " btn-disabled " : "  ")} onClick={handleClick}>{clicked ? " Waiting... " : " Ready? "}</button>
                 {onForceReady && <button className='text-normal font-light text-sm underline mt-6 p-3 ' onClick={onForceReady}>Force next</button>}
 
             </div>
@@ -1255,18 +1379,194 @@ function GoToRoomScreen({ roomNr = 1, onReady = () => { }, onForceReady }) {
 }
 
 
-function RoundStartScreen({ roundName = "FIRST" }) {
+function RoundStartScreen({ roundName, roundNumber = 1, totalRounds = 3 }) {
+
+
+    const { text, color, shadowColor } = useMemo(() => {
+        switch (roundName?.toUpperCase()) {
+            case "FIRST":
+                return { text: "FIRST ROUND", color: "#ffffff", shadowColor: "#00ff00" };
+            case "LAST":
+                return { text: "LAST ROUND", color: "#ffffff", shadowColor: "#ff0000" };
+            default:
+                return { text: "ROUND " + roundNumber, color: "#ffffff", shadowColor: interpolateColor("#00ff00", "#ff0000", ((roundNumber - 1) / (totalRounds - 1)) * 100) };
+        }
+    }, [roundName, roundNumber])
 
     return (
-        <div className='absolute inset-0 flex flex-col items-center animate-out-after-3 justify-center anim-out-after-3'>
-            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
-            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div>
+        <div id="round-start-screen-outer" className='absolute inset-0 flex flex-col items-center  justify-center anim-out-after-3'>
+            {/* <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-right-to-left scale-[5] -top-[50vh]  opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-success " : roundName.toUpperCase() === "LAST" ? " circular-gradient-primary " : " circular-gradient-sky ")}></div>
+            <div className={" h-[100vh] w-[100vh] p-22 absolute rounded-full animate-left-to-right scale-[5] -bottom-[50vh] opacity-50 " + (roundName.toUpperCase() === "FIRST" ? " circular-gradient-green " : roundName.toUpperCase() === "LAST" ? " circular-gradient-wine " : " circular-gradient-secondary ")}></div> */}
 
-            <div className={"uppercase font-extrabold text-title text-5xl mb-4 fly-through-from-left text-[#4a4a4a]"}>
-                {roundName}
-            </div>
-            <div className={"uppercase font-extrabold text-title text-5xl mb-8 fly-through-from-right text-[#858585]"}>
-                ROUND
+
+
+            {/* <RunningTextAnimation text={text} color={color} shadowColor={shadowColor} />
+             */}
+
+            <TextBandsAnimation text={text} color={color} shadowColor={shadowColor} />
+        </div>
+    )
+}
+
+
+const DIMENSIONS_MULTIPLIER = 2;
+
+
+function TextBandsAnimation({ text, color, shadowColor, animationType = "opposite-lines", rotation = -45 }) {
+
+    const ANIMATION_TYPES = {
+        ["opposite-lines"]: ["game-start-strip", "game-start-strip-inverted", 0, "game-start-strip-opacity-animate"],
+        ["lines"]: ["game-start-strip", "game-start-strip", 2, "game-start-strip-opacity-animate"],
+        ["lines-inverted"]: ["game-start-strip-inverted", "game-start-strip-inverted", 2, "game-start-strip-opacity-animate"],
+    }
+
+    const boxClasses = "text-title text-3xl font-extrabold flex items-center justify-start gap-4 p-2 py-0.5 w-fit";
+
+    const textShadowOffset = 3;
+
+    const { width, height } = useWindowDimensions();
+
+
+
+    const [textDimensions, setTextDimensions] = useState({ textWidth: 0, textHeight: 0 });
+
+
+
+    useEffect(() => {
+
+        const el = document.createElement("div");
+        el.style.position = "absolute";
+        el.style.top = "-9999px";
+        el.style.left = "-9999px";
+
+
+
+        el.classList.add(...boxClasses.split(" "));
+
+
+        // text
+        const textSplit = text.split(" ");
+
+        for (let i = 0; i < textSplit.length; i++) {
+            const word = textSplit[i];
+            const wordDiv = document.createElement("div");
+            const textNode = document.createTextNode(word);
+            wordDiv.style.textShadow = `${textShadowOffset}px ${textShadowOffset}px 0px #ff00ff`;
+            // 🪠🪠🪠🪠🪠🪠🪠🪠
+
+            wordDiv.appendChild(textNode);
+            el.appendChild(wordDiv);
+        }
+
+
+        document.body.appendChild(el);
+
+
+
+        setTimeout(() => {
+
+            setTextDimensions({ textWidth: el.clientWidth, textHeight: el.clientHeight });
+        })
+
+    }, []);
+
+
+    const { countForWidth, countForHeight } = useMemo(() => {
+        if (textDimensions?.textWidth && textDimensions?.textWidth !== 0 && textDimensions?.textHeight && textDimensions?.textHeight !== 0) {
+            return { countForWidth: Math.ceil(width / textDimensions?.textWidth * DIMENSIONS_MULTIPLIER), countForHeight: Math.ceil(height / textDimensions?.textHeight * DIMENSIONS_MULTIPLIER) }
+        }
+        return { countForWidth: 0, countForHeight: 0 }
+    }, [width, height, textDimensions, textDimensions])
+
+
+
+
+    const [animationClass, animationClassInverted, delayMultiplier = 2, containerAnimation = ""] = ANIMATION_TYPES[animationType || "opposite-lines"];
+
+
+
+    return (
+        <div style={{ transform: `rotate(${rotation}deg) scale(1.${Math.abs(rotation)})` }} className={'h-full flex flex-col items-center justify-center gap-2 ' + containerAnimation}>
+
+            {Array.from(Array(countForHeight).keys()).map(ih => {
+
+
+
+
+                const inverted = ih % 2 === 0;
+
+                return (
+                    <div style={{ animationDelay: `${200 + ((ih) * delayMultiplier)}ms` }} className={'w-full flex items-center justify-center ' + (inverted ? animationClass : animationClassInverted)}>
+                        {Array.from(Array(countForWidth).keys()).map(iw => {
+
+                            return (
+                                <div className={boxClasses}>
+                                    {text.split(" ").map((letter, i) => {
+
+                                        const _color = i % 2 === 0 ? color : shadowColor;
+                                        const _shadowColor = i % 2 === 0 ? shadowColor : color;
+
+                                        return <div key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}>{letter}</div>
+                                    })}
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            })}
+
+
+        </div>
+
+    )
+
+}
+
+
+function RunningTextAnimation({ text, color, shadowColor }) {
+
+    const [inverted, setInverted] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setInverted(inverted => !inverted);
+        }, 180)
+
+        return () => clearInterval(interval);
+    }, [])
+
+    return (
+        <div className='text-title text-4xl font-extrabold'>
+            {text.split("").map((letter, i) => {
+
+                const _color = i % 2 === 0 ? color : shadowColor;
+                const _shadowColor = i % 2 === 0 ? shadowColor : color;
+
+                return <span key={i} style={{ color: inverted ? _shadowColor : _color, textShadow: `3px 3px 0px ${inverted ? _color : _shadowColor}` }}  >{letter}</span>
+            })}
+        </div>
+    )
+}
+
+
+function RoundEndScreenTest({ hostages, onReady = () => { }, onForceReady }) {
+
+    return (
+        <div className='absolute inset-0 flex flex-col items-center justify-center gap-4'>
+            <div className='bg-blue-800 -z-10 w-[54vw] aspect-square absolute -top-[35vw] -left-[20vw] rotate-[57deg] ' />
+            <div className='bg-blue-800 -z-10 w-[120vw] aspect-[2/1] absolute -left  -rotate-[16deg] -right-[12vw] -bottom-[36vw]' />
+            <div className='bg-base-100 -z-20 w-[120vw] h-[100vh] absolute -left  rotate-[29deg] -right-[4vw] -bottom-[36vw]' />
+            <div className='bg-base-200 -z-30 w-[160vw] h-[100vh] absolute -left  -rotate-[20deg] -right-[34vw] -top-[4vw]' />
+
+
+            <div className='flex flex-col items-center justify-center gap-4 -translate-y-4'>
+                <h1 className='font-extrabold text-6xl text-blue-800 text-title'>{hostages}</h1>
+                <h2 className='font-extrabold text-3xl text-blue-800 uppercase tracking-tighter'>Hostages</h2>
+
+                <ReadyButton onReady={onReady} className='!bg-blue-800' />
+
+                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-blue-800 mt-2 cursor-pointer'>Force next round</div>}
+
             </div>
         </div>
     )
@@ -1302,7 +1602,7 @@ function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
 
                 <ReadyButton onReady={onReady} />
 
-                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-black mt-2 cursor-pointer'>Force next round</div>}
+                {onForceReady && <div onClick={onForceReady} className='text-normal underline text-sm text-white mt-2 cursor-pointer'>Force next round</div>}
             </div>
         </div>
     )
@@ -1312,7 +1612,7 @@ function RoundEndScreen({ hostages, onReady = () => { }, onForceReady }) {
 
 }
 
-function ReadyButton({ onReady }) {
+function ReadyButton({ onReady, className = "" }) {
     const [clicked, setClicked] = useState(false);
 
     function handleClick() {
@@ -1321,12 +1621,12 @@ function ReadyButton({ onReady }) {
     }
 
 
-    return (<button onClick={!clicked ? handleClick : () => { }} className={'btn btn-wide mt-4 ' + (clicked ? "opacity-50 " : "  ")}>{clicked ? "Waiting..." : "Ready!"}</button>)
+    return (<button onClick={!clicked ? handleClick : () => { }} className={'btn btn-wide mt-4 ' + (clicked ? "opacity-50 " : "  ") + className}>{clicked ? "Waiting..." : "Ready!"}</button>)
 }
 
 
 function Li({ children, title, delay = 0 }) {
-    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-neutral/90 p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
+    return (<div style={{ animationDelay: `${delay}ms` }} className=' animate__animated animate__fadeInUp bg-white text-black p-1.5 px-3 rounded-lg max-w-md w-full flex flex-col items-start'>
         <h1 className='font-bold text-2xl'>{title}</h1>
         <p className='text-sm font-light -mt-1.5'>{children}</p>
     </div>)
@@ -1401,7 +1701,8 @@ function PauseGameNumberScreen({ meId, onClick = () => { }, player }) {
                             <Avatar className="w-full h-full" {...playerData?.avaConfig} />
                         </div>
                         <h1 className=' truncate text-3xl'>{playerData?.name}</h1>
-                        <h2 className='text-lg text-normal -mt-2'>is presenting their card</h2>
+                        <h2 className='text-lg text-normal -mt-2'>...is presenting their card</h2>
+                        <p className='text-lg text-normal'>🚫 Do not reveal your card to anyone yet.</p>
 
 
 
@@ -1474,7 +1775,7 @@ function RevealAllScreen({ onLobby, onClose, card, buriedCard }) {
                 <div style={{ animationDelay: "3000ms" }} className='w-full flex flex-col items-center animate__animated animate__fadeInUp'>
 
                     {onLobby && <button onClick={onLobby} className='btn btn-wide btn-success text-title font-extrabold mt-6'>Return to lobby!</button>}
-                    {onClose && <button onClick={onClose} className='underline text-normal text-sm mt-4' >Close room</button>}
+                    {onClose && <button onClick={onClose} className='underline text-normal text-sm mt-4' >Close game</button>}
 
                 </div>
 

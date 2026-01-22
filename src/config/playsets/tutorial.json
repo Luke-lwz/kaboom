@@ -3,10 +3,11 @@
         "name": "My first game",
         "id": "t0001",
         "players": "6-17",
-        "cards": [
+        "primaries": [
             "b001",
             "r001"
         ],
+        "cards": [],
         "odd_card": "g008",
         "shuffle": false,
         "no_bury": true
