@@ -151,24 +151,40 @@ function ClientGame({ me, setMe, code, setScreen }) {
 
 
 
-    async function startPeer() {
-        const peer = new Peer(constructPeerID(code, me?.id), await getPeerConfig());
+    // Function to start client peer connection to host
+    // Motivation for changes:
+    // 1. In iOS mobile browsers (Safari), fixed peer IDs (e.g. constructPeerID(code, me?.id)) often collide with 
+    //    the previous lobby connection that hasn't been cleaned up yet by the PeerJS signaling server.
+    //    Using an auto-assigned peer ID (new Peer(getPeerConfig())) avoids 'unavailable-id' errors completely (matching LobbyView behavior).
+    // 2. When host and clients transition from Lobby to Game simultaneously, the client may attempt to connect 
+    //    before host's peer is 'open'. Adding retry logic prevents immediate connection error prompts.
+    async function startPeer(retryCount = 0) {
+        const MAX_RETRIES = 5;
+        const RETRY_DELAY_MS = 1500;
+
+        // Auto-generated Peer ID for client to prevent 'unavailable-id' conflicts on PeerJS server
+        const peer = new Peer(await getPeerConfig());
 
         peer.on("open", () => {
+            // Connect to host's fixed peer ID
             var conn = peer.connect(constructPeerID(code, "host"));
 
+            // Track whether connection opened successfully to avoid duplicate retries
+            let hasConnected = false;
+
             conn.on("open", () => {
+                hasConnected = true;
+                // Send connect intent with player ID so host recognizes this player
                 conn.send({ intent: "connect", payload: { id: me?.id } })
                 setConn(conn);
             })
-
 
             conn.on("data", data => {
                 switch (data?.intent) {
                     case "player_list":
                         setPlayerList(data?.payload?.players || []);
                         break;
-                    case "connected": // game data will be sent with this
+                    case "connected": // game data sent with initial connection
                         setGame(data?.payload?.game);
                         setPlayerList(data?.payload?.players)
                         setConn(conn)
@@ -176,7 +192,6 @@ function ClientGame({ me, setMe, code, setScreen }) {
                         if (hostRN) {
                             var clientRN = moment().format("X");
                             setHostTimeDifference(clientRN - hostRN);
-
                         }
                         break;
                     case "game_data": // update game data
@@ -203,7 +218,6 @@ function ClientGame({ me, setMe, code, setScreen }) {
                                 redirect(data?.payload?.to)
                                 peer.destroy()
                             }
-
                         }
                         break;
                     case "remote-color-reveal":
@@ -221,40 +235,57 @@ function ClientGame({ me, setMe, code, setScreen }) {
                 }
             })
 
+            conn.on("error", (err) => { 
+                console.warn("⚠️ Client connection error:", err);
+                if (!hasConnected && retryCount < MAX_RETRIES) {
+                    peer.destroy();
+                    setTimeout(() => startPeer(retryCount + 1), RETRY_DELAY_MS);
+                } else {
+                    testConnection(); 
+                    peer.destroy();
+                }
+            })
 
-            conn.on("error", () => { testConnection(); peer.destroy() })
-
-            conn.on("close", () => { testConnection(); peer.destroy() })
+            conn.on("close", () => { 
+                console.warn("⚠️ Client connection closed");
+                testConnection(); 
+                peer.destroy();
+            })
         })
-
-
 
         peer.on("error", (err) => {
-            if (!game) return connectionErrorPrompt();
-            setConn(null);
+            console.warn("⚠️ Client peer error:", err);
+            // Motivation: If host is still initializing (race condition) or signaling server is slow,
+            // retry peer creation a few times before showing the error banner to the user.
+            if (retryCount < MAX_RETRIES) {
+                peer.destroy();
+                setTimeout(() => startPeer(retryCount + 1), RETRY_DELAY_MS);
+            } else {
+                if (!game) return connectionErrorPrompt();
+                setConn(null);
+            }
         })
-
-
-
-
-
     }
 
+    // Function to test and restore connection if dropped.
+    // Motivation for changes:
+    // Increased timeout from 2000ms to 6000ms because iOS Safari WebRTC ICE candidate gathering 
+    // and TURN relay setup can take more than 2 seconds over mobile networks/Wi-Fi.
     async function testConnection() {
         const peer = new Peer(await getPeerConfig());
 
-        console.log("🌐")
-        setConn(undefined); // undefined means loading
-        setTimeout(() => {
+        console.log("🌐 Testing connection to host...")
+        setConn(undefined); // undefined means loading state
 
+        setTimeout(() => {
             var conn = peer.connect(constructPeerID(code, "host"));
             if (!conn) {
                 setConn(null);
                 connectionErrorPrompt();
-                return
+                return;
             }
 
-            const connection = { isOnline: null }
+            const connection = { isOnline: null };
 
             conn.on("open", () => {
                 peer.destroy();
@@ -262,21 +293,21 @@ function ClientGame({ me, setMe, code, setScreen }) {
                     connection.isOnline = true;
                     startPeer();
                 }
-            })
+            });
 
+            // 6-second window for WebRTC negotiation on iOS Safari
             setTimeout(() => {
                 if (connection.isOnline === null) {
                     connection.isOnline = false;
                     setConn(null);
                     peer.destroy();
-                    setTimeout(() => testConnection(peer), 10 * 1000)
+                    setTimeout(() => testConnection(peer), 10 * 1000);
                 }
-            }, 2000)
+            }, 6000);
 
-
-        }, 2000)
-
+        }, 1500);
     }
+
 
 
 
